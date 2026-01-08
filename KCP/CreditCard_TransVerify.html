@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://www.newebpay.com/images/head.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://www.newebpay.com/images/head.ico" type="image/x-icon">    
+    <title data-i18n="page_title"></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        html { scroll-behavior: smooth; }
+        body { background-color: #f8fafc; }
+        
+        /* Custom Scrollbar */
+        .scrollable-area::-webkit-scrollbar { width: 6px; }
+        .scrollable-area::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+        
+        /* Navigation Active State */
+        .sidebar-active { background-color: #e0f2fe; color: #0284c7; border-right: 4px solid #0284c7; font-weight: 600; }
+        
+        /* Tabs */
+        .tab-btn { border-bottom: 2px solid transparent; transition: all 0.3s; }
+        .tab-btn:hover { color: #60a5fa; }
+        .tab-btn.active { border-bottom-color: #3b82f6; color: #3b82f6; font-weight: 600; background-color: rgba(59, 130, 246, 0.05); }
+        
+        /* Table Styles */
+        .params-table th { background-color: #f1f5f9; color: #475569; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; }
+        .params-table td { vertical-align: top; color: #334155; }
+        .params-table tr:hover { background-color: #f8fafc; }
+
+        /* Tool styles */
+        .tool-tab-btn { transition: all 0.2s; }
+        .tool-tab-btn.active { border-bottom-color: #9333ea; color: #9333ea; background-color: #faf5ff; }
+    </style>
+</head>
+<body class="text-slate-800 font-sans">
+
+    <!-- Mobile Header -->
+    <header class="lg:hidden bg-white shadow-sm p-4 sticky top-0 z-50 flex justify-between items-center border-b border-slate-200">
+        <h1 class="text-lg font-bold text-blue-700 flex items-center">
+            <i class="fas fa-credit-card mr-2"></i> <span data-i18n="header_mobile_title"></span>
+        </h1>
+        <button id="menu-btn" class="text-slate-600 focus:outline-none hover:text-blue-600 transition">
+            <i class="fas fa-bars text-2xl"></i>
+        </button>
+    </header>
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 w-72 bg-white shadow-xl transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 border-r border-slate-200 flex flex-col">
+            
+            <!-- Top Section -->
+            <div class="p-6 border-b border-slate-100 bg-gradient-to-r from-blue-50 to-white shrink-0">
+                <h2 class="text-2xl font-bold text-blue-700 tracking-tight" data-i18n="sidebar_brand"></h2>
+                <p class="text-sm text-slate-500 mt-1 font-medium"><span data-i18n="sidebar_subtitle"></span><br><span class="text-xs text-slate-400" data-i18n="sidebar_version_note"></span></p>
+                
+                <div class="mt-4">
+                    <div class="text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full inline-block font-mono font-semibold">Ver: 1.0</div>
+                </div>
+            </div>
+
+            <!-- Scrollable Navigation Area -->
+            <div class="flex-1 overflow-y-auto scrollable-area">
+                <nav class="p-4 space-y-1">
+                    <a href="#intro" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-info-circle w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_intro"></span>
+                    </a>
+                    <a href="#setup" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-cogs w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_setup"></span>
+                    </a>
+                    <a href="#tool" class="nav-link block px-4 py-3 text-sm text-purple-700 bg-purple-50 hover:bg-purple-100 hover:text-purple-800 rounded-lg transition-colors group border border-purple-100 mb-4 shadow-sm">
+                        <i class="fas fa-wrench w-6 group-hover:text-purple-600 transition-colors"></i> <span data-i18n="nav_tool"></span>
+                    </a>
+                    <div class="px-4 py-2 text-xs font-bold text-slate-400 uppercase tracking-wider mt-4" data-i18n="nav_group_api"></div>
+                    <a href="#request" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-paper-plane w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_request"></span>
+                    </a>
+                    <a href="#encryption" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-lock w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_encryption"></span>
+                    </a>
+                    <a href="#response" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-reply w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_response"></span>
+                    </a>
+                    <a href="#errors" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-exclamation-triangle w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_errors"></span>
+                    </a>
+                    <a href="#example" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-code w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_example"></span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Footer with Language Switcher -->
+            <div class="p-4 border-t border-slate-200 bg-slate-50 shrink-0">
+                <div class="relative group w-full">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <select id="lang-select" onchange="changeLang(this.value)" class="w-full appearance-none bg-white hover:bg-white text-slate-600 font-medium py-2.5 pl-10 pr-8 rounded-lg text-sm transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer border border-slate-300 hover:border-blue-400 shadow-sm">
+                        <!-- Options injected by JS -->
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500 group-hover:text-slate-700">
+                        <i class="fas fa-chevron-up text-xs"></i>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-72 p-4 lg:p-8 w-[95%] mx-auto max-w-[1920px]">
+            
+            <!-- Intro -->
+            <section id="intro" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h1 class="text-3xl font-bold text-slate-900" data-i18n="intro_title"></h1>
+                </div>
+                
+                <div class="bg-white p-6 lg:p-8 rounded-xl shadow-sm border border-slate-200">
+                    <p class="text-slate-700 leading-relaxed mb-6 text-lg" data-i18n="intro_desc"></p>
+                    
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center">
+                        <span class="bg-blue-100 text-blue-600 w-8 h-8 rounded-full flex items-center justify-center text-sm mr-2"><i class="fas fa-list-ul"></i></span> 
+                        <span data-i18n="intro_funcs_title"></span>
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 flex items-start">
+                            <i class="fas fa-user-check text-2xl text-green-600 mt-1 mr-4"></i>
+                            <div>
+                                <h4 class="font-bold text-slate-700" data-i18n="usecase_1_title"></h4>
+                                <p class="text-sm text-slate-500 mt-1" data-i18n="usecase_1_desc"></p>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 flex items-start">
+                            <i class="fas fa-file-invoice text-2xl text-blue-500 mt-1 mr-4"></i>
+                            <div>
+                                <h4 class="font-bold text-slate-700" data-i18n="usecase_2_title"></h4>
+                                <p class="text-sm text-slate-500 mt-1" data-i18n="usecase_2_desc"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Setup -->
+            <section id="setup" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="setup_title"></h2>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                         <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                            <h3 class="font-bold text-slate-800 mb-2 flex items-center"><i class="fas fa-key text-blue-500 mr-2"></i> <span data-i18n="setup_card1_title"></span></h3>
+                            <p class="text-sm text-slate-600" data-i18n="setup_card1_desc"></p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                            <h3 class="font-bold text-slate-800 mb-2 flex items-center"><i class="fas fa-network-wired text-blue-500 mr-2"></i> <span data-i18n="setup_card2_title"></span></h3>
+                            <p class="text-sm text-slate-600" data-i18n="setup_card2_desc"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tool -->
+             <section id="tool" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-purple-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="tool_title"></h2>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md border border-purple-100 overflow-hidden">
+                    <div class="bg-purple-50 p-4 border-b border-purple-100">
+                        <p class="text-purple-800 text-sm" data-i18n="tool_intro"></p>
+                    </div>
+
+                    <div class="flex border-b border-slate-200">
+                        <button onclick="switchToolTab('aes-encrypt')" class="tool-tab-btn active flex-1 py-4 text-sm font-bold text-center hover:bg-slate-50 transition border-b-2 border-purple-600 text-purple-600">
+                            <i class="fas fa-lock mr-2"></i> <span data-i18n="tool_tab_encrypt"></span>
+                        </button>
+                        <button onclick="switchToolTab('aes-decrypt')" class="tool-tab-btn flex-1 py-4 text-sm font-bold text-center hover:bg-slate-50 transition border-b-2 border-transparent text-slate-500">
+                            <i class="fas fa-unlock mr-2"></i> <span data-i18n="tool_tab_decrypt"></span>
+                        </button>
+                    </div>
+
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 pb-6 border-b border-slate-100">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Hash Key (32 bytes)</label>
+                                <input type="text" id="toolKey" data-i18n-placeholder="tool_ph_key" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm bg-slate-50">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Hash IV (16 bytes)</label>
+                                <input type="text" id="toolIv" data-i18n-placeholder="tool_ph_iv" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm bg-slate-50">
+                            </div>
+                        </div>
+
+                        <div id="aes-encrypt" class="tool-content active">
+                            <div class="mb-4">
+                                <label class="block text-sm font-bold text-slate-700 mb-2" data-i18n="tool_lbl_qs"></label>
+                                <textarea id="encryptInput" rows="5" data-i18n-placeholder="tool_ph_qs" class="w-full p-3 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm text-slate-600"></textarea>
+                                <p class="text-xs text-slate-400 mt-1 text-right" data-i18n="tool_note_urlencode"></p>
+                            </div>
+                            <button onclick="runEncrypt()" class="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700 transition shadow-sm font-bold text-sm">
+                                <i class="fas fa-arrow-down mr-1"></i> <span data-i18n="tool_btn_encrypt"></span>
+                            </button>
+                            <div class="mt-4">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="tool_lbl_hex"></label>
+                                <div class="relative">
+                                    <textarea id="encryptOutput" readonly rows="3" class="w-full p-3 bg-slate-800 text-green-400 rounded font-mono text-sm border-none focus:ring-0"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="aes-decrypt" class="tool-content hidden">
+                             <div class="mb-4">
+                                <label class="block text-sm font-bold text-slate-700 mb-2" data-i18n="tool_lbl_enc_hex"></label>
+                                <textarea id="decryptInput" rows="4" data-i18n-placeholder="tool_ph_enc_hex" class="w-full p-3 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm text-slate-600"></textarea>
+                            </div>
+                            <button onclick="runDecrypt()" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition shadow-sm font-bold text-sm">
+                                <i class="fas fa-arrow-down mr-1"></i> <span data-i18n="tool_btn_decrypt"></span>
+                            </button>
+                            <div class="mt-4">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="tool_lbl_decrypt_res"></label>
+                                <div class="relative">
+                                    <textarea id="decryptOutput" readonly rows="3" class="w-full p-3 bg-slate-800 text-green-400 rounded font-mono text-sm border-none focus:ring-0"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Request -->
+            <section id="request" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="req_title"></h2>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 border-l-4 border-blue-500 pl-3" data-i18n="req_api_info"></h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div class="bg-slate-50 p-3 rounded border border-slate-100">
+                            <div class="text-xs text-slate-500 uppercase mb-1">Method</div>
+                            <div class="font-mono font-bold text-green-600 text-lg">POST</div>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded border border-slate-100 md:col-span-2">
+                            <div class="flex flex-col space-y-2">
+                                <div>
+                                    <div class="text-xs text-slate-500 uppercase mb-1" data-i18n="req_url_prod"></div>
+                                    <div class="font-mono text-blue-600 select-all font-medium">https://core.newebpay.com/API/TransVerifyPost</div>
+                                </div>
+                                <div class="border-t border-slate-200 pt-2">
+                                    <div class="text-xs text-slate-500 uppercase mb-1" data-i18n="req_url_test"></div>
+                                    <div class="font-mono text-slate-500 select-all">https://ccore.newebpay.com/API/TransVerify</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Level 1 Params -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+                    <div class="p-4 bg-slate-100 border-b border-slate-200">
+                        <h3 class="font-bold text-slate-700" data-i18n="req_lvl1_title"></h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm params-table">
+                            <thead class="bg-slate-50 border-b border-slate-200">
+                                <tr>
+                                    <th class="px-6 py-4 w-1/6" data-i18n="th_param"></th>
+                                    <th class="px-6 py-4 w-1/6" data-i18n="th_name"></th>
+                                    <th class="px-6 py-4 w-24 text-center" data-i18n="th_required"></th>
+                                    <th class="px-6 py-4" data-i18n="th_type"></th>
+                                    <th class="px-6 py-4 w-1/3" data-i18n="th_note"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr>
+                                    <td class="px-6 py-4 font-mono font-bold text-blue-600">MerchantID_</td>
+                                    <td class="px-6 py-4" data-i18n="param_mid_name"></td>
+                                    <td class="px-6 py-4 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-4 font-mono text-xs">Varchar(15)</td>
+                                    <td class="px-6 py-4" data-i18n="param_mid_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-mono font-bold text-blue-600">PostData_</td>
+                                    <td class="px-6 py-4" data-i18n="param_post_name"></td>
+                                    <td class="px-6 py-4 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-4 font-mono text-xs">Text</td>
+                                    <td class="px-6 py-4" data-i18n="param_post_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-mono font-bold text-blue-600">Pos_</td>
+                                    <td class="px-6 py-4" data-i18n="param_pos_name"></td>
+                                    <td class="px-6 py-4 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-4 font-mono text-xs">Varchar(6)</td>
+                                    <td class="px-6 py-4" data-i18n="param_pos_note"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Level 2 Params -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="p-4 bg-slate-100 border-b border-slate-200 flex justify-between items-center">
+                        <h3 class="font-bold text-slate-700" data-i18n="req_lvl2_title"></h3>
+                        <span class="text-xs text-slate-500 bg-white px-2 py-1 rounded border">AES-256-CBC Encrypted</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm params-table">
+                            <thead class="bg-slate-50 border-b border-slate-200">
+                                <tr>
+                                    <th class="px-6 py-4 w-32" data-i18n="th_param"></th>
+                                    <th class="px-6 py-4 w-32" data-i18n="th_name"></th>
+                                    <th class="px-6 py-4 w-16 text-center" data-i18n="th_required"></th>
+                                    <th class="px-6 py-4 w-24" data-i18n="th_type"></th>
+                                    <th class="px-6 py-4" data-i18n="th_note"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">TimeStamp</td>
+                                    <td class="px-6 py-3" data-i18n="p_ts_name"></td>
+                                    <td class="px-6 py-3 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Varchar(30)</td>
+                                    <td class="px-6 py-3" data-i18n="p_ts_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">CardNo</td>
+                                    <td class="px-6 py-3" data-i18n="p_card_name"></td>
+                                    <td class="px-6 py-3 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Varchar(19)</td>
+                                    <td class="px-6 py-3" data-i18n="p_card_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">Exp</td>
+                                    <td class="px-6 py-3" data-i18n="p_exp_name"></td>
+                                    <td class="px-6 py-3 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Varchar(4)</td>
+                                    <td class="px-6 py-3" data-i18n="p_exp_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">CVC</td>
+                                    <td class="px-6 py-3" data-i18n="p_cvc_name"></td>
+                                    <td class="px-6 py-3 text-center text-slate-400"></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Varchar(4)</td>
+                                    <td class="px-6 py-3" data-i18n="p_cvc_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">verifyBank</td>
+                                    <td class="px-6 py-3" data-i18n="p_bank_name"></td>
+                                    <td class="px-6 py-3 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Varchar(10)</td>
+                                    <td class="px-6 py-3" data-i18n="p_bank_note"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Encryption Rules Section -->
+            <section id="encryption" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="enc_title"></h2>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                        <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded flex items-center justify-center text-xs mr-2"><i class="fas fa-lock"></i></span>
+                        <span data-i18n="enc_aes_title"></span>
+                    </h3>
+                    <p class="text-slate-600 mb-4" data-i18n="enc_aes_desc"></p>
+                    
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800" data-i18n="enc_step1_title"></h4>
+                                <p class="text-sm text-slate-600 mt-1" data-i18n="enc_step1_desc"></p>
+                                <code class="block bg-slate-800 text-slate-300 p-2 rounded mt-2 text-xs font-mono">TimeStamp=1400137200&CardNo=4000221111111111&Exp=2801&verifyBank=Taishin...</code>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800" data-i18n="enc_step2_title"></h4>
+                                <p class="text-sm text-slate-600 mt-1" data-i18n="enc_step2_desc"></p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">3</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800" data-i18n="enc_step3_title"></h4>
+                                <p class="text-sm text-slate-600 mt-1" data-i18n="enc_step3_desc"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Response -->
+            <section id="response" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="res_title"></h2>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-6">
+                    <p class="text-slate-600 mb-4" data-i18n="res_desc"></p>
+                    <table class="w-full text-left text-sm mb-6 border border-slate-200">
+                        <thead class="bg-slate-50">
+                            <tr>
+                                <th class="px-4 py-2 border-b" data-i18n="th_param"></th>
+                                <th class="px-4 py-2 border-b" data-i18n="th_name"></th>
+                                <th class="px-4 py-2 border-b" data-i18n="th_type"></th>
+                                <th class="px-4 py-2 border-b" data-i18n="th_note"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="px-4 py-2 border-b font-mono font-bold text-blue-600">Status</td>
+                                <td class="px-4 py-2 border-b" data-i18n="res_status_name"></td>
+                                <td class="px-4 py-2 border-b font-mono text-xs">Varchar(10)</td>
+                                <td class="px-4 py-2 border-b" data-i18n="res_status_note"></td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 border-b font-mono font-bold text-blue-600">Message</td>
+                                <td class="px-4 py-2 border-b" data-i18n="res_msg_name"></td>
+                                <td class="px-4 py-2 border-b font-mono text-xs">Varchar(30)</td>
+                                <td class="px-4 py-2 border-b" data-i18n="res_msg_note"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+             <!-- Errors -->
+             <section id="errors" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="err_title"></h2>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 mb-4">
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-4 top-3.5 text-slate-400"></i>
+                        <input type="text" id="errorSearch" data-i18n-placeholder="err_search_ph" class="w-full pl-10 p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                </div>
+                <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-slate-200 max-h-[600px] overflow-y-auto">
+                    <table class="w-full text-left text-sm" id="errorTable">
+                        <thead class="bg-slate-50 text-slate-600 uppercase font-bold sticky top-0 border-b border-slate-200 shadow-sm">
+                            <tr>
+                                <th class="px-6 py-4 w-1/4" data-i18n="th_err_code"></th>
+                                <th class="px-6 py-4" data-i18n="th_err_reason"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 font-mono text-slate-700">
+                             <!-- Dynamic Generation -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Example -->
+            <section id="example" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="example_title"></h2>
+                </div>
+                
+                <div class="bg-slate-800 rounded-lg shadow-lg overflow-hidden relative">
+                    <div class="flex border-b border-slate-600 bg-slate-900 px-2">
+                        <button onclick="switchTab('php', event)" class="tab-btn active px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors">PHP</button>
+                        <button onclick="switchTab('nodejs', event)" class="tab-btn px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors">Node.js</button>
+                        <button onclick="switchTab('python', event)" class="tab-btn px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors">Python</button>
+                        <button onclick="switchTab('csharp', event)" class="tab-btn px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors">C# (.NET)</button>
+                    </div>
+
+                    <textarea id="code-display" readonly class="w-full h-[600px] p-4 bg-[#272822] text-[#f8f8f2] font-mono text-sm leading-6 border-none outline-none resize-none"></textarea>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // Multi-language configuration
+        const langData = {
+            'zh-TW': {name: '繁體中文',data: {page_title: '藍新金流 - 0元授權驗證 API 文件',header_mobile_title: '0元授權驗證 API',sidebar_brand: 'NewebPay',sidebar_subtitle: '0元授權驗證 API',sidebar_version_note: '(TransVerify)',nav_intro: '簡介與功能',nav_setup: '串接前置準備',nav_tool: '加密測試工具',nav_group_api: 'API 規格',nav_request: '請求參數 (Request)',nav_encryption: '加密規則詳解',nav_response: '回應參數 (Response)',nav_errors: '錯誤代碼表',nav_example: '範例程式碼',intro_title: '簡介與功能',intro_desc: '0元驗證 API (TransVerify) 主要用於驗證信用卡之有效性，常用於會員綁定信用卡或訂閱服務前的卡號檢核。此交易為非正式交易 (0元授權)，不會產生實際扣款，僅向銀行端確認信用卡狀態是否正常。',intro_funcs_title: '應用場景',usecase_1_title: '會員綁卡驗證',usecase_1_desc: '在不扣款的情況下，確認使用者輸入的信用卡是否有效，以進行後續的快速結帳綁定。',usecase_2_title: '訂閱制服務授權',usecase_2_desc: '在開始訂閱扣款前，先驗證卡片有效性，確保後續週期性扣款能順利執行。',setup_title: '串接前置準備',setup_card1_title: '取得金鑰',setup_card1_desc: '須於藍新金流會員專區取得商店代號 (MerchantID) 以及對應的 <code>Hash Key</code> 與 <code>Hash IV</code>。',setup_card2_title: '確認網址',setup_card2_desc: '測試環境：https://ccore.newebpay.com/API/TransVerify<br>正式環境：https://core.newebpay.com/API/TransVerifyPost',tool_title: '加密測試工具',tool_intro: '此工具可協助您產生 PostData_ 加密字串，或解密回傳結果。',tool_tab_encrypt: 'AES 加密 (Request)',tool_tab_decrypt: 'AES 解密 (Response)',tool_ph_key: '例如: AAAAvw3YlqoEk6G4HqRKDAYpHKZWxBBB',tool_ph_iv: '例如: AAAACC1FplieBBBB',tool_lbl_qs: '原始請求字串 (Query String)',tool_ph_qs: '例如: TimeStamp=1400137200&CardNo=4000221111111111&Exp=2801&verifyBank=Taishin',tool_note_urlencode: '請確認字串已經過 http_build_query 或 urlencode 處理',tool_btn_encrypt: '執行加密產生 PostData_',tool_lbl_hex: '加密結果 (Hex String)',tool_lbl_enc_hex: '加密字串 (Hex String)',tool_ph_enc_hex: '例如: 0ef82edabaf8964d09992d7ec8e575f1...',tool_btn_decrypt: '執行解密',tool_lbl_decrypt_res: '解密結果 (原始資料)',req_title: '請求參數 (Request)',req_api_info: 'API 資訊',req_url_prod: 'URL (正式環境)',req_url_test: 'URL (測試環境)',req_lvl1_title: '第一層參數 (HTML Form Post)',th_param: '參數名稱',th_name: '中文名稱',th_required: '必填',th_type: '型態',th_note: '備註',param_mid_name: '商店代號',param_mid_note: '藍新金流商店代號。',param_post_name: '加密資料',param_post_note: '將參數串接後，使用 AES-256-CBC 加密並轉為 Hex 字串。',param_pos_name: '回傳格式',param_pos_note: '固定填入 <code class="bg-slate-100 px-1">JSON</code>。',req_lvl2_title: 'PostData_ 內含參數 (加密前)',p_ts_name: '時間戳記',p_ts_note: 'Unix 時間戳記 (秒)。<br>PHP範例：<code>time()</code> 回傳值。<br>例如：1400137200',p_card_name: '信用卡卡號',p_card_note: '1. 信用卡卡號 16 碼。<br>2. 美國運通卡卡號 15 碼。<br>3. 中國銀聯卡卡號 14-19 碼。',p_exp_name: '信用卡到期日',p_exp_note: '格式為 YYMM (西元年後兩碼 + 月份)。<br>例如：2028年1月請填 <code>2801</code>。',p_cvc_name: '信用卡檢查碼',p_cvc_note: '1. 信用卡背面末三碼。<br>2. 美國運通卡正面4位數驗證碼。<br>3. <b>Apple Pay / Google Pay 請帶空值</b>。',p_bank_name: '驗證銀行',p_bank_note: '固定填入 <code class="bg-slate-100 px-1">Taishin</code>。',enc_title: '加密規則詳解',enc_aes_title: 'AES 加解密機制 (PostData_)',enc_aes_desc: '為防止重要交易訊息洩漏，需於加密前使用商店之 Hash Key 及 Hash IV 對參數字串執行 AES 加密。',enc_step1_title: '生成請求字串',enc_step1_desc: '將所有參數依照 <code>http_build_query</code> 格式組合 (key=value&key2=value2...)。',enc_step2_title: 'AES 加密',enc_step2_desc: '加密演算法：<span class="font-bold text-red-600">AES-256-CBC</span><br>填充模式 (Padding)：<span class="font-bold text-red-600">PKCS7</span><br>Key / IV：請使用商店專屬的 Hash Key 與 Hash IV。',enc_step3_title: '轉十六進制 (Hex)',enc_step3_desc: '將加密後的二進位資料 (Raw Data) 轉換為 Hex String (小寫)，即為 <code>PostData_</code>。',res_title: '回應參數 (Response)',res_desc: 'API 回傳 JSON 格式資料。',res_status_name: '回傳狀態碼',res_status_note: '0元授權驗證成功，則回傳 <b>SUCCESS</b>。',res_msg_name: '回傳訊息',res_msg_note: '文字，敘述此次交易狀態。',err_title: '錯誤代碼表',err_search_ph: '搜尋代碼...',th_err_code: '錯誤代碼',th_err_reason: '錯誤原因 / 備註',err_MPG01002: '時間戳記不可空白 (TimeStamp)',err_MPG01009: '商店代號不可空白 (MerchantID)',example_title: '範例程式碼'}},        
+            'EN': {  name: 'English',  data: {page_title: 'NewebPay - $0 Auth Verification API Docs',header_mobile_title: '$0 Auth Verification API',sidebar_brand: 'NewebPay',sidebar_subtitle: '$0 Auth Verification API',sidebar_version_note: '(TransVerify)',nav_intro: 'Introduction',nav_setup: 'Prerequisites',nav_tool: 'Encryption Tool',nav_group_api: 'API Specs',nav_request: 'Request Parameters',nav_encryption: 'Encryption Rules',nav_response: 'Response Parameters',nav_errors: 'Error Codes',nav_example: 'Code Examples',intro_title: 'Introduction & Features',intro_desc: 'The $0 Verification API (TransVerify) is primarily used to validate credit cards. It is commonly used for binding cards to member accounts or checking card numbers prior to subscription services. This is a non-official transaction ($0 Auth); no actual deduction occurs. It strictly confirms with the bank whether the credit card status is normal.',intro_funcs_title: 'Use Cases',usecase_1_title: 'Member Card Binding',usecase_1_desc: 'Verify if the user\'s credit card is valid without making a charge, enabling seamless binding for future quick checkouts.',usecase_2_title: 'Subscription Authorization',usecase_2_desc: 'Validate card eligibility before initiating subscription charges to ensure subsequent recurring payments execute smoothly.',setup_title: 'Prerequisites',setup_card1_title: 'Get Keys',setup_card1_desc: 'You must obtain the MerchantID and the corresponding <code>Hash Key</code> and <code>Hash IV</code> from the NewebPay Member Area.',setup_card2_title: 'Confirm URLs',setup_card2_desc: 'Test Env: https://ccore.newebpay.com/API/TransVerify<br>Prod Env: https://core.newebpay.com/API/TransVerifyPost',tool_title: 'Encryption Testing Tool',tool_intro: 'This tool assists in generating the PostData_ encrypted string or decrypting response results.',tool_tab_encrypt: 'AES Encrypt (Request)',tool_tab_decrypt: 'AES Decrypt (Response)',tool_ph_key: 'Ex: AAAAvw3YlqoEk6G4HqRKDAYpHKZWxBBB',tool_ph_iv: 'Ex: AAAACC1FplieBBBB',tool_lbl_qs: 'Raw Query String',tool_ph_qs: 'Ex: TimeStamp=1400137200&CardNo=4000221111111111&Exp=2801&verifyBank=Taishin',tool_note_urlencode: 'Please ensure the string has been processed via http_build_query or urlencode.',tool_btn_encrypt: 'Encrypt to PostData_',tool_lbl_hex: 'Encryption Result (Hex String)',tool_lbl_enc_hex: 'Encrypted String (Hex String)',tool_ph_enc_hex: 'Ex: 0ef82edabaf8964d09992d7ec8e575f1...',tool_btn_decrypt: 'Execute Decryption',tool_lbl_decrypt_res: 'Decryption Result (Raw Data)',req_title: 'Request Parameters',req_api_info: 'API Info',req_url_prod: 'URL (Production)',req_url_test: 'URL (Test)',req_lvl1_title: 'Level 1 Params (HTML Form Post)',th_param: 'Parameter',th_name: 'Name',th_required: 'Required',th_type: 'Type',th_note: 'Note',param_mid_name: 'Merchant ID',param_mid_note: 'NewebPay Merchant ID.',param_post_name: 'Encrypted Data',param_post_note: 'Concatenate parameters, encrypt using AES-256-CBC, and convert to Hex string.',param_pos_name: 'Response Format',param_pos_note: 'Fixed value: <code class="bg-slate-100 px-1">JSON</code>.',req_lvl2_title: 'PostData_ Content (Pre-encryption)',p_ts_name: 'Timestamp',p_ts_note: 'Unix Timestamp (seconds).<br>PHP Example: <code>time()</code> return value.<br>Ex: 1400137200',p_card_name: 'Card Number',p_card_note: '1. Credit Card: 16 digits.<br>2. AMEX: 15 digits.<br>3. UnionPay: 14-19 digits.',p_exp_name: 'Expiration Date',p_exp_note: 'Format: YYMM (Last 2 digits of Year + Month).<br>Ex: Jan 2028 should be <code>2801</code>.',p_cvc_name: 'CVC / CVV',p_cvc_note: '1. Last 3 digits on back.<br>2. AMEX: 4 digits on front.<br>3. <b>Apple Pay / Google Pay: Leave empty</b>.',p_bank_name: 'Verify Bank',p_bank_note: 'Fixed value: <code class="bg-slate-100 px-1">Taishin</code>.',enc_title: 'Encryption Details',enc_aes_title: 'AES Encryption Mechanism (PostData_)',enc_aes_desc: 'To prevent leakage of sensitive transaction info, use the Merchant Hash Key and Hash IV to AES encrypt the parameter string before sending.',enc_step1_title: 'Generate Query String',enc_step1_desc: 'Combine all parameters according to <code>http_build_query</code> format (key=value&key2=value2...).',enc_step2_title: 'AES Encryption',enc_step2_desc: 'Algorithm: <span class="font-bold text-red-600">AES-256-CBC</span><br>Padding: <span class="font-bold text-red-600">PKCS7</span><br>Key / IV: Use your store-specific Hash Key and Hash IV.',enc_step3_title: 'Convert to Hex',enc_step3_desc: 'Convert the encrypted binary data (Raw Data) into a Hex String (lowercase). This becomes <code>PostData_</code>.',res_title: 'Response Parameters',res_desc: 'API returns data in JSON format.',res_status_name: 'Status Code',res_status_note: 'Returns <b>SUCCESS</b> if the $0 auth verification is successful.',res_msg_name: 'Message',res_msg_note: 'Text describing the transaction status.',err_title: 'Error Codes',err_search_ph: 'Search codes...',th_err_code: 'Error Code',th_err_reason: 'Reason / Note',err_MPG01002: 'Timestamp cannot be empty (TimeStamp)',err_MPG01009: 'MerchantID cannot be empty (MerchantID)',example_title: 'Code Examples'  }},        
+            'KO': {name: '한국어',data: {page_title: 'NewebPay - 0원 승인 검증 API 문서',header_mobile_title: '0원 승인 검증 API',sidebar_brand: 'NewebPay',sidebar_subtitle: '0원 승인 검증 API',sidebar_version_note: '(TransVerify)',nav_intro: '소개 및 기능',nav_setup: '사전 준비',nav_tool: '암호화 테스트 도구',nav_group_api: 'API 사양',nav_request: '요청 매개변수 (Request)',nav_encryption: '암호화 규칙 상세',nav_response: '응답 매개변수 (Response)',nav_errors: '오류 코드표',nav_example: '예제 코드',intro_title: '소개 및 기능',intro_desc: '0원 검증 API (TransVerify)는 주로 신용카드의 유효성을 검증하는 데 사용됩니다. 회원 카드 등록 또는 구독 서비스 전 카드 번호 확인에 자주 사용됩니다. 이는 비공식 거래(0원 승인)이며 실제 결제는 발생하지 않고, 은행에 신용카드 상태가 정상인지 확인만 합니다.',intro_funcs_title: '사용 사례',usecase_1_title: '회원 카드 등록 검증',usecase_1_desc: '결제 없이 사용자가 입력한 신용카드가 유효한지 확인하여, 이후 빠른 결제 등록을 진행합니다.',usecase_2_title: '구독 서비스 승인',usecase_2_desc: '구독 결제를 시작하기 전에 카드의 유효성을 먼저 검증하여, 이후 정기 결제가 원활하게 진행되도록 보장합니다.',setup_title: '사전 준비',setup_card1_title: '키 발급',setup_card1_desc: 'NewebPay 회원 센터에서 상점 ID(MerchantID)와 해당 <code>Hash Key</code> 및 <code>Hash IV</code>를 발급받아야 합니다.',setup_card2_title: 'URL 확인',setup_card2_desc: '테스트 환경: https://ccore.newebpay.com/API/TransVerify<br>운영 환경: https://core.newebpay.com/API/TransVerifyPost',tool_title: '암호화 테스트 도구',tool_intro: '이 도구는 PostData_ 암호화 문자열을 생성하거나 응답 결과를 복호화하는 데 도움을 줍니다.',tool_tab_encrypt: 'AES 암호화 (Request)',tool_tab_decrypt: 'AES 복호화 (Response)',tool_ph_key: '예: AAAAvw3YlqoEk6G4HqRKDAYpHKZWxBBB',tool_ph_iv: '예: AAAACC1FplieBBBB',tool_lbl_qs: '원본 요청 문자열 (Query String)',tool_ph_qs: '예: TimeStamp=1400137200&CardNo=4000221111111111&Exp=2801&verifyBank=Taishin',tool_note_urlencode: '문자열이 http_build_query 또는 urlencode 처리되었는지 확인하십시오.',tool_btn_encrypt: 'PostData_ 암호화 실행',tool_lbl_hex: '암호화 결과 (Hex String)',tool_lbl_enc_hex: '암호화된 문자열 (Hex String)',tool_ph_enc_hex: '예: 0ef82edabaf8964d09992d7ec8e575f1...',tool_btn_decrypt: '복호화 실행',tool_lbl_decrypt_res: '복호화 결과 (원본 데이터)',req_title: '요청 매개변수 (Request)',req_api_info: 'API 정보',req_url_prod: 'URL (운영 환경)',req_url_test: 'URL (테스트 환경)',req_lvl1_title: '1단계 매개변수 (HTML Form Post)',th_param: '매개변수',th_name: '이름',th_required: '필수',th_type: '유형',th_note: '비고',param_mid_name: '상점 ID',param_mid_note: 'NewebPay 상점 ID.',param_post_name: '암호화 데이터',param_post_note: '매개변수를 연결한 후 AES-256-CBC로 암호화하고 Hex 문자열로 변환합니다.',param_pos_name: '응답 형식',param_pos_note: '고정값: <code class="bg-slate-100 px-1">JSON</code>.',req_lvl2_title: 'PostData_ 포함 매개변수 (암호화 전)',p_ts_name: '타임스탬프',p_ts_note: 'Unix 타임스탬프 (초).<br>PHP 예시: <code>time()</code> 반환값.<br>예: 1400137200',p_card_name: '카드 번호',p_card_note: '1. 신용카드: 16자리.<br>2. 아멕스(AMEX): 15자리.<br>3. 유니온페이(UnionPay): 14-19자리.',p_exp_name: '유효 기간',p_exp_note: '형식: YYMM (서력 뒷 2자리 + 월).<br>예: 2028년 1월은 <code>2801</code>로 입력.',p_cvc_name: 'CVC / CVV',p_cvc_note: '1. 카드 뒷면 마지막 3자리.<br>2. 아멕스: 앞면 4자리.<br>3. <b>Apple Pay / Google Pay: 공란</b>.',p_bank_name: '검증 은행',p_bank_note: '고정값: <code class="bg-slate-100 px-1">Taishin</code>.',enc_title: '암호화 규칙 상세',enc_aes_title: 'AES 암호화 메커니즘 (PostData_)',enc_aes_desc: '중요한 거래 정보 유출을 방지하기 위해, 전송 전 상점의 Hash Key와 Hash IV를 사용하여 매개변수 문자열을 AES 암호화해야 합니다.',enc_step1_title: '요청 문자열 생성',enc_step1_desc: '모든 매개변수를 <code>http_build_query</code> 형식(key=value&key2=value2...)으로 조합합니다.',enc_step2_title: 'AES 암호화',enc_step2_desc: '알고리즘: <span class="font-bold text-red-600">AES-256-CBC</span><br>패딩(Padding): <span class="font-bold text-red-600">PKCS7</span><br>Key / IV: 상점 전용 Hash Key와 Hash IV를 사용하십시오.',enc_step3_title: '16진수(Hex) 변환',enc_step3_desc: '암호화된 이진 데이터(Raw Data)를 Hex String(소문자)으로 변환합니다. 이것이 <code>PostData_</code>가 됩니다.',res_title: '응답 매개변수 (Response)',res_desc: 'API는 JSON 형식의 데이터를 반환합니다.',res_status_name: '상태 코드',res_status_note: '0원 승인 검증이 성공하면 <b>SUCCESS</b>를 반환합니다.',res_msg_name: '메시지',res_msg_note: '거래 상태를 설명하는 텍스트입니다.',err_title: '오류 코드표',err_search_ph: '코드 검색...',th_err_code: '오류 코드',th_err_reason: '오류 원인 / 비고',err_MPG01002: '타임스탬프는 비워둘 수 없습니다 (TimeStamp)',err_MPG01009: '상점 ID는 비워둘 수 없습니다 (MerchantID)',example_title: '예제 코드'}},
+        
+        };
+
+        const errorCodes = [
+            'MPG01002', 'MPG01009'
+        ];
+
+        const codeExamples = {
+            php: `<?php
+// 1. Setup Merchant Info
+$hashKey    = "YourHashKey"; 
+$hashIV     = "YourHashIV";  
+$merchantID = "MS12345678";  
+// API URL (Testing)
+$apiUrl     = "https://ccore.newebpay.com/API/TransVerify";
+
+// 2. Prepare Parameters (Level 2)
+$params = [
+    'TimeStamp'  => time(),
+    'CardNo'     => '4000221111111111',
+    'Exp'        => '2801',        // YYMM
+    'CVC'        => '123',         // Leave empty for Apple/Google Pay
+    'verifyBank' => 'Taishin'      // Fixed
+];
+
+// 3. Generate Query String
+$dataString = http_build_query($params);
+
+// 4. AES-256-CBC Encryption
+$encrypted = openssl_encrypt(
+    $dataString, 
+    'AES-256-CBC', 
+    $hashKey, 
+    OPENSSL_RAW_DATA, 
+    $hashIV
+);
+$postData = bin2hex($encrypted);
+?>
+
+<form method="post" action="<?php echo $apiUrl; ?>">
+    <input type="text" name="MerchantID_" value="<?php echo $merchantID; ?>" readonly><br>
+    <input type="text" name="PostData_" value="<?php echo $postData; ?>" readonly><br>
+    <input type="text" name="Pos_" value="JSON" readonly><br>
+    <input type="submit" value="Submit">
+</form>`,
+            nodejs: `const crypto = require('crypto');
+const querystring = require('querystring');
+const axios = require('axios');
+
+// 1. Setup Info
+const hashKey = 'YourHashKey';
+const hashIV  = 'YourHashIV';
+const merchantID = 'MS12345678';
+const apiUrl = 'https://ccore.newebpay.com/API/TransVerify';
+
+// 2. Prepare Params
+const params = {
+    TimeStamp: Math.floor(Date.now() / 1000),
+    CardNo: '4000221111111111',
+    Exp: '2801',
+    CVC: '123',
+    verifyBank: 'Taishin'
+};
+
+// 3. Convert to Query String
+const dataString = querystring.stringify(params);
+
+// 4. AES Encryption
+const cipher = crypto.createCipheriv('aes-256-cbc', hashKey, hashIV);
+let encrypted = cipher.update(dataString, 'utf8', 'hex');
+encrypted += cipher.final('hex');
+
+// 5. Send POST Request
+const formBody = querystring.stringify({
+    MerchantID_: merchantID,
+    PostData_: encrypted,
+    Pos_: 'JSON'
+});
+
+axios.post(apiUrl, formBody, {
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+}).then(res => {
+    console.log(res.data);
+}).catch(err => {
+    console.error(err);
+});`,
+            python: `import time
+import urllib.parse
+import requests
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
+import binascii
+
+# 1. Setup Info
+hash_key = b'YourHashKey' # bytes
+hash_iv  = b'YourHashIV'  # bytes
+merchant_id = 'MS12345678'
+api_url = 'https://ccore.newebpay.com/API/TransVerify'
+
+# 2. Prepare Params
+params = {
+    'TimeStamp': int(time.time()),
+    'CardNo': '4000221111111111',
+    'Exp': '2801',
+    'CVC': '123',
+    'verifyBank': 'Taishin'
+}
+
+# 3. Convert to Query String
+data_string = urllib.parse.urlencode(params)
+
+# 4. AES Encryption
+cipher = AES.new(hash_key, AES.MODE_CBC, hash_iv)
+encrypted_bytes = cipher.encrypt(pad(data_string.encode('utf-8'), AES.block_size))
+post_data = binascii.hexlify(encrypted_bytes).decode('utf-8')
+
+# 5. Send POST Request
+payload = {
+    'MerchantID_': merchant_id,
+    'PostData_': post_data,
+    'Pos_': 'JSON'
+}
+response = requests.post(api_url, data=payload)
+print(response.text)`,
+            csharp: `using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web;
+
+public class Program
+{
+    public static async Task Main()
+    {
+        string hashKey = "YourHashKey";
+        string hashIV = "YourHashIV";
+        string merchantID = "MS12345678";
+        string apiUrl = "https://ccore.newebpay.com/API/TransVerify";
+
+        // Prepare Params
+        var paramsDict = new Dictionary<string, string>
+        {
+            { "TimeStamp", DateTimeOffset.Now.ToUnixTimeSeconds().ToString() },
+            { "CardNo", "4000221111111111" },
+            { "Exp", "2801" },
+            { "CVC", "123" },
+            { "verifyBank", "Taishin" }
+        };
+
+        // To Query String
+        string dataString = string.Join("&", paramsDict.Select(p => $"{p.Key}={HttpUtility.UrlEncode(p.Value)}"));
+
+        // Encrypt
+        string postData = EncryptAES256(dataString, hashKey, hashIV);
+
+        // Send Request
+        using (var client = new HttpClient())
+        {
+            var content = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("MerchantID_", merchantID),
+                new KeyValuePair<string, string>("PostData_", postData),
+                new KeyValuePair<string, string>("Pos_", "JSON")
+            });
+
+            var response = await client.PostAsync(apiUrl, content);
+            string result = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(result);
+        }
+    }
+
+    public static string EncryptAES256(string source, string key, string iv)
+    {
+        byte[] sourceBytes = Encoding.UTF8.GetBytes(source);
+        using (var aes = Aes.Create())
+        {
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
+            aes.Key = Encoding.UTF8.GetBytes(key);
+            aes.IV = Encoding.UTF8.GetBytes(iv);
+
+            using (var encryptor = aes.CreateEncryptor())
+            {
+                byte[] encryptedBytes = encryptor.TransformFinalBlock(sourceBytes, 0, sourceBytes.Length);
+                return BitConverter.ToString(encryptedBytes).Replace("-", "").ToLower();
+            }
+        }
+    }
+}`
+        };
+
+        // 1. 取得網址參數
+        const urlParams = new URLSearchParams(window.location.search);
+        const getLang = urlParams.get('lang');
+
+        // 2. 檢查參數是否存在且有效 (是否在 langData 定義中)
+        // 如果有效就用參數值，否則預設為 'zh-TW'
+        let currentLang = (getLang && langData[getLang]) ? getLang : 'zh-TW';
+        let currentCodeTab = 'php';
+
+        function applyTranslations(lang = 'zh-TW') {
+            const data = langData[lang]?.data;
+            if (!data) return;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (data[key]) {
+                    el.innerHTML = data[key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (data[key]) {
+                    el.setAttribute('placeholder', data[key]);
+                }
+            });
+            
+            // Update html lang attribute
+            document.documentElement.lang = lang;
+        }
+
+        function initLangDropdown() {
+            const select = document.getElementById('lang-select');
+            const languages = Object.keys(langData);
+            if (languages.length === 0) return;
+
+            select.innerHTML = '';
+            languages.forEach(langKey => {
+                const option = document.createElement('option');
+                option.value = langKey;
+                option.textContent = langData[langKey].name;
+                if(langKey === currentLang) option.selected = true;
+                select.appendChild(option);
+            });
+        }
+
+        function changeLang(targetLang) {
+            currentLang = targetLang;
+            applyTranslations(targetLang);
+            renderErrorTable(); // Re-render error table with new lang
+            loadCode(currentCodeTab); // Re-load code with new lang comments
+        }
+
+        function renderErrorTable() {
+            const tbody = document.querySelector('#errorTable tbody');
+            if (!tbody) return;
+            
+            const data = langData[currentLang].data;
+
+            tbody.innerHTML = '';
+            const html = errorCodes.map(code => {
+                const i18nKey = `err_${code}`;
+                const text = data[i18nKey] || '';
+                return `<tr>
+                    <td class="px-6 py-2 font-bold text-red-600">${code}</td>
+                    <td class="px-6 py-2" data-i18n="${i18nKey}">${text}</td>
+                </tr>`;
+            }).join('');
+            tbody.innerHTML = html;
+        }
+
+        window.onload = function() {
+            initLangDropdown();
+            applyTranslations(currentLang);
+            renderErrorTable();
+            loadCode(currentCodeTab);
+        };
+
+        function switchTab(lang, event) {
+            document.querySelectorAll('#example .tab-btn').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            currentCodeTab = lang;
+            loadCode(lang);
+        }
+
+        function loadCode(lang) {
+            const display = document.getElementById('code-display');
+            
+            // Ensure lang has a value, default to 'php'
+            if (!lang) lang = 'php';
+
+            // Directly access global codeExamples, independent of currentLang
+            display.value = codeExamples[lang] || "// Code example not available.";
+        }
+
+        function switchToolTab(tabId) {
+            document.querySelectorAll('.tool-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tool-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tool-tab-btn').forEach(el => {
+                el.classList.remove('active', 'border-purple-600', 'text-purple-600');
+                el.classList.add('border-transparent', 'text-slate-500');
+            });
+
+            const targetContent = document.getElementById(tabId);
+            targetContent.classList.remove('hidden');
+            targetContent.classList.add('active');
+
+            const btn = event.currentTarget;
+            btn.classList.remove('border-transparent', 'text-slate-500');
+            btn.classList.add('active', 'border-purple-600', 'text-purple-600');
+        }
+
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        let isMenuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        const searchInput = document.getElementById('errorSearch');
+        searchInput.addEventListener('keyup', (e) => {
+            const term = e.target.value.toLowerCase();
+            const tableRows = document.querySelectorAll('#errorTable tbody tr');
+            tableRows.forEach(row => {
+                const code = row.children[0].textContent.toLowerCase();
+                const msg = row.children[1].textContent.toLowerCase();
+                if (code.includes(term) || msg.includes(term)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // AES Tools
+        function getKeys() {
+            const key = document.getElementById('toolKey').value.trim();
+            const iv = document.getElementById('toolIv').value.trim();
+            if (!key || !iv) {
+                // Simple alert fallback translation
+                const msg = currentLang === 'zh-TW' ? '請輸入 Hash Key 與 Hash IV' : 'Please enter Hash Key and Hash IV';
+                alert(msg);
+                return null;
+            }
+            return { key, iv };
+        }
+
+        function runEncrypt() {
+            const keys = getKeys();
+            if (!keys) return;
+            const data = document.getElementById('encryptInput').value.trim();
+            if (!data) {
+                const msg = currentLang === 'zh-TW' ? '請輸入原始字串' : 'Please enter original string';
+                return alert(msg);
+            }
+
+            try {
+                const keyHex = CryptoJS.enc.Utf8.parse(keys.key);
+                const ivHex = CryptoJS.enc.Utf8.parse(keys.iv);
+
+                const encrypted = CryptoJS.AES.encrypt(data, keyHex, {
+                    iv: ivHex,
+                    mode: CryptoJS.mode.CBC,
+                    padding: CryptoJS.pad.Pkcs7
+                });
+
+                document.getElementById('encryptOutput').value = encrypted.ciphertext.toString(CryptoJS.enc.Hex);
+            } catch (e) {
+                console.error(e);
+                const msg = currentLang === 'zh-TW' ? '加密失敗: ' : 'Encryption failed: ';
+                alert(msg + e.message);
+            }
+        }
+
+        function runDecrypt() {
+            const keys = getKeys();
+            if (!keys) return;
+            const hexStr = document.getElementById('decryptInput').value.trim();
+            if (!hexStr) {
+                 const msg = currentLang === 'zh-TW' ? '請輸入加密後的 Hex 字串' : 'Please enter Encrypted Hex String';
+                 return alert(msg);
+            }
+
+            try {
+                const keyHex = CryptoJS.enc.Utf8.parse(keys.key);
+                const ivHex = CryptoJS.enc.Utf8.parse(keys.iv);
+                
+                const encryptedHex = CryptoJS.enc.Hex.parse(hexStr);
+                const encryptedBase64 = CryptoJS.enc.Base64.stringify(encryptedHex);
+
+                const decrypted = CryptoJS.AES.decrypt(encryptedBase64, keyHex, {
+                    iv: ivHex,
+                    mode: CryptoJS.mode.CBC,
+                    padding: CryptoJS.pad.Pkcs7
+                });
+
+                document.getElementById('decryptOutput').value = decrypted.toString(CryptoJS.enc.Utf8);
+            } catch (e) {
+                console.error(e);
+                const msg = currentLang === 'zh-TW' ? '解密失敗，請檢查 Key/IV 或加密字串格式' : 'Decryption failed. Check Key/IV or format.';
+                alert(msg);
+            }
+        }
+
+        // Scroll Spy
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
+                 if (sections.length > 0) {
+                     current = sections[sections.length - 1].getAttribute('id');
+                 }
+            }
+
+            navLinks.forEach(link => {
+                link.classList.remove('sidebar-active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('sidebar-active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
