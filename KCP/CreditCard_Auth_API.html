@@ -1,0 +1,2011 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://www.newebpay.com/images/head.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://www.newebpay.com/images/head.ico" type="image/x-icon">      
+    <title data-i18n="page_title"></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        html { scroll-behavior: smooth; }
+        body { background-color: #f8fafc; }
+        
+        /* Custom Scrollbar - Modified to target the new scrollable class */
+        .scrollable-area::-webkit-scrollbar { width: 6px; }
+        .scrollable-area::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+        
+        /* Navigation Active State */
+        .sidebar-active { background-color: #e0f2fe; color: #0284c7; border-right: 4px solid #0284c7; font-weight: 600; }
+        
+        /* Tabs */
+        .tab-btn { border-bottom: 2px solid transparent; transition: all 0.3s; }
+        .tab-btn:hover { color: #60a5fa; }
+        .tab-btn.active { border-bottom-color: #3b82f6; color: #3b82f6; font-weight: 600; background-color: rgba(59, 130, 246, 0.05); }
+        
+        /* Table Styles */
+        .params-table th { background-color: #f1f5f9; color: #475569; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; }
+        .params-table td { vertical-align: top; color: #334155; }
+        .params-table tr:hover { background-color: #f8fafc; }
+
+        /* Language Switcher Active State (Legacy CSS kept for reference, not used in Select) */
+        .lang-btn.active { background-color: white; color: #2563eb; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); font-weight: 700; }
+        .lang-btn { color: #64748b; font-weight: 500; }
+    </style>
+</head>
+<body class="text-slate-800 font-sans">
+
+    <header class="lg:hidden bg-white shadow-sm p-4 sticky top-0 z-50 flex justify-between items-center border-b border-slate-200">
+        <h1 class="text-lg font-bold text-blue-700 flex items-center">
+            <i class="fas fa-credit-card mr-2"></i> <span data-i18n="header_mobile_title"></span>
+        </h1>
+        <button id="menu-btn" class="text-slate-600 focus:outline-none hover:text-blue-600 transition">
+            <i class="fas fa-bars text-2xl"></i>
+        </button>
+    </header>
+
+    <div class="flex min-h-screen">
+        <!-- Modified Sidebar Structure: Flex Column layout for sticky footer -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 w-72 bg-white shadow-xl transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 border-r border-slate-200 flex flex-col">
+            
+            <!-- Top Section -->
+            <div class="p-6 border-b border-slate-100 bg-gradient-to-r from-blue-50 to-white shrink-0">
+                <h2 class="text-2xl font-bold text-blue-700 tracking-tight" data-i18n="sidebar_brand"></h2>
+                <p class="text-sm text-slate-500 mt-1 font-medium"><span data-i18n="sidebar_subtitle"></span><br><span class="text-xs text-slate-400" data-i18n="sidebar_version_note"></span></p>
+                
+                <!-- Version Tag (Language switcher moved to bottom) -->
+                <div class="mt-4">
+                    <div class="text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full inline-block font-mono font-semibold">Ver: NPA-B11-2.5.0</div>
+                </div>
+            </div>
+
+            <!-- Scrollable Navigation Area -->
+            <div class="flex-1 overflow-y-auto scrollable-area">
+                <nav class="p-4 space-y-1">
+                    <a href="#intro" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-info-circle w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_intro"></span>
+                    </a>
+                    <a href="#setup" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-cogs w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_setup"></span>
+                    </a>
+                    <a href="#tool" class="nav-link block px-4 py-3 text-sm text-purple-700 bg-purple-50 hover:bg-purple-100 hover:text-purple-800 rounded-lg transition-colors group border border-purple-100 mb-4 shadow-sm">
+                        <i class="fas fa-wrench w-6 group-hover:text-purple-600 transition-colors"></i> <span data-i18n="nav_tool"></span>
+                    </a>
+                    <div class="px-4 py-2 text-xs font-bold text-slate-400 uppercase tracking-wider mt-4" data-i18n="nav_group_api"></div>
+                    <a href="#request" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-paper-plane w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_request"></span>
+                    </a>
+                     <a href="#encryption" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-lock w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_encryption"></span>
+                    </a>
+                    <a href="#response" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-reply w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_response"></span>
+                    </a>
+                    <a href="#errors" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-exclamation-triangle w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_errors"></span>
+                    </a>
+                    <!-- New Test Cards Link -->
+                    <a href="#testcards" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-credit-card w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_testcards"></span>
+                    </a>
+                    <a href="#example" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-code w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_example"></span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Bottom Footer Section with Language Switcher -->
+            <div class="p-4 border-t border-slate-200 bg-slate-50 shrink-0">
+                <div class="relative group w-full">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <select id="lang-select" onchange="changeLang(this.value)" class="w-full appearance-none bg-white hover:bg-white text-slate-600 font-medium py-2.5 pl-10 pr-8 rounded-lg text-sm transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer border border-slate-300 hover:border-blue-400 shadow-sm">
+                        <!-- Options will be injected by JS based on langData -->
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500 group-hover:text-slate-700">
+                        <i class="fas fa-chevron-up text-xs"></i>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+        <main class="flex-1 lg:ml-72 p-4 lg:p-8 w-[95%] mx-auto max-w-[1920px]">
+            
+            <section id="intro" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h1 class="text-3xl font-bold text-slate-900" data-i18n="intro_title"></h1>
+                </div>
+                
+                <div class="bg-white p-6 lg:p-8 rounded-xl shadow-sm border border-slate-200">
+                    <p class="text-slate-700 leading-relaxed mb-6 text-lg" data-i18n="intro_desc"></p>
+                    
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center">
+                        <span class="bg-blue-100 text-blue-600 w-8 h-8 rounded-full flex items-center justify-center text-sm mr-2">Flow</span> 
+                        <span data-i18n="intro_flow_title"></span>
+                    </h3>
+                    <div class="bg-slate-50 rounded-xl p-6 border border-slate-200">
+                        <ol class="list-decimal list-inside space-y-3 text-slate-700 font-medium ml-2">
+                            <li data-i18n="intro_step_1"></li>
+                            <li data-i18n="intro_step_2"></li>
+                            <li data-i18n="intro_step_3"></li>
+                            <li data-i18n="intro_step_4"></li>
+                            <li data-i18n="intro_step_5"></li>
+                            <li data-i18n="intro_step_6"></li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <section id="setup" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="setup_title"></h2>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                            <h3 class="font-bold text-slate-800 mb-2 flex items-center"><i class="fas fa-user-check text-blue-500 mr-2"></i> <span data-i18n="setup_card1_title"></span></h3>
+                            <p class="text-sm text-slate-600" data-i18n="setup_card1_desc"></p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                            <h3 class="font-bold text-slate-800 mb-2 flex items-center"><i class="fas fa-network-wired text-blue-500 mr-2"></i> <span data-i18n="setup_card2_title"></span></h3>
+                            <p class="text-sm text-slate-600">
+                                <span data-i18n="setup_card2_desc"></span>
+                                <br><span class="text-red-500 text-xs" data-i18n="setup_card2_note"></span>
+                            </p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                            <h3 class="font-bold text-slate-800 mb-2 flex items-center"><i class="fas fa-key text-blue-500 mr-2"></i> <span data-i18n="setup_card3_title"></span></h3>
+                            <p class="text-sm text-slate-600" data-i18n="setup_card3_desc"></p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                            <h3 class="font-bold text-slate-800 mb-2 flex items-center"><i class="fab fa-apple text-blue-500 mr-2"></i> <span data-i18n="setup_card4_title"></span></h3>
+                            <p class="text-sm text-slate-600" data-i18n="setup_card4_desc"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <section id="tool" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-purple-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="tool_title"></h2>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md border border-purple-100 overflow-hidden">
+                    <div class="bg-purple-50 p-4 border-b border-purple-100">
+                        <p class="text-purple-800 text-sm" data-i18n="tool_intro"></p>
+                    </div>
+
+                    <div class="flex border-b border-slate-200">
+                        <button onclick="switchToolTab('aes-encrypt')" class="tool-tab-btn active flex-1 py-4 text-sm font-bold text-center hover:bg-slate-50 transition border-b-2 border-purple-600 text-purple-600">
+                            <i class="fas fa-lock mr-2"></i> <span data-i18n="tool_tab_encrypt"></span>
+                        </button>
+                        <button onclick="switchToolTab('aes-decrypt')" class="tool-tab-btn flex-1 py-4 text-sm font-bold text-center hover:bg-slate-50 transition border-b-2 border-transparent text-slate-500">
+                            <i class="fas fa-unlock mr-2"></i> <span data-i18n="tool_tab_decrypt"></span>
+                        </button>
+                        <button onclick="switchToolTab('checkcode')" class="tool-tab-btn flex-1 py-4 text-sm font-bold text-center hover:bg-slate-50 transition border-b-2 border-transparent text-slate-500">
+                            <i class="fas fa-shield-alt mr-2"></i> <span data-i18n="tool_tab_checkcode"></span>
+                        </button>
+                    </div>
+
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 pb-6 border-b border-slate-100">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Hash Key (32 bytes)</label>
+                                <input type="text" id="toolKey" data-i18n-placeholder="tool_ph_key" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm bg-slate-50">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Hash IV (16 bytes)</label>
+                                <input type="text" id="toolIv" data-i18n-placeholder="tool_ph_iv" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm bg-slate-50">
+                            </div>
+                        </div>
+
+                        <div id="aes-encrypt" class="tool-content active">
+                            <div class="mb-4">
+                                <label class="block text-sm font-bold text-slate-700 mb-2" data-i18n="tool_lbl_qs"></label>
+                                <textarea id="encryptInput" rows="4" data-i18n-placeholder="tool_ph_qs" class="w-full p-3 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm text-slate-600"></textarea>
+                                <p class="text-xs text-slate-400 mt-1 text-right" data-i18n="tool_note_urlencode"></p>
+                            </div>
+                            <button onclick="runEncrypt()" class="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700 transition shadow-sm font-bold text-sm">
+                                <i class="fas fa-arrow-down mr-1"></i> <span data-i18n="tool_btn_encrypt"></span>
+                            </button>
+                            <div class="mt-4">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="tool_lbl_hex"></label>
+                                <div class="relative">
+                                    <textarea id="encryptOutput" readonly rows="3" class="w-full p-3 bg-slate-800 text-green-400 rounded font-mono text-sm border-none focus:ring-0"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="aes-decrypt" class="tool-content hidden">
+                             <div class="mb-4">
+                                <label class="block text-sm font-bold text-slate-700 mb-2" data-i18n="tool_lbl_enc_hex"></label>
+                                <textarea id="decryptInput" rows="4" data-i18n-placeholder="tool_ph_enc_hex" class="w-full p-3 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm text-slate-600"></textarea>
+                            </div>
+                            <button onclick="runDecrypt()" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition shadow-sm font-bold text-sm">
+                                <i class="fas fa-arrow-down mr-1"></i> <span data-i18n="tool_btn_decrypt"></span>
+                            </button>
+                            <div class="mt-4">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="tool_lbl_decrypt_res"></label>
+                                <div class="relative">
+                                    <textarea id="decryptOutput" readonly rows="3" class="w-full p-3 bg-slate-800 text-green-400 rounded font-mono text-sm border-none focus:ring-0"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="checkcode" class="tool-content hidden">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-500 mb-1" data-i18n="tool_lbl_amt"></label>
+                                    <input type="text" id="ccAmt" placeholder="100" class="w-full p-2 border border-slate-300 rounded font-mono text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-500 mb-1" data-i18n="tool_lbl_mid"></label>
+                                    <input type="text" id="ccMid" placeholder="MS12345678" class="w-full p-2 border border-slate-300 rounded font-mono text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-500 mb-1" data-i18n="tool_lbl_ord"></label>
+                                    <input type="text" id="ccOrd" placeholder="ORD001" class="w-full p-2 border border-slate-300 rounded font-mono text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-500 mb-1" data-i18n="tool_lbl_trade"></label>
+                                    <input type="text" id="ccTrade" placeholder="211202..." class="w-full p-2 border border-slate-300 rounded font-mono text-sm">
+                                </div>
+                            </div>
+                            <button onclick="runCheckCode()" class="bg-amber-600 text-white px-6 py-2 rounded hover:bg-amber-700 transition shadow-sm font-bold text-sm">
+                                <i class="fas fa-magic mr-1"></i> <span data-i18n="tool_btn_checkcode"></span>
+                            </button>
+                            
+                            <div class="mt-4 p-4 bg-slate-50 rounded border border-slate-200">
+                                <p class="text-xs text-slate-500 mb-1" data-i18n="tool_lbl_prehash"></p>
+                                <code id="ccPreHash" class="block text-xs text-slate-600 break-all mb-3 font-mono"></code>
+                                
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="tool_lbl_checkcode_res"></label>
+                                <input type="text" id="ccOutput" readonly class="w-full p-3 bg-slate-800 text-yellow-400 rounded font-mono text-sm border-none focus:ring-0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="request" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="req_title"></h2>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 border-l-4 border-blue-500 pl-3" data-i18n="req_api_info"></h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div class="bg-slate-50 p-3 rounded border border-slate-100">
+                            <div class="text-xs text-slate-500 uppercase mb-1">Method</div>
+                            <div class="font-mono font-bold text-green-600 text-lg">POST</div>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded border border-slate-100 md:col-span-2">
+                            <div class="flex flex-col space-y-2">
+                                <div>
+                                    <div class="text-xs text-slate-500 uppercase mb-1" data-i18n="req_url_prod"></div>
+                                    <div class="font-mono text-blue-600 select-all font-medium">https://core.newebpay.com/API/CreditCard/withIdentity</div>
+                                </div>
+                                <div class="border-t border-slate-200 pt-2">
+                                    <div class="text-xs text-slate-500 uppercase mb-1" data-i18n="req_url_test"></div>
+                                    <div class="font-mono text-slate-500 select-all">https://ccore.newebpay.com/API/CreditCard/withIdentity</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+                    <div class="p-4 bg-slate-100 border-b border-slate-200">
+                        <h3 class="font-bold text-slate-700" data-i18n="req_lvl1_title"></h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm params-table">
+                            <thead class="bg-slate-50 border-b border-slate-200">
+                                <tr>
+                                    <th class="px-6 py-4 w-1/6" data-i18n="th_param"></th>
+                                    <th class="px-6 py-4 w-1/6" data-i18n="th_name"></th>
+                                    <th class="px-6 py-4 w-24 text-center" data-i18n="th_required"></th>
+                                    <th class="px-6 py-4" data-i18n="th_type"></th>
+                                    <th class="px-6 py-4 w-1/3" data-i18n="th_note"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr>
+                                    <td class="px-6 py-4 font-mono font-bold text-blue-600">MerchantID_</td>
+                                    <td class="px-6 py-4" data-i18n="param_mid_name"></td>
+                                    <td class="px-6 py-4 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-4 font-mono text-xs">Varchar(15)</td>
+                                    <td class="px-6 py-4" data-i18n="param_mid_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-mono font-bold text-blue-600">PostData_</td>
+                                    <td class="px-6 py-4" data-i18n="param_post_name"></td>
+                                    <td class="px-6 py-4 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-4 font-mono text-xs">Text</td>
+                                    <td class="px-6 py-4" data-i18n="param_post_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-mono font-bold text-blue-600">Pos_</td>
+                                    <td class="px-6 py-4" data-i18n="param_pos_name"></td>
+                                    <td class="px-6 py-4 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-4 font-mono text-xs">Varchar(6)</td>
+                                    <td class="px-6 py-4" data-i18n="param_pos_note"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="p-4 bg-slate-100 border-b border-slate-200 flex justify-between items-center">
+                        <h3 class="font-bold text-slate-700" data-i18n="req_lvl2_title"></h3>
+                        <span class="text-xs text-slate-500 bg-white px-2 py-1 rounded border">AES-256-CBC Encrypted</span>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm params-table">
+                            <thead class="bg-slate-50 border-b border-slate-200">
+                                <tr>
+                                    <th class="px-6 py-4 w-32" data-i18n="th_param"></th>
+                                    <th class="px-6 py-4 w-32" data-i18n="th_name"></th>
+                                    <th class="px-6 py-4 w-16 text-center" data-i18n="th_required"></th>
+                                    <th class="px-6 py-4 w-24" data-i18n="th_type"></th>
+                                    <th class="px-6 py-4" data-i18n="th_note"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">TimeStamp</td>
+                                    <td class="px-6 py-3" data-i18n="p_ts_name"></td>
+                                    <td class="px-6 py-3 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Varchar(30)</td>
+                                    <td class="px-6 py-3" data-i18n="p_ts_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">Version</td>
+                                    <td class="px-6 py-3" data-i18n="p_ver_name"></td>
+                                    <td class="px-6 py-3 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Varchar(5)</td>
+                                    <td class="px-6 py-3" data-i18n="p_ver_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">MerchantOrderNo</td>
+                                    <td class="px-6 py-3" data-i18n="p_ord_name"></td>
+                                    <td class="px-6 py-3 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Varchar(30)</td>
+                                    <td class="px-6 py-3" data-i18n="p_ord_note"></td>
+                                </tr>
+                                <tr class="bg-yellow-50">
+                                    <td class="px-6 py-3 font-mono font-bold text-blue-700">Amt</td>
+                                    <td class="px-6 py-3 font-bold text-blue-900" data-i18n="p_amt_name"></td>
+                                    <td class="px-6 py-3 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Int(10)</td>
+                                    <td class="px-6 py-3 font-medium text-slate-800" data-i18n="p_amt_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">ProdDesc</td>
+                                    <td class="px-6 py-3" data-i18n="p_desc_name"></td>
+                                    <td class="px-6 py-3 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Varchar(50)</td>
+                                    <td class="px-6 py-3" data-i18n="p_desc_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">PayerEmail</td>
+                                    <td class="px-6 py-3" data-i18n="p_email_name"></td>
+                                    <td class="px-6 py-3 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Varchar(50)</td>
+                                    <td class="px-6 py-3" data-i18n="p_email_note"></td>
+                                </tr>
+                                <!-- New Fields Start -->
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">CardHolderFirstName</td>
+                                    <td class="px-6 py-3" data-i18n="p_fname_name"></td>
+                                    <td class="px-6 py-3 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Varchar(45)</td>
+                                    <td class="px-6 py-3" data-i18n="p_fname_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">CardHolderLastName</td>
+                                    <td class="px-6 py-3" data-i18n="p_lname_name"></td>
+                                    <td class="px-6 py-3 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Varchar(45)</td>
+                                    <td class="px-6 py-3" data-i18n="p_lname_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">CardHolderPhone</td>
+                                    <td class="px-6 py-3" data-i18n="p_phone_name"></td>
+                                    <td class="px-6 py-3 text-center text-slate-400"></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Varchar(45)</td>
+                                    <td class="px-6 py-3" data-i18n="p_phone_note"></td>
+                                </tr>
+                                <!-- New Fields End -->
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">CardNo</td>
+                                    <td class="px-6 py-3" data-i18n="p_card_name"></td>
+                                    <td class="px-6 py-3 text-center font-bold text-slate-500">+</td>
+                                    <td class="px-6 py-3 font-mono text-xs">Varchar(19)</td>
+                                    <td class="px-6 py-3" data-i18n="p_card_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">Exp</td>
+                                    <td class="px-6 py-3" data-i18n="p_exp_name"></td>
+                                    <td class="px-6 py-3 text-center font-bold text-slate-500">+</td>
+                                    <td class="px-6 py-3 font-mono text-xs">Varchar(4)</td>
+                                    <td class="px-6 py-3" data-i18n="p_exp_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">Inst</td>
+                                    <td class="px-6 py-3" data-i18n="p_inst_name"></td>
+                                    <td class="px-6 py-3 text-center text-slate-400"></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Varchar(2)</td>
+                                    <td class="px-6 py-3" data-i18n="p_inst_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">Red</td>
+                                    <td class="px-6 py-3" data-i18n="p_red_name"></td>
+                                    <td class="px-6 py-3 text-center text-slate-400"></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Int(1)</td>
+                                    <td class="px-6 py-3" data-i18n="p_red_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">CardAE</td>
+                                    <td class="px-6 py-3" data-i18n="p_ae_name"></td>
+                                    <td class="px-6 py-3 text-center text-slate-400"></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Int(1)</td>
+                                    <td class="px-6 py-3" data-i18n="p_ae_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">APPLEPAYTYPE</td>
+                                    <td class="px-6 py-3">Apple Pay Token</td>
+                                    <td class="px-6 py-3 text-center text-slate-400"></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Varchar</td>
+                                    <td class="px-6 py-3" data-i18n="p_apple_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">ANDROIDPAY</td>
+                                    <td class="px-6 py-3">Google Pay Token</td>
+                                    <td class="px-6 py-3 text-center text-slate-400"></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Varchar</td>
+                                    <td class="px-6 py-3" data-i18n="p_google_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-3 font-mono font-medium">SAMSUNGPAY</td>
+                                    <td class="px-6 py-3">Samsung Pay Token</td>
+                                    <td class="px-6 py-3 text-center text-slate-400"></td>
+                                    <td class="px-6 py-3 font-mono text-xs">Varchar</td>
+                                    <td class="px-6 py-3" data-i18n="p_samsung_note"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="encryption" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="enc_title"></h2>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                        <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded flex items-center justify-center text-xs mr-2">4.1</span>
+                        <span data-i18n="enc_aes_title"></span>
+                    </h3>
+                    <p class="text-slate-600 mb-4" data-i18n="enc_aes_desc"></p>
+                    
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800" data-i18n="enc_step1_title"></h4>
+                                <p class="text-sm text-slate-600 mt-1" data-i18n="enc_step1_desc"></p>
+                                <code class="block bg-slate-800 text-slate-300 p-2 rounded mt-2 text-xs font-mono">MerchantID=MS12345678&TimeStamp=1638345756&Version=2.5...</code>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800" data-i18n="enc_step2_title"></h4>
+                                <p class="text-sm text-slate-600 mt-1" data-i18n="enc_step2_desc"></p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">3</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800" data-i18n="enc_step3_title"></h4>
+                                <p class="text-sm text-slate-600 mt-1" data-i18n="enc_step3_desc"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                        <span class="w-6 h-6 bg-purple-100 text-purple-600 rounded flex items-center justify-center text-xs mr-2">4.2</span>
+                        <span data-i18n="enc_chk_title"></span>
+                    </h3>
+                    <p class="text-slate-600 mb-4" data-i18n="enc_chk_desc"></p>
+                    
+                    <div class="bg-purple-50 p-4 rounded-lg border border-purple-100 space-y-4">
+                         <div class="flex">
+                            <div class="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800" data-i18n="enc_chk_s1_title"></h4>
+                                <div class="text-sm text-slate-600 mt-1" data-i18n="enc_chk_s1_desc"></div>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800" data-i18n="enc_chk_s2_title"></h4>
+                                <p class="text-sm text-slate-600 mt-1" data-i18n="enc_chk_s2_desc"></p>
+                                <code class="block bg-slate-800 text-slate-300 p-2 rounded mt-2 text-xs font-mono break-all">HashIV=...&Amt=...&MerchantID=...&MerchantOrderNo=...&TradeNo=...&HashKey=...</code>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">3</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800" data-i18n="enc_chk_s3_title"></h4>
+                                <p class="text-sm text-slate-600 mt-1" data-i18n="enc_chk_s3_desc"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="response" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="res_title"></h2>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-6">
+                    <p class="text-slate-600 mb-4" data-i18n="res_desc"></p>
+                    <table class="w-full text-left text-sm mb-6 border border-slate-200">
+                        <thead class="bg-slate-50">
+                            <tr>
+                                <th class="px-4 py-2 border-b" data-i18n="th_param"></th>
+                                <th class="px-4 py-2 border-b" data-i18n="th_desc"></th>
+                                <th class="px-4 py-2 border-b" data-i18n="th_note"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="px-4 py-2 border-b font-mono font-bold text-blue-600">Status</td>
+                                <td class="px-4 py-2 border-b" data-i18n="res_status_name"></td>
+                                <td class="px-4 py-2 border-b">SUCCESS / DECLINE / ERROR </td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 border-b font-mono font-bold text-blue-600">Message</td>
+                                <td class="px-4 py-2 border-b" data-i18n="res_msg_name"></td>
+                                <td class="px-4 py-2 border-b" data-i18n="res_msg_note"></td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 border-b font-mono font-bold text-blue-600">Result</td>
+                                <td class="px-4 py-2 border-b" data-i18n="res_result_name"></td>
+                                <td class="px-4 py-2 border-b" data-i18n="res_result_note"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="p-4 bg-slate-100 border-b border-slate-200">
+                        <h3 class="font-bold text-slate-700" data-i18n="res_obj_title"></h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm params-table">
+                             <thead class="bg-slate-50 border-b border-slate-200">
+                                <tr>
+                                    <th class="px-6 py-4 w-32" data-i18n="th_param"></th>
+                                    <th class="px-6 py-4 w-32" data-i18n="th_name"></th>
+                                    <th class="px-6 py-4 w-24" data-i18n="th_type"></th>
+                                    <th class="px-6 py-4" data-i18n="th_note"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr><td class="px-6 py-3 font-mono font-bold">MerchantID</td><td class="px-6 py-3" data-i18n="res_mid_name"></td><td class="px-6 py-3 font-mono text-xs">Varchar(15)</td><td class="px-6 py-3" data-i18n="res_mid_note"></td></tr>
+                                <tr><td class="px-6 py-3 font-mono font-bold">Amt</td><td class="px-6 py-3" data-i18n="res_amt_name"></td><td class="px-6 py-3 font-mono text-xs">Int(10)</td><td class="px-6 py-3" data-i18n="res_amt_note"></td></tr>
+                                <tr><td class="px-6 py-3 font-mono font-bold">TradeNo</td><td class="px-6 py-3" data-i18n="res_trade_name"></td><td class="px-6 py-3 font-mono text-xs">Varchar(20)</td><td class="px-6 py-3" data-i18n="res_trade_note"></td></tr>
+                                <tr><td class="px-6 py-3 font-mono font-bold">MerchantOrderNo</td><td class="px-6 py-3" data-i18n="res_ord_name"></td><td class="px-6 py-3 font-mono text-xs">Varchar(30)</td><td class="px-6 py-3" data-i18n="res_ord_note"></td></tr>
+                                <tr><td class="px-6 py-3 font-mono font-bold">RespondCode</td><td class="px-6 py-3" data-i18n="res_rcode_name"></td><td class="px-6 py-3 font-mono text-xs">Varchar(10)</td><td class="px-6 py-3" data-i18n="res_rcode_note"></td></tr>
+                                <tr><td class="px-6 py-3 font-mono font-bold">AuthBank</td><td class="px-6 py-3" data-i18n="res_authbank_name"></td><td class="px-6 py-3 font-mono text-xs">Varchar(10)</td><td class="px-6 py-3" data-i18n="res_authbank_note"></td></tr>
+                                <tr><td class="px-6 py-3 font-mono font-bold">Auth</td><td class="px-6 py-3" data-i18n="res_auth_name"></td><td class="px-6 py-3 font-mono text-xs">Varchar(6)</td><td class="px-6 py-3" data-i18n="res_auth_note"></td></tr>
+                                <tr><td class="px-6 py-3 font-mono font-bold">AuthDate</td><td class="px-6 py-3" data-i18n="res_adate_name"></td><td class="px-6 py-3 font-mono text-xs">Varchar(8)</td><td class="px-6 py-3" data-i18n="res_adate_note"></td></tr>
+                                <tr><td class="px-6 py-3 font-mono font-bold">AuthTime</td><td class="px-6 py-3" data-i18n="res_atime_name"></td><td class="px-6 py-3 font-mono text-xs">Varchar(6)</td><td class="px-6 py-3" data-i18n="res_atime_note"></td></tr>
+                                <tr><td class="px-6 py-3 font-mono font-bold">Card6No</td><td class="px-6 py-3" data-i18n="res_c6_name"></td><td class="px-6 py-3 font-mono text-xs">Varchar(6)</td><td class="px-6 py-3" data-i18n="res_c6_note"></td></tr>
+                                <tr><td class="px-6 py-3 font-mono font-bold">Card4No</td><td class="px-6 py-3" data-i18n="res_c4_name"></td><td class="px-6 py-3 font-mono text-xs">Varchar(4)</td><td class="px-6 py-3" data-i18n="res_c4_note"></td></tr>
+                                <tr><td class="px-6 py-3 font-mono font-bold">Exp</td><td class="px-6 py-3" data-i18n="res_exp_name"></td><td class="px-6 py-3 font-mono text-xs">Varchar(4)</td><td class="px-6 py-3" data-i18n="res_exp_note"></td></tr>
+                                <tr><td class="px-6 py-3 font-mono font-bold">Inst</td><td class="px-6 py-3" data-i18n="res_inst_name"></td><td class="px-6 py-3 font-mono text-xs">Int(10)</td><td class="px-6 py-3" data-i18n="res_inst_note"></td></tr>
+                                <tr><td class="px-6 py-3 font-mono font-bold">InstFirst</td><td class="px-6 py-3" data-i18n="res_instf_name"></td><td class="px-6 py-3 font-mono text-xs">Int(10)</td><td class="px-6 py-3" data-i18n="res_instf_note"></td></tr>
+                                <tr><td class="px-6 py-3 font-mono font-bold">InstEach</td><td class="px-6 py-3" data-i18n="res_inste_name"></td><td class="px-6 py-3 font-mono text-xs">Int(10)</td><td class="px-6 py-3" data-i18n="res_inste_note"></td></tr>
+                                <tr><td class="px-6 py-3 font-mono font-bold">ECI</td><td class="px-6 py-3" data-i18n="res_eci_name"></td><td class="px-6 py-3 font-mono text-xs">Varchar (2)</td><td class="px-6 py-3" data-i18n="res_eci_note"></td></tr>
+                                <tr><td class="px-6 py-3 font-mono font-bold">RedAmt</td><td class="px-6 py-3" data-i18n="res_redamt_name"></td><td class="px-6 py-3 font-mono text-xs">Int(10)</td><td class="px-6 py-3" data-i18n="res_redamt_note"></td></tr>
+                                <tr><td class="px-6 py-3 font-mono font-bold">PaymentMethod</td><td class="px-6 py-3" data-i18n="res_pm_name"></td><td class="px-6 py-3 font-mono text-xs">Varchar(20)</td><td class="px-6 py-3" data-i18n="res_pm_note"></td></tr>
+                                <tr><td class="px-6 py-3 font-mono font-bold">IP</td><td class="px-6 py-3" data-i18n="res_ip_name"></td><td class="px-6 py-3 font-mono text-xs">Varchar(15)</td><td class="px-6 py-3" data-i18n="res_ip_note"></td></tr>
+                                <tr><td class="px-6 py-3 font-mono font-bold">EscrowBank</td><td class="px-6 py-3" data-i18n="res_escrow_name"></td><td class="px-6 py-3 font-mono text-xs">Varchar(10)</td><td class="px-6 py-3" data-i18n="res_escrow_note"></td></tr>
+                                <tr class="bg-purple-50"><td class="px-6 py-3 font-mono font-bold text-purple-700">CheckCode</td><td class="px-6 py-3 font-bold text-purple-900" data-i18n="res_chk_name"></td><td class="px-6 py-3 font-mono text-xs">Hash</td><td class="px-6 py-3 font-medium text-slate-800" data-i18n="res_chk_note"></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+             <section id="errors" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="err_title"></h2>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 mb-4">
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-4 top-3.5 text-slate-400"></i>
+                        <input type="text" id="errorSearch" data-i18n-placeholder="err_search_ph" class="w-full pl-10 p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                </div>
+                <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-slate-200 max-h-[600px] overflow-y-auto">
+                    <table class="w-full text-left text-sm" id="errorTable">
+                        <thead class="bg-slate-50 text-slate-600 uppercase font-bold sticky top-0 border-b border-slate-200 shadow-sm">
+                            <tr>
+                                <th class="px-6 py-4 w-1/4" data-i18n="th_err_code"></th>
+                                <th class="px-6 py-4" data-i18n="th_err_reason"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 font-mono text-slate-700">
+                             <!-- Dynamic Generation -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <!-- Test Cards Section (New) -->
+            <section id="testcards" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-green-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="tc_title"></h2>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                     <p class="text-slate-600 mb-6" data-i18n="tc_desc"></p>
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                            <div class="text-sm text-slate-500 mb-1" data-i18n="tc_lbl_normal"></div>
+                            <div class="font-mono text-xl font-bold text-slate-800 tracking-wider">4000-2211-1111-1111</div>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                            <div class="text-sm text-slate-500 mb-1" data-i18n="tc_lbl_bonus"></div>
+                            <div class="font-mono text-xl font-bold text-slate-800 tracking-wider">4003-5511-1111-1111</div>
+                        </div>
+                     </div>
+                     <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-100 flex items-start">
+                        <i class="fas fa-exclamation-circle text-yellow-600 mt-1 mr-3"></i>
+                        <p class="text-sm text-slate-700 leading-relaxed" data-i18n="tc_note"></p>
+                     </div>
+                </div>
+            </section>
+
+            <section id="example" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="example_title"></h2>
+                </div>
+                
+                <div class="bg-slate-800 rounded-lg shadow-lg overflow-hidden relative">
+                    <div class="flex border-b border-slate-600 bg-slate-900 px-2">
+                        <button onclick="switchTab('php', event)" class="tab-btn active px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors">PHP</button>
+                        <button onclick="switchTab('nodejs', event)" class="tab-btn px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors">Node.js</button>
+                        <button onclick="switchTab('python', event)" class="tab-btn px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors">Python</button>
+                        <button onclick="switchTab('csharp', event)" class="tab-btn px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors">C# (.NET)</button>
+                    </div>
+
+                    <textarea id="code-display" readonly class="w-full h-[600px] p-4 bg-[#272822] text-[#f8f8f2] font-mono text-sm leading-6 border-none outline-none resize-none"></textarea>
+                </div>
+            </section>
+
+        </main>
+    </div>
+    <script>
+        // Multi-language configuration
+        const langData = {
+            'zh-TW': { 
+                name: '繁體中文', 
+                data: { 
+                    page_title: '藍新金流 - 信用卡幕後授權 (身份驗證版) 技術文件', 
+                    header_mobile_title: 'NewebPay 技術文件', 
+                    sidebar_brand: 'NewebPay', 
+                    sidebar_subtitle: '信用卡幕後授權 API', 
+                    sidebar_version_note: '(身份驗證版)', 
+                    nav_intro: '簡介與流程', 
+                    nav_setup: '串接前置準備', 
+                    nav_tool: '線上測試工具', 
+                    nav_group_api: 'API 規格', 
+                    nav_request: '請求參數 (Request)', 
+                    nav_encryption: '加密規則詳解', 
+                    nav_response: '回應參數 (Response)', 
+                    nav_errors: '錯誤代碼表', 
+                    nav_example: '範例程式碼',
+                    nav_testcards: '測試卡號', 
+                    intro_title: '簡介與交易流程', 
+                    intro_desc: '藍新金流為商店提供以單獨串接信用卡幕後授權支付工具，消費者於商店之網站選擇信用卡支付方式並提供信用卡卡號資料給商店，再由商店利用此 API 提供信用卡交易資料給藍新金流，經收單機構授權取得授權回覆訊息後即時回傳商店，完成訂單作業。', 
+                    intro_flow_title: '交易流程', 
+                    intro_step_1: '消費者於商店之網站或是 App，選擇信用卡支付並提供卡號資料來進行購買。', 
+                    intro_step_2: '商店透過信用卡幕後授權 API 向藍新金流服務平台發動交易請求。', 
+                    intro_step_3: '藍新金流服務平台收到請求後，再向信用卡收單機構發送交易請求。', 
+                    intro_step_4: '信用卡收單機構將交易結果回傳至藍新金流服務平台。', 
+                    intro_step_5: '藍新金流服務平台再將交易結果回傳至商店。', 
+                    intro_step_6: '商店於網站或是 App 告知消費者交易結果，若交易成功則進行出貨。', 
+                    setup_title: '串接前置準備', 
+                    setup_card1_title: '會員與商店', 
+                    setup_card1_desc: '須於藍新金流註冊會員，建立商店，並啟用信用卡支付工具。', 
+                    setup_card2_title: 'IP 綁定 (重要)', 
+                    setup_card2_desc: '須向藍新申請幕後授權功能並綁定 IP (至多6組)。', 
+                    setup_card2_note: '注意：浮動 IP 需使用中介伺服器。', 
+                    setup_card3_title: '取得金鑰', 
+                    setup_card3_desc: '於會員專區取得 <code>Hash Key</code> 及 <code>Hash IV</code>。', 
+                    setup_card4_title: 'Apple Pay (選用)', 
+                    setup_card4_desc: '如需使用，請至 [商店管理/詳細資料/Apple Pay設定作業] 設定憑證。', 
+                    tool_title: '加密測試工具', 
+                    tool_intro: '此工具可協助您驗證加密結果、解密回傳資料以及產生 CheckCode。', 
+                    tool_tab_encrypt: 'AES 加密 (Request)', 
+                    tool_tab_decrypt: 'AES 解密 (Response)', 
+                    tool_tab_checkcode: 'CheckCode 產生', 
+                    tool_ph_key: '例如: AAAAvw3YlqoEk6G4HqRKDAYpHKZWxBBB', 
+                    tool_ph_iv: '例如: AAAACC1FplieBBBB', 
+                    tool_lbl_qs: '原始請求字串 (Query String)', 
+                    tool_ph_qs: '例如: MerchantID=MS12345678&TimeStamp=1638345756&Version=2.5...', 
+                    tool_note_urlencode: '請確認字串已經過 http_build_query 或 urlencode 處理', 
+                    tool_btn_encrypt: '執行加密產生 PostData_', 
+                    tool_lbl_hex: '加密結果 (Hex String)', 
+                    tool_lbl_enc_hex: '加密字串 (Hex String)', 
+                    tool_ph_enc_hex: '例如: 0ef82edabaf8964d09992d7ec8e575f1...', 
+                    tool_btn_decrypt: '執行解密', 
+                    tool_lbl_decrypt_res: '解密結果 (原始資料)', 
+                    tool_lbl_amt: 'Amt (金額)', 
+                    tool_lbl_mid: 'MerchantID (商店代號)', 
+                    tool_lbl_ord: 'MerchantOrderNo (訂單編號)', 
+                    tool_lbl_trade: 'TradeNo (交易序號)', 
+                    tool_btn_checkcode: '產生 CheckCode', 
+                    tool_lbl_prehash: '排序串接字串 (Pre-Hash String):', 
+                    tool_lbl_checkcode_res: 'CheckCode 結果 (SHA256 Upper)', 
+                    req_title: '請求參數 (Request)', 
+                    req_api_info: 'API 資訊', 
+                    req_url_prod: 'URL (正式環境)', 
+                    req_url_test: 'URL (測試環境)', 
+                    req_lvl1_title: '第一層參數 (HTML Form Post)', 
+                    th_param: '參數名稱', 
+                    th_name: '中文名稱', 
+                    th_required: '必填', 
+                    th_type: '型態', 
+                    th_note: '備註', 
+                    th_desc: '說明', 
+                    param_mid_name: '商店代號', 
+                    param_mid_note: '藍新金流商店代號。', 
+                    param_post_name: '加密資料', 
+                    param_post_note: '相關加密方法請參考「加密規則」。', 
+                    param_pos_name: '回傳格式', 
+                    param_pos_note: '固定填入 <code class="bg-slate-100 px-1">JSON</code>', 
+                    req_lvl2_title: 'PostData_ 內含參數 (加密前)', 
+                    p_ts_name: '時間戳記', 
+                    p_ts_note: '自從Unix 纪元（格林威治時間 1970 年 1 月 1 日 00:00:00）到當前時間的秒數。<br>例：2014-05-15 15:00:00這個時間的時間戳記為1400137200。', 
+                    p_ver_name: '版本', 
+                    p_ver_note: '請帶 <code class="bg-slate-100 px-1">2.5</code>。', 
+                    p_ord_name: '訂單編號', 
+                    p_ord_note: '商店自訂訂單編號，限英、數字、”_ ”格式。例：201406010001。<br>長度限制為30字。<br>同一商店中此編號不可重覆。', 
+                    p_amt_name: '訂單金額', 
+                    p_amt_note: '純數字不含符號，例：1000。<br>幣別：新台幣。', 
+                    p_desc_name: '商品描述', 
+                    p_desc_note: '此為商品資訊。編碼為Utf-8格式。', 
+                    p_email_name: '持卡人信箱', 
+                    p_email_note: 'Email格式需至少有\'@\'及\'.\'符號，例如：abc@yahoo.com。<br>信用卡幕後授權將不會發送交易相關通知信給付款人，商店需自行發送。<br>此欄位資訊將會傳送給國際卡組織，作為交易驗證用，因此為必填。<br><span class="text-red-600 font-bold">需與申請信用卡時留存之 Email 一致。</span>', 
+                    p_fname_name: '持卡人名字',
+                    p_fname_note: '持卡人於發卡銀行留存之英文名字,僅接受英文,空白及-',
+                    p_lname_name: '持卡人姓氏',
+                    p_lname_note: '持卡人於發卡銀行留存之英文姓氏,僅接受英文,空白及-',
+                    p_phone_name: '持卡人電話',
+                    p_phone_note: '持卡人於發卡行留存之電話,限純數字',
+                    p_card_name: '信用卡卡號', 
+                    p_card_note: '信用卡卡號16碼。美國運通卡卡號15碼。中國銀聯卡卡號14-19碼。<br><span class="text-red-600">若為信用卡支付（非Apple Pay與Google Pay支付），此欄位為必填。</span><br>若為Apple Pay與Google Pay支付，則此欄位為非必填，請帶空值。', 
+                    p_exp_name: '到期日', 
+                    p_exp_note: '信用卡到期日，格式為yymm。<br><span class="text-red-600">若為信用卡支付（非Apple Pay與Google Pay支付），此欄位為必填。</span><br>若為Apple Pay與Google Pay支付，則此欄位為非必填，請帶空值。', 
+                    p_inst_name: '分期啟用', 
+                    p_inst_note: '此欄位值=０或無值時，即代表不開啟分期。<br>此欄位值為下列值時，即代表本交易設定該分期別。<br><code class="bg-slate-100 text-xs px-1">3</code>=分3期, <code class="bg-slate-100 text-xs px-1">6</code>=分6期, <code class="bg-slate-100 text-xs px-1">12</code>=分12期, <code class="bg-slate-100 text-xs px-1">18</code>=分18期, <code class="bg-slate-100 text-xs px-1">24</code>=分24期, <code class="bg-slate-100 text-xs px-1">30</code>=分30期', 
+                    p_red_name: '紅利交易', 
+                    p_red_note: '設定是否啟用信用卡紅利支付方式。<br>1 =啟用, 0或者未有此參數=不啟用', 
+                    p_ae_name: '美國運通卡', 
+                    p_ae_note: '設定是否啟用美國運通卡支付方式。<br>1 =啟用, 0或者未有此參數=不啟用', 
+                    p_apple_note: '未解密或解密後的payment token。<br>payment token為在交易過程中，買方使用APPLEPAY 付款後，由Apple提供的一組加密過的虛擬信用卡資訊。<br><span class="text-red-600">請先將payment token經過urlencode後，再加入PostData_中加密。</span><br>使用Apple Pay前請先至商店[詳細資料]/[Apple Pay設定作業]進行相關憑證設定。', 
+                    p_google_note: '未解密或解密後payment token。<br>payment token為在交易過程中，買方使用Google Pay付款後，由Google Pay提供的一組加密過的虛擬信用卡資訊。<br><span class="text-red-600">請先將payment token經過urlencode後，再加入PostData_中加密。</span>', 
+                    p_samsung_note: '未解密或解密後payment token。<br>payment token為在交易過程中，買方使用Samsung Pay付款後，由Samsung Pay提供的一組加密過的虛擬信用卡資訊。<br><span class="text-red-600">請先將payment token經過urlencode後，再加入PostData_中加密。</span>', 
+                    enc_title: '加密與檢核規則詳解', 
+                    enc_aes_title: 'AES 加解密機制 (PostData_)', 
+                    enc_aes_desc: '為防止信用卡號等重要交易訊息洩漏，需於加密前使用商店之 Hash Key 及 Hash IV 對參數字串執行 AES 加密。', 
+                    enc_step1_title: '生成請求字串', 
+                    enc_step1_desc: '將所有參數依照 <code>http_build_query</code> 格式組合 (key=value&key2=value2...)。', 
+                    enc_step2_title: 'AES 加密', 
+                    enc_step2_desc: '加密演算法：<span class="font-bold text-red-600">AES-256-CBC</span><br>填充模式 (Padding)：<span class="font-bold text-red-600">PKCS7</span><br>Key / IV：請使用商店專屬的 Hash Key 與 Hash IV。', 
+                    enc_step3_title: '轉十六進制 (Hex)', 
+                    enc_step3_desc: '將加密後的二進位資料 (Raw Data) 轉換為 Hex String (小寫)，即為 <code>PostData_</code>。', 
+                    enc_chk_title: 'CheckCode 檢核碼產生規則 (回應驗證)', 
+                    enc_chk_desc: '用來檢查此次資料回傳的合法性，商店串接時可以比對回傳參數中的 <code>CheckCode</code> 是否與自行計算的一致。', 
+                    enc_chk_s1_title: '排序指定參數', 
+                    enc_chk_s1_desc: '將回傳資料中的四個欄位：<code>Amt</code>, <code>MerchantID</code>, <code>MerchantOrderNo</code>, <code>TradeNo</code><br>依照英文字母 A~Z 順序排序：<ol class="list-disc list-inside text-sm text-slate-600 ml-2 mt-1"><li><code>Amt</code></li><li><code>MerchantID</code></li><li><code>MerchantOrderNo</code></li><li><code>TradeNo</code></li></ol>', 
+                    enc_chk_s2_title: '串聯 Key 與 IV', 
+                    enc_chk_s2_desc: '將排序後的參數用 <code>&</code> 串接。<br>在字串 <strong class="text-red-600">最前面</strong> 加上 <code>HashIV=您的IV&</code><br>在字串 <strong class="text-red-600">最後面</strong> 加上 <code>&HashKey=您的Key</code>', 
+                    enc_chk_s3_title: 'SHA256 壓碼並轉大寫', 
+                    enc_chk_s3_desc: '將串聯後的字串進行 SHA256 加密，並將結果轉換為 <strong class="text-red-600">大寫</strong>。', 
+                    res_title: '回應參數 (Response)', 
+                    res_desc: '回傳格式為 <strong>JSON</strong>。第一層結構如下：', 
+                    res_status_name: '狀態碼', 
+                    res_msg_name: '訊息', 
+                    res_msg_note: '交易狀態描述，[ - ]後為銀行回應訊息', 
+                    res_result_name: '詳細資料', 
+                    res_result_note: 'Array 物件，詳細內容請見下表', 
+                    res_obj_title: 'Result 物件內含參數', 
+                    res_mid_name: '商店代號', 
+                    res_mid_note: '藍新金流商店代號。', 
+                    res_amt_name: '交易金額', 
+                    res_amt_note: '本次交易授權金額。', 
+                    res_trade_name: '藍新交易序號', 
+                    res_trade_note: '由藍新金流平台產生的系統交易序號。', 
+                    res_ord_name: '商店訂單編號', 
+                    res_ord_note: '商店自訂的訂單編號。', 
+                    res_rcode_name: '金融機構回應碼', 
+                    res_rcode_note: '由收單機構所回應的回應碼。', 
+                    res_authbank_name: '收單金融機構', 
+                    res_authbank_note: '［Esun］: 玉山銀行, ［Taishin］:台新銀行, ［CTBC］:中國信託銀行, ［NCCC］:聯合信用卡中心...等', 
+                    res_auth_name: '授權碼', 
+                    res_auth_note: '由收單機構所回應的授權碼。若交易送至收單機構授權時已是失敗狀態，則本欄位的值會以空值回傳。', 
+                    res_adate_name: '授權日期', 
+                    res_adate_note: '格式為yyyymmdd，例：20140304。', 
+                    res_atime_name: '授權時間', 
+                    res_atime_note: '格式為hhmmss，例：164828。', 
+                    res_c6_name: '卡號前六碼', 
+                    res_c6_note: '信用卡卡號前六碼。', 
+                    res_c4_name: '卡號後四碼', 
+                    res_c4_note: '信用卡卡號後四碼。', 
+                    res_exp_name: '信用卡到期日', 
+                    res_exp_note: '格式為yymm，例1912=2019年12月。', 
+                    res_inst_name: '分期期別', 
+                    res_inst_note: '信用卡分期交易期別。', 
+                    res_instf_name: '分期首期金額', 
+                    res_instf_note: '信用卡分期交易首期金額。', 
+                    res_inste_name: '分期每期金額', 
+                    res_inste_note: '信用卡分期交易每期金額。', 
+                    res_eci_name: 'ECI值', 
+                    res_eci_note: '非3D交易，固定為空值', 
+                    res_redamt_name: '紅利折抵後金額', 
+                    res_redamt_note: '扣除紅利交易折抵後的實際授權金額。<br>例：1000元之交易，紅利折抵60元，則紅利折抵後實際金額為940元。<br>若紅利點數不足或折抵失敗，可能為0或原金額。僅有使用紅利折抵交易時才會回傳此參數。', 
+                    res_pm_name: '交易類別', 
+                    res_pm_note: 'CREDIT = 台灣發卡機構核發之信用卡, FOREIGN = 國外卡, UNIONPAY = 銀聯卡, GOOGLEPAY, SAMSUNGPAY, APPLEPAY...等', 
+                    res_ip_name: '交易IP', 
+                    res_ip_note: '付款人交易時的IP。', 
+                    res_escrow_name: '款項保管銀行', 
+                    res_escrow_note: '該筆交易履約保證銀行。如商店是直接與銀行簽約的信用卡特約商店，當使用信用卡支付時，本欄位的值會以空值回傳。<br>［HNCB］：華南銀行', 
+                    res_chk_name: '檢核碼', 
+                    res_chk_note: '用來檢查此次資料回傳的合法性，商店串接時可以比對此欄位資料來檢核是否為藍新金流平台所回傳，檢核方法請參考「加密與檢核規則詳解」。', 
+                    err_title: '錯誤代碼表', 
+                    err_search_ph: '搜尋代碼 (例如: TRA10016) 或 錯誤原因...', 
+                    th_err_code: '錯誤代碼', 
+                    th_err_reason: '錯誤原因 / 備註', 
+                    err_TRA10001: '商店資料取得失敗，商店代號錯誤', 
+                    err_TRA10003: '金額格式錯誤，金額必須為數字且數字需大於0。此筆交易超過商店單筆金額限制，請與商店連繫', 
+                    err_TRA10008: '資料加解密錯誤', 
+                    err_TRA10009: '商店代號不可空白', 
+                    err_TRA10012: '商店代號停用', 
+                    err_TRA10013: '商店信用卡資格停用', 
+                    err_TRA10015: '網路連線失敗', 
+                    err_TRA10016: '信用卡授權失敗', 
+                    err_TRA10036: 'RespondType欄位資料格式錯誤', 
+                    err_TRA10037: '商店訂單編號錯誤', 
+                    err_TRA10041: '網址格式錯誤', 
+                    err_TRA10042: '卡號格式錯誤', 
+                    err_TRA10043: '卡片到期日格式錯誤', 
+                    err_TRA10044: '信用卡末四碼格式錯誤，到期日不可空白', 
+                    err_TRA10052: '該商店不允許國外卡交易', 
+                    err_TRA10053: '此商店目前無法使用信用卡交易，信用卡授權額度已滿', 
+                    err_TRA10056: '未提供持卡行分期付款', 
+                    err_TRA10060: '分期交易不接受國外卡', 
+                    err_TRA10061: '特約商店信用卡收單行設定錯誤', 
+                    err_TRA10061_g: '設定信用卡收單行錯誤', 
+                    err_TRA10067: '不接受卡號直接授權，拒絕此商店幕後授權', 
+                    err_TRA10075: '新增交易訂單失敗', 
+                    err_TRA10078: '信用卡背面末三碼檢查錯誤', 
+                    err_TRA10079: '卡片到期日檢查錯誤', 
+                    err_TRA10091: '美國運通卡設定特約商店信用卡收單行錯誤，需啟用聯信Gateway。請確認是否已完成美國運通卡閘道特店設定', 
+                    err_TRA10100C: '中信分期系統維護中', 
+                    err_TRA10100T: '台新系統維護中', 
+                    err_TRA10101T: '台新紅利系統維護中', 
+                    err_TRA10101E: '玉山紅利系統維護中', 
+                    err_TRA10100E: '玉山系統維護中', 
+                    err_TRA10102: '商店未提供紅利折抵交易', 
+                    err_TRA10103: '商店未啟用紅利折抵交易', 
+                    err_TRA10104: '紅利交易不支援分期付款', 
+                    err_TRA10105: '商店未啟用分期付款交易', 
+                    err_TRA10106: '商店未啟用信用卡一次付清', 
+                    err_TRA10107: '拒絕交易，提示拒絕原因', 
+                    err_TRA10672: '該特約商店MID尚未啟用銀聯卡交易', 
+                    err_TRA10673: '該商店未啟用銀聯卡交易', 
+                    err_TRA10676: '取得商店信用卡設定資訊失敗，請先確認該商店使否已啟用信用卡或連繫客服確認信用卡幕後授權是否已設定完成，正式區與測試區皆需完成設定後，方能成功執行信用卡幕後授權機制。', 
+                    err_TRA10681: '信用卡交易序號編號錯誤', 
+                    err_TRA10682: '此信用卡不支援此分期期數', 
+                    err_TRA10683: '系統查無可分期之銀行期數', 
+                    err_TRA10684: 'APPLEPAY Certificate 不存在', 
+                    err_TRA10685: '商店APPLEPAY支付方式未啟用，請至會員專區確認商店的支付方式啟用狀態', 
+                    err_TRA10687: 'APPLEPAY Payment Token 解析錯誤', 
+                    err_TRA10688: 'APPLEPAY交易設定錯誤', 
+                    err_TRA10690: '商店Google Pay支付方式未啟用，請至會員專區確認商店的支付方式啟用狀態', 
+                    err_TRA10691: 'Google Pay Payment Token 解析錯誤', 
+                    err_TRA10692: 'Google Pay交易設定錯誤', 
+                    err_TRA10694: '商店SAMSUNGPAY支付方式未啟用 ，請至會員專區確認商店的支付方式啟用狀態', 
+                    err_TRA10695: 'Samsung Pay Payment Token 解析錯誤', 
+                    err_TRA10696: 'Samsung Pay交易設定錯誤', 
+                    err_TRA10697: 'SAMSUNGPAY Certificate 不存在', 
+                    err_TRA10704: '紅利交易不接受銀聯卡', 
+                    err_TRA10705: '分期交易不接受銀聯卡', 
+                    err_TRA20001: '交易資料新增失敗', 
+                    err_TRA20004: '商店訂單編號重覆', 
+                    err_TRA20010: '無此副支付方式', 
+                    err_TRA40014: 'Time_Out', 
+                    err_MEM40008: '必填欄位資料不可空白 (如 PayerEmail)', 
+                    err_MEM40012: '必填欄位資料傳遞錯誤 (PostData_空白)', 
+                    err_MEM40013: 'CardHolderName 欄位資料長度或格式錯誤，僅支援空格，半形逗點與 - 符號，長度限於2-45字元內。', 
+                    err_MEM40015: 'CardHolderPhone 欄位資料長度或格式錯誤，數字格式，長度限於45字元內。', 
+                    err_MPG05002: '本商店不支援Master信用卡交易，請改用其他卡別之信用卡交易', 
+                    err_MER10003: '查無商店副支付金流設定資料', 
+                    err_NOR10001: '網路連線異常', 
+                    example_title: '範例程式碼',
+                    // Test Cards keys
+                    tc_title: '測試區卡號資訊',
+                    tc_desc: '以下卡號僅供測試區環境（Test Environment）交易使用。',
+                    tc_note: '測試卡號之有效月年及卡片背面末三碼，請任意填寫皆可完成交易。<br><span class="text-red-600 font-bold">注意：使用測試卡號之外的卡號資料進行交易都會失敗。</span>',
+                    tc_lbl_normal: '一次付清與分期付款',
+                    tc_lbl_bonus: '紅利折抵'
+                } 
+            }, 
+            
+            
+    'EN': {
+        name: 'English',
+        data: {
+            page_title: 'NewebPay - Credit Card Background Authorization (Identity Verification) Technical Docs',
+            header_mobile_title: 'NewebPay Tech Docs',
+            sidebar_brand: 'NewebPay',
+            sidebar_subtitle: 'Credit Card Background Auth API',
+            sidebar_version_note: '(Identity Verification Ver.)',
+            nav_intro: 'Intro & Flow',
+            nav_setup: 'Prerequisites',
+            nav_tool: 'Online Test Tool',
+            nav_group_api: 'API Specs',
+            nav_request: 'Request Parameters',
+            nav_encryption: 'Encryption Details',
+            nav_response: 'Response Parameters',
+            nav_errors: 'Error Codes',
+            nav_example: 'Code Examples',
+            nav_testcards: 'Test Card Numbers',
+            intro_title: 'Introduction & Transaction Flow',
+            intro_desc: 'NewebPay provides merchants with a standalone credit card background authorization API. Consumers select the credit card payment method on the merchant\'s website and provide card details. The merchant then uses this API to send transaction data to NewebPay. Upon receiving the authorization response from the acquiring bank, the result is immediately returned to the merchant to complete the order.',
+            intro_flow_title: 'Transaction Flow',
+            intro_step_1: 'Consumers select credit card payment on the merchant website or App and provide card details for purchase.',
+            intro_step_2: 'The merchant initiates a transaction request to the NewebPay platform via the Background Authorization API.',
+            intro_step_3: 'Upon receiving the request, NewebPay sends a transaction request to the credit card acquiring institution.',
+            intro_step_4: 'The acquiring institution returns the transaction result to NewebPay.',
+            intro_step_5: 'NewebPay returns the transaction result to the merchant.',
+            intro_step_6: 'The merchant informs the consumer of the result via the website or App and proceeds with shipment if successful.',
+            setup_title: 'Integration Prerequisites',
+            setup_card1_title: 'Membership & Merchant',
+            setup_card1_desc: 'Must register as a NewebPay member, create a merchant account, and enable credit card payment tools.',
+            setup_card2_title: 'IP Binding (Important)',
+            setup_card2_desc: 'Must apply for the Background Authorization feature and bind IPs (max 6 sets).',
+            setup_card2_note: 'Note: Use a proxy server if you have a dynamic IP.',
+            setup_card3_title: 'Get Keys',
+            setup_card3_desc: 'Obtain <code>Hash Key</code> and <code>Hash IV</code> from the Member Area.',
+            setup_card4_title: 'Apple Pay (Optional)',
+            setup_card4_desc: 'If needed, configure certificates in [Merchant Management / Details / Apple Pay Settings].',
+            tool_title: 'Encryption Test Tool',
+            tool_intro: 'This tool helps you verify encryption results, decrypt response data, and generate CheckCodes.',
+            tool_tab_encrypt: 'AES Encryption (Request)',
+            tool_tab_decrypt: 'AES Decryption (Response)',
+            tool_tab_checkcode: 'Generate CheckCode',
+            tool_ph_key: 'Ex: AAAAvw3YlqoEk6G4HqRKDAYpHKZWxBBB',
+            tool_ph_iv: 'Ex: AAAACC1FplieBBBB',
+            tool_lbl_qs: 'Original Query String',
+            tool_ph_qs: 'Ex: MerchantID=MS12345678&TimeStamp=1638345756&Version=2.5...',
+            tool_note_urlencode: 'Please ensure the string is processed via http_build_query or urlencode',
+            tool_btn_encrypt: 'Encrypt to Generate PostData_',
+            tool_lbl_hex: 'Encryption Result (Hex String)',
+            tool_lbl_enc_hex: 'Encrypted String (Hex String)',
+            tool_ph_enc_hex: 'Ex: 0ef82edabaf8964d09992d7ec8e575f1...',
+            tool_btn_decrypt: 'Execute Decryption',
+            tool_lbl_decrypt_res: 'Decryption Result (Raw Data)',
+            tool_lbl_amt: 'Amt (Amount)',
+            tool_lbl_mid: 'MerchantID',
+            tool_lbl_ord: 'MerchantOrderNo',
+            tool_lbl_trade: 'TradeNo',
+            tool_btn_checkcode: 'Generate CheckCode',
+            tool_lbl_prehash: 'Pre-Hash String:',
+            tool_lbl_checkcode_res: 'CheckCode Result (SHA256 Upper)',
+            req_title: 'Request Parameters',
+            req_api_info: 'API Information',
+            req_url_prod: 'URL (Production)',
+            req_url_test: 'URL (Test)',
+            req_lvl1_title: 'Level 1 Parameters (HTML Form Post)',
+            th_param: 'Parameter',
+            th_name: 'Name',
+            th_required: 'Required',
+            th_type: 'Type',
+            th_note: 'Note',
+            th_desc: 'Description',
+            param_mid_name: 'Merchant ID',
+            param_mid_note: 'NewebPay Merchant ID.',
+            param_post_name: 'Encrypted Data',
+            param_post_note: 'Refer to "Encryption Rules" for methods.',
+            param_pos_name: 'Response Format',
+            param_pos_note: 'Fixed value: <code class="bg-slate-100 px-1">JSON</code>',
+            req_lvl2_title: 'Parameters inside PostData_ (Pre-encryption)',
+            p_ts_name: 'Timestamp',
+            p_ts_note: 'Seconds since Unix Epoch (Jan 1, 1970 00:00:00 GMT).<br>Ex: The timestamp for 2014-05-15 15:00:00 is 1400137200.',
+            p_ver_name: 'Version',
+            p_ver_note: 'Please use <code class="bg-slate-100 px-1">2.5</code>.',
+            p_ord_name: 'Order Number',
+            p_ord_note: 'Merchant defined order number. Alphanumeric and "_" allowed. Ex: 201406010001.<br>Max length: 30.<br>Must be unique within the same merchant.',
+            p_amt_name: 'Amount',
+            p_amt_note: 'Numbers only, no symbols. Ex: 1000.<br>Currency: TWD.',
+            p_desc_name: 'Item Description',
+            p_desc_note: 'Product information. UTF-8 encoded.',
+            p_email_name: 'Payer Email',
+            p_email_note: 'Must contain \'@\' and \'.\'. Ex: abc@yahoo.com.<br>Background authorization will NOT send transaction notifications to the payer; the merchant must send them.<br>This field is sent to international card organizations for verification, so it is required.<br><span class="text-red-600 font-bold">Must match the email on file for credit card application.</span>',
+            p_fname_name: 'Payer First Name',
+            p_fname_note: 'First name on file with the issuing bank. English letters, spaces, and hyphens only.',
+            p_lname_name: 'Payer Last Name',
+            p_lname_note: 'Last name on file with the issuing bank. English letters, spaces, and hyphens only.',
+            p_phone_name: 'Payer Phone',
+            p_phone_note: 'Phone number on file with the issuing bank. Numbers only.',
+            p_card_name: 'Card Number',
+            p_card_note: '16 digits. Amex: 15 digits. UnionPay: 14-19 digits.<br><span class="text-red-600">Required for Credit Card payments (non-Apple/Google Pay).</span><br>For Apple/Google Pay, leave empty.',
+            p_exp_name: 'Expiry Date',
+            p_exp_note: 'Format: yymm.<br><span class="text-red-600">Required for Credit Card payments (non-Apple/Google Pay).</span><br>For Apple/Google Pay, leave empty.',
+            p_inst_name: 'Installment',
+            p_inst_note: '0 or empty = No installment.<br>Set to the following values to enable installments:<br><code class="bg-slate-100 text-xs px-1">3</code>=3 months, <code class="bg-slate-100 text-xs px-1">6</code>=6 months, <code class="bg-slate-100 text-xs px-1">12</code>=12 months, <code class="bg-slate-100 text-xs px-1">18</code>=18 months, <code class="bg-slate-100 text-xs px-1">24</code>=24 months, <code class="bg-slate-100 text-xs px-1">30</code>=30 months',
+            p_red_name: 'Bonus Points',
+            p_red_note: 'Enable credit card bonus point redemption.<br>1 = Enable, 0 or empty = Disable',
+            p_ae_name: 'American Express',
+            p_ae_note: 'Enable American Express payment.<br>1 = Enable, 0 or empty = Disable',
+            p_apple_note: 'Encrypted or decrypted payment token.<br>A payment token is encrypted virtual card info provided by Apple after the buyer pays with Apple Pay.<br><span class="text-red-600">Please urlencode the payment token before adding to PostData_ for encryption.</span><br>Configure certificates in [Merchant Details]/[Apple Pay Settings] before use.',
+            p_google_note: 'Encrypted or decrypted payment token.<br>A payment token is encrypted virtual card info provided by Google Pay after the buyer pays with Google Pay.<br><span class="text-red-600">Please urlencode the payment token before adding to PostData_ for encryption.</span>',
+            p_samsung_note: 'Encrypted or decrypted payment token.<br>A payment token is encrypted virtual card info provided by Samsung Pay after the buyer pays with Samsung Pay.<br><span class="text-red-600">Please urlencode the payment token before adding to PostData_ for encryption.</span>',
+            enc_title: 'Encryption & Verification Rules',
+            enc_aes_title: 'AES Encryption Mechanism (PostData_)',
+            enc_aes_desc: 'To prevent leakage of sensitive data like card numbers, parameter strings must be AES encrypted using the Merchant Hash Key and Hash IV.',
+            enc_step1_title: 'Generate Request String',
+            enc_step1_desc: 'Combine all parameters in <code>http_build_query</code> format (key=value&key2=value2...).',
+            enc_step2_title: 'AES Encryption',
+            enc_step2_desc: 'Algorithm: <span class="font-bold text-red-600">AES-256-CBC</span><br>Padding: <span class="font-bold text-red-600">PKCS7</span><br>Key / IV: Use your specific Merchant Hash Key and Hash IV.',
+            enc_step3_title: 'Convert to Hex',
+            enc_step3_desc: 'Convert the encrypted binary data (Raw Data) to a Hex String (lowercase). This is your <code>PostData_</code>.',
+            enc_chk_title: 'CheckCode Generation Rule (Response Verification)',
+            enc_chk_desc: 'Used to verify the legitimacy of the returned data. Merchants can compare the returned <code>CheckCode</code> with their calculated value.',
+            enc_chk_s1_title: 'Sort Specific Parameters',
+            enc_chk_s1_desc: 'Take these four fields from the response: <code>Amt</code>, <code>MerchantID</code>, <code>MerchantOrderNo</code>, <code>TradeNo</code><br>Sort them alphabetically A~Z:<ol class="list-disc list-inside text-sm text-slate-600 ml-2 mt-1"><li><code>Amt</code></li><li><code>MerchantID</code></li><li><code>MerchantOrderNo</code></li><li><code>TradeNo</code></li></ol>',
+            enc_chk_s2_title: 'Concatenate Key & IV',
+            enc_chk_s2_desc: 'Join the sorted parameters with <code>&</code>.<br>Add <code>HashIV=YourIV&</code> at the <strong class="text-red-600">beginning</strong>.<br>Add <code>&HashKey=YourKey</code> at the <strong class="text-red-600">end</strong>.',
+            enc_chk_s3_title: 'SHA256 Checksum & Uppercase',
+            enc_chk_s3_desc: 'Perform SHA256 encryption on the concatenated string and convert the result to <strong class="text-red-600">uppercase</strong>.',
+            res_title: 'Response Parameters',
+            res_desc: 'Format is <strong>JSON</strong>. The top-level structure is:',
+            res_status_name: 'Status Code',
+            res_msg_name: 'Message',
+            res_msg_note: 'Transaction status description. Text after [ - ] is the bank response message.',
+            res_result_name: 'Details',
+            res_result_note: 'Array object. See table below for details.',
+            res_obj_title: 'Parameters inside Result Object',
+            res_mid_name: 'Merchant ID',
+            res_mid_note: 'NewebPay Merchant ID.',
+            res_amt_name: 'Transaction Amount',
+            res_amt_note: 'Authorized amount for this transaction.',
+            res_trade_name: 'NewebPay TradeNo',
+            res_trade_note: 'System transaction serial number generated by NewebPay.',
+            res_ord_name: 'Merchant Order No',
+            res_ord_note: 'Merchant defined order number.',
+            res_rcode_name: 'Bank Response Code',
+            res_rcode_note: 'Response code returned by the acquiring institution.',
+            res_authbank_name: 'Acquiring Bank',
+            res_authbank_note: '［Esun］: E.Sun Bank, ［Taishin］: Taishin Bank, ［CTBC］: CTBC Bank, ［NCCC］: NCCC... etc.',
+            res_auth_name: 'Auth Code',
+            res_auth_note: 'Authorization code from the acquiring bank. Returns empty if the transaction failed at authorization.',
+            res_adate_name: 'Auth Date',
+            res_adate_note: 'Format: yyyymmdd. Ex: 20140304.',
+            res_atime_name: 'Auth Time',
+            res_atime_note: 'Format: hhmmss. Ex: 164828.',
+            res_c6_name: 'Card First 6',
+            res_c6_note: 'First 6 digits of the credit card.',
+            res_c4_name: 'Card Last 4',
+            res_c4_note: 'Last 4 digits of the credit card.',
+            res_exp_name: 'Card Expiry',
+            res_exp_note: 'Format: yymm. Ex: 1912 = Dec 2019.',
+            res_inst_name: 'Installment Period',
+            res_inst_note: 'Number of installments.',
+            res_instf_name: 'First Installment Amt',
+            res_instf_note: 'Amount of the first installment.',
+            res_inste_name: 'Per Installment Amt',
+            res_inste_note: 'Amount for each subsequent installment.',
+            res_eci_name: 'ECI Value',
+            res_eci_note: 'Fixed as empty for non-3D transactions.',
+            res_redamt_name: 'Amt After Bonus',
+            res_redamt_note: 'Actual authorized amount after bonus point deduction.<br>Ex: 1000 TWD transaction, 60 TWD bonus deduction -> returns 940.<br>May be 0 or original amount if points are insufficient or deduction fails. Only returned for bonus point transactions.',
+            res_pm_name: 'Payment Type',
+            res_pm_note: 'CREDIT = Taiwan issued card, FOREIGN = Foreign card, UNIONPAY = UnionPay, GOOGLEPAY, SAMSUNGPAY, APPLEPAY... etc.',
+            res_ip_name: 'Transaction IP',
+            res_ip_note: 'IP address of the payer.',
+            res_escrow_name: 'Escrow Bank',
+            res_escrow_note: 'Bank providing performance guarantee. Returns empty if the merchant is a direct credit card merchant.<br>［HNCB］: Hua Nan Bank',
+            res_chk_name: 'CheckCode',
+            res_chk_note: 'Used to verify data legitimacy. Merchants should compare this field to verify the data came from NewebPay. See "Encryption & Verification Rules".',
+            err_title: 'Error Codes',
+            err_search_ph: 'Search Code (Ex: TRA10016) or Reason...',
+            th_err_code: 'Error Code',
+            th_err_reason: 'Reason / Note',
+            err_TRA10001: 'Failed to get merchant data. Merchant ID error.',
+            err_TRA10003: 'Amount format error. Must be a number > 0. Transaction exceeds single limit, please contact merchant.',
+            err_TRA10008: 'Data encryption/decryption error.',
+            err_TRA10009: 'Merchant ID cannot be empty.',
+            err_TRA10012: 'Merchant ID suspended.',
+            err_TRA10013: 'Merchant credit card qualification suspended.',
+            err_TRA10015: 'Network connection failed.',
+            err_TRA10016: 'Credit card authorization failed.',
+            err_TRA10036: 'RespondType format error.',
+            err_TRA10037: 'Merchant Order Number error.',
+            err_TRA10041: 'URL format error.',
+            err_TRA10042: 'Card number format error.',
+            err_TRA10043: 'Card expiry date format error.',
+            err_TRA10044: 'Card last 4 digits error, expiry cannot be empty.',
+            err_TRA10052: 'Foreign cards not allowed for this merchant.',
+            err_TRA10053: 'Credit card transaction unavailable, authorization quota exceeded.',
+            err_TRA10056: 'Issuing bank installments not provided.',
+            err_TRA10060: 'Foreign cards not accepted for installments.',
+            err_TRA10061: 'Merchant acquiring bank configuration error.',
+            err_TRA10061_g: 'Acquiring bank setting error.',
+            err_TRA10067: 'Direct authorization denied. Background authorization refused for this merchant.',
+            err_TRA10075: 'Failed to create transaction order.',
+            err_TRA10078: 'CVV (last 3 digits) check error.',
+            err_TRA10079: 'Card expiry date check error.',
+            err_TRA10091: 'Amex acquiring bank setting error. Gateway required. Please check Amex gateway settings.',
+            err_TRA10100C: 'CTBC installment system maintenance.',
+            err_TRA10100T: 'Taishin system maintenance.',
+            err_TRA10101T: 'Taishin bonus system maintenance.',
+            err_TRA10101E: 'E.Sun bonus system maintenance.',
+            err_TRA10100E: 'E.Sun system maintenance.',
+            err_TRA10102: 'Bonus redemption not provided by merchant.',
+            err_TRA10103: 'Bonus redemption not enabled for merchant.',
+            err_TRA10104: 'Installments not supported for bonus transactions.',
+            err_TRA10105: 'Installments not enabled for merchant.',
+            err_TRA10106: 'One-time payment not enabled for merchant.',
+            err_TRA10107: 'Transaction rejected. Reason provided.',
+            err_TRA10672: 'UnionPay not enabled for this Merchant ID.',
+            err_TRA10673: 'UnionPay not enabled for this merchant.',
+            err_TRA10676: 'Failed to get merchant credit card settings. Check if enabled or contact CS to confirm background auth setup. Both Test and Prod environments must be configured.',
+            err_TRA10681: 'Credit card transaction serial number error.',
+            err_TRA10682: 'This card does not support the selected installment period.',
+            err_TRA10683: 'No available bank installment periods found.',
+            err_TRA10684: 'APPLEPAY Certificate does not exist.',
+            err_TRA10685: 'APPLEPAY not enabled. Check payment method status in Member Area.',
+            err_TRA10687: 'APPLEPAY Payment Token parsing error.',
+            err_TRA10688: 'APPLEPAY transaction setting error.',
+            err_TRA10690: 'Google Pay not enabled. Check payment method status in Member Area.',
+            err_TRA10691: 'Google Pay Payment Token parsing error.',
+            err_TRA10692: 'Google Pay transaction setting error.',
+            err_TRA10694: 'SAMSUNGPAY not enabled. Check payment method status in Member Area.',
+            err_TRA10695: 'Samsung Pay Payment Token parsing error.',
+            err_TRA10696: 'Samsung Pay transaction setting error.',
+            err_TRA10697: 'SAMSUNGPAY Certificate does not exist.',
+            err_TRA10704: 'UnionPay not accepted for bonus transactions.',
+            err_TRA10705: 'UnionPay not accepted for installment transactions.',
+            err_TRA20001: 'Failed to add transaction data.',
+            err_TRA20004: 'Duplicate Merchant Order Number.',
+            err_TRA20010: 'Secondary payment method does not exist.',
+            err_TRA40014: 'Time_Out',
+            err_MEM40008: 'Required field cannot be empty (e.g., PayerEmail).',
+            err_MEM40012: 'Required data transmission error (PostData_ empty).',
+            err_MEM40013: 'CardHolderName length or format error. Spaces, commas, hyphens only. Length 2-45 chars.',
+            err_MEM40015: 'CardHolderPhone length or format error. Numbers only. Length max 45 chars.',
+            err_MPG05002: 'MasterCard not supported. Please use another card.',
+            err_MER10003: 'Merchant secondary payment settings not found.',
+            err_NOR10001: 'Network connection exception.',
+            example_title: 'Code Examples',
+            tc_title: 'Test Card Information',
+            tc_desc: 'The following card numbers are for the Test Environment only.',
+            tc_note: 'You can use any valid future date and any 3 digits for CVV.<br><span class="text-red-600 font-bold">Note: Transactions using real cards or other numbers will fail in the test environment.</span>',
+            tc_lbl_normal: 'Regular & Installment',
+            tc_lbl_bonus: 'Bonus Redemption'
+        }
+    },            
+      'KO': {
+        name: '한국어',
+        data: {
+            page_title: 'NewebPay - 신용카드 백그라운드 승인 (본인 인증 버전) 기술 문서',
+            header_mobile_title: 'NewebPay 기술 문서',
+            sidebar_brand: 'NewebPay',
+            sidebar_subtitle: '신용카드 백그라운드 승인 API',
+            sidebar_version_note: '(본인 인증 버전)',
+            nav_intro: '소개 및 프로세스',
+            nav_setup: '연동 사전 준비',
+            nav_tool: '온라인 테스트 도구',
+            nav_group_api: 'API 사양',
+            nav_request: '요청 파라미터 (Request)',
+            nav_encryption: '암호화 규칙 상세',
+            nav_response: '응답 파라미터 (Response)',
+            nav_errors: '오류 코드표',
+            nav_example: '샘플 코드',
+            nav_testcards: '테스트 카드 번호',
+            intro_title: '소개 및 거래 프로세스',
+            intro_desc: 'NewebPay는 상점에 독립적인 신용카드 백그라운드 승인 결제 도구를 제공합니다. 소비자가 상점 웹사이트에서 신용카드 결제 방식을 선택하고 카드 정보를 제공하면, 상점은 이 API를 통해 신용카드 거래 데이터를 NewebPay에 전송합니다. 매입사의 승인 응답 메시지를 받은 후 즉시 상점에 결과를 전송하여 주문 작업을 완료합니다.',
+            intro_flow_title: '거래 프로세스',
+            intro_step_1: '소비자가 상점 웹사이트 또는 앱에서 신용카드 결제를 선택하고 구매를 위해 카드 정보를 제공합니다.',
+            intro_step_2: '상점은 신용카드 백그라운드 승인 API를 통해 NewebPay 서비스 플랫폼에 거래 요청을 보냅니다.',
+            intro_step_3: 'NewebPay 서비스 플랫폼은 요청을 수신한 후 신용카드 매입사에 거래 요청을 전송합니다.',
+            intro_step_4: '신용카드 매입사는 거래 결과를 NewebPay 서비스 플랫폼으로 회신합니다.',
+            intro_step_5: 'NewebPay 서비스 플랫폼은 거래 결과를 다시 상점에 회신합니다.',
+            intro_step_6: '상점은 웹사이트 또는 앱을 통해 소비자에게 거래 결과를 알리고, 거래 성공 시 상품을 출고합니다.',
+            setup_title: '연동 사전 준비',
+            setup_card1_title: '회원 및 상점',
+            setup_card1_desc: 'NewebPay 회원 가입 및 상점 생성을 완료하고, 신용카드 결제 도구를 활성화해야 합니다.',
+            setup_card2_title: 'IP 바인딩 (중요)',
+            setup_card2_desc: 'NewebPay에 백그라운드 승인 기능을 신청하고 IP를 바인딩해야 합니다 (최대 6개).',
+            setup_card2_note: '주의: 유동 IP의 경우 중계 서버를 사용해야 합니다.',
+            setup_card3_title: '키(Key) 발급',
+            setup_card3_desc: '회원 전용 구역에서 <code>Hash Key</code> 및 <code>Hash IV</code>를 확인하세요.',
+            setup_card4_title: 'Apple Pay (선택 사항)',
+            setup_card4_desc: '사용이 필요한 경우 [상점 관리/상세 정보/Apple Pay 설정]에서 인증서를 설정하세요.',
+            tool_title: '암호화 테스트 도구',
+            tool_intro: '이 도구는 암호화 결과 검증, 회신 데이터 복호화 및 CheckCode 생성을 지원합니다.',
+            tool_tab_encrypt: 'AES 암호화 (Request)',
+            tool_tab_decrypt: 'AES 복호화 (Response)',
+            tool_tab_checkcode: 'CheckCode 생성',
+            tool_ph_key: '예: AAAAvw3YlqoEk6G4HqRKDAYpHKZWxBBB',
+            tool_ph_iv: '예: AAAACC1FplieBBBB',
+            tool_lbl_qs: '원본 쿼리 문자열 (Query String)',
+            tool_ph_qs: '예: MerchantID=MS12345678&TimeStamp=1638345756&Version=2.5...',
+            tool_note_urlencode: '문자열이 http_build_query 또는 urlencode 처리되었는지 확인하세요',
+            tool_btn_encrypt: '암호화 실행 및 PostData_ 생성',
+            tool_lbl_hex: '암호화 결과 (Hex String)',
+            tool_lbl_enc_hex: '암호화 문자열 (Hex String)',
+            tool_ph_enc_hex: '예: 0ef82edabaf8964d09992d7ec8e575f1...',
+            tool_btn_decrypt: '복호화 실행',
+            tool_lbl_decrypt_res: '복호화 결과 (원본 데이터)',
+            tool_lbl_amt: 'Amt (금액)',
+            tool_lbl_mid: 'MerchantID (상점 ID)',
+            tool_lbl_ord: 'MerchantOrderNo (주문 번호)',
+            tool_lbl_trade: 'TradeNo (거래 번호)',
+            tool_btn_checkcode: 'CheckCode 생성',
+            tool_lbl_prehash: '정렬된 연결 문자열 (Pre-Hash String):',
+            tool_lbl_checkcode_res: 'CheckCode 결과 (SHA256 Upper)',
+            req_title: '요청 파라미터 (Request)',
+            req_api_info: 'API 정보',
+            req_url_prod: 'URL (운영 환경)',
+            req_url_test: 'URL (테스트 환경)',
+            req_lvl1_title: '1차 파라미터 (HTML Form Post)',
+            th_param: '파라미터 명',
+            th_name: '이름',
+            th_required: '필수',
+            th_type: '타입',
+            th_note: '비고',
+            th_desc: '설명',
+            param_mid_name: '상점 ID',
+            param_mid_note: 'NewebPay 상점 ID.',
+            param_post_name: '암호화 데이터',
+            param_post_note: '관련 암호화 방법은 "암호화 규칙"을 참조하세요.',
+            param_pos_name: '응답 형식',
+            param_pos_note: '고정값 <code class="bg-slate-100 px-1">JSON</code> 입력',
+            req_lvl2_title: 'PostData_ 포함 파라미터 (암호화 전)',
+            p_ts_name: '타임스탬프',
+            p_ts_note: 'Unix Epoch (1970년 1월 1일 00:00:00 GMT)부터 현재까지의 초 단위 시간.<br>예: 2014-05-15 15:00:00의 타임스탬프는 1400137200입니다.',
+            p_ver_name: '버전',
+            p_ver_note: '<code class="bg-slate-100 px-1">2.5</code>를 입력하세요.',
+            p_ord_name: '주문 번호',
+            p_ord_note: '상점 정의 주문 번호, 영문, 숫자, "_" 형식만 가능. 예: 201406010001.<br>길이 제한 30자.<br>동일 상점 내에서 중복될 수 없습니다.',
+            p_amt_name: '주문 금액',
+            p_amt_note: '숫자만 입력, 기호 포함 불가. 예: 1000.<br>통화: TWD (대만 달러).',
+            p_desc_name: '상품 설명',
+            p_desc_note: '상품 정보입니다. UTF-8 형식으로 인코딩.',
+            p_email_name: '구매자 이메일',
+            p_email_note: '이메일 형식에는 \'@\' 및 \'.\' 기호가 포함되어야 합니다. 예: abc@yahoo.com.<br>백그라운드 승인은 구매자에게 거래 관련 알림 메일을 발송하지 않으므로 상점에서 직접 발송해야 합니다.<br>이 필드 정보는 국제 카드 조직에 거래 검증용으로 전송되므로 필수 입력 항목입니다.<br><span class="text-red-600 font-bold">신용카드 신청 시 등록한 이메일과 일치해야 합니다.</span>',
+            p_fname_name: '구매자 이름 (First Name)',
+            p_fname_note: '카드 발급 은행에 등록된 영문 이름(First Name). 영문, 공백 및 하이픈(-)만 허용.',
+            p_lname_name: '구매자 성 (Last Name)',
+            p_lname_note: '카드 발급 은행에 등록된 영문 성(Last Name). 영문, 공백 및 하이픈(-)만 허용.',
+            p_phone_name: '구매자 전화번호',
+            p_phone_note: '발급 은행에 등록된 전화번호. 숫자만 허용.',
+            p_card_name: '카드 번호',
+            p_card_note: '신용카드 번호 16자리. 아메리칸 익스프레스 15자리. 유니온페이 14-19자리.<br><span class="text-red-600">신용카드 결제(Apple Pay 및 Google Pay 제외)인 경우 필수입니다.</span><br>Apple Pay 및 Google Pay 결제인 경우 필수 아님, 빈 값 입력.',
+            p_exp_name: '유효 기간',
+            p_exp_note: '카드 유효 기간, 형식: yymm.<br><span class="text-red-600">신용카드 결제(Apple Pay 및 Google Pay 제외)인 경우 필수입니다.</span><br>Apple Pay 및 Google Pay 결제인 경우 필수 아님, 빈 값 입력.',
+            p_inst_name: '할부 설정',
+            p_inst_note: '이 필드 값 = 0 또는 값 없음: 할부 미사용.<br>이 필드 값이 다음 값일 경우 해당 할부 개월 수 설정:<br><code class="bg-slate-100 text-xs px-1">3</code>=3개월, <code class="bg-slate-100 text-xs px-1">6</code>=6개월, <code class="bg-slate-100 text-xs px-1">12</code>=12개월, <code class="bg-slate-100 text-xs px-1">18</code>=18개월, <code class="bg-slate-100 text-xs px-1">24</code>=24개월, <code class="bg-slate-100 text-xs px-1">30</code>=30개월',
+            p_red_name: '포인트 사용',
+            p_red_note: '신용카드 포인트 결제 사용 여부 설정.<br>1 = 사용, 0 또는 파라미터 없음 = 미사용',
+            p_ae_name: '아메리칸 익스프레스',
+            p_ae_note: '아메리칸 익스프레스 카드 결제 사용 여부 설정.<br>1 = 사용, 0 또는 파라미터 없음 = 미사용',
+            p_apple_note: '미복호화 또는 복호화된 payment token.<br>payment token은 거래 과정에서 구매자가 Apple Pay로 결제 후 Apple에서 제공하는 암호화된 가상 신용카드 정보입니다.<br><span class="text-red-600">PostData_에 추가하여 암호화하기 전에 payment token을 반드시 urlencode 처리하세요.</span><br>Apple Pay 사용 전 [상점 관리]/[상세 정보]/[Apple Pay 설정]에서 관련 인증서 설정을 완료하세요.',
+            p_google_note: '미복호화 또는 복호화된 payment token.<br>payment token은 거래 과정에서 구매자가 Google Pay로 결제 후 Google Pay에서 제공하는 암호화된 가상 신용카드 정보입니다.<br><span class="text-red-600">PostData_에 추가하여 암호화하기 전에 payment token을 반드시 urlencode 처리하세요.</span>',
+            p_samsung_note: '미복호화 또는 복호화된 payment token.<br>payment token은 거래 과정에서 구매자가 Samsung Pay로 결제 후 Samsung Pay에서 제공하는 암호화된 가상 신용카드 정보입니다.<br><span class="text-red-600">PostData_에 추가하여 암호화하기 전에 payment token을 반드시 urlencode 처리하세요.</span>',
+            enc_title: '암호화 및 검증 규칙 상세',
+            enc_aes_title: 'AES 암복호화 메커니즘 (PostData_)',
+            enc_aes_desc: '카드 번호 등 중요 거래 정보 유출을 방지하기 위해, 암호화 전 상점의 Hash Key 및 Hash IV를 사용하여 파라미터 문자열에 대해 AES 암호화를 수행해야 합니다.',
+            enc_step1_title: '요청 문자열 생성',
+            enc_step1_desc: '모든 파라미터를 <code>http_build_query</code> 형식(key=value&key2=value2...)으로 조합합니다.',
+            enc_step2_title: 'AES 암호화',
+            enc_step2_desc: '암호화 알고리즘: <span class="font-bold text-red-600">AES-256-CBC</span><br>패딩 모드 (Padding): <span class="font-bold text-red-600">PKCS7</span><br>Key / IV: 상점 전용 Hash Key와 Hash IV를 사용하세요.',
+            enc_step3_title: '16진수 변환 (Hex)',
+            enc_step3_desc: '암호화된 바이너리 데이터(Raw Data)를 Hex String(소문자)으로 변환합니다. 이것이 <code>PostData_</code>입니다.',
+            enc_chk_title: 'CheckCode 생성 규칙 (응답 검증)',
+            enc_chk_desc: '데이터 회신의 유효성을 검사하는 데 사용됩니다. 상점은 회신 파라미터 중 <code>CheckCode</code>가 직접 계산한 값과 일치하는지 비교할 수 있습니다.',
+            enc_chk_s1_title: '지정 파라미터 정렬',
+            enc_chk_s1_desc: '회신 데이터 중 4개 필드: <code>Amt</code>, <code>MerchantID</code>, <code>MerchantOrderNo</code>, <code>TradeNo</code><br>영문 알파벳 A~Z 순서로 정렬:<ol class="list-disc list-inside text-sm text-slate-600 ml-2 mt-1"><li><code>Amt</code></li><li><code>MerchantID</code></li><li><code>MerchantOrderNo</code></li><li><code>TradeNo</code></li></ol>',
+            enc_chk_s2_title: 'Key와 IV 연결',
+            enc_chk_s2_desc: '정렬된 파라미터를 <code>&</code>로 연결합니다.<br>문자열 <strong class="text-red-600">맨 앞</strong>에 <code>HashIV=귀하의IV&</code>를 추가하고<br>문자열 <strong class="text-red-600">맨 뒤</strong>에 <code>&HashKey=귀하의Key</code>를 추가합니다.',
+            enc_chk_s3_title: 'SHA256 해시 및 대문자 변환',
+            enc_chk_s3_desc: '연결된 문자열을 SHA256 암호화하고, 결과를 <strong class="text-red-600">대문자</strong>로 변환합니다.',
+            res_title: '응답 파라미터 (Response)',
+            res_desc: '응답 형식은 <strong>JSON</strong>입니다. 최상위 구조는 다음과 같습니다:',
+            res_status_name: '상태 코드',
+            res_msg_name: '메시지',
+            res_msg_note: '거래 상태 설명, [ - ] 뒤는 은행 응답 메시지입니다.',
+            res_result_name: '상세 데이터',
+            res_result_note: 'Array 객체, 상세 내용은 아래 표 참조',
+            res_obj_title: 'Result 객체 포함 파라미터',
+            res_mid_name: '상점 ID',
+            res_mid_note: 'NewebPay 상점 ID.',
+            res_amt_name: '거래 금액',
+            res_amt_note: '이번 거래 승인 금액.',
+            res_trade_name: 'NewebPay 거래 번호',
+            res_trade_note: 'NewebPay 플랫폼에서 생성된 시스템 거래 번호.',
+            res_ord_name: '상점 주문 번호',
+            res_ord_note: '상점에서 정의한 주문 번호.',
+            res_rcode_name: '금융 기관 응답 코드',
+            res_rcode_note: '매입 기관에서 회신한 응답 코드.',
+            res_authbank_name: '매입 금융 기관',
+            res_authbank_note: '［Esun］: E.Sun 은행, ［Taishin］: Taishin 은행, ［CTBC］: CTBC 은행, ［NCCC］: 연합 신용카드 센터... 등',
+            res_auth_name: '승인 코드',
+            res_auth_note: '매입 기관에서 회신한 승인 코드. 거래가 매입 기관 승인 시 실패한 경우 이 필드는 빈 값으로 반환됩니다.',
+            res_adate_name: '승인 날짜',
+            res_adate_note: '형식: yyyymmdd, 예: 20140304.',
+            res_atime_name: '승인 시간',
+            res_atime_note: '형식: hhmmss, 예: 164828.',
+            res_c6_name: '카드 번호 앞 6자리',
+            res_c6_note: '신용카드 번호 앞 6자리.',
+            res_c4_name: '카드 번호 뒤 4자리',
+            res_c4_note: '신용카드 번호 뒤 4자리.',
+            res_exp_name: '카드 유효 기간',
+            res_exp_note: '형식: yymm, 예 1912=2019년 12월.',
+            res_inst_name: '할부 회차',
+            res_inst_note: '신용카드 할부 거래 회차.',
+            res_instf_name: '할부 첫 회 금액',
+            res_instf_note: '신용카드 할부 거래 첫 회 금액.',
+            res_inste_name: '할부 회당 금액',
+            res_inste_note: '신용카드 할부 거래 매회 금액.',
+            res_eci_name: 'ECI 값',
+            res_eci_note: '비 3D 거래의 경우 고정 빈 값',
+            res_redamt_name: '포인트 차감 후 금액',
+            res_redamt_note: '포인트 거래 차감 후 실제 승인 금액.<br>예: 1000원 거래, 포인트 차감 60원인 경우 포인트 차감 후 실제 금액은 940원.<br>포인트 부족 또는 차감 실패 시 0 또는 원금일 수 있음. 포인트 차감 거래 사용 시에만 이 파라미터 반환.',
+            res_pm_name: '거래 유형',
+            res_pm_note: 'CREDIT = 대만 발급 카드, FOREIGN = 해외 카드, UNIONPAY = 유니온페이(은련), GOOGLEPAY, SAMSUNGPAY, APPLEPAY... 등',
+            res_ip_name: '거래 IP',
+            res_ip_note: '결제자 거래 시 IP.',
+            res_escrow_name: '에스크로 은행',
+            res_escrow_note: '해당 거래 이행 보증 은행. 상점이 은행과 직접 계약한 신용카드 가맹점인 경우 신용카드 결제 시 이 필드는 빈 값으로 반환됩니다.<br>［HNCB］：화남은행',
+            res_chk_name: '검증 코드 (CheckCode)',
+            res_chk_note: '데이터 회신의 합법성을 검사하는 데 사용됩니다. 상점 연동 시 이 필드 데이터를 비교하여 NewebPay 플랫폼에서 회신된 것인지 확인할 수 있습니다. 검증 방법은 "암호화 및 검증 규칙 상세"를 참조하세요.',
+            err_title: '오류 코드표',
+            err_search_ph: '코드 검색 (예: TRA10016) 또는 오류 원인...',
+            th_err_code: '오류 코드',
+            th_err_reason: '오류 원인 / 비고',
+            err_TRA10001: '상점 데이터 가져오기 실패, 상점 ID 오류',
+            err_TRA10003: '금액 형식 오류, 금액은 숫자여야 하며 0보다 커야 합니다. 상점 건당 한도 초과, 상점에 문의하세요.',
+            err_TRA10008: '데이터 암호화/복호화 오류',
+            err_TRA10009: '상점 ID는 비워둘 수 없습니다.',
+            err_TRA10012: '상점 ID 사용 중지됨',
+            err_TRA10013: '상점 신용카드 자격 정지됨',
+            err_TRA10015: '네트워크 연결 실패',
+            err_TRA10016: '신용카드 승인 실패',
+            err_TRA10036: 'RespondType 필드 데이터 형식 오류',
+            err_TRA10037: '상점 주문 번호 오류',
+            err_TRA10041: 'URL 형식 오류',
+            err_TRA10042: '카드 번호 형식 오류',
+            err_TRA10043: '카드 유효 기간 형식 오류',
+            err_TRA10044: '신용카드 끝 4자리 형식 오류, 유효 기간 비워둘 수 없음',
+            err_TRA10052: '해당 상점은 해외 카드 거래를 허용하지 않습니다.',
+            err_TRA10053: '이 상점은 현재 신용카드 거래를 사용할 수 없습니다. 신용카드 승인 한도 초과',
+            err_TRA10056: '발급 은행 할부 결제 미제공',
+            err_TRA10060: '할부 거래는 해외 카드를 받지 않습니다.',
+            err_TRA10061: '가맹점 신용카드 매입사 설정 오류',
+            err_TRA10061_g: '신용카드 매입사 설정 오류',
+            err_TRA10067: '카드 번호 직접 승인 거부, 이 상점의 백그라운드 승인 거부',
+            err_TRA10075: '거래 주문 생성 실패',
+            err_TRA10078: '신용카드 뒷면 끝 3자리(CVV) 검사 오류',
+            err_TRA10079: '카드 유효 기간 검사 오류',
+            err_TRA10091: '아메리칸 익스프레스 카드 가맹점 매입사 설정 오류, 연신(NCCC) Gateway 활성화 필요. 아메리칸 익스프레스 카드 게이트웨이 가맹점 설정이 완료되었는지 확인하세요.',
+            err_TRA10100C: 'CTBC 할부 시스템 점검 중',
+            err_TRA10100T: 'Taishin 시스템 점검 중',
+            err_TRA10101T: 'Taishin 포인트 시스템 점검 중',
+            err_TRA10101E: 'E.Sun 포인트 시스템 점검 중',
+            err_TRA10100E: 'E.Sun 시스템 점검 중',
+            err_TRA10102: '상점에서 포인트 차감 거래를 제공하지 않음',
+            err_TRA10103: '상점에서 포인트 차감 거래를 활성화하지 않음',
+            err_TRA10104: '포인트 거래는 할부 결제를 지원하지 않음',
+            err_TRA10105: '상점에서 할부 결제 거래를 활성화하지 않음',
+            err_TRA10106: '상점에서 신용카드 일시불을 활성화하지 않음',
+            err_TRA10107: '거래 거절, 거절 사유 제시',
+            err_TRA10672: '해당 가맹점 MID는 유니온페이 거래가 아직 활성화되지 않음',
+            err_TRA10673: '해당 상점은 유니온페이 거래를 활성화하지 않음',
+            err_TRA10676: '상점 신용카드 설정 정보 가져오기 실패. 해당 상점이 신용카드를 활성화했는지 확인하거나 고객센터에 문의하여 신용카드 백그라운드 승인이 설정 완료되었는지 확인하세요. 운영 및 테스트 환경 모두 설정 완료 후 신용카드 백그라운드 승인 메커니즘을 성공적으로 실행할 수 있습니다.',
+            err_TRA10681: '신용카드 거래 번호 오류',
+            err_TRA10682: '이 신용카드는 이 할부 개월 수를 지원하지 않습니다.',
+            err_TRA10683: '시스템에서 사용 가능한 은행 할부 개월 수를 찾을 수 없습니다.',
+            err_TRA10684: 'APPLEPAY Certificate 존재하지 않음',
+            err_TRA10685: '상점 APPLEPAY 결제 방식 미활성화, 회원 전용 구역에서 상점의 결제 방식 활성화 상태를 확인하세요.',
+            err_TRA10687: 'APPLEPAY Payment Token 파싱 오류',
+            err_TRA10688: 'APPLEPAY 거래 설정 오류',
+            err_TRA10690: '상점 Google Pay 결제 방식 미활성화, 회원 전용 구역에서 상점의 결제 방식 활성화 상태를 확인하세요.',
+            err_TRA10691: 'Google Pay Payment Token 파싱 오류',
+            err_TRA10692: 'Google Pay 거래 설정 오류',
+            err_TRA10694: '상점 SAMSUNGPAY 결제 방식 미활성화, 회원 전용 구역에서 상점의 결제 방식 활성화 상태를 확인하세요.',
+            err_TRA10695: 'Samsung Pay Payment Token 파싱 오류',
+            err_TRA10696: 'Samsung Pay 거래 설정 오류',
+            err_TRA10697: 'SAMSUNGPAY Certificate 존재하지 않음',
+            err_TRA10704: '포인트 거래는 유니온페이를 받지 않음',
+            err_TRA10705: '할부 거래는 유니온페이를 받지 않음',
+            err_TRA20001: '거래 데이터 추가 실패',
+            err_TRA20004: '상점 주문 번호 중복',
+            err_TRA20010: '보조 결제 수단 없음',
+            err_TRA40014: 'Time_Out (시간 초과)',
+            err_MEM40008: '필수 필드 데이터는 비워둘 수 없습니다 (예: PayerEmail).',
+            err_MEM40012: '필수 필드 데이터 전송 오류 (PostData_ 비어 있음)',
+            err_MEM40013: 'CardHolderName 필드 데이터 길이 또는 형식 오류, 공백, 반각 쉼표 및 - 기호만 지원, 길이 2-45자 이내.',
+            err_MEM40015: 'CardHolderPhone 필드 데이터 길이 또는 형식 오류, 숫자 형식, 길이 45자 이내.',
+            err_MPG05002: '이 상점은 Master 신용카드 거래를 지원하지 않습니다. 다른 카드를 사용해 주세요.',
+            err_MER10003: '상점 보조 결제 PG 설정 데이터 찾을 수 없음',
+            err_NOR10001: '네트워크 연결 예외',
+            example_title: '샘플 코드',
+            tc_title: '테스트 구역 카드 번호 정보',
+            tc_desc: '다음 카드 번호는 테스트 환경(Test Environment) 거래 전용입니다.',
+            tc_note: '테스트 카드의 유효 년월 및 카드 뒷면 끝 3자리는 임의로 입력해도 거래가 완료됩니다.<br><span class="text-red-600 font-bold">주의: 테스트 카드 번호 이외의 카드 정보로 거래 시 실패합니다.</span>',
+            tc_lbl_normal: '일시불 및 할부 결제',
+            tc_lbl_bonus: '포인트 차감'
+        }
+    },                         
+        };
+
+        // Error Codes Definition (Single Source for Table Generation)
+        const errorCodes = [
+            'TRA10001', 'TRA10003', 'TRA10008', 'TRA10009', 'TRA10012', 'TRA10013', 'TRA10015', 'TRA10016', 
+            'TRA10036', 'TRA10037', 'TRA10041', 'TRA10042', 'TRA10043', 'TRA10044', 'TRA10052', 'TRA10053', 
+            'TRA10056', 'TRA10060', 'TRA10061', 'TRA10061_g', 'TRA10067', 'TRA10075', 'TRA10078', 'TRA10079', 
+            'TRA10091', 'TRA10100C', 'TRA10100T', 'TRA10101T', 'TRA10101E', 'TRA10100E', 'TRA10102', 'TRA10103', 
+            'TRA10104', 'TRA10105', 'TRA10106', 'TRA10107', 'TRA10672', 'TRA10673', 'TRA10676', 'TRA10681', 
+            'TRA10682', 'TRA10683', 'TRA10684', 'TRA10685', 'TRA10687', 'TRA10688', 'TRA10690', 'TRA10691', 
+            'TRA10692', 'TRA10694', 'TRA10695', 'TRA10696', 'TRA10697', 'TRA10704', 'TRA10705', 'TRA20001', 
+            'TRA20004', 'TRA20010', 'TRA40014', 'MEM40008', 'MEM40012', 'MEM40013', 'MEM40015', 'MPG05002', 
+            'MER10003', 'NOR10001'
+        ];
+
+        // Code Examples Data
+        const codeExamples = {
+            php: `<?php
+// 1. Set Merchant and Transaction Data
+$hashKey    = "YourHashKey"; // Please fill in your HashKey
+$hashIV     = "YourHashIV";  // Please fill in your HashIV
+$merchantID = "MS12345678";  // Merchant ID
+// Production API URL
+$apiUrl     = "https://core.newebpay.com/API/CreditCard/withIdentity";
+// Test API URL
+// $apiUrl     = "https://ccore.newebpay.com/API/CreditCard/withIdentity";
+
+// 2. Prepare Transaction Parameters Array
+$tradeParams = [
+    'MerchantID'          => $merchantID,
+    'TimeStamp'           => time(),
+    'Version'             => '2.5',
+    'MerchantOrderNo'     => 'ORD_' . time(),
+    'Amt'                 => '1000',
+    'ProdDesc'            => 'Sample Product',
+    'PayerEmail'          => 'customer@example.com', 
+    'CardHolderFirstName' => 'John',
+    'CardHolderLastName'  => 'Doe',
+    'CardHolderPhone'     => '0912345678', // Optional
+    'CardNo'              => '4000221111111111',
+    'Exp'                 => '2812',
+];
+
+// 3. Generate Query String
+$dataString = http_build_query($tradeParams);
+
+// 4. AES-256-CBC Encryption
+$encrypted = openssl_encrypt(
+    $dataString, 
+    'AES-256-CBC', 
+    $hashKey, 
+    OPENSSL_RAW_DATA, 
+    $hashIV
+);
+$postData = bin2hex($encrypted);
+?>
+
+<form method="post" action="<?php echo $apiUrl; ?>">
+    <input type="hidden" name="MerchantID_" value="<?php echo $merchantID; ?>">
+    <input type="hidden" name="PostData_" value="<?php echo $postData; ?>">
+    <input type="hidden" name="Pos_" value="JSON">
+    <input type="submit" value="送出交易">
+</form>`,
+            nodejs: `const crypto = require('crypto');
+const querystring = require('querystring');
+const axios = require('axios'); // Requires axios
+
+// 1. Set Data
+const hashKey = 'YourHashKey';
+const hashIV  = 'YourHashIV';
+const merchantID = 'MS12345678';
+// Production Environment
+const apiUrl = 'https://core.newebpay.com/API/CreditCard/withIdentity';
+// Test Environment
+// const apiUrl = 'https://ccore.newebpay.com/API/CreditCard/withIdentity';
+
+// 2. Prepare Parameters
+const params = {
+    MerchantID: merchantID,
+    TimeStamp: Math.floor(Date.now() / 1000),
+    Version: '2.5',
+    MerchantOrderNo: 'ORD_' + Date.now(),
+    Amt: '1000',
+    ProdDesc: 'Sample Product',
+    PayerEmail: 'customer@example.com',
+    CardHolderFirstName: 'John',
+    CardHolderLastName: 'Doe',
+    CardHolderPhone: '0912345678', // Optional
+    CardNo: '4000221111111111',
+    Exp: '2812'
+};
+
+// 3. Convert to Query String
+const dataString = querystring.stringify(params);
+
+// 4. AES Encryption
+const cipher = crypto.createCipheriv('aes-256-cbc', hashKey, hashIV);
+let encrypted = cipher.update(dataString, 'utf8', 'hex');
+encrypted += cipher.final('hex');
+
+// 5. Send POST Request
+axios.post(apiUrl, querystring.stringify({
+    MerchantID_: merchantID,
+    PostData_: encrypted,
+    Pos_: 'JSON'
+}), {
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+}).then(res => {
+    console.log(res.data);
+}).catch(err => {
+    console.error(err);
+});`,
+            python: `import time
+import urllib.parse
+import requests
+from Crypto.Cipher import AES # pip install pycryptodome
+from Crypto.Util.Padding import pad
+import binascii
+
+# 1. Set Data
+hash_key = b'YourHashKey' # Must be bytes
+hash_iv  = b'YourHashIV'  # Must be bytes
+merchant_id = 'MS12345678'
+# Production Environment
+api_url = 'https://core.newebpay.com/API/CreditCard/withIdentity'
+# Test Environment
+# api_url = 'https://ccore.newebpay.com/API/CreditCard/withIdentity'
+
+# 2. Prepare Parameters
+params = {
+    'MerchantID': merchant_id,
+    'TimeStamp': int(time.time()),
+    'Version': '2.5',
+    'MerchantOrderNo': f'ORD_{int(time.time())}',
+    'Amt': '1000',
+    'ProdDesc': 'Sample Product',
+    'PayerEmail': 'customer@example.com',
+    'CardHolderFirstName': 'John',
+    'CardHolderLastName': 'Doe',
+    'CardHolderPhone': '0912345678', # Optional
+    'CardNo': '4000221111111111',
+    'Exp': '2812'
+}
+
+# 3. Convert to Query String
+data_string = urllib.parse.urlencode(params)
+
+# 4. AES Encryption
+cipher = AES.new(hash_key, AES.MODE_CBC, hash_iv)
+encrypted_bytes = cipher.encrypt(pad(data_string.encode('utf-8'), AES.block_size))
+post_data = binascii.hexlify(encrypted_bytes).decode('utf-8')
+
+# 5. Send POST Request
+payload = {
+    'MerchantID_': merchant_id,
+    'PostData_': post_data,
+    'Pos_': 'JSON'
+}
+response = requests.post(api_url, data=payload)
+print(response.json())`,
+            csharp: `using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web; // System.Web
+
+public class Program
+{
+    public static async Task Main()
+    {
+        string hashKey = "YourHashKey";
+        string hashIV = "YourHashIV";
+        string merchantID = "MS12345678";
+        // Production Environment
+        string apiUrl = "https://core.newebpay.com/API/CreditCard/withIdentity";
+        // Test Environment
+        // string apiUrl = "https://ccore.newebpay.com/API/CreditCard/withIdentity";
+
+        // Prepare Parameters
+        var paramsDict = new Dictionary<string, string>
+        {
+            { "MerchantID", merchantID },
+            { "TimeStamp", DateTimeOffset.Now.ToUnixTimeSeconds().ToString() },
+            { "Version", "2.5" },
+            { "MerchantOrderNo", "ORD_" + DateTimeOffset.Now.ToUnixTimeSeconds() },
+            { "Amt", "1000" },
+            { "ProdDesc", "Sample Product" },
+            { "PayerEmail", "customer@example.com" },
+            { "CardHolderFirstName", "John" },
+            { "CardHolderLastName", "Doe" },
+            { "CardHolderPhone", "0912345678" }, // Optional
+            { "CardNo", "4000221111111111" },
+            { "Exp", "2812" }
+        };
+
+        // Convert to Query String
+        string dataString = string.Join("&", paramsDict.Select(p => $"{p.Key}={HttpUtility.UrlEncode(p.Value)}"));
+
+        // Encryption
+        string postData = EncryptAES256(dataString, hashKey, hashIV);
+
+        // Send Request
+        using (var client = new HttpClient())
+        {
+            var content = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("MerchantID_", merchantID),
+                new KeyValuePair<string, string>("PostData_", postData),
+                new KeyValuePair<string, string>("Pos_", "JSON")
+            });
+
+            var response = await client.PostAsync(apiUrl, content);
+            string result = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(result);
+        }
+    }
+
+    public static string EncryptAES256(string source, string key, string iv)
+    {
+        byte[] sourceBytes = Encoding.UTF8.GetBytes(source);
+        using (var aes = Aes.Create())
+        {
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
+            aes.Key = Encoding.UTF8.GetBytes(key);
+            aes.IV = Encoding.UTF8.GetBytes(iv);
+
+            using (var encryptor = aes.CreateEncryptor())
+            {
+                byte[] encryptedBytes = encryptor.TransformFinalBlock(sourceBytes, 0, sourceBytes.Length);
+                return BitConverter.ToString(encryptedBytes).Replace("-", "").ToLower();
+            }
+        }
+    }
+}`
+        };
+
+        function applyTranslations(lang = 'zh-TW') {
+            const data = langData[lang]?.data;
+            if (!data) return;
+
+            // Handle Text Content
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (data[key]) {
+                    el.innerHTML = data[key]; // Use innerHTML to support <b>, <code> tags in translation
+                }
+            });
+
+            // Handle Placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (data[key]) {
+                    el.setAttribute('placeholder', data[key]);
+                }
+            });
+        }
+
+        // Modified: Generate Dropdown Options dynamically
+        function initLangDropdown() {
+            const select = document.getElementById('lang-select');
+            const languages = Object.keys(langData);
+            
+            if (languages.length === 0) return;
+
+            select.innerHTML = '';
+            languages.forEach(langKey => {
+                const option = document.createElement('option');
+                option.value = langKey;
+                option.textContent = langData[langKey].name;
+                select.appendChild(option);
+            });
+        }
+
+        // Modified: Change Language based on selection
+        function changeLang(targetLang) {
+            applyTranslations(targetLang);
+        }
+
+        // Generate Error Table Rows Dynamically
+        function renderErrorTable() {
+            const tbody = document.querySelector('#errorTable tbody');
+            if (!tbody) return;
+            
+            // Clear existing
+            tbody.innerHTML = '';
+
+            // Generate HTML
+            const html = errorCodes.map(code => {
+                const i18nKey = `err_${code}`;
+                return `<tr>
+                    <td class="px-6 py-2 font-bold text-red-600">${code}</td>
+                    <td class="px-6 py-2" data-i18n="${i18nKey}"></td>
+                </tr>`;
+            }).join('');
+
+            tbody.innerHTML = html;
+        }
+
+        // Init: Load PHP by default and Apply Translations
+        window.onload = function() {
+            initLangDropdown(); // 初始化下拉選單
+            renderErrorTable(); // 產生錯誤碼表格
+
+            // --- 新增：讀取 URL 參數邏輯 ---
+            const urlParams = new URLSearchParams(window.location.search);
+            const getLang = urlParams.get('lang');
+
+            // 檢查參數是否有效 (是否存在於 langData 中)，否則預設 'zh-TW'
+            const targetLang = (getLang && langData[getLang]) ? getLang : 'zh-TW';
+
+            // 應用語系
+            applyTranslations(targetLang);
+    
+            // 同步更新下拉選單的顯示狀態
+            const langSelect = document.getElementById('lang-select');
+            if(langSelect) {
+                langSelect.value = targetLang;
+            }
+            // -----------------------------
+
+            loadCode('php');
+        };
+
+        // Code Tab Switching
+        function switchTab(lang, event) {
+            // UI State
+            document.querySelectorAll('#example .tab-btn').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Load Content
+            loadCode(lang);
+        }
+
+        // Helper: Inject Code
+        function loadCode(lang) {
+            const display = document.getElementById('code-display');
+            // Just set the value for the textarea
+            display.value = codeExamples[lang];
+        }
+
+        // Tool Tab Switching
+        function switchToolTab(tabId) {
+            // Hide all contents
+            document.querySelectorAll('.tool-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tool-content').forEach(el => el.classList.remove('active'));
+            // Reset all buttons
+            document.querySelectorAll('.tool-tab-btn').forEach(el => {
+                el.classList.remove('active', 'border-purple-600', 'text-purple-600');
+                el.classList.add('border-transparent', 'text-slate-500');
+            });
+
+            // Show current
+            const targetContent = document.getElementById(tabId);
+            targetContent.classList.remove('hidden');
+            targetContent.classList.add('active');
+
+            // Highlight button
+            const btn = event.currentTarget;
+            btn.classList.remove('border-transparent', 'text-slate-500');
+            btn.classList.add('active', 'border-purple-600', 'text-purple-600');
+        }
+
+        // Mobile Sidebar
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        let isMenuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        // Search
+        const searchInput = document.getElementById('errorSearch');
+        // Need to update selector to dynamically query rows after generation
+        searchInput.addEventListener('keyup', (e) => {
+            const term = e.target.value.toLowerCase();
+            const tableRows = document.querySelectorAll('#errorTable tbody tr'); // Re-query DOM
+            
+            tableRows.forEach(row => {
+                const code = row.children[0].textContent.toLowerCase();
+                const msg = row.children[1].textContent.toLowerCase();
+                if (code.includes(term) || msg.includes(term)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // ------------------
+        // Encryption Tools
+        // ------------------
+
+        function getKeys() {
+            const key = document.getElementById('toolKey').value.trim();
+            const iv = document.getElementById('toolIv').value.trim();
+            if (!key || !iv) {
+                alert('請輸入 Hash Key 與 Hash IV');
+                return null;
+            }
+            return { key, iv };
+        }
+
+        function runEncrypt() {
+            const keys = getKeys();
+            if (!keys) return;
+            const data = document.getElementById('encryptInput').value.trim();
+            if (!data) return alert('請輸入原始字串');
+
+            try {
+                const keyHex = CryptoJS.enc.Utf8.parse(keys.key);
+                const ivHex = CryptoJS.enc.Utf8.parse(keys.iv);
+
+                const encrypted = CryptoJS.AES.encrypt(data, keyHex, {
+                    iv: ivHex,
+                    mode: CryptoJS.mode.CBC,
+                    padding: CryptoJS.pad.Pkcs7
+                });
+
+                // Output Hex
+                document.getElementById('encryptOutput').value = encrypted.ciphertext.toString(CryptoJS.enc.Hex);
+            } catch (e) {
+                console.error(e);
+                alert('加密失敗: ' + e.message);
+            }
+        }
+
+        function runDecrypt() {
+            const keys = getKeys();
+            if (!keys) return;
+            const hexStr = document.getElementById('decryptInput').value.trim();
+            if (!hexStr) return alert('請輸入加密後的 Hex 字串');
+
+            try {
+                const keyHex = CryptoJS.enc.Utf8.parse(keys.key);
+                const ivHex = CryptoJS.enc.Utf8.parse(keys.iv);
+                
+                // Convert Hex string to CipherParams
+                const encryptedHex = CryptoJS.enc.Hex.parse(hexStr);
+                const encryptedBase64 = CryptoJS.enc.Base64.stringify(encryptedHex);
+
+                const decrypted = CryptoJS.AES.decrypt(encryptedBase64, keyHex, {
+                    iv: ivHex,
+                    mode: CryptoJS.mode.CBC,
+                    padding: CryptoJS.pad.Pkcs7
+                });
+
+                document.getElementById('decryptOutput').value = decrypted.toString(CryptoJS.enc.Utf8);
+            } catch (e) {
+                console.error(e);
+                alert('解密失敗，請檢查 Key/IV 或加密字串格式');
+            }
+        }
+
+        function runCheckCode() {
+            const keys = getKeys();
+            if (!keys) return;
+
+            const amt = document.getElementById('ccAmt').value.trim();
+            const mid = document.getElementById('ccMid').value.trim();
+            const ord = document.getElementById('ccOrd').value.trim();
+            const trade = document.getElementById('ccTrade').value.trim();
+
+            if (!amt || !mid || !ord || !trade) {
+                alert('請完整填寫 CheckCode 所需的四個參數');
+                return;
+            }
+            
+            const list = [
+                { key: 'Amt', val: amt },
+                { key: 'MerchantID', val: mid },
+                { key: 'MerchantOrderNo', val: ord },
+                { key: 'TradeNo', val: trade }
+            ];
+            
+            // Sort by key
+            list.sort((a, b) => a.key.localeCompare(b.key));
+
+            // 2. Build String
+            let str = list.map(item => `${item.key}=${item.val}`).join('&');
+
+            // 3. Add IV front, Key back
+            const preHash = `HashIV=${keys.iv}&${str}&HashKey=${keys.key}`;
+            
+            // Display pre-hash for debugging
+            document.getElementById('ccPreHash').textContent = preHash;
+
+            // 4. SHA256 + Upper
+            const hash = CryptoJS.SHA256(preHash).toString(CryptoJS.enc.Hex).toUpperCase();
+            document.getElementById('ccOutput').value = hash;
+        }
+
+        // Scroll Spy (Fixed Logic)
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            let current = '';
+
+            // 1. Standard Offset Check
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= (sectionTop - 200)) { // Adjusted offset
+                    current = section.getAttribute('id');
+                }
+            });
+
+            // 2. Bottom of Page Check (Force select the last item if at bottom)
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
+                 if (sections.length > 0) {
+                     current = sections[sections.length - 1].getAttribute('id');
+                 }
+            }
+
+            // 3. Update Active Class
+            navLinks.forEach(link => {
+                link.classList.remove('sidebar-active');
+                // Use strict match for anchor link
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('sidebar-active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
