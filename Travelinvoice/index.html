@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="page_title">API Docs - E-Receipt Platform</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="https://www.travelinvoice.com.tw/images/image/travelInvoice.ico" type="image/x-icon" />
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Custom Grass Green Palette
+                        grass: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d', // Primary dark green
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        html { scroll-behavior: smooth; }
+        /* Adjusted background color to specific RGB(101, 137, 117) */
+        body { background-color: rgb(101, 137, 117); }
+        
+        /* Custom Scrollbar */
+        .scrollable-area::-webkit-scrollbar { width: 6px; }
+        .scrollable-area::-webkit-scrollbar-thumb { background-color: #86efac; border-radius: 3px; }
+        
+        /* Card Hover Effects */
+        .api-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .api-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1); 
+            border-color: #86efac;
+        }
+        
+        /* Grass Green Card Theme (Default) */
+        .api-card .icon-wrapper { transition: all 0.3s ease; }
+        .api-card:hover .icon-wrapper { 
+            background-color: #dcfce7; 
+            color: #15803d; 
+            transform: scale(1.1) rotate(3deg); 
+        }
+
+        /* Specific card tweaks can go here if needed */
+
+        /* Language Button Active State */
+        .lang-btn { transition: all 0.2s; border: 1px solid transparent; }
+        .lang-btn:hover { background-color: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+        .lang-btn.active { 
+            background-color: #15803d; 
+            color: #ffffff; 
+            border-color: #166534; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); 
+            font-weight: 800;
+        }
+        /* Active button hover override */
+        .lang-btn.active:hover { background-color: #166534; color: #ffffff; }
+    </style>
+</head>
+<body class="text-slate-800 font-sans flex flex-col min-h-screen">
+
+    <div class="flex-1 w-full flex flex-col justify-center">
+        <!-- Main Content -->
+        <main class="w-full max-w-7xl mx-auto p-4 lg:p-8">
+            
+            <!-- Hero Section -->
+            <div class="max-w-4xl mx-auto text-center py-12 lg:py-16">
+                <!-- Logo -->
+                <div class="mb-6 flex justify-center">
+                    <!-- Added brightness filter to make logo pop on dark bg if transparent, or keep as is if white bg embedded in image. 
+                         Assuming image has transparency, adding a white container might be safer, or using brightness filter.
+                         Let's wrap it in a subtle white glow or container if needed. For now, kept simple. -->
+                    <div class="bg-white/90 p-3 rounded-xl shadow-lg backdrop-blur-sm">
+                        <img src="https://cimage.newebpay.com/Show/4d83aec0b1cf161b11cdf7a6010a48efa33d39b474484488b29d960fc46f96e3976cf527b782b1d617c590f6c0754a5de7315ca9e9df48147a5a0dfea89f9f779b3e2216a9911ad1c82ff6d66618df9d9052234124a4d095b299aaa1e35dab97" alt="NewebPay" class="h-10 md:h-12 w-auto object-contain">
+                    </div>
+                </div>
+                
+                <!-- Updated text colors to white for contrast against dark green background -->
+                <h1 class="text-3xl lg:text-4xl font-bold text-white tracking-tight mb-2 drop-shadow-md" data-i18n="hero_title"></h1>
+                <p class="text-emerald-50 font-medium text-lg opacity-90" data-i18n="hero_subtitle"></p>
+            </div>
+
+            <!-- API Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-16">
+                
+                <!-- Card 1: Introduce (Platform Info) -->
+                <div onclick="openApiLink('introduce.html')" class="api-card bg-white rounded-2xl shadow-md border border-slate-100 p-8 cursor-pointer relative overflow-hidden group h-full flex flex-col">
+                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                        <i class="fas fa-seedling text-9xl text-grass-600"></i>
+                    </div>
+                    <div class="icon-wrapper w-16 h-16 bg-grass-50 text-grass-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-grass-100">
+                        <i class="fas fa-book-open text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-grass-700 transition-colors" data-i18n="card_intro_title"></h3>
+                    <div class="flex items-center mb-4">
+                        <span class="px-2 py-1 bg-grass-100 text-grass-800 text-xs font-mono rounded font-bold mr-2">DOCS</span>
+                        <span class="text-sm text-slate-500" data-i18n="badge_intro">Platform Guide</span>
+                    </div>
+                    <p class="text-slate-600 mb-8 leading-relaxed flex-grow" data-i18n="card_intro_desc"></p>
+                    <div class="flex items-center text-grass-600 font-bold group-hover:translate-x-2 transition-transform mt-auto">
+                        <span data-i18n="btn_view_docs"></span> <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </div>
+
+                <!-- Card 2: Standard API -->
+                <div onclick="openApiLink('standard.html')" class="api-card bg-white rounded-2xl shadow-md border border-slate-100 p-8 cursor-pointer relative overflow-hidden group h-full flex flex-col">
+                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                        <i class="fas fa-file-invoice text-9xl text-grass-600"></i>
+                    </div>
+                    <div class="icon-wrapper w-16 h-16 bg-grass-50 text-grass-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-grass-100">
+                        <i class="fas fa-receipt text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-grass-700 transition-colors" data-i18n="card_standard_title"></h3>
+                    <div class="flex items-center mb-4">
+                        <span class="px-2 py-1 bg-grass-100 text-grass-800 text-xs font-mono rounded font-bold mr-2">API</span>
+                        <span class="text-sm text-slate-500" data-i18n="badge_core">Core Functions</span>
+                    </div>
+                    <p class="text-slate-600 mb-8 leading-relaxed flex-grow" data-i18n="card_standard_desc"></p>
+                    <div class="flex items-center text-grass-600 font-bold group-hover:translate-x-2 transition-transform mt-auto">
+                        <span data-i18n="btn_view_docs"></span> <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </div>
+
+                <!-- Card 3: Batch Query API -->
+                <div onclick="openApiLink('batchquery.html')" class="api-card bg-white rounded-2xl shadow-md border border-slate-100 p-8 cursor-pointer relative overflow-hidden group h-full flex flex-col">
+                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                        <i class="fas fa-list-check text-9xl text-grass-600"></i>
+                    </div>
+                    <div class="icon-wrapper w-16 h-16 bg-grass-50 text-grass-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-grass-100">
+                        <i class="fas fa-magnifying-glass-plus text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-grass-700 transition-colors" data-i18n="card_batch_title"></h3>
+                    <div class="flex items-center mb-4">
+                        <span class="px-2 py-1 bg-grass-100 text-grass-800 text-xs font-mono rounded font-bold mr-2">API</span>
+                        <span class="text-sm text-slate-500" data-i18n="badge_batch">Bulk Operations</span>
+                    </div>
+                    <p class="text-slate-600 mb-8 leading-relaxed flex-grow" data-i18n="card_batch_desc"></p>
+                    <div class="flex items-center text-grass-600 font-bold group-hover:translate-x-2 transition-transform mt-auto">
+                        <span data-i18n="btn_view_docs"></span> <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </div>
+
+                <!-- Card 4: Notification Resend API -->
+                <div onclick="openApiLink('notificationresend.html')" class="api-card bg-white rounded-2xl shadow-md border border-slate-100 p-8 cursor-pointer relative overflow-hidden group h-full flex flex-col">
+                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                        <i class="fas fa-envelope-open-text text-9xl text-grass-600"></i>
+                    </div>
+                    <div class="icon-wrapper w-16 h-16 bg-grass-50 text-grass-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-grass-100">
+                        <i class="fas fa-paper-plane text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-3 group-hover:text-grass-700 transition-colors" data-i18n="card_resend_title"></h3>
+                    <div class="flex items-center mb-4">
+                        <span class="px-2 py-1 bg-grass-100 text-grass-800 text-xs font-mono rounded font-bold mr-2">API</span>
+                        <span class="text-sm text-slate-500" data-i18n="badge_email">Email Service</span>
+                    </div>
+                    <p class="text-slate-600 mb-8 leading-relaxed flex-grow" data-i18n="card_resend_desc"></p>
+                    <div class="flex items-center text-grass-600 font-bold group-hover:translate-x-2 transition-transform mt-auto">
+                        <span data-i18n="btn_view_docs"></span> <i class="fas fa-arrow-right ml-2"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Language Menu -->
+            <div class="max-w-3xl mx-auto text-center mb-12">
+                <!-- Adjusted language menu container background to be white/90 for visibility on dark green -->
+                <div class="inline-flex flex-wrap justify-center gap-2 bg-white/90 backdrop-blur-sm rounded-3xl p-2 shadow-lg border border-white/20">
+                    <button onclick="changeLang('zh-TW')" class="lang-btn px-4 py-2 rounded-full text-sm font-semibold text-slate-600" data-lang="zh-TW">
+                        繁體中文
+                    </button>
+                    <button onclick="changeLang('EN')" class="lang-btn px-4 py-2 rounded-full text-sm font-semibold text-slate-600" data-lang="EN">
+                        English
+                    </button>
+                    <button onclick="changeLang('SV')" class="lang-btn px-4 py-2 rounded-full text-sm font-semibold text-slate-600" data-lang="SV">
+                        Svenska
+                    </button>
+                    <button onclick="changeLang('JP')" class="lang-btn px-4 py-2 rounded-full text-sm font-semibold text-slate-600" data-lang="JP">
+                        日本語
+                    </button>
+                    <button onclick="changeLang('KO')" class="lang-btn px-4 py-2 rounded-full text-sm font-semibold text-slate-600" data-lang="KO">
+                        한국어
+                    </button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-8 text-center mt-auto">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="text-slate-500 text-sm">© NewebPay. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Multi-language configuration
+        const langData = {
+            'zh-TW': { 
+                name: '繁體中文', 
+                data: { 
+                    page_title: 'API文件 - 電子收據代收轉付平台',
+                    hero_title: 'API 文件',
+                    hero_subtitle: '電子收據代收轉付平台',
+                    
+                    // Card 1: Intro
+                    card_intro_title: '平台介紹與功能說明',
+                    card_intro_desc: '了解電子收據平台的系統架構、核心優勢以及完整的串接流程指引。',
+                    badge_intro: '平台指南',
+
+                    // Card 2: Standard
+                    card_standard_title: '標準版 API 串接',
+                    card_standard_desc: '包含開立收據、折讓、作廢、修改內容以及單筆查詢等核心功能接口說明。',
+                    badge_core: '核心功能',
+
+                    // Card 3: Batch
+                    card_batch_title: '批次查詢 API',
+                    card_batch_desc: '支援一次查詢多日或多筆交易資料的高效率接口，適合對帳與大數據處理使用。',
+                    badge_batch: '批次處理',
+
+                    // Card 4: Resend
+                    card_resend_title: '信件補發 API',
+                    card_resend_desc: '提供重新發送電子收據通知信件的功能，確保消費者能順利收到憑證。',
+                    badge_email: '郵件服務',
+
+                    btn_view_docs: '查看文件'
+                } 
+            },
+            'EN': { 
+                name: 'English', 
+                data: { 
+                    page_title: 'API Docs - E-Receipt Platform',
+                    hero_title: 'API Documentation',
+                    hero_subtitle: 'Electronic Receipt Collection & Transfer Platform',
+                    
+                    card_intro_title: 'Introduction & Features',
+                    card_intro_desc: 'Overview of the E-Receipt platform architecture, key benefits, and integration guidelines.',
+                    badge_intro: 'Guide',
+
+                    card_standard_title: 'Standard API',
+                    card_standard_desc: 'Core functions including Issue, Allowance, Invalid, Modify, and Single Query endpoints.',
+                    badge_core: 'Core',
+
+                    card_batch_title: 'Batch Query API',
+                    card_batch_desc: 'High-efficiency interface for querying multiple days or multiple transactions at once.',
+                    badge_batch: 'Batch Ops',
+
+                    card_resend_title: 'Notification Resend API',
+                    card_resend_desc: 'API for resending electronic receipt notification emails to consumers.',
+                    badge_email: 'Email Svc',
+
+                    btn_view_docs: 'View Docs'
+                } 
+            },       
+            'SV': { 
+                name: 'Svenska', 
+                data: { 
+                    page_title: 'API-dokument - E-kvitto Plattform',
+                    hero_title: 'API-dokumentation',
+                    hero_subtitle: 'Elektronisk Kvittoinsamling och Överföringsplattform',
+                    
+                    card_intro_title: 'Introduktion & Funktioner',
+                    card_intro_desc: 'Översikt över plattformens arkitektur, fördelar och riktlinjer för integration.',
+                    badge_intro: 'Guide',
+
+                    card_standard_title: 'Standard API',
+                    card_standard_desc: 'Kärnfunktioner inklusive Utfärdande, Avdrag, Makulering, Ändring och Enskild fråga.',
+                    badge_core: 'Kärna',
+
+                    card_batch_title: 'Batchfråga API',
+                    card_batch_desc: 'Högeffektivt gränssnitt för att fråga efter data för flera dagar eller transaktioner samtidigt.',
+                    badge_batch: 'Batch',
+
+                    card_resend_title: 'Skicka om Avisering API',
+                    card_resend_desc: 'API för att skicka om e-postaviseringar för elektroniska kvitton till konsumenter.',
+                    badge_email: 'E-post',
+
+                    btn_view_docs: 'Visa Dokument'
+                } 
+            },
+            'JP': { 
+                name: '日本語', 
+                data: { 
+                    page_title: 'API仕様書 - 電子領収書プラットフォーム',
+                    hero_title: 'API仕様書',
+                    hero_subtitle: '電子領収書代行収受・転送プラットフォーム',
+                    
+                    card_intro_title: 'プラットフォーム紹介',
+                    card_intro_desc: 'システムアーキテクチャ、主要な機能、および完全な統合フローガイドについて説明します。',
+                    badge_intro: 'ガイド',
+
+                    card_standard_title: '標準版 API',
+                    card_standard_desc: '発行、値引き、無効化、修正、および単一照会などのコア機能を含みます。',
+                    badge_core: 'コア機能',
+
+                    card_batch_title: '一括照会 API',
+                    card_batch_desc: '複数日または複数件の取引データを一度に照会できる高効率インターフェースです。',
+                    badge_batch: '一括処理',
+
+                    card_resend_title: '通知再送信 API',
+                    card_resend_desc: '電子領収書の通知メールを再送信する機能を提供し、受領を確実にします。',
+                    badge_email: 'メール',
+
+                    btn_view_docs: 'ドキュメントを見る'
+                } 
+            },
+            'KO': { 
+                name: '한국어', 
+                data: { 
+                    page_title: 'API 문서 - 전자 영수증 플랫폼',
+                    hero_title: 'API 문서',
+                    hero_subtitle: '전자 영수증 수집 및 이체 플랫폼',
+                    
+                    card_intro_title: '플랫폼 소개 및 기능',
+                    card_intro_desc: '전자 영수증 플랫폼의 시스템 아키텍처, 핵심 장점 및 통합 가이드를 확인하세요.',
+                    badge_intro: '가이드',
+
+                    card_standard_title: '표준 버전 API',
+                    card_standard_desc: '발급, 공제, 무효화, 수정 및 단일 조회 등 핵심 기능을 포함합니다.',
+                    badge_core: '핵심 기능',
+
+                    card_batch_title: '일괄 조회 API',
+                    card_batch_desc: '여러 날짜 또는 여러 건의 거래 데이터를 한 번에 조회할 수 있는 고효율 인터페이스입니다.',
+                    badge_batch: '일괄 처리',
+
+                    card_resend_title: '알림 재발송 API',
+                    card_resend_desc: '소비자가 영수증을 받을 수 있도록 알림 이메일을 다시 보내는 기능을 제공합니다.',
+                    badge_email: '이메일',
+
+                    btn_view_docs: '문서 보기'
+                } 
+            },
+        };
+
+        // 1. Get URL Params
+        const urlParams = new URLSearchParams(window.location.search);
+        const getLang = urlParams.get('lang');
+
+        // 2. Check if param is valid (Default to EN for this specific request)
+        let currentLang = (getLang && langData[getLang]) ? getLang : 'EN';
+
+        function applyTranslations(lang) {
+            const data = langData[lang]?.data;
+            if (!data) return;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (data[key]) {
+                    el.innerHTML = data[key];
+                }
+            });
+            
+            // Update html lang attribute
+            document.documentElement.lang = lang;
+            
+            // Update Button States
+            updateLangButtons(lang);
+        }
+
+        function updateLangButtons(lang) {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if(btn.dataset.lang === lang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        function changeLang(targetLang) {
+            currentLang = targetLang;
+            applyTranslations(targetLang);
+            
+            // Optional: Update URL without refresh
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', targetLang);
+            window.history.pushState({}, '', newUrl);
+        }
+        
+        // Function to open API link in new tab with lang param
+        function openApiLink(pageName) {
+            // Construct new URL with current language param
+            const targetUrl = new URL(pageName, window.location.href);
+            targetUrl.searchParams.set('lang', currentLang);
+            
+            // Open in new tab (as requested)
+            window.open(targetUrl.href, '_blank');
+        }
+
+        window.onload = function() {
+            applyTranslations(currentLang);
+        };
+    </script>
+</body>
+</html>

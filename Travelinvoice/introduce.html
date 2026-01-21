@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://www.travelinvoice.com.tw/images/image/travelInvoice.ico" type="image/x-icon" />
+    <title>Travelinvoice</title>
+    <!-- 使用 Tailwind CSS 進行快速切版 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 自定義樣式 */
+        body {
+            font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #f9fafb; /* gray-50 */
+        }
+        /* 替換原本的 placeholder 樣式，改為圖片通用樣式 */
+        .slide-img {
+            width: 100%;
+            height: auto;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            cursor: zoom-in;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            background-color: #fff;
+            border: 1px solid #e5e7eb;
+        }
+        .slide-img:hover {
+            opacity: 0.95;
+            transform: scale(1.01);
+        }
+
+        section {
+            padding-top: 10rem; /* 修改：增加頂部間距以配合兩行式的 fixed nav (原本 6rem -> 10rem) */
+            margin-bottom: 2rem;
+        }
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        /* 詳細列表樣式 */
+        .detail-list li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        .detail-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #709581; /* Brand Green */
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        /* 圖片群組樣式 (單欄垂直排列) */
+        .dual-img-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem; /* 增加間距 */
+            margin-top: 2rem;
+        }
+        
+        .img-caption {
+            font-size: 1rem;
+            color: #374151; /* gray-700 */
+            margin-top: 1rem;
+            line-height: 1.6;
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 0.375rem;
+            border-left: 4px solid #709581; /* 增加左側強調線 */
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        .caption-list {
+            list-style-type: decimal;
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        .caption-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* 燈箱樣式 (Lightbox) */
+        #lightbox {
+            display: none; /* 預設隱藏 */
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+        #lightbox.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        #lightbox img {
+            max-width: 95%;
+            max-height: 85vh;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            object-fit: contain;
+        }
+        #lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        #lightbox-close:hover {
+            color: #709581;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="text-gray-700">
+
+    <!-- 導覽列 -->
+    <nav class="fixed top-0 w-full text-white shadow-lg z-50 transition-colors duration-300" style="background-color: #292929;">
+        <!-- 修改重點：結構改為 flex-col (垂直排列) -->
+        <div class="w-[80%] mx-auto py-4 flex flex-col">
+            
+            <!-- 第一行：Logo 與 工具列 -->
+            <div class="flex justify-between items-center w-full mb-4"> <!-- mb-4 約為 <br> 的高度 -->
+                <!-- 1. Logo 區塊 -->
+                <div class="flex items-center">
+                    <span data-i18n="site_title" class="font-bold text-2xl tracking-wider" style="color: rgb(82, 196, 97);"></span>
+                </div>
+                
+                <!-- 2. 工具列與手機漢堡選單 -->
+                <div class="flex items-center gap-4">
+                    <!-- 語言切換選單 -->
+                    <div class="relative">
+                        <select id="lang-selector" onchange="changeLanguage(this.value)" class="bg-[#414141] text-white text-sm rounded px-3 py-1.5 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-[#709581] hover:border-gray-400 transition-colors">
+                            <!-- JS 將自動填入選項 -->
+                        </select>
+                    </div>
+
+                    <!-- 手機版選單按鈕 (僅手機版顯示) -->
+                    <button class="lg:hidden block text-white focus:outline-none" onclick="document.getElementById('nav-menu').classList.toggle('hidden')">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 第二行：導覽選單 (Desktop: 靠左排列 / Mobile: 隱藏可切換) -->
+            <!-- 移除 order 和 ml-auto，改為自然垂直流動 -->
+            <div id="nav-menu" class="hidden w-full lg:flex lg:items-center">
+                <ul class="flex flex-col lg:flex-row lg:space-x-8 text-sm font-medium tracking-wide w-full lg:w-auto" id="nav-list">
+                    <!-- 導航連結將由 JS 動態生成 -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header / Hero -->
+    <header class="bg-[#709581] text-white pt-36 pb-24 px-4 shadow-md relative overflow-hidden">
+        <!-- 裝飾圓形 -->
+        <div class="absolute top-0 left-0 w-64 h-64 bg-white opacity-5 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-black opacity-5 rounded-full translate-x-1/3 translate-y-1/3"></div>
+
+        <div class="container mx-auto text-center relative z-10">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6 tracking-wider drop-shadow-sm" data-i18n="hero_title"></h1>
+            <div class="inline-block bg-black/20 backdrop-blur-sm rounded-full px-8 py-3 border border-white/20">
+                <p class="text-lg md:text-xl opacity-95 font-light" data-i18n="hero_subtitle"></p>
+            </div>
+            <div class="mt-12 flex justify-center gap-6">
+                <a href="#intro" class="bg-white text-[#709581] px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5" data-i18n="btn_intro"></a>
+                <a href="#industry_features" class="bg-[#292929] text-white px-8 py-3 rounded-full font-bold hover:bg-[#414141] transition shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 border border-gray-600" data-i18n="btn_industry"></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要內容區 -->
+    <main class="container mx-auto px-4 py-12 max-w-6xl">
+
+        <!-- 1. 紙本代轉的困擾 -->
+        <section id="pain_points">
+            <h2 class="text-3xl font-bold text-[#292929] mb-10 border-b-2 border-[#709581] pb-3 flex items-center">
+                <span class="bg-[#709581] text-white rounded-full w-10 h-10 flex items-center justify-center text-xl mr-4 shadow-md">1</span>
+                <span data-i18n="sec1_title"></span>
+            </h2>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="md:col-span-2 lg:col-span-1">
+                    <p class="mb-8 text-gray-600 leading-relaxed text-lg" data-i18n="sec1_desc"></p>
+                    <div class="space-y-8">
+                        <div class="flex group">
+                            <div class="flex-shrink-0 mt-1">
+                                <span class="flex items-center justify-center h-12 w-12 rounded-full bg-red-50 text-red-500 text-2xl group-hover:bg-red-100 transition-colors">💸</span>
+                            </div>
+                            <div class="ml-5">
+                                <h4 class="text-xl font-bold text-gray-800" data-i18n="sec1_point1_title"></h4>
+                                <p class="text-gray-600 mt-2 leading-relaxed" data-i18n="sec1_point1_desc"></p>
+                            </div>
+                        </div>
+                        <div class="flex group">
+                            <div class="flex-shrink-0 mt-1">
+                                <span class="flex items-center justify-center h-12 w-12 rounded-full bg-orange-50 text-orange-500 text-2xl group-hover:bg-orange-100 transition-colors">📮</span>
+                            </div>
+                            <div class="ml-5">
+                                <h4 class="text-xl font-bold text-gray-800" data-i18n="sec1_point2_title"></h4>
+                                <p class="text-gray-600 mt-2 leading-relaxed" data-i18n="sec1_point2_desc"></p>
+                            </div>
+                        </div>
+                        <div class="flex group">
+                            <div class="flex-shrink-0 mt-1">
+                                <span class="flex items-center justify-center h-12 w-12 rounded-full bg-gray-100 text-gray-500 text-2xl group-hover:bg-gray-200 transition-colors">📦</span>
+                            </div>
+                            <div class="ml-5">
+                                <h4 class="text-xl font-bold text-gray-800" data-i18n="sec1_point3_title"></h4>
+                                <p class="text-gray-600 mt-2 leading-relaxed" data-i18n="sec1_point3_desc"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 相關法規 -->
+        <section id="regulations">
+            <h2 class="text-3xl font-bold text-[#292929] mb-10 border-b-2 border-[#709581] pb-3 flex items-center">
+                <span class="bg-[#709581] text-white rounded-full w-10 h-10 flex items-center justify-center text-xl mr-4 shadow-md">2</span>
+                <span data-i18n="sec2_title"></span>
+            </h2>
+            <div class="bg-white p-10 rounded-2xl shadow-lg border-l-8 border-[#709581]">
+                <h3 class="text-2xl font-bold mb-4 text-gray-800" data-i18n="sec2_subtitle"></h3>
+                <p class="mb-8 text-gray-600 text-lg leading-relaxed" data-i18n="sec2_desc"></p>
+                <div class="grid md:grid-cols-2 gap-10">
+                    <div class="bg-[#f0fdf4] p-8 rounded-xl border border-[#709581]/20 col-span-2" data-i18n="sec2_list"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 平台介紹 (已更新 Logo 路徑) -->
+        <section id="intro">
+            <h2 class="text-3xl font-bold text-[#292929] mb-10 border-b-2 border-[#709581] pb-3 flex items-center">
+                <span class="bg-[#709581] text-white rounded-full w-10 h-10 flex items-center justify-center text-xl mr-4 shadow-md">3</span>
+                <span data-i18n="sec3_title"></span>
+            </h2>
+            <p class="mb-10 text-gray-600 text-lg leading-relaxed max-w-4xl" data-i18n="sec3_desc"></p>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-8">
+                <div class="feature-card bg-white p-10 rounded-2xl shadow-md border border-gray-100 w-full md:w-5/12 text-center hover:border-[#709581] transition-colors">
+                    <!-- TATA Logo -->
+                    <div class="flex items-center justify-center mx-auto mb-6 h-20">
+                         <img src="pic/TATAlogo.png" alt="TATA Logo" class="h-full object-contain cursor-zoom-in" onclick="openLightbox(this.src)">
+                    </div>
+                    <h3 class="font-bold text-xl mb-2 text-gray-800" data-i18n="sec3_unit1_title"></h3>
+                    <p class="text-[#709581] text-2xl font-bold mb-1" data-i18n="sec3_unit1_name"></p>
+                    <p class="text-sm text-gray-400 font-medium" data-i18n="sec3_unit1_abbr"></p>
+                    <p class="text-gray-600 mt-6 leading-relaxed" data-i18n="sec3_unit1_desc"></p>
+                </div>
+                
+                <div class="text-5xl text-gray-300 font-thin hidden md:block">+</div>
+                
+                <div class="feature-card bg-white p-10 rounded-2xl shadow-md border border-gray-100 w-full md:w-5/12 text-center hover:border-[#709581] transition-colors">
+                    <!-- Neweb Logo -->
+                    <div class="flex items-center justify-center mx-auto mb-6 h-20">
+                        <img src="pic/Neweblogo.png" alt="Neweb Logo" class="h-full object-contain cursor-zoom-in" onclick="openLightbox(this.src)">
+                    </div>
+                    <h3 class="font-bold text-xl mb-2 text-gray-800" data-i18n="sec3_unit2_title"></h3>
+                    <p class="text-[#709581] text-2xl font-bold mb-1" data-i18n="sec3_unit2_name"></p>
+                    <p class="text-sm text-gray-400 font-medium" data-i18n="sec3_unit2_role"></p>
+                    <p class="text-gray-600 mt-6 leading-relaxed" data-i18n="sec3_unit2_desc"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 電子代轉優勢 -->
+        <section id="advantages">
+            <h2 class="text-3xl font-bold text-[#292929] mb-10 border-b-2 border-[#709581] pb-3 flex items-center">
+                <span class="bg-[#709581] text-white rounded-full w-10 h-10 flex items-center justify-center text-xl mr-4 shadow-md">4</span>
+                <span data-i18n="sec4_title"></span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-md feature-card text-center border-t-4 border-[#709581]">
+                    <div class="text-5xl mb-6">🚀</div>
+                    <h4 class="font-bold text-xl text-gray-800 mb-3" data-i18n="sec4_card1_title"></h4>
+                    <p class="text-gray-600 leading-relaxed" data-i18n="sec4_card1_desc"></p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-md feature-card text-center border-t-4 border-[#292929]">
+                    <div class="text-5xl mb-6">🛡️</div>
+                    <h4 class="font-bold text-xl text-gray-800 mb-3" data-i18n="sec4_card2_title"></h4>
+                    <p class="text-gray-600 leading-relaxed" data-i18n="sec4_card2_desc"></p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-md feature-card text-center border-t-4 border-[#709581]">
+                    <div class="text-5xl mb-6">🏢</div>
+                    <h4 class="font-bold text-xl text-gray-800 mb-3" data-i18n="sec4_card3_title"></h4>
+                    <p class="text-gray-600 leading-relaxed" data-i18n="sec4_card3_desc"></p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-md feature-card text-center border-t-4 border-[#292929]">
+                    <div class="text-5xl mb-6">🔍</div>
+                    <h4 class="font-bold text-xl text-gray-800 mb-3" data-i18n="sec4_card4_title"></h4>
+                    <p class="text-gray-600 leading-relaxed" data-i18n="sec4_card4_desc"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. 作業時點 -->
+        <section id="timeline">
+            <h2 class="text-3xl font-bold text-[#292929] mb-10 border-b-2 border-[#709581] pb-3 flex items-center">
+                <span class="bg-[#709581] text-white rounded-full w-10 h-10 flex items-center justify-center text-xl mr-4 shadow-md">5</span>
+                <span data-i18n="sec5_title"></span>
+            </h2>
+            <div class="bg-[#f3f4f6] p-10 rounded-2xl border border-gray-200">
+                <div class="relative">
+                    <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gray-300 hidden md:block"></div>
+                    
+                    <!-- Item 1 -->
+                    <div class="relative z-10 mb-12 md:flex md:justify-between items-center group">
+                        <div class="md:w-5/12 text-right pr-10">
+                            <h3 class="text-2xl font-bold text-[#709581] group-hover:text-[#292929] transition-colors" data-i18n="sec5_item1_title"></h3>
+                            <p class="text-gray-600 mt-2 leading-relaxed" data-i18n="sec5_item1_desc"></p>
+                        </div>
+                        <div class="hidden md:flex items-center justify-center w-12 h-12 bg-[#709581] rounded-full text-white font-bold text-xl shadow-lg ring-4 ring-white">1</div>
+                        <div class="md:w-5/12 pl-10">
+                            <span class="bg-[#e8f0eb] text-[#709581] px-4 py-1.5 rounded-full text-sm font-bold tracking-wide" data-i18n="sec5_item1_badge"></span>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="relative z-10 mb-12 md:flex md:justify-between items-center group">
+                        <div class="md:w-5/12 text-right pr-10 order-2 md:order-1">
+                            <span class="bg-orange-50 text-orange-700 px-4 py-1.5 rounded-full text-sm font-bold tracking-wide" data-i18n="sec5_item2_badge"></span>
+                        </div>
+                        <div class="hidden md:flex items-center justify-center w-12 h-12 bg-orange-400 rounded-full text-white font-bold text-xl shadow-lg ring-4 ring-white order-1 md:order-2">2</div>
+                        <div class="md:w-5/12 pl-10 order-1 md:order-3">
+                            <h3 class="text-2xl font-bold text-orange-600 group-hover:text-orange-700 transition-colors" data-i18n="sec5_item2_title"></h3>
+                            <p class="text-gray-600 mt-2 leading-relaxed" data-i18n="sec5_item2_desc"></p>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="relative z-10 mb-12 md:flex md:justify-between items-center group">
+                        <div class="md:w-5/12 text-right pr-10">
+                            <h3 class="text-2xl font-bold text-[#709581] group-hover:text-[#292929] transition-colors" data-i18n="sec5_item3_title"></h3>
+                            <p class="text-gray-600 mt-2 leading-relaxed" data-i18n="sec5_item3_desc"></p>
+                        </div>
+                        <div class="hidden md:flex items-center justify-center w-12 h-12 bg-[#709581] rounded-full text-white font-bold text-xl shadow-lg ring-4 ring-white">3</div>
+                        <div class="md:w-5/12 pl-10">
+                            <span class="bg-[#e8f0eb] text-[#709581] px-4 py-1.5 rounded-full text-sm font-bold tracking-wide" data-i18n="sec5_item3_badge"></span>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="relative z-10 md:flex md:justify-between items-center group">
+                        <div class="md:w-5/12 text-right pr-10 order-2 md:order-1">
+                            <span class="bg-purple-50 text-purple-700 px-4 py-1.5 rounded-full text-sm font-bold tracking-wide" data-i18n="sec5_item4_badge"></span>
+                        </div>
+                        <div class="hidden md:flex items-center justify-center w-12 h-12 bg-purple-500 rounded-full text-white font-bold text-xl shadow-lg ring-4 ring-white order-1 md:order-2">4</div>
+                        <div class="md:w-5/12 pl-10 order-1 md:order-3">
+                            <h3 class="text-2xl font-bold text-purple-600 group-hover:text-purple-700 transition-colors" data-i18n="sec5_item4_title"></h3>
+                            <p class="text-gray-600 mt-2 leading-relaxed" data-i18n="sec5_item4_desc"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. 開通服務 -->
+        <section id="activation">
+            <h2 class="text-3xl font-bold text-[#292929] mb-10 border-b-2 border-[#709581] pb-3 flex items-center">
+                <span class="bg-[#709581] text-white rounded-full w-10 h-10 flex items-center justify-center text-xl mr-4 shadow-md">6</span>
+                <span data-i18n="sec6_title"></span>
+            </h2>
+            <div class="bg-white p-8 rounded-2xl shadow-lg">
+                <div class="flex flex-col md:flex-row gap-10">
+                    <div class="flex-1">
+                        <h3 class="text-xl font-bold mb-6 border-l-4 border-[#709581] pl-4 text-[#292929]" data-i18n="sec6_prep_title"></h3>
+                        <div data-i18n="sec6_prep_list" class="mb-10"></div>
+
+                        <h3 class="text-xl font-bold mb-6 border-l-4 border-[#709581] pl-4 text-[#292929]" data-i18n="sec6_steps_title"></h3>
+                        <div data-i18n="sec6_steps_list"></div>
+                    </div>
+                    <div class="flex-1 bg-red-50 p-8 rounded-xl border border-red-100">
+                        <h4 class="font-bold text-red-600 flex items-center mb-4 text-lg">
+                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                            <span data-i18n="sec6_warn_title"></span>
+                        </h4>
+                        <p class="text-sm text-gray-700 mb-6 leading-relaxed" data-i18n="sec6_warn_desc"></p>
+                        <div class="bg-white p-5 rounded-lg border border-red-100 shadow-sm text-sm" data-i18n="sec6_warn_apply"></div>
+                        <div class="mt-6 bg-white rounded-lg" data-i18n="sec6_img_alt"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. 同業功能 -->
+        <section id="industry_features">
+            <h2 class="text-3xl font-bold text-[#292929] mb-10 border-b-2 border-[#709581] pb-3 flex items-center">
+                <span class="bg-[#709581] text-white rounded-full w-10 h-10 flex items-center justify-center text-xl mr-4 shadow-md">7</span>
+                <span data-i18n="sec7_title"></span>
+            </h2>
+            
+            <!-- 7.1 帳號管理 -->
+            <div class="mb-16">
+                <h3 class="text-2xl font-bold text-[#292929] mb-6 flex items-center">
+                    <span class="w-8 h-8 bg-[#292929] text-white rounded flex items-center justify-center text-sm mr-3 shadow">7.1</span>
+                    <span data-i18n="sec7_sub1_title"></span>
+                </h3>
+                <div class="bg-white p-8 rounded-2xl shadow-md border-l-4 border-[#709581]">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-bold text-lg mb-3 text-[#292929]" data-i18n="sec7_sub1_head1"></h4>
+                            <p class="text-gray-600 mb-6" data-i18n="sec7_sub1_desc1"></p>
+                            <h4 class="font-bold text-lg mb-3 text-[#292929]" data-i18n="sec7_sub1_head2"></h4>
+                            <div data-i18n="sec7_sub1_list"></div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg mb-3 text-[#292929]" data-i18n="sec7_sub1_head3"></h4>
+                            <div data-i18n="sec7_sub1_table"></div>
+                        </div>
+                    </div>
+                    <div data-i18n="sec7_sub1_img_group"></div>
+                </div>
+            </div>
+
+            <!-- 7.2 申購與庫存 -->
+            <div class="mb-16">
+                <h3 class="text-2xl font-bold text-[#292929] mb-6 flex items-center">
+                    <span class="w-8 h-8 bg-[#292929] text-white rounded flex items-center justify-center text-sm mr-3 shadow">7.2</span>
+                    <span data-i18n="sec7_sub2_title"></span>
+                </h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 rounded-2xl shadow-md">
+                        <h4 class="font-bold text-lg mb-4 text-[#709581]" data-i18n="sec7_sub2_head1"></h4>
+                        <div data-i18n="sec7_sub2_list1"></div>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-md">
+                        <h4 class="font-bold text-lg mb-4 text-[#709581]" data-i18n="sec7_sub2_head2"></h4>
+                        <div data-i18n="sec7_sub2_list2"></div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-md mt-6">
+                     <div data-i18n="sec7_sub2_img_group"></div>
+                </div>
+            </div>
+
+            <!-- 7.3 開立功能 -->
+            <div class="mb-16">
+                <h3 class="text-2xl font-bold text-[#292929] mb-6 flex items-center">
+                    <span class="w-8 h-8 bg-[#292929] text-white rounded flex items-center justify-center text-sm mr-3 shadow">7.3</span>
+                    <span data-i18n="sec7_sub3_title"></span>
+                </h3>
+                <div class="bg-white p-8 rounded-2xl shadow-md">
+                    <div class="grid md:grid-cols-2 gap-10">
+                        <div>
+                            <h4 class="font-bold text-[#709581] text-lg mb-3" data-i18n="sec7_sub3_head1"></h4>
+                            <p class="text-gray-600 mb-5" data-i18n="sec7_sub3_desc1"></p>
+                            <div data-i18n="sec7_sub3_list1"></div>
+                        </div>
+                        <div class="bg-gray-50 p-6 rounded-xl border border-gray-100">
+                            <h4 class="font-bold text-[#709581] text-lg mb-3" data-i18n="sec7_sub3_head2"></h4>
+                            <div data-i18n="sec7_sub3_list2"></div>
+                        </div>
+                    </div>
+                    <div data-i18n="sec7_sub3_img_group"></div>
+                </div>
+            </div>
+
+            <!-- 7.4 作廢與折讓 -->
+            <div class="mb-16">
+                <h3 class="text-2xl font-bold text-[#292929] mb-6 flex items-center">
+                    <span class="w-8 h-8 bg-[#292929] text-white rounded flex items-center justify-center text-sm mr-3 shadow">7.4</span>
+                    <span data-i18n="sec7_sub4_title"></span>
+                </h3>
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-5 mb-6 text-yellow-800 rounded-r-lg" data-i18n="sec7_sub4_note"></div>
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="flex-1 bg-white p-8 rounded-2xl shadow-md border-t-4 border-red-500">
+                        <h4 class="font-bold mb-4 text-red-600 text-lg" data-i18n="sec7_sub4_head1"></h4>
+                        <div data-i18n="sec7_sub4_list1"></div>
+                    </div>
+                    <div class="flex-1 bg-white p-8 rounded-2xl shadow-md border-t-4 border-green-500">
+                        <h4 class="font-bold mb-4 text-green-600 text-lg" data-i18n="sec7_sub4_head2"></h4>
+                        <div data-i18n="sec7_sub4_list2"></div>
+                    </div>
+                </div>
+                 <div class="bg-white p-6 rounded-2xl shadow-md mt-6">
+                     <div data-i18n="sec7_sub4_img_group"></div>
+                </div>
+            </div>
+
+             <!-- 7.5 修改與報表 -->
+             <div class="mb-16">
+                <h3 class="text-2xl font-bold text-[#292929] mb-6 flex items-center">
+                    <span class="w-8 h-8 bg-[#292929] text-white rounded flex items-center justify-center text-sm mr-3 shadow">7.5</span>
+                    <span data-i18n="sec7_sub5_title"></span>
+                </h3>
+                <div class="bg-white p-8 rounded-2xl shadow-md">
+                    <h4 class="font-bold mb-4 text-[#292929]" data-i18n="sec7_sub5_head1"></h4>
+                    <p class="text-gray-600 mb-6" data-i18n="sec7_sub5_desc1"></p>
+                    <div class="grid md:grid-cols-3 gap-6 mb-8">
+                        <div class="bg-red-50 p-6 rounded-xl text-center border border-red-100">
+                            <span class="block text-red-600 font-bold text-lg mb-1" data-i18n="sec7_sub5_card1_title"></span>
+                            <span class="text-sm text-gray-500" data-i18n="sec7_sub5_card1_desc"></span>
+                        </div>
+                        <div class="bg-red-50 p-6 rounded-xl text-center border border-red-100">
+                            <span class="block text-red-600 font-bold text-lg mb-1" data-i18n="sec7_sub5_card2_title"></span>
+                            <span class="text-sm text-gray-500" data-i18n="sec7_sub5_card2_desc"></span>
+                        </div>
+                        <div class="bg-red-50 p-6 rounded-xl text-center border border-red-100">
+                            <span class="block text-red-600 font-bold text-lg mb-1" data-i18n="sec7_sub5_card3_title"></span>
+                            <span class="text-sm text-gray-500" data-i18n="sec7_sub5_card3_desc"></span>
+                        </div>
+                    </div>
+                    
+                    <h4 class="font-bold mb-4 text-[#292929]" data-i18n="sec7_sub5_head2"></h4>
+                    <p class="text-gray-600" data-i18n="sec7_sub5_desc2"></p>
+                    <div class="mt-6 rounded-xl" data-i18n="sec7_sub5_img_group"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. 消費者功能 -->
+        <section id="consumer_features">
+            <h2 class="text-3xl font-bold text-[#292929] mb-10 border-b-2 border-[#709581] pb-3 flex items-center">
+                <span class="bg-[#709581] text-white rounded-full w-10 h-10 flex items-center justify-center text-xl mr-4 shadow-md">8</span>
+                <span data-i18n="sec8_title"></span>
+            </h2>
+            <div class="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col lg:flex-row">
+                <!-- 左側：功能說明 -->
+                <div class="bg-[#709581] p-12 text-white lg:w-1/3 flex flex-col justify-center">
+                    <h3 class="text-2xl font-bold mb-6" data-i18n="sec8_sub_title"></h3>
+                    <p class="mb-8 opacity-90 leading-relaxed text-lg" data-i18n="sec8_sub_desc"></p>
+                    <div data-i18n="sec8_sub_list"></div>
+                </div>
+
+                <!-- 右側：驗證流程 -->
+                <div class="p-12 lg:w-2/3">
+                    <h4 class="text-xl font-bold text-[#292929] mb-8 border-b pb-3" data-i18n="sec8_process_title"></h4>
+                    <p class="text-gray-600 mb-8" data-i18n="sec8_process_desc"></p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                        <div class="bg-gray-50 p-5 rounded-lg border border-gray-200">
+                            <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider" data-i18n="sec8_field1_label"></label>
+                            <div class="font-bold text-gray-800 text-lg" data-i18n="sec8_field1_val"></div>
+                            <div class="text-sm text-gray-500 mt-1" data-i18n="sec8_field1_note"></div>
+                        </div>
+                        <div class="bg-gray-50 p-5 rounded-lg border border-gray-200">
+                            <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider" data-i18n="sec8_field2_label"></label>
+                            <div class="font-bold text-gray-800 text-lg" data-i18n="sec8_field2_val"></div>
+                            <div class="text-sm text-gray-500 mt-1" data-i18n="sec8_field2_note"></div>
+                        </div>
+                        <div class="bg-gray-50 p-5 rounded-lg border border-gray-200">
+                            <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider" data-i18n="sec8_field3_label"></label>
+                            <div class="font-bold text-gray-800 text-lg" data-i18n="sec8_field3_val"></div>
+                            <div class="text-sm text-gray-500 mt-1" data-i18n="sec8_field3_note"></div>
+                        </div>
+                        <div class="bg-gray-50 p-5 rounded-lg border border-gray-200">
+                            <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider" data-i18n="sec8_field4_label"></label>
+                            <div class="font-bold text-gray-800 text-lg" data-i18n="sec8_field4_val"></div>
+                            <div class="text-sm text-gray-500 mt-1" data-i18n="sec8_field4_note"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-100 p-6 rounded-xl text-center">
+                        <div data-i18n="sec8_img_group"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. 客服中心 -->
+        <section id="support">
+            <h2 class="text-3xl font-bold text-[#292929] mb-10 border-b-2 border-[#709581] pb-3 flex items-center">
+                <span class="bg-[#709581] text-white rounded-full w-10 h-10 flex items-center justify-center text-xl mr-4 shadow-md">9</span>
+                <span data-i18n="sec9_title"></span>
+            </h2>
+            <div class="bg-gradient-to-r from-[#f0fdf4] to-white border border-[#709581]/30 rounded-2xl p-12 text-center shadow-md">
+                <div class="text-6xl mb-8 text-[#709581]">🎧</div>
+                
+                <div class="grid md:grid-cols-3 gap-10 divide-y md:divide-y-0 md:divide-x divide-gray-200">
+                    <div class="py-4">
+                        <h3 class="text-gray-400 text-sm uppercase tracking-widest mb-2" data-i18n="sec9_tel_label"></h3>
+                        <p class="text-3xl font-bold text-[#292929]" data-i18n="sec9_tel_val"></p>
+                    </div>
+                    <div class="py-4">
+                        <h3 class="text-gray-400 text-sm uppercase tracking-widest mb-2" data-i18n="sec9_mail_label"></h3>
+                        <a href="mailto:cs@newebpay.com" class="text-xl font-bold text-[#709581] hover:text-[#292929] transition-colors hover:underline" data-i18n="sec9_mail_val"></a>
+                    </div>
+                    <div class="py-4">
+                        <h3 class="text-gray-400 text-sm uppercase tracking-widest mb-2" data-i18n="sec9_time_label"></h3>
+                        <p class="text-xl font-bold text-gray-700" data-i18n="sec9_time_val"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10. 系統整合 -->
+        <section id="integration">
+            <h2 class="text-3xl font-bold text-[#292929] mb-10 border-b-2 border-[#709581] pb-3 flex items-center">
+                <span class="bg-[#709581] text-white rounded-full w-10 h-10 flex items-center justify-center text-xl mr-4 shadow-md">10</span>
+                <span data-i18n="sec10_title"></span>
+            </h2>
+            <div class="text-center">
+                <p class="text-xl text-gray-600 mb-10" data-i18n="sec10_desc"></p>
+                <div class="flex flex-wrap justify-center gap-6">
+                    <div class="bg-white px-8 py-5 rounded-xl shadow-md border border-gray-100 font-bold text-gray-600 text-lg flex items-center hover:shadow-lg transition-all">
+                        <span class="w-3 h-3 bg-[#709581] rounded-full mr-3"></span><span data-i18n="sec10_partner1"></span>
+                    </div>
+                    <div class="bg-white px-8 py-5 rounded-xl shadow-md border border-gray-100 font-bold text-gray-600 text-lg flex items-center hover:shadow-lg transition-all">
+                        <span class="w-3 h-3 bg-green-500 rounded-full mr-3"></span><span data-i18n="sec10_partner2"></span>
+                    </div>
+                    <div class="bg-white px-8 py-5 rounded-xl shadow-md border border-gray-100 font-bold text-gray-600 text-lg flex items-center hover:shadow-lg transition-all">
+                        <span class="w-3 h-3 bg-red-500 rounded-full mr-3"></span><span data-i18n="sec10_partner3"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 rounded-xl bg-white shadow-inner p-4" data-i18n="sec10_img_alt"></div>
+        </section>
+
+    </main>
+
+    <footer class="text-gray-400 py-16 mt-16" style="background-color: #292929;">
+        <div class="container mx-auto px-4 text-center">
+            <h4 class="text-white font-bold text-xl mb-6 tracking-wide" data-i18n="footer_title"></h4>
+            
+            <p data-i18n="footer_copyright" class="text-sm"></p>
+        </div>
+    </footer>
+
+    <!-- Lightbox DOM -->
+    <div id="lightbox" onclick="closeLightbox()">
+        <span id="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img id="lightbox-img" src="" alt="Full Screen Image">
+    </div>
+
+    <!-- JavaScript 邏輯 -->
+    <script>
+        // 0. Lightbox 控制
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            lightbox.classList.add('active');
+            // 防止背景捲動
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            // 恢復背景捲動
+            document.body.style.overflow = 'auto';
+        }
+
+        // 輔助函式：產生圖片 HTML (包含點擊事件)
+        function createImg(src, alt = '圖片') {
+            return `<img src="${src}" alt="${alt}" class="slide-img" onclick="openLightbox(this.src)">`;
+        }
+
+        // 1. 定義多國語言資料
+        // 修改重點：每個語言物件中加入 "lang_name" 屬性，用於自動產生選單
+        const resources = {
+            "zh-TW": {"lang_name": "繁體中文","site_title": "旅行業電子收據平台","hero_title": "旅行業代收轉付電子收據加值服務平台","hero_subtitle": "主辦單位: 台北市旅行商業同業公會 | 營運單位: 藍新科技股份有限公司","btn_intro": "平台介紹","btn_industry": "同業功能","nav_pain": "紙本困擾","nav_law": "相關法規","nav_intro": "平台介紹","nav_pros": "電子優勢","nav_time": "作業時點","nav_start": "開通服務","nav_b2b": "同業功能","nav_b2c": "消費者功能","nav_cs": "客服中心","sec1_title": "紙本代轉的困擾","sec1_desc": "隨著電子商務發展，傳統紙本作業已成為旅行社營運的負擔。以下是紙本代轉的三大痛點：","sec1_point1_title": "高昂硬體與耗材成本","sec1_point1_desc": "點陣印表機維護費（約$13,000/台）、色帶耗材（約$110/個）。除此之外，列印時的高分貝噪音也是辦公室的一大困擾。","sec1_point2_title": "繁瑣郵寄與時間成本","sec1_point2_desc": "郵資成本累計驚人（掛號$23.5、限掛$30.5）。人員需花費大量時間進行摺疊、查找、搬運與整理，無法即時取得單據。","sec1_point3_title": "龐大空間與倉儲壓力","sec1_point3_desc": "依法規需保存憑證七年，需租用倉儲空間存放大量紙本。且空白代轉單據本身亦佔用庫存空間，管理不易。","sec2_title": "相關法規","sec2_subtitle": "財政部令：旅行業代收轉付電子收據試辦作業規範","sec2_desc": "為響應節能減碳與數位化政策，財政部正式訂定此規範，賦予電子收據與紙本收據同等效力。","sec2_list": "<ul class='space-y-3 text-gray-700'><li><strong>發布機關：</strong>財政部賦稅署</li><li><strong>發布日期：</strong>105年04月07日</li><li><strong>發布字號：</strong>台財稅字第10504544630號令</li><li><strong>資料來源：</strong>行政院公報</li></ul>","sec3_title": "加值服務平台介紹","sec3_desc": "本平台係經台北市旅行商業同業公會正式招標流程，由智通數位（現為藍新科技）取得營運推廣權利。結合公會的公信力與藍新科技的支付金流技術，提供最穩定的電子收據服務。","sec3_unit1_title": "主辦單位","sec3_unit1_name": "台北市旅行商業同業公會","sec3_unit1_abbr": "(TATA)","sec3_unit1_desc": "負責統籌規劃與監管，確保平台符合同業需求與法規規範。","sec3_unit2_title": "營運單位","sec3_unit2_name": "藍新科技","sec3_unit2_role": "第三方支付金流平台技術支援","sec3_unit2_desc": "提供系統開發、維運、資安防護及客戶服務。","sec4_title": "電子代轉的優勢","sec4_card1_title": "線上購買．即時取得","sec4_card1_desc": "無需等待物流配送，線上付款後立即取得號碼使用。","sec4_card2_title": "降低風險．安全可靠","sec4_card2_desc": "金流支付有保障，資料傳輸全程加密，避免紙本遺失風險。","sec4_card3_title": "空間運用．免去倉儲","sec4_card3_desc": "雲端儲存七年資料，有效釋放辦公室空間。","sec4_card4_title": "輕鬆省時．快速查找","sec4_card4_desc": "系統化索引，輸入號碼或日期即可秒速調閱歷史單據。","sec5_title": "作業時點說明","sec5_item1_title": "日常作業","sec5_item1_desc": "隨時可於平台進行單筆或批次匯入開立、作廢、折讓。折讓收據沒有時間或是週期限制。","sec5_item1_badge": "開立 / 作廢 / 折讓","sec5_item2_badge": "資料截止 & 修改期限","sec5_item2_title": "單月 1 日 (AM 0:00)","sec5_item2_desc": "在下個單月1日凌晨前，可修改買受人名稱及統編（限一次）。之後系統將鎖定並上傳資料。單月1日後，不能修改之前的收據。","sec5_item3_title": "上傳至財政部","sec5_item3_desc": "平台自動將前兩個月的收據資料（開立/作廢/折讓）上傳至財政部電子發票平台留存。","sec5_item3_badge": "系統自動作業","sec5_item4_badge": "營業人申報","sec5_item4_title": "單月 15 日","sec5_item4_desc": "營業人可於平台下載開立明細表，作為附件進行稅務申報。單月15日後，不能作廢之前的收據。","sec6_title": "開通平台服務","sec6_prep_title": "準備事項","sec6_prep_list": "<ul class='detail-list text-gray-700 mb-6'><li>經濟部工商憑證 IC 卡</li><li>晶片讀卡機</li><li>公司稅籍編號</li><li>Windows 作業系統電腦（用以執行驗證元件）</li></ul>","sec6_steps_title": "開通流程","sec6_steps_list": "<ol class='list-decimal pl-5 space-y-3 text-gray-700'><li>前往 <a href='#' class='text-[#709581] hover:underline font-bold'>www.travelinvoice.com.tw</a> 點選右上角【開通】。</li><li>下載並安裝「工商憑證驗證程式」（需依瀏覽器版本選擇）。</li><li>插入工商憑證，填寫公司統一編號、稅籍編號、管理者 Email 與密碼。</li><li>系統驗證憑證後，即可完成開通。</li></ol>","sec6_warn_title": "資安特別提醒：API 串接","sec6_warn_desc": "若貴公司計畫使用 API 進行自動化串接（如與 ERP 系統整合），基於資訊安全考量，本平台採 **IP 綁定白名單機制**。","sec6_warn_apply": "<p><strong>申請方式：</strong></p><ul class='list-disc pl-5 mt-2 text-gray-600'><li>下載專區取得「IP設定申請表」</li><li>填寫伺服器固定 IP</li><li>蓋公司大小章</li><li>傳真或 Email 至客服中心</li></ul>","sec6_img_alt": createImg('pic/P14.png', '帳號開通'),"sec7_title": "旅行同業平台功能詳解","sec7_sub1_title": "帳號與權限管理","sec7_sub1_head1": "助理帳號設定","sec7_sub1_desc1": "系統支援新增多達 **30 組助理帳號**，方便大型旅行社分工（如會計、OP、業務分開操作）。","sec7_sub1_head2": "群組權限管理","sec7_sub1_list": "<ul class='detail-list text-sm text-gray-600'><li>自訂群組名稱（如：會計組、票務組）。</li><li>細部權限勾選：查詢、下載、新增（開立）、修改、作廢、折讓、基本資料設定。</li></ul>","sec7_sub1_head3": "帳號狀態控制","sec7_sub1_table": "<table class='w-full text-sm text-left text-gray-600 border'><thead class='bg-gray-100 font-bold text-[#292929]'><tr><th class='p-3 border-b'>功能</th><th class='p-3 border-b'>說明</th></tr></thead><tbody><tr><td class='p-3 border-b'>停用/啟用</td><td class='p-3 border-b'>員工離職可立即停用，復職可重新啟用。</td></tr><tr><td class='p-3 border-b'>補發通知</td><td class='p-3 border-b'>若員工未收到開通 Email，可一鍵補發。</td></tr><tr><td class='p-3 border-b'>編輯/刪除</td><td class='p-3 border-b'>隨時調整所屬群組或移除帳號。</td></tr></tbody></table>","sec7_sub1_img_group": `<div class='dual-img-grid'><div>${createImg('pic/P18.png', '會員基本資料')}<div class='img-caption'><strong>1. 基本資料設定：</strong><ol class='caption-list'><li>登入後請先確認公司基本資料。</li><li>地址請務必確認為「稅籍登記資料」之地址。</li><li>上傳公司 Logo (選填)。</li></ol></div></div><div>${createImg('pic/P19.png', '助理帳號設定')}<div class='img-caption'><strong>2. 助理帳號設定：</strong><ol class='caption-list'><li>點選「權限管理」&gt;「群組設定」新增群組。</li><li>設定該群組之功能權限。</li><li>點選「帳號設定」新增助理帳號並歸屬群組。</li></ol></div></div></div>`,"sec7_sub2_title": "申購電子收據與庫存","sec7_sub2_head1": "線上申購流程","sec7_sub2_list1": "<ol class='list-decimal pl-5 space-y-2 text-sm text-gray-600'><li>選擇「申購代轉收據」。</li><li>輸入份數（例如 3 份，每份1000張）。</li><li>系統自動計算總金額。</li><li>選擇付款方式：<strong>WebATM</strong> (即時) 或 <strong>ATM轉帳</strong> (取得虛擬帳號)。</li><li>付款成功後，憑證由公會開立紙本後寄送。</li></ol>","sec7_sub2_head2": "代轉號碼庫存特色","sec7_sub2_list2": "<ul class='detail-list text-sm text-gray-600'><li><strong>無使用期限：</strong>購買的號碼永久有效。</li><li><strong>先進先出 (FIFO)：</strong>系統開立時自動取用最早購買的字軌號碼。</li><li><strong>跨年度查詢：</strong>可依年份（如2016, 2017...）查詢該年度購買的字軌使用狀況（已用/剩餘）。</li></ul>","sec7_sub2_img_group": `<div class='dual-img-grid'><div><div class="space-y-4">${createImg('pic/P20.png', '申購流程1')}${createImg('pic/P21.png', '申購流程2')}${createImg('pic/P22.png', '申購流程3')}</div><div class='img-caption'><strong>1. 申購流程：</strong><ol class='caption-list'><li>點選「收據作業」&gt;「申購代轉收據」。</li><li>輸入申購份數 (每份1000張)。</li><li>選擇付款方式 (WebATM/ATM)。</li><li>系統自動計算金額，確認後進行付款。</li></ol></div></div><div><div class="space-y-4">${createImg('pic/P23.png', '庫存查詢1')}${createImg('pic/P24.png', '庫存查詢2')}</div><div class='img-caption'><strong>2. 庫存查詢：</strong><ol class='caption-list'><li>點選「收據作業」&gt;「代轉號碼庫存查詢」。</li><li>可查詢各年度購買之字軌。</li><li>顯示目前已使用與剩餘張數。</li><li>系統採先進先出，自動取號。</li></ol></div></div></div>`,"sec7_sub3_title": "開立電子收據 (單筆/批次)","sec7_sub3_head1": "單筆開立","sec7_sub3_desc1": "適合散客或筆數較少時使用。需輸入：","sec7_sub3_list1": "<ul class='text-sm text-gray-600 grid grid-cols-2 gap-2'><li>• 自訂編號 (對帳用)</li><li>• 買受人名稱</li><li>• 買受人統編 (B2B必填)</li><li>• Email (寄送通知)</li><li>• 品項/單價/數量</li></ul>","sec7_sub3_head2": "批次上傳規格 (重要)","sec7_sub3_list2": "<ul class='detail-list text-sm text-gray-700'><li><strong>檔案格式：</strong>.txt 純文字檔</li><li><strong>編碼格式：</strong>Unicode (避免亂碼)</li><li><strong>檔名限制：</strong>僅限英數字混合，不可中文。</li><li><strong>大小限制：</strong>2MB (約一萬筆資料)</li><li><strong>重複檢核：</strong>系統會檢查自訂編號，相同資料若重複上傳會導致重複開立，請務必小心。</li></ul>","sec7_sub3_img_group": `<div class='dual-img-grid'><div>${createImg('pic/P25.png', '單筆開立')}<div class='img-caption'><strong>1. 單筆開立：</strong><ol class='caption-list'><li>填寫「自訂編號」(旅行社內部訂單號)。</li><li>輸入買受人資訊 (名稱/統編)。</li><li>輸入收據明細 (品項/金額)。</li><li>確認 Email 正確以寄送通知。</li></ol></div></div><div>${createImg('pic/P26.png', '批次開立')}<div class='img-caption'><strong>2. 批次開立：</strong><ol class='caption-list'><li>檔案格式限定為 .txt 文字檔。</li><li>編碼格式限用 Unicode。</li><li>檔名請使用英數字混合，不可中文。</li><li>單檔大小限制 2MB。</li></ol></div></div></div>`,"sec7_sub4_title": "作廢與折讓 (雙向確認機制)","sec7_sub4_note": "依《旅行業代收轉付電子收據試辦作業規範》，作廢與折讓皆需經過<strong>「買受人同意」</strong>才算完成程序。","sec7_sub4_head1": "作廢流程","sec7_sub4_list1": "<ol class='list-decimal pl-5 text-sm text-gray-600 space-y-2'><li>旅行社於平台發起作廢，填寫原因。</li><li>勾選「需買受人確認」。</li><li>系統發送 Email 給消費者。</li><li>消費者點擊信中<strong>「確認作廢」</strong>連結。</li><li>平台狀態更新為「已確認作廢」。</li></ol>","sec7_sub4_head2": "折讓流程 (部分退款)","sec7_sub4_list2": "<ol class='list-decimal pl-5 text-sm text-gray-600 space-y-2'><li>旅行社查詢原收據，點選「折讓」。</li><li>輸入折讓金額與品項。</li><li>系統發送 Email 給消費者。</li><li>消費者點擊信中連結，查看折讓單並點選<strong>「同意」</strong>。</li><li>完成折讓，系統產生折讓證明單。</li></ol>","sec7_sub4_img_group": `<div class='dual-img-grid'><div>${createImg('pic/P28.png', '作廢電子收據')}<div class='img-caption'><strong>1. 作廢流程：</strong><ol class='caption-list'><li>查詢欲作廢之收據。</li><li>點選「作廢」按鈕。</li><li>填寫作廢原因。</li><li>勾選「需買受人確認作廢」(必要流程)。</li></ol></div></div><div>${createImg('pic/P30.png', '折讓電子收據')}<div class='img-caption'><strong>2. 折讓流程：</strong><ol class='caption-list'><li>查詢原收據，點選「折讓」。</li><li>輸入折讓單號與折讓內容。</li><li>系統自動寄送折讓通知信。</li><li>買受人需線上點擊同意。</li></ol></div></div></div>`,"sec7_sub5_title": "修改限制與報表查詢","sec7_sub5_head1": "嚴格的修改規則","sec7_sub5_desc1": "為符合稅務規範，收據內容修改有嚴格限制：","sec7_sub5_card1_title": "期限限制","sec7_sub5_card1_desc": "下個單月 1 號前","sec7_sub5_card2_title": "次數限制","sec7_sub5_card2_desc": "僅限 1 次","sec7_sub5_card3_title": "列印限制","sec7_sub5_card3_desc": "若買受人已列印則無法修改","sec7_sub5_head2": "查詢與下載","sec7_sub5_desc2": "可依「開立日期」、「收據金額」、「自訂編號」、「收據狀態」（已開立/作廢/折讓）進行篩選。支援<strong>下載 Excel/CSV</strong> 報表，方便財務人員進行對帳與申報作業。","sec7_sub5_img_group": `<div class='dual-img-grid'><div><div class="space-y-4">${createImg('pic/P32.png', '查詢與明細1')}${createImg('pic/P33.png', '查詢與明細2')}</div><div class='img-caption'><strong>1. 查詢與報表：</strong><ol class='caption-list'><li>設定查詢條件 (日期/狀態/關鍵字)。</li><li>列表顯示收據狀態 (開立/作廢/折讓)。</li><li>點選「明細」查看完整內容。</li><li>支援匯出 Excel 報表。</li></ol></div></div><div><div class="space-y-4">${createImg('pic/P34.png', '列印與修改1')}${createImg('pic/P35.png', '列印與修改2')}</div><div class='img-caption'><strong>2. 修改限制：</strong><ol class='caption-list'><li>下個單月1日前可修改。</li><li>僅限修改買受人名稱及統編。</li><li>修改次數限制為 1 次。</li><li>若買受人已列印收據則無法修改。</li></ol></div></div></div>`,"sec8_title": "消費者平台功能","sec8_sub_title": "消費者服務專區","sec8_sub_desc": "提供 24 小時不打烊的查詢與列印服務。消費者無需註冊帳號，憑通知信資訊即可操作。","sec8_sub_list": "<ul class='space-y-4'><li class='flex items-center'><span class='bg-white text-[#709581] rounded-full w-6 h-6 flex items-center justify-center mr-3 text-sm'>✓</span>Email 即時通知 (開立/作廢/折讓)</li><li class='flex items-center'><span class='bg-white text-[#709581] rounded-full w-6 h-6 flex items-center justify-center mr-3 text-sm'>✓</span>線上查詢收據明細</li><li class='flex items-center'><span class='bg-white text-[#709581] rounded-full w-6 h-6 flex items-center justify-center mr-3 text-sm'>✓</span>PDF 下載與列印 (支援補印)</li></ul>","sec8_process_title": "收據查詢驗證流程","sec8_process_desc": "當您收到旅行社寄發的「開立通知信」後，請前往平台「查詢專區」，輸入信件中提供的以下資訊：","sec8_field1_label": "欄位 1","sec8_field1_val": "代轉號碼","sec8_field1_note": "例如：T00329351","sec8_field2_label": "欄位 2","sec8_field2_val": "隨機碼 (Random Code)","sec8_field2_note": "4位或8位數驗證碼","sec8_field3_label": "欄位 3","sec8_field3_val": "開立日期","sec8_field3_note": "YYYY-MM-DD","sec8_field4_label": "安全驗證","sec8_field4_val": "圖形驗證碼","sec8_field4_note": "輸入畫面顯示之數字","sec8_img_group": `<div class='dual-img-grid'><div>${createImg('pic/P40.png', '查詢專區')}<div class='img-caption'><strong>1. 查詢步驟：</strong><ol class='caption-list'><li>輸入代轉號碼 (如 T12345678)。</li><li>輸入隨機碼 (4-8碼)。</li><li>選擇開立日期。</li><li>輸入圖形驗證碼。</li></ol></div></div><div>${createImg('pic/P41.png', '下載列印')}<div class='img-caption'><strong>2. 列印下載：</strong><ol class='caption-list'><li>查詢成功顯示收據明細。</li><li>點選「列印收據」下載 PDF。</li><li>系統紀錄列印次數。</li><li>僅限列印一次 (重印需洽旅行社)。</li></ol></div></div></div>`,"sec9_title": "客戶服務中心","sec9_tel_label": "客服電話","sec9_tel_val": "02-2786-3655","sec9_mail_label": "客服信箱","sec9_mail_val": "cs@newebpay.com","sec9_time_label": "服務時間","sec9_time_val": "每日 08:00 ~ 23:00","sec10_title": "系統整合夥伴","sec10_desc": "訂房、票務、ERP、金流、收據，一次搞定！<br>透過 API 完整串接，打造自動化作業流程。","sec10_partner1": "藍新科技","sec10_partner2": "COWELL (科威資訊)","sec10_partner3": "先啟資訊 (Sabre)","sec10_img_alt": createImg('pic/P45.png', '系統整合夥伴'),"footer_title": "旅行業代收轉付電子收據加值服務平台","footer_terms": "服務條款","footer_privacy": "隱私權聲明","footer_security": "資訊安全","footer_copyright": "&copy; 藍新金融科技事業群. All rights reserved."            },
+            "EN": {"lang_name": "English","site_title": "Travel Industry E-Receipt Platform","hero_title": "Travel Industry Collection & Payment E-Receipt Value-Added Service Platform","hero_subtitle": "Organizer: Taipei Association of Travel Agents | Operator: Neweb Technologies Co., Ltd.","btn_intro": "Introduction","btn_industry": "Industry Features","nav_pain": "Pain Points","nav_law": "Regulations","nav_intro": "Platform Intro","nav_pros": "Advantages","nav_time": "Timeline","nav_start": "Activation","nav_b2b": "Industry Features","nav_b2c": "Consumer Features","nav_cs": "Support","sec1_title": "Pain Points of Paper Receipts","sec1_desc": "With the development of e-commerce, traditional paper operations have become a burden. Here are three major pain points:","sec1_point1_title": "High Hardware & Material Costs","sec1_point1_desc": "Dot matrix printer maintenance (~$13,000/unit) and ribbons (~$110/each). Plus, the high noise level is a disturbance.","sec1_point2_title": "Tedious Mailing & Time Costs","sec1_point2_desc": "Accumulated postage costs are high (Registered: $23.5, Prompt Registered: $30.5). Staff spend hours folding, searching, moving, and organizing.","sec1_point3_title": "Huge Space & Storage Pressure","sec1_point3_desc": "Regulations require storing vouchers for 7 years, necessitating warehouse rental. Blank receipt stock also takes up space and is hard to manage.","sec2_title": "Regulations","sec2_subtitle": "Ministry of Finance Order: Operational Guidelines for Trial of Travel Industry Collection & Payment E-Receipts","sec2_desc": "To support energy saving, carbon reduction, and digitization policies, the Ministry of Finance established these guidelines, giving e-receipts equal validity to paper receipts.","sec2_list": "<ul class='space-y-3 text-gray-700'><li><strong>Issuing Authority:</strong> Taxation Administration, Ministry of Finance</li><li><strong>Date Issued:</strong> April 07, 2016</li><li><strong>Ref No.:</strong> Tai-Cai-Shui-Zi No. 10504544630</li><li><strong>Source:</strong> Executive Yuan Gazette</li></ul>","sec3_title": "Platform Introduction","sec3_desc": "This platform was awarded to Neweb Technologies (formerly Jtong Digital) through a formal tender process by the Taipei Association of Travel Agents. Combining the Association's credibility with Neweb's payment technology, we provide the most stable e-receipt service.","sec3_unit1_title": "Organizer","sec3_unit1_name": "Taipei Association of Travel Agents","sec3_unit1_abbr": "(TATA)","sec3_unit1_desc": "Responsible for overall planning and supervision, ensuring the platform meets industry needs and regulations.","sec3_unit2_title": "Operator","sec3_unit2_name": "Neweb Technologies","sec3_unit2_role": "Third-party Payment Tech Support","sec3_unit2_desc": "Provides system development, maintenance, cybersecurity protection, and customer service.","sec4_title": "Advantages of E-Transfer","sec4_card1_title": "Buy Online, Get Instantly","sec4_card1_desc": "No waiting for delivery. Obtain numbers immediately after online payment.","sec4_card2_title": "Lower Risk, Secure & Reliable","sec4_card2_desc": "Payment security guaranteed. Data transmission is fully encrypted, avoiding risks of lost paper.","sec4_card3_title": "Space Efficiency, No Storage","sec4_card3_desc": "Cloud storage for 7 years of data, effectively freeing up office space.","sec4_card4_title": "Save Time, Quick Search","sec4_card4_desc": "Systematic indexing allows retrieval of historical receipts by number or date in seconds.","sec5_title": "Timeline of Operations","sec5_item1_title": "Daily Operations","sec5_item1_desc": "Issue, Void, or Allowance (single or batch) at any time on the platform. There are no time or cycle limits for Allowance receipts.","sec5_item1_badge": "Issue / Void / Allowance","sec5_item2_badge": "Data Cutoff & Modification Deadline","sec5_item2_title": "1st of Odd Month (AM 0:00)","sec5_item2_desc": "Buyer name and Tax ID can be modified (once only) before the 1st of the next odd month. Afterward, data is locked and uploaded. Modifications to previous receipts are not allowed after this date.","sec5_item3_title": "Upload to Ministry of Finance","sec5_item3_desc": "The platform automatically uploads receipt data (Issue/Void/Allowance) from the previous two months to the MOF E-Invoice Platform.","sec5_item3_badge": "Automated System Process","sec5_item4_badge": "Business Declaration","sec5_item4_title": "15th of Odd Month","sec5_item4_desc": "Businesses can download the issuance list from the platform for tax declaration. Cancellations of previous receipts are not allowed after this date.","sec6_title": "Activate Service","sec6_prep_title": "Preparation","sec6_prep_list": "<ul class='detail-list text-gray-700 mb-6'><li>MOEACA IC Card</li><li>Chip Card Reader</li><li>Company Tax ID</li><li>Windows PC (for verification components)</li></ul>","sec6_steps_title": "Activation Process","sec6_steps_list": "<ol class='list-decimal pl-5 space-y-3 text-gray-700'><li>Go to <a href='#' class='text-[#709581] hover:underline font-bold'>www.travelinvoice.com.tw</a> and click [Activate].</li><li>Download and install the 'MOEACA Verification Tool'.</li><li>Insert IC Card, fill in Company Tax ID, Admin Email, and Password.</li><li>Once verified, activation is complete.</li></ol>","sec6_warn_title": "Security Note: API Integration","sec6_warn_desc": "If your company plans to use API for automation (e.g., ERP integration), we use an **IP Whitelist Mechanism** for security.","sec6_warn_apply": "<p><strong>How to Apply:</strong></p><ul class='list-disc pl-5 mt-2 text-gray-600'><li>Download 'IP Setup Form' from Download Area</li><li>Fill in fixed Server IP</li><li>Stamp with company seals</li><li>Fax or Email to Customer Service</li></ul>","sec6_img_alt": createImg('pic/P14.png', 'Account Activation'),"sec7_title": "Industry Features Explained","sec7_sub1_title": "Account & Permission Management","sec7_sub1_head1": "Assistant Accounts","sec7_sub1_desc1": "Supports up to **30 assistant accounts**, facilitating division of labor for large agencies (e.g., Accounting, OP, Sales).","sec7_sub1_head2": "Group Permissions","sec7_sub1_list": "<ul class='detail-list text-sm text-gray-600'><li>Custom Group Names (e.g., Accounting Dept).</li><li>Detailed permissions: Query, Download, Add (Issue), Modify, Void, Allowance, Basic Settings.</li></ul>","sec7_sub1_head3": "Account Status Control","sec7_sub1_table": "<table class='w-full text-sm text-left text-gray-600 border'><thead class='bg-gray-100 font-bold text-[#292929]'><tr><th class='p-3 border-b'>Feature</th><th class='p-3 border-b'>Description</th></tr></thead><tbody><tr><td class='p-3 border-b'>Disable/Enable</td><td class='p-3 border-b'>Disable immediately upon resignation; re-enable upon reinstatement.</td></tr><tr><td class='p-3 border-b'>Resend Notice</td><td class='p-3 border-b'>One-click resend if employee missed the activation email.</td></tr><tr><td class='p-3 border-b'>Edit/Delete</td><td class='p-3 border-b'>Adjust groups or remove accounts anytime.</td></tr></tbody></table>","sec7_sub1_img_group": `<div class='dual-img-grid'><div>${createImg('pic/P18.png', 'Basic Profile')}<div class='img-caption'><strong>1. Basic Settings:</strong><ol class='caption-list'><li>Check company details after login.</li><li>Ensure address matches Tax Registration.</li><li>Upload Company Logo (Optional).</li></ol></div></div><div>${createImg('pic/P19.png', 'Assistant Settings')}<div class='img-caption'><strong>2. Assistant Accounts:</strong><ol class='caption-list'><li>Go to 'Permissions' &gt; 'Group Settings' to add a group.</li><li>Set permissions for the group.</li><li>Go to 'Account Settings' to add assistants and assign groups.</li></ol></div></div></div>`,"sec7_sub2_title": "Purchase & Inventory","sec7_sub2_head1": "Online Purchase Process","sec7_sub2_list1": "<ol class='list-decimal pl-5 space-y-2 text-sm text-gray-600'><li>Select 'Purchase E-Receipts'.</li><li>Enter quantity (e.g., 3 units, 1000 sheets/unit).</li><li>System calculates total.</li><li>Select Payment: <strong>WebATM</strong> (Instant) or <strong>ATM Transfer</strong> (Virtual Account).</li><li>After payment, TATA issues and mails the paper proof.</li></ol>","sec7_sub2_head2": "Inventory Features","sec7_sub2_list2": "<ul class='detail-list text-sm text-gray-600'><li><strong>No Expiry:</strong> Purchased numbers are valid forever.</li><li><strong>FIFO:</strong> System automatically uses the earliest purchased numbers.</li><li><strong>Yearly Query:</strong> Check usage/remaining status by year (e.g., 2016, 2017...).</li></ul>","sec7_sub2_img_group": `<div class='dual-img-grid'><div><div class="space-y-4">${createImg('pic/P20.png', 'Purchase Flow 1')}${createImg('pic/P21.png', 'Purchase Flow 2')}${createImg('pic/P22.png', 'Purchase Flow 3')}</div><div class='img-caption'><strong>1. Purchase Process:</strong><ol class='caption-list'><li>Select 'Receipt Ops' &gt; 'Purchase Receipts'.</li><li>Enter quantity (1000/unit).</li><li>Select Payment (WebATM/ATM).</li><li>Confirm amount and pay.</li></ol></div></div><div><div class="space-y-4">${createImg('pic/P23.png', 'Inventory Query 1')}${createImg('pic/P24.png', 'Inventory Query 2')}</div><div class='img-caption'><strong>2. Inventory Query:</strong><ol class='caption-list'><li>Select 'Receipt Ops' &gt; 'Inventory Query'.</li><li>Check numbers by purchase year.</li><li>View used/remaining counts.</li><li>System uses FIFO logic.</li></ol></div></div></div>`,"sec7_sub3_title": "Issuance (Single/Batch)","sec7_sub3_head1": "Single Issuance","sec7_sub3_desc1": "Suitable for FITs or low volume. Required fields:","sec7_sub3_list1": "<ul class='text-sm text-gray-600 grid grid-cols-2 gap-2'><li>• Custom ID (Internal Ref)</li><li>• Buyer Name</li><li>• Buyer Tax ID (Required for B2B)</li><li>• Email (For notification)</li><li>• Item/Price/Qty</li></ul>","sec7_sub3_head2": "Batch Upload Specs","sec7_sub3_list2": "<ul class='detail-list text-sm text-gray-700'><li><strong>Format:</strong> .txt Plain Text</li><li><strong>Encoding:</strong> Unicode (Avoids mojibake)</li><li><strong>Filename:</strong> Alphanumeric only, no Chinese.</li><li><strong>Size Limit:</strong> 2MB (~10k records)</li><li><strong>Check:</strong> System checks Custom ID to prevent duplicates.</li></ul>","sec7_sub3_img_group": `<div class='dual-img-grid'><div>${createImg('pic/P25.png', 'Single Issue')}<div class='img-caption'><strong>1. Single Issuance:</strong><ol class='caption-list'><li>Fill 'Custom ID' (Internal Order No).</li><li>Enter Buyer Info (Name/Tax ID).</li><li>Enter Details (Item/Amount).</li><li>Confirm Email for notification.</li></ol></div></div><div>${createImg('pic/P26.png', 'Batch Issue')}<div class='img-caption'><strong>2. Batch Issuance:</strong><ol class='caption-list'><li>.txt format only.</li><li>Unicode encoding.</li><li>Alphanumeric filename only.</li><li>Max size 2MB.</li></ol></div></div></div>`,"sec7_sub4_title": "Void & Allowance (2-Way Confirm)","sec7_sub4_note": "Per regulations, Void and Allowance both require **'Buyer Consent'** to complete.","sec7_sub4_head1": "Void Process","sec7_sub4_list1": "<ol class='list-decimal pl-5 text-sm text-gray-600 space-y-2'><li>Agency initiates Void on platform with reason.</li><li>Check 'Require Buyer Confirmation'.</li><li>System emails Consumer.</li><li>Consumer clicks **'Confirm Void'** link.</li><li>Status updates to 'Void Confirmed'.</li></ol>","sec7_sub4_head2": "Allowance Process (Partial Refund)","sec7_sub4_list2": "<ol class='list-decimal pl-5 text-sm text-gray-600 space-y-2'><li>Agency queries receipt, clicks 'Allowance'.</li><li>Enter Amount and Item.</li><li>System emails Consumer.</li><li>Consumer clicks link, views details, clicks **'Agree'**.</li><li>Allowance completed, proof generated.</li></ol>","sec7_sub4_img_group": `<div class='dual-img-grid'><div>${createImg('pic/P28.png', 'Void Receipt')}<div class='img-caption'><strong>1. Void Process:</strong><ol class='caption-list'><li>Query receipt to void.</li><li>Click 'Void' button.</li><li>Enter reason.</li><li>Check 'Require Buyer Confirmation' (Mandatory).</li></ol></div></div><div>${createImg('pic/P30.png', 'Allowance Receipt')}<div class='img-caption'><strong>2. Allowance Process:</strong><ol class='caption-list'><li>Query receipt, click 'Allowance'.</li><li>Enter Allowance No. and details.</li><li>System sends notification.</li><li>Buyer must agree online.</li></ol></div></div></div>`,"sec7_sub5_title": "Modification & Reporting","sec7_sub5_head1": "Strict Modification Rules","sec7_sub5_desc1": "To comply with tax regulations, modifications are strictly limited:","sec7_sub5_card1_title": "Deadline","sec7_sub5_card1_desc": "Before 1st of next odd month","sec7_sub5_card2_title": "Frequency","sec7_sub5_card2_desc": "Once only","sec7_sub5_card3_title": "Print Status","sec7_sub5_card3_desc": "Cannot modify if buyer has printed","sec7_sub5_head2": "Query & Download","sec7_sub5_desc2": "Filter by Date, Amount, Custom ID, Status (Issued/Void/Allowance). Supports **Excel/CSV Download** for reconciliation and declaration.","sec7_sub5_img_group": `<div class='dual-img-grid'><div><div class="space-y-4">${createImg('pic/P32.png', 'Query Detail 1')}${createImg('pic/P33.png', 'Query Detail 2')}</div><div class='img-caption'><strong>1. Query & Report:</strong><ol class='caption-list'><li>Set criteria (Date/Status/Keyword).</li><li>List shows status.</li><li>Click 'Detail' for full view.</li><li>Export to Excel supported.</li></ol></div></div><div><div class="space-y-4">${createImg('pic/P34.png', 'Print Mod 1')}${createImg('pic/P35.png', 'Print Mod 2')}</div><div class='img-caption'><strong>2. Modification Limits:</strong><ol class='caption-list'><li>Modifiable before 1st of next odd month.</li><li>Only Buyer Name/Tax ID modifiable.</li><li>One-time limit.</li><li>Cannot modify if printed.</li></ol></div></div></div>`,"sec8_title": "Consumer Features","sec8_sub_title": "Consumer Service Zone","sec8_sub_desc": "We offer 24/7 inquiry and printing services. Consumers do not need to register an account; they can operate the service using the information in the notification letter.","sec8_sub_list": "<ul class='space-y-4'><li class='flex items-center'><span class='bg-white text-[#709581] rounded-full w-6 h-6 flex items-center justify-center mr-3 text-sm'>✓</span>Instant email notifications <br>(opening/cancellation/discounting)</li><li class='flex items-center'><span class='bg-white text-[#709581] rounded-full w-6 h-6 flex items-center justify-center mr-3 text-sm'>✓</span>Online receipt details inquiry</li><li class='flex items-center'><span class='bg-white text-[#709581] rounded-full w-6 h-6 flex items-center justify-center mr-3 text-sm'>✓</span>PDF Download and Print (Supports Reprints)</li></ul>","sec8_process_title": "Receipt Inquiry and Verification Process","sec8_process_desc": "After you receive the 'Opening Notice' from the travel agency, please go to the 'Inquiry Area' on the platform and enter the following information provided in the letter:","sec8_field1_label": "Column 1","sec8_field1_val": "Number forwarding","sec8_field1_note": "For example：T00329351","sec8_field2_label": "Column 2","sec8_field2_val": "Random Code","sec8_field2_note": "4-digit or 8-digit verification code","sec8_field3_label": "Column 3","sec8_field3_val": "Date of opening","sec8_field3_note": "YYYY-MM-DD","sec8_field4_label": "Security verification","sec8_field4_val": "Image verification code","sec8_field4_note": "Numbers displayed on the input screen","sec8_img_group": `<div class='dual-img-grid'><div>${createImg('pic/P40.png', 'Inquiry Area')}<div class='img-caption'><strong>1. Query Steps:</strong><ol class='caption-list'><li>Enter Receipt No.</li><li>Enter Random Code.</li><li>Select Date.</li><li>Enter Captcha.</li></ol></div></div><div>${createImg('pic/P41.png', 'Download Print')}<div class='img-caption'><strong>2. Download/Print:</strong><ol class='caption-list'><li>Details shown on success.</li><li>Click 'Print Receipt' for PDF.</li><li>System records print count.</li><li>One-time print (Reprint via Agency).</li></ol></div></div></div>`,"sec9_title": "Customer Support","sec9_tel_label": "Phone","sec9_tel_val": "02-2786-3655","sec9_mail_label": "Email","sec9_mail_val": "cs@newebpay.com","sec9_time_label": "Service Hours","sec9_time_val": "Daily 08:00 ~ 23:00","sec10_title": "System Integration Partners","sec10_desc": "Booking, Ticketing, ERP, Payment, Receipt - All in one!<br>Full automation via API integration.","sec10_partner1": "Neweb Technologies","sec10_partner2": "COWELL","sec10_partner3": "Sabre","sec10_img_alt": createImg('pic/P45.png', 'Integration Partners'),"footer_title": "Travel Industry Collection & Payment E-Receipt Value-Added Service Platform","footer_terms": "Terms of Service","footer_privacy": "Privacy Policy","footer_security": "Information Security","footer_copyright": "&copy; Neweb Financial Technologies Group. All rights reserved."            },
+            "SV": {    "lang_name": "Svenska",    "site_title": "Plattform för e-kvitton inom resebranschen",    "hero_title": "Mervärdestjänstplattform för e-kvitton vid inkassering och betalning inom resebranschen",    "hero_subtitle": "Arrangör: Taipei Association of Travel Agents | Operatör: Neweb Technologies Co., Ltd.",    "btn_intro": "Introduktion",    "btn_industry": "Branschfunktioner",    "nav_pain": "Smärtpunkter",    "nav_law": "Bestämmelser",    "nav_intro": "Plattformsintro",    "nav_pros": "Fördelar",    "nav_time": "Tidslinje",    "nav_start": "Aktivering",    "nav_b2b": "Branschfunktioner",    "nav_b2c": "Konsumentfunktioner",    "nav_cs": "Support",    "sec1_title": "Smärtpunkter med papperskvitton",    "sec1_desc": "Med utvecklingen av e-handel har traditionell pappershantering blivit en börda. Här är tre stora smärtpunkter:",    "sec1_point1_title": "Höga kostnader för hårdvara och material",    "sec1_point1_desc": "Underhåll av matrisskrivare (~$13 000/enhet) och färgband (~$110/styck). Dessutom är den höga ljudnivån störande.",    "sec1_point2_title": "Mödosam posthantering och tidskostnader",    "sec1_point2_desc": "Ackumulerade portokostnader är höga (Rekommenderat: $23,5, Snabb-rekommenderat: $30,5). Personal spenderar timmar på att vika, söka, flytta och organisera.",    "sec1_point3_title": "Enormt utrymmes- och lagringstryck",    "sec1_point3_desc": "Regler kräver lagring av verifikationer i 7 år, vilket kräver lagerhyra. Lager av blanka kvitton tar också plats och är svårt att hantera.",    "sec2_title": "Bestämmelser",    "sec2_subtitle": "Finansministeriets order: Riktlinjer för försök med e-kvitton för inkassering och betalning inom resebranschen",    "sec2_desc": "För att stödja policyer för energibesparing, koldioxidminskning och digitalisering fastställde finansministeriet dessa riktlinjer, vilket ger e-kvitton samma giltighet som papperskvitton.",    "sec2_list": "<ul class='space-y-3 text-gray-700'><li><strong>Utfärdande myndighet:</strong> Skatteförvaltningen, Finansministeriet</li><li><strong>Utfärdandedatum:</strong> 7 april 2016</li><li><strong>Ref. nr:</strong> Tai-Cai-Shui-Zi nr 10504544630</li><li><strong>Källa:</strong> Executive Yuan Gazette</li></ul>",    "sec3_title": "Plattformsintroduktion",    "sec3_desc": "Denna plattform tilldelades Neweb Technologies (tidigare Jtong Digital) genom en formell upphandlingsprocess av Taipei Association of Travel Agents. Genom att kombinera föreningens trovärdighet med Newebs betalningsteknik tillhandahåller vi den mest stabila e-kvittotjänsten.",    "sec3_unit1_title": "Arrangör",    "sec3_unit1_name": "Taipei Association of Travel Agents",    "sec3_unit1_abbr": "(TATA)",    "sec3_unit1_desc": "Ansvarig för övergripande planering och övervakning, samt säkerställer att plattformen uppfyller branschens behov och regler.",    "sec3_unit2_title": "Operatör",    "sec3_unit2_name": "Neweb Technologies",    "sec3_unit2_role": "Teknisk support för tredjepartsbetalningar",    "sec3_unit2_desc": "Tillhandahåller systemutveckling, underhåll, cybersäkerhetsskydd och kundservice.",    "sec4_title": "Fördelar med E-överföring",    "sec4_card1_title": "Köp online, få direkt",    "sec4_card1_desc": "Ingen väntan på leverans. Få nummer omedelbart efter betalning online.",    "sec4_card2_title": "Lägre risk, säkert och pålitligt",    "sec4_card2_desc": "Betalningssäkerhet garanterad. Dataöverföring är helt krypterad, vilket undviker risker med förlorade papper.",    "sec4_card3_title": "Utrymmeseffektivt, ingen lagring",    "sec4_card3_desc": "Molnlagring för 7 års data, vilket effektivt frigör kontorsutrymme.",    "sec4_card4_title": "Spara tid, snabbsökning",    "sec4_card4_desc": "Systematisk indexering möjliggör hämtning av historiska kvitton via nummer eller datum på sekunder.",    "sec5_title": "Tidslinje för verksamheten",    "sec5_item1_title": "Daglig verksamhet",    "sec5_item1_desc": "Utfärda, Makulera eller Kreditera (enstaka eller batch) när som helst på plattformen. Det finns inga tids- eller cykelgränser för krediteringskvitton.",    "sec5_item1_badge": "Utfärda / Makulera / Kreditera",    "sec5_item2_badge": "Datastopp och ändringsdeadline",    "sec5_item2_title": "Den 1:a i udda månader (Kl 00:00)",    "sec5_item2_desc": "Köparens namn och skatteregistreringsnummer kan ändras (endast en gång) före den 1:a i nästa udda månad. Därefter är datan låst och uppladdad. Ändringar av tidigare kvitton är inte tillåtna efter detta datum.",    "sec5_item3_title": "Ladda upp till Finansministeriet",    "sec5_item3_desc": "Plattformen laddar automatiskt upp kvittodata (Utfärda/Makulera/Kreditera) från de två föregående månaderna till Finansministeriets e-fakturaplattform.",    "sec5_item3_badge": "Automatiserad systemprocess",    "sec5_item4_badge": "Företagsdeklaration",    "sec5_item4_title": "Den 15:e i udda månader",    "sec5_item4_desc": "Företag kan ladda ner utfärdandelistan från plattformen för skattedeklaration. Annulleringar av tidigare kvitton är inte tillåtna efter detta datum.",    "sec6_title": "Aktivera tjänst",    "sec6_prep_title": "Förberedelse",    "sec6_prep_list": "<ul class='detail-list text-gray-700 mb-6'><li>MOEACA IC-kort</li><li>Chipkortläsare</li><li>Företagets skatteregistreringsnummer</li><li>Windows PC (för verifieringskomponenter)</li></ul>",    "sec6_steps_title": "Aktiveringsprocess",    "sec6_steps_list": "<ol class='list-decimal pl-5 space-y-3 text-gray-700'><li>Gå till <a href='#' class='text-[#709581] hover:underline font-bold'>www.travelinvoice.com.tw</a> och klicka på [Activate].</li><li>Ladda ner och installera 'MOEACA Verification Tool'.</li><li>Sätt i IC-kortet, fyll i företagets skatteregistreringsnummer, administratörs-e-post och lösenord.</li><li>När verifieringen är klar är aktiveringen slutförd.</li></ol>",    "sec6_warn_title": "Säkerhetsnotering: API-integration",    "sec6_warn_desc": "Om ditt företag planerar att använda API för automatisering (t.ex. ERP-integration), använder vi en **IP-vitlistningsmekanism** för säkerhet.",    "sec6_warn_apply": "<p><strong>Hur man ansöker:</strong></p><ul class='list-disc pl-5 mt-2 text-gray-600'><li>Ladda ner 'IP Setup Form' från nedladdningsområdet</li><li>Fyll i fast server-IP</li><li>Stämpla med företagsstämplar</li><li>Faxa eller e-posta till kundtjänst</li></ul>",    "sec6_img_alt": "createImg('pic/P14.png', 'Kontoaktivering')",    "sec7_title": "Förklaring av branschfunktioner",    "sec7_sub1_title": "Konto- och behörighetshantering",    "sec7_sub1_head1": "Assistentkonton",    "sec7_sub1_desc1": "Stöder upp till **30 assistentkonton**, vilket underlättar arbetsfördelning för stora byråer (t.ex. Redovisning, OP, Försäljning).",    "sec7_sub1_head2": "Gruppbehörigheter",    "sec7_sub1_list": "<ul class='detail-list text-sm text-gray-600'><li>Anpassade gruppnamn (t.ex. Redovisningsavd).</li><li>Detaljerade behörigheter: Sök, Ladda ner, Lägg till (Utfärda), Ändra, Makulera, Kreditera, Grundinställningar.</li></ul>",    "sec7_sub1_head3": "Kontostatuskontroll",    "sec7_sub1_table": "<table class='w-full text-sm text-left text-gray-600 border'><thead class='bg-gray-100 font-bold text-[#292929]'><tr><th class='p-3 border-b'>Funktion</th><th class='p-3 border-b'>Beskrivning</th></tr></thead><tbody><tr><td class='p-3 border-b'>Inaktivera/Aktivera</td><td class='p-3 border-b'>Inaktivera omedelbart vid avgång; återaktivera vid återanställning.</td></tr><tr><td class='p-3 border-b'>Skicka notis igen</td><td class='p-3 border-b'>Skicka om med ett klick om den anställde missade aktiveringsmailet.</td></tr><tr><td class='p-3 border-b'>Redigera/Ta bort</td><td class='p-3 border-b'>Justera grupper eller ta bort konton när som helst.</td></tr></tbody></table>",    "sec7_sub1_img_group": "<div class='dual-img-grid'><div>${createImg('pic/P18.png', 'Grundprofil')}<div class='img-caption'><strong>1. Grundinställningar:</strong><ol class='caption-list'><li>Kontrollera företagsuppgifter efter inloggning.</li><li>Säkerställ att adressen matchar skatteregistreringen.</li><li>Ladda upp företagslogotyp (Valfritt).</li></ol></div></div><div>${createImg('pic/P19.png', 'Assistentinställningar')}<div class='img-caption'><strong>2. Assistentkonton:</strong><ol class='caption-list'><li>Gå till 'Permissions' &gt; 'Group Settings' för att lägga till en grupp.</li><li>Ställ in behörigheter för gruppen.</li><li>Gå till 'Account Settings' för att lägga till assistenter och tilldela grupper.</li></ol></div></div></div>",    "sec7_sub2_title": "Inköp och lager",    "sec7_sub2_head1": "Process för onlineköp",    "sec7_sub2_list1": "<ol class='list-decimal pl-5 space-y-2 text-sm text-gray-600'><li>Välj 'Purchase E-Receipts'.</li><li>Ange antal (t.ex. 3 enheter, 1000 ark/enhet).</li><li>Systemet beräknar totalen.</li><li>Välj betalning: <strong>WebATM</strong> (Direkt) eller <strong>ATM Transfer</strong> (Virtuellt konto).</li><li>Efter betalning utfärdar och postar TATA pappersbeviset.</li></ol>",    "sec7_sub2_head2": "Lagerfunktioner",    "sec7_sub2_list2": "<ul class='detail-list text-sm text-gray-600'><li><strong>Inget utgångsdatum:</strong> Köpta nummer är giltiga för alltid.</li><li><strong>FIFO:</strong> Systemet använder automatiskt de tidigast köpta numren.</li><li><strong>Årlig sökning:</strong> Kontrollera användning/återstående status per år (t.ex. 2016, 2017...).</li></ul>",    "sec7_sub2_img_group": "<div class='dual-img-grid'><div><div class=\"space-y-4\">${createImg('pic/P20.png', 'Inköpsflöde 1')}${createImg('pic/P21.png', 'Inköpsflöde 2')}${createImg('pic/P22.png', 'Inköpsflöde 3')}</div><div class='img-caption'><strong>1. Inköpsprocess:</strong><ol class='caption-list'><li>Välj 'Receipt Ops' &gt; 'Purchase Receipts'.</li><li>Ange antal (1000/enhet).</li><li>Välj betalning (WebATM/ATM).</li><li>Bekräfta belopp och betala.</li></ol></div></div><div><div class=\"space-y-4\">${createImg('pic/P23.png', 'Lagersökning 1')}${createImg('pic/P24.png', 'Lagersökning 2')}</div><div class='img-caption'><strong>2. Lagersökning:</strong><ol class='caption-list'><li>Välj 'Receipt Ops' &gt; 'Inventory Query'.</li><li>Kontrollera nummer efter inköpsår.</li><li>Visa använda/återstående antal.</li><li>Systemet använder FIFO-logik.</li></ol></div></div></div>",    "sec7_sub3_title": "Utfärdande (Enstaka/Batch)",    "sec7_sub3_head1": "Enstaka utfärdande",    "sec7_sub3_desc1": "Lämplig för FITs eller låg volym. Obligatoriska fält:",    "sec7_sub3_list1": "<ul class='text-sm text-gray-600 grid grid-cols-2 gap-2'><li>• Anpassat ID (Intern ref)</li><li>• Köparens namn</li><li>• Köparens skatteregistreringsnummer (Krävs för B2B)</li><li>• E-post (För avisering)</li><li>• Artikel/Pris/Antal</li></ul>",    "sec7_sub3_head2": "Specifikationer för batchuppladdning",    "sec7_sub3_list2": "<ul class='detail-list text-sm text-gray-700'><li><strong>Format:</strong> .txt Plain Text</li><li><strong>Kodning:</strong> Unicode (Undviker mojibake)</li><li><strong>Filnamn:</strong> Endast alfanumeriska tecken, ingen kinesiska.</li><li><strong>Storleksgräns:</strong> 2MB (~10k poster)</li><li><strong>Kontroll:</strong> Systemet kontrollerar anpassat ID för att förhindra dubbletter.</li></ul>",    "sec7_sub3_img_group": "<div class='dual-img-grid'><div>${createImg('pic/P25.png', 'Enstaka utfärdande')}<div class='img-caption'><strong>1. Enstaka utfärdande:</strong><ol class='caption-list'><li>Fyll i 'Custom ID' (Internt ordernr).</li><li>Ange köparinfo (Namn/Skatte-ID).</li><li>Ange detaljer (Artikel/Belopp).</li><li>Bekräfta e-post för avisering.</li></ol></div></div><div>${createImg('pic/P26.png', 'Batchutfärdande')}<div class='img-caption'><strong>2. Batchutfärdande:</strong><ol class='caption-list'><li>Endast .txt-format.</li><li>Unicode-kodning.</li><li>Endast alfanumeriskt filnamn.</li><li>Max storlek 2MB.</li></ol></div></div></div>",    "sec7_sub4_title": "Makulering och kreditering (2-vägsbekräftelse)",    "sec7_sub4_note": "Enligt reglerna kräver både makulering och kreditering **'Köparens samtycke'** för att slutföras.",    "sec7_sub4_head1": "Makuleringsprocess",    "sec7_sub4_list1": "<ol class='list-decimal pl-5 text-sm text-gray-600 space-y-2'><li>Byrån initierar makulering på plattformen med orsak.</li><li>Markera 'Require Buyer Confirmation'.</li><li>Systemet mailar konsumenten.</li><li>Konsumenten klickar på länken **'Confirm Void'**.</li><li>Status uppdateras till 'Void Confirmed'.</li></ol>",    "sec7_sub4_head2": "Krediteringsprocess (Partiell återbetalning)",    "sec7_sub4_list2": "<ol class='list-decimal pl-5 text-sm text-gray-600 space-y-2'><li>Byrån söker upp kvittot, klickar på 'Allowance'.</li><li>Ange belopp och artikel.</li><li>Systemet mailar konsumenten.</li><li>Konsumenten klickar på länken, ser detaljer, klickar på **'Agree'**.</li><li>Kreditering slutförd, bevis genererat.</li></ol>",    "sec7_sub4_img_group": "<div class='dual-img-grid'><div>${createImg('pic/P28.png', 'Makulera kvitto')}<div class='img-caption'><strong>1. Makuleringsprocess:</strong><ol class='caption-list'><li>Sök kvitto att makulera.</li><li>Klicka på knappen 'Void'.</li><li>Ange orsak.</li><li>Markera 'Require Buyer Confirmation' (Obligatoriskt).</li></ol></div></div><div>${createImg('pic/P30.png', 'Kreditera kvitto')}<div class='img-caption'><strong>2. Krediteringsprocess:</strong><ol class='caption-list'><li>Sök kvitto, klicka på 'Allowance'.</li><li>Ange krediteringsnr och detaljer.</li><li>Systemet skickar avisering.</li><li>Köparen måste godkänna online.</li></ol></div></div></div>",    "sec7_sub5_title": "Ändring och rapportering",    "sec7_sub5_head1": "Strikta ändringsregler",    "sec7_sub5_desc1": "För att följa skattereglerna är ändringar strikt begränsade:",    "sec7_sub5_card1_title": "Deadline",    "sec7_sub5_card1_desc": "Före den 1:a i nästa udda månad",    "sec7_sub5_card2_title": "Frekvens",    "sec7_sub5_card2_desc": "Endast en gång",    "sec7_sub5_card3_title": "Utskriftsstatus",    "sec7_sub5_card3_desc": "Kan inte ändras om köparen har skrivit ut",    "sec7_sub5_head2": "Sök och ladda ner",    "sec7_sub5_desc2": "Filtrera efter datum, belopp, anpassat ID, status (Utfärdad/Makulerad/Krediterad). Stöder **Excel/CSV-nedladdning** för avstämning och deklaration.",    "sec7_sub5_img_group": "<div class='dual-img-grid'><div><div class=\"space-y-4\">${createImg('pic/P32.png', 'Sökdetalj 1')}${createImg('pic/P33.png', 'Sökdetalj 2')}</div><div class='img-caption'><strong>1. Sök och rapportera:</strong><ol class='caption-list'><li>Ställ in kriterier (Datum/Status/Sökord).</li><li>Listan visar status.</li><li>Klicka på 'Detail' för fullständig vy.</li><li>Export till Excel stöds.</li></ol></div></div><div><div class=\"space-y-4\">${createImg('pic/P34.png', 'Utskriftsändring 1')}${createImg('pic/P35.png', 'Utskriftsändring 2')}</div><div class='img-caption'><strong>2. Ändringsgränser:</strong><ol class='caption-list'><li>Ändringsbar före 1:a i nästa udda månad.</li><li>Endast köparens namn/skatte-ID kan ändras.</li><li>Engångsgräns.</li><li>Kan inte ändras om utskriven.</li></ol></div></div></div>",    "sec8_title": "Konsumentfunktioner",    "sec8_sub_title": "Kundservicezon",    "sec8_sub_desc": "Vi erbjuder dygnet runt-tjänster för förfrågningar och utskrifter. Konsumenter behöver inte registrera ett konto; de kan använda tjänsten med informationen i aviseringsbrevet.",    "sec8_sub_list": "<ul class='space-y-4'><li class='flex items-center'><span class='bg-white text-[#709581] rounded-full w-6 h-6 flex items-center justify-center mr-3 text-sm'>✓</span>Omedelbara e-postmeddelanden <br>(öppning/annullering/rabattering)</li><li class='flex items-center'><span class='bg-white text-[#709581] rounded-full w-6 h-6 flex items-center justify-center mr-3 text-sm'>✓</span>Onlineförfrågan om kvittodetaljer</li><li class='flex items-center'><span class='bg-white text-[#709581] rounded-full w-6 h-6 flex items-center justify-center mr-3 text-sm'>✓</span>PDF-nedladdning och utskrift (Stöder återutskrifter)</li></ul>",    "sec8_process_title": "Förfrågan om kvitto och verifieringsprocess",    "sec8_process_desc": "När du har fått 'Opening Notice' från resebyrån, vänligen gå till 'Inquiry Area' på plattformen och ange följande information som finns i brevet:",    "sec8_field1_label": "Kolumn 1",    "sec8_field1_val": "Nummeröverföring",    "sec8_field1_note": "Till exempel: T00329351",    "sec8_field2_label": "Kolumn 2",    "sec8_field2_val": "Slumpkod",    "sec8_field2_note": "4-siffrig eller 8-siffrig verifieringskod",    "sec8_field3_label": "Kolumn 3",    "sec8_field3_val": "Utfärdandedatum",    "sec8_field3_note": "ÅÅÅÅ-MM-DD",    "sec8_field4_label": "Säkerhetsverifiering",    "sec8_field4_val": "Bildverifieringskod",    "sec8_field4_note": "Siffror som visas på inmatningsskärmen",    "sec8_img_group": "<div class='dual-img-grid'><div>${createImg('pic/P40.png', 'Förfrågningsområde')}<div class='img-caption'><strong>1. Söksteg:</strong><ol class='caption-list'><li>Ange kvittonr.</li><li>Ange slumpkod.</li><li>Välj datum.</li><li>Ange Captcha.</li></ol></div></div><div>${createImg('pic/P41.png', 'Ladda ner skriv ut')}<div class='img-caption'><strong>2. Ladda ner/Skriv ut:</strong><ol class='caption-list'><li>Detaljer visas vid framgång.</li><li>Klicka på 'Print Receipt' för PDF.</li><li>Systemet registrerar antal utskrifter.</li><li>Engångsutskrift (Återutskrift via byrå).</li></ol></div></div></div>",    "sec9_title": "Kundsupport",    "sec9_tel_label": "Telefon",    "sec9_tel_val": "02-2786-3655",    "sec9_mail_label": "E-post",    "sec9_mail_val": "cs@newebpay.com",    "sec9_time_label": "Öppettider",    "sec9_time_val": "Dagligen 08:00 ~ 23:00",    "sec10_title": "Partners för systemintegration",    "sec10_desc": "Bokning, Biljettering, ERP, Betalning, Kvitto - Allt i ett!<br>Full automatisering via API-integration.",    "sec10_partner1": "Neweb Technologies",    "sec10_partner2": "COWELL",    "sec10_partner3": "Sabre",    "sec10_img_alt": "createImg('pic/P45.png', 'Integrationspartners')",    "footer_title": "Mervärdestjänstplattform för e-kvitton vid inkassering och betalning inom resebranschen",    "footer_terms": "Användarvillkor",    "footer_privacy": "Integritetspolicy",    "footer_security": "Informationssäkerhet",    "footer_copyright": "&copy; Neweb Financial Technologies Group. Alla rättigheter förbehållna."  },        
+            "JP": {    "lang_name": "日本語",    "site_title": "旅行業電子領収書プラットフォーム",    "hero_title": "旅行業代収転付電子領収書付加価値サービスプラットフォーム",    "hero_subtitle": "主催：台北市旅行商業同業公会 | 運営：藍新科技股份有限公司",    "btn_intro": "プラットフォーム紹介",    "btn_industry": "業界特化機能",    "nav_pain": "導入前の課題",    "nav_law": "関連法規",    "nav_intro": "プラットフォーム紹介",    "nav_pros": "導入のメリット",    "nav_time": "作業スケジュール",    "nav_start": "利用開始",    "nav_b2b": "業界特化機能",    "nav_b2c": "消費者向け機能",    "nav_cs": "カスタマーサポート",    "sec1_title": "紙の領収書の課題",    "sec1_desc": "Eコマースの発展に伴い、従来の紙ベースの作業は大きな負担となっています。主な3つの課題は以下の通りです：",    "sec1_point1_title": "ハードウェアおよび消耗品コスト",    "sec1_point1_desc": "ドットインパクトプリンターのメンテナンス（約13,000元/台）やリボン代（約110元/個）。さらに、印刷時の騒音も悩みです。",    "sec1_point2_title": "郵送の手間と時間的コスト",    "sec1_point2_desc": "累積する郵送料は高額です（書留：23.5元、速達書留：30.5元）。スタッフは折りたたみ、検索、移動、整理に何時間も費やしています。",    "sec1_point3_title": "保管スペースの圧迫",    "sec1_point3_desc": "法規制により証憑類は7年間の保存が義務付けられており、倉庫のレンタルが必要です。未使用の領収書在庫もスペースを取り、管理が困難です。",    "sec2_title": "関連法規",    "sec2_subtitle": "財政部令：旅行業代収転付電子領収書試行作業要点",    "sec2_desc": "省エネ、二酸化炭素削減、デジタル化政策を支援するため、財政部はこのガイドラインを制定し、電子領収書に紙の領収書と同等の効力を与えました。",    "sec2_list": "<ul class='space-y-3 text-gray-700'><li><strong>発行機関：</strong> 財政部賦税署</li><li><strong>発行日：</strong> 2016年4月7日</li><li><strong>参照番号：</strong> 台財税字第10504544630号</li><li><strong>出典：</strong> 行政院公報</li></ul>",    "sec3_title": "プラットフォーム紹介",    "sec3_desc": "本プラットフォームは、台北市旅行商業同業公会による正式な入札プロセスを経て、藍新科技（旧Jtong Digital）が受注しました。協会の信頼性と藍新の決済技術を組み合わせ、最も安定した電子領収書サービスを提供します。",    "sec3_unit1_title": "主催",    "sec3_unit1_name": "台北市旅行商業同業公会",    "sec3_unit1_abbr": "（TATA）",    "sec3_unit1_desc": "全体的な計画と監督を担当し、プラットフォームが業界のニーズと規制を満たすことを保証します。",    "sec3_unit2_title": "運営",    "sec3_unit2_name": "藍新科技 (Neweb Technologies)",    "sec3_unit2_role": "サードパーティ決済技術サポート",    "sec3_unit2_desc": "システムの開発、保守、サイバーセキュリティ保護、およびカスタマーサービスを提供します。",    "sec4_title": "電子化のメリット",    "sec4_card1_title": "オンライン購入、即時発行",    "sec4_card1_desc": "配送を待つ必要はありません。オンライン支払い後、すぐに領収書番号を取得できます。",    "sec4_card2_title": "低リスク、安全で信頼性が高い",    "sec4_card2_desc": "支払いのセキュリティを保証します。データ送信は完全に暗号化されており、紙の紛失リスクを回避します。",    "sec4_card3_title": "省スペース、保管不要",    "sec4_card3_desc": "7年間のデータをクラウドに保存し、オフィススペースを有効に活用できます。",    "sec4_card4_title": "時間短縮、迅速な検索",    "sec4_card4_desc": "体系的なインデックス作成により、番号または日付で過去の領収書を数秒で検索できます。",    "sec5_title": "運用スケジュール",    "sec5_item1_title": "日常業務",    "sec5_item1_desc": "プラットフォーム上でいつでも発行、無効化（Void）、または折譲（Allowance）（単一または一括）が可能です。折譲領収書に時間やサイクルの制限はありません。",    "sec5_item1_badge": "発行 / 無効化 / 折譲",    "sec5_item2_badge": "データ締め切り & 修正期限",    "sec5_item2_title": "奇数月の1日（AM 0:00）",    "sec5_item2_desc": "購入者名と統一番号は、次の奇数月の1日まで（1回のみ）修正可能です。その後、データはロックされアップロードされます。この日以降、過去の領収書の修正はできません。",    "sec5_item3_title": "財政部へのアップロード",    "sec5_item3_desc": "プラットフォームは、過去2か月分の領収書データ（発行/無効化/折譲）を財政部電子インボイスプラットフォームに自動的にアップロードします。",    "sec5_item3_badge": "自動システム処理",    "sec5_item4_badge": "事業者申告",    "sec5_item4_title": "奇数月の15日",    "sec5_item4_desc": "事業者は税務申告のためにプラットフォームから発行リストをダウンロードできます。この日以降、過去の領収書の取り消しはできません。",    "sec6_title": "利用開始の手順",    "sec6_prep_title": "準備するもの",    "sec6_prep_list": "<ul class='detail-list text-gray-700 mb-6'><li>工商憑証ICカード (MOEACA)</li><li>ICカードリーダー</li><li>会社の統一番号</li><li>Windows PC（検証ツール用）</li></ul>",    "sec6_steps_title": "アクティベーションプロセス",    "sec6_steps_list": "<ol class='list-decimal pl-5 space-y-3 text-gray-700'><li><a href='#' class='text-[#709581] hover:underline font-bold'>www.travelinvoice.com.tw</a> にアクセスし、[Activate]をクリックします。</li><li>「MOEACA検証ツール」をダウンロードしてインストールします。</li><li>ICカードを挿入し、会社の統一番号、管理者メールアドレス、パスワードを入力します。</li><li>検証が完了すれば、アクティベーションは完了です。</li></ol>",    "sec6_warn_title": "セキュリティに関する注意：API連携",    "sec6_warn_desc": "貴社が自動化（ERP連携など）のためにAPIを使用する予定がある場合、セキュリティのために**IPホワイトリストメカニズム**を使用しています。",    "sec6_warn_apply": "<p><strong>申請方法：</strong></p><ul class='list-disc pl-5 mt-2 text-gray-600'><li>ダウンロードエリアから「IP設定フォーム」をダウンロード</li><li>固定サーバーIPを記入</li><li>会社印を押印</li><li>カスタマーサービスへFAXまたはメールで送信</li></ul>",    "sec6_img_alt": "createImg('pic/P14.png', 'アカウントのアクティベーション')",    "sec7_title": "業界特化機能の解説",    "sec7_sub1_title": "アカウントと権限の管理",    "sec7_sub1_head1": "アシスタントアカウント",    "sec7_sub1_desc1": "最大**30個のアシスタントアカウント**をサポートし、大規模な代理店の分業（経理、オペレーション、営業など）を容易にします。",    "sec7_sub1_head2": "グループ権限",    "sec7_sub1_list": "<ul class='detail-list text-sm text-gray-600'><li>カスタムグループ名（例：経理部）。</li><li>詳細な権限設定：検索、ダウンロード、追加（発行）、修正、無効化、折譲、基本設定。</li></ul>",    "sec7_sub1_head3": "アカウントステータス管理",    "sec7_sub1_table": "<table class='w-full text-sm text-left text-gray-600 border'><thead class='bg-gray-100 font-bold text-[#292929]'><tr><th class='p-3 border-b'>機能</th><th class='p-3 border-b'>説明</th></tr></thead><tbody><tr><td class='p-3 border-b'>無効化/有効化</td><td class='p-3 border-b'>退職時に即座に無効化し、復職時に再有効化できます。</td></tr><tr><td class='p-3 border-b'>通知の再送</td><td class='p-3 border-b'>従業員がアクティベーションメールを見逃した場合、ワンクリックで再送できます。</td></tr><tr><td class='p-3 border-b'>編集/削除</td><td class='p-3 border-b'>グループの調整やアカウントの削除はいつでも可能です。</td></tr></tbody></table>",    "sec7_sub1_img_group": "<div class='dual-img-grid'><div>${createImg('pic/P18.png', '基本プロフィール')}<div class='img-caption'><strong>1. 基本設定：</strong><ol class='caption-list'><li>ログイン後に会社情報を確認します。</li><li>住所が税務登録と一致していることを確認します。</li><li>会社ロゴをアップロードします（任意）。</li></ol></div></div><div>${createImg('pic/P19.png', 'アシスタント設定')}<div class='img-caption'><strong>2. アシスタントアカウント：</strong><ol class='caption-list'><li>「Permissions」&gt;「Group Settings」でグループを追加します。</li><li>グループの権限を設定します。</li><li>「Account Settings」でアシスタントを追加し、グループを割り当てます。</li></ol></div></div></div>",    "sec7_sub2_title": "購入と在庫管理",    "sec7_sub2_head1": "オンライン購入プロセス",    "sec7_sub2_list1": "<ol class='list-decimal pl-5 space-y-2 text-sm text-gray-600'><li>「Purchase E-Receipts」を選択します。</li><li>数量を入力します（例：3ユニット、1ユニットあたり1000枚）。</li><li>システムが合計金額を計算します。</li><li>支払い方法を選択：<strong>WebATM</strong>（即時）または<strong>ATM振込</strong>（バーチャル口座）。</li><li>支払い後、TATAが紙の証明書を発行し郵送します。</li></ol>",    "sec7_sub2_head2": "在庫機能",    "sec7_sub2_list2": "<ul class='detail-list text-sm text-gray-600'><li><strong>有効期限なし：</strong> 購入した番号は無期限で有効です。</li><li><strong>先入れ先出し（FIFO）：</strong> システムは自動的に最も古く購入された番号から使用します。</li><li><strong>年次照会：</strong> 年ごとの使用状況/残数を確認できます（例：2016年、2017年...）。</li></ul>",    "sec7_sub2_img_group": "<div class='dual-img-grid'><div><div class=\"space-y-4\">${createImg('pic/P20.png', '購入フロー 1')}${createImg('pic/P21.png', '購入フロー 2')}${createImg('pic/P22.png', '購入フロー 3')}</div><div class='img-caption'><strong>1. 購入プロセス：</strong><ol class='caption-list'><li>「Receipt Ops」&gt;「Purchase Receipts」を選択。</li><li>数量を入力（1000枚/ユニット）。</li><li>支払い方法を選択（WebATM/ATM）。</li><li>金額を確認して支払います。</li></ol></div></div><div><div class=\"space-y-4\">${createImg('pic/P23.png', '在庫照会 1')}${createImg('pic/P24.png', '在庫照会 2')}</div><div class='img-caption'><strong>2. 在庫照会：</strong><ol class='caption-list'><li>「Receipt Ops」&gt;「Inventory Query」を選択。</li><li>購入年ごとに番号を確認。</li><li>使用済み/残数を確認。</li><li>システムはFIFOロジックを使用。</li></ol></div></div></div>",    "sec7_sub3_title": "発行（単一/一括）",    "sec7_sub3_head1": "単一発行",    "sec7_sub3_desc1": "個人旅行客（FIT）や少量の場合に適しています。必須項目：",    "sec7_sub3_list1": "<ul class='text-sm text-gray-600 grid grid-cols-2 gap-2'><li>• カスタムID（内部参照用）</li><li>• 購入者名</li><li>• 購入者統一番号（B2Bの場合必須）</li><li>• メールアドレス（通知用）</li><li>• 品目/単価/数量</li></ul>",    "sec7_sub3_head2": "一括アップロード仕様",    "sec7_sub3_list2": "<ul class='detail-list text-sm text-gray-700'><li><strong>形式：</strong> .txt プレーンテキスト</li><li><strong>エンコーディング：</strong> Unicode（文字化け回避のため）</li><li><strong>ファイル名：</strong> 英数字のみ、漢字不可。</li><li><strong>サイズ制限：</strong> 2MB（約1万件）</li><li><strong>チェック：</strong> システムは重複を防ぐためにカスタムIDをチェックします。</li></ul>",    "sec7_sub3_img_group": "<div class='dual-img-grid'><div>${createImg('pic/P25.png', '単一発行')}<div class='img-caption'><strong>1. 単一発行：</strong><ol class='caption-list'><li>「Custom ID」（内部注文番号）を入力。</li><li>購入者情報（名前/統一番号）を入力。</li><li>詳細（品目/金額）を入力。</li><li>通知用メールアドレスを確認。</li></ol></div></div><div>${createImg('pic/P26.png', '一括発行')}<div class='img-caption'><strong>2. 一括発行：</strong><ol class='caption-list'><li>.txt形式のみ。</li><li>Unicodeエンコーディング。</li><li>ファイル名は英数字のみ。</li><li>最大サイズ2MB。</li></ol></div></div></div>",    "sec7_sub4_title": "無効化と折譲（双方向確認）",    "sec7_sub4_note": "規定により、無効化（Void）および折譲（Allowance）の完了には**「購入者の同意」**が必要です。",    "sec7_sub4_head1": "無効化プロセス",    "sec7_sub4_list1": "<ol class='list-decimal pl-5 text-sm text-gray-600 space-y-2'><li>代理店がプラットフォームで理由を添えて無効化を開始します。</li><li>「Require Buyer Confirmation」にチェックを入れます。</li><li>システムが消費者にメールを送信します。</li><li>消費者がリンクをクリックして**「Confirm Void」**（無効化を確認）します。</li><li>ステータスが「Void Confirmed」に更新されます。</li></ol>",    "sec7_sub4_head2": "折譲プロセス（一部返金）",    "sec7_sub4_list2": "<ol class='list-decimal pl-5 text-sm text-gray-600 space-y-2'><li>代理店が領収書を検索し、「Allowance」をクリックします。</li><li>金額と品目を入力します。</li><li>システムが消費者にメールを送信します。</li><li>消費者がリンクをクリックして詳細を確認し、**「Agree」**（同意）します。</li><li>折譲が完了し、証明書が生成されます。</li></ol>",    "sec7_sub4_img_group": "<div class='dual-img-grid'><div>${createImg('pic/P28.png', '領収書無効化')}<div class='img-caption'><strong>1. 無効化プロセス：</strong><ol class='caption-list'><li>無効化する領収書を検索。</li><li>「Void」ボタンをクリック。</li><li>理由を入力。</li><li>「Require Buyer Confirmation」をチェック（必須）。</li></ol></div></div><div>${createImg('pic/P30.png', '領収書折譲')}<div class='img-caption'><strong>2. 折譲プロセス：</strong><ol class='caption-list'><li>領収書を検索し、「Allowance」をクリック。</li><li>折譲番号と詳細を入力。</li><li>システムが通知を送信。</li><li>購入者がオンラインで同意する必要があります。</li></ol></div></div></div>",    "sec7_sub5_title": "修正とレポート",    "sec7_sub5_head1": "厳格な修正ルール",    "sec7_sub5_desc1": "税務規制を遵守するため、修正は厳格に制限されています：",    "sec7_sub5_card1_title": "期限",    "sec7_sub5_card1_desc": "次の奇数月の1日まで",    "sec7_sub5_card2_title": "回数",    "sec7_sub5_card2_desc": "1回のみ",    "sec7_sub5_card3_title": "印刷ステータス",    "sec7_sub5_card3_desc": "購入者が印刷済みの場合は修正不可",    "sec7_sub5_head2": "照会とダウンロード",    "sec7_sub5_desc2": "日付、金額、カスタムID、ステータス（発行/無効化/折譲）でフィルタリングできます。照合や申告のための**Excel/CSVダウンロード**をサポートしています。",    "sec7_sub5_img_group": "<div class='dual-img-grid'><div><div class=\"space-y-4\">${createImg('pic/P32.png', '照会詳細 1')}${createImg('pic/P33.png', '照会詳細 2')}</div><div class='img-caption'><strong>1. 照会とレポート：</strong><ol class='caption-list'><li>条件を設定（日付/ステータス/キーワード）。</li><li>リストにステータスが表示されます。</li><li>「Detail」をクリックして詳細を表示。</li><li>Excelへのエクスポートに対応。</li></ol></div></div><div><div class=\"space-y-4\">${createImg('pic/P34.png', '印刷修正 1')}${createImg('pic/P35.png', '印刷修正 2')}</div><div class='img-caption'><strong>2. 修正の制限：</strong><ol class='caption-list'><li>次の奇数月の1日まで修正可能。</li><li>購入者名/統一番号のみ修正可能。</li><li>1回のみ。</li><li>印刷済みの場合は修正不可。</li></ol></div></div></div>",    "sec8_title": "消費者向け機能",    "sec8_sub_title": "消費者サービスゾーン",    "sec8_sub_desc": "24時間365日の照会および印刷サービスを提供しています。消費者はアカウントを登録する必要はなく、通知メールに記載された情報を使用してサービスを利用できます。",    "sec8_sub_list": "<ul class='space-y-4'><li class='flex items-center'><span class='bg-white text-[#709581] rounded-full w-6 h-6 flex items-center justify-center mr-3 text-sm'>✓</span>即時のメール通知 <br>（発行/無効化/折譲）</li><li class='flex items-center'><span class='bg-white text-[#709581] rounded-full w-6 h-6 flex items-center justify-center mr-3 text-sm'>✓</span>オンラインでの領収書詳細照会</li><li class='flex items-center'><span class='bg-white text-[#709581] rounded-full w-6 h-6 flex items-center justify-center mr-3 text-sm'>✓</span>PDFダウンロードと印刷（再印刷対応）</li></ul>",    "sec8_process_title": "領収書照会および検証プロセス",    "sec8_process_desc": "旅行代理店から「発行通知 (Opening Notice)」を受け取ったら、プラットフォームの「Inquiry Area」にアクセスし、メールに記載されている以下の情報を入力してください：",    "sec8_field1_label": "項目 1",    "sec8_field1_val": "領収書番号",    "sec8_field1_note": "例：T00329351",    "sec8_field2_label": "項目 2",    "sec8_field2_val": "ランダムコード",    "sec8_field2_note": "4桁または8桁の検証コード",    "sec8_field3_label": "項目 3",    "sec8_field3_val": "発行日",    "sec8_field3_note": "YYYY-MM-DD",    "sec8_field4_label": "セキュリティ検証",    "sec8_field4_val": "画像認証コード",    "sec8_field4_note": "入力画面に表示される数字",    "sec8_img_group": "<div class='dual-img-grid'><div>${createImg('pic/P40.png', '照会エリア')}<div class='img-caption'><strong>1. 照会手順：</strong><ol class='caption-list'><li>領収書番号を入力。</li><li>ランダムコードを入力。</li><li>日付を選択。</li><li>認証コードを入力。</li></ol></div></div><div>${createImg('pic/P41.png', 'ダウンロード印刷')}<div class='img-caption'><strong>2. ダウンロード/印刷：</strong><ol class='caption-list'><li>成功すると詳細が表示されます。</li><li>「Print Receipt」をクリックしてPDFを表示。</li><li>システムは印刷回数を記録します。</li><li>1回のみ印刷（再印刷は代理店経由）。</li></ol></div></div></div>",    "sec9_title": "カスタマーサポート",    "sec9_tel_label": "電話",    "sec9_tel_val": "02-2786-3655",    "sec9_mail_label": "メール",    "sec9_mail_val": "cs@newebpay.com",    "sec9_time_label": "営業時間",    "sec9_time_val": "毎日 08:00 ~ 23:00",    "sec10_title": "システム統合パートナー",    "sec10_desc": "予約、発券、ERP、決済、領収書 - すべてを一つに！<br>API連携による完全自動化。",    "sec10_partner1": "藍新科技 (Neweb Technologies)",    "sec10_partner2": "COWELL",    "sec10_partner3": "Sabre",    "sec10_img_alt": "createImg('pic/P45.png', '統合パートナー')",    "footer_title": "旅行業代収転付電子領収書付加価値サービスプラットフォーム",    "footer_terms": "利用規約",    "footer_privacy": "プライバシーポリシー",    "footer_security": "情報セキュリティ",    "footer_copyright": "&copy; Neweb Financial Technologies Group. All rights reserved."  },        
+            "KO": {    "lang_name": "한국어",    "site_title": "여행업 전자 영수증 플랫폼",    "hero_title": "여행업 대수전부(代收轉付) 전자 영수증 부가 서비스 플랫폼",    "hero_subtitle": "주최: 타이베이시 여행상업동업공회 | 운영: Neweb Technologies Co., Ltd.",    "btn_intro": "플랫폼 소개",    "btn_industry": "업계 기능",    "nav_pain": "도입 전의 과제",    "nav_law": "관련 법규",    "nav_intro": "플랫폼 소개",    "nav_pros": "도입 이점",    "nav_time": "운영 일정",    "nav_start": "서비스 개시",    "nav_b2b": "업계 기능",    "nav_b2c": "소비자 기능",    "nav_cs": "고객 센터",    "sec1_title": "종이 영수증의 고충",    "sec1_desc": "전자상거래의 발전으로 기존 종이 작업은 큰 부담이 되고 있습니다. 주요 3대 고충은 다음과 같습니다.",    "sec1_point1_title": "높은 하드웨어 및 소모품 비용",    "sec1_point1_desc": "도트 매트릭스 프린터 유지보수(대당 약 $13,000) 및 리본(개당 약 $110). 게다가 높은 소음 수준은 업무에 방해가 됩니다.",    "sec1_point2_title": "번거로운 우편 발송 및 시간 비용",    "sec1_point2_desc": "누적 우편 요금이 높습니다(등기: $23.5, 빠른 등기: $30.5). 직원들은 접고, 찾고, 옮기고, 정리하는 데 몇 시간을 소비합니다.",    "sec1_point3_title": "막대한 공간 및 보관 압박",    "sec1_point3_desc": "규정에 따라 증빙 서류를 7년 동안 보관해야 하므로 창고 임대가 필요합니다. 빈 영수증 재고도 공간을 차지하고 관리가 어렵습니다.",    "sec2_title": "관련 법규",    "sec2_subtitle": "재정부령: 여행업 대수전부 전자 영수증 시범 운영 지침",    "sec2_desc": "에너지 절약, 탄소 감축 및 디지털화 정책을 지원하기 위해 재정부는 이 지침을 제정하여 전자 영수증에 종이 영수증과 동일한 효력을 부여했습니다.",    "sec2_list": "<ul class='space-y-3 text-gray-700'><li><strong>발행 기관:</strong> 재정부 부세서(Taxation Administration)</li><li><strong>발행일:</strong> 2016년 4월 7일</li><li><strong>참조 번호:</strong> Tai-Cai-Shui-Zi No. 10504544630</li><li><strong>출처:</strong> 행정원 관보</li></ul>",    "sec3_title": "플랫폼 소개",    "sec3_desc": "이 플랫폼은 타이베이시 여행상업동업공회의 정식 입찰 과정을 통해 Neweb Technologies(구 Jtong Digital)가 수주했습니다. 협회의 공신력과 Neweb의 결제 기술을 결합하여 가장 안정적인 전자 영수증 서비스를 제공합니다.",    "sec3_unit1_title": "주최",    "sec3_unit1_name": "타이베이시 여행상업동업공회",    "sec3_unit1_abbr": "(TATA)",    "sec3_unit1_desc": "전반적인 기획 및 감독을 담당하며, 플랫폼이 업계 요구 사항 및 규정을 충족하도록 보장합니다.",    "sec3_unit2_title": "운영",    "sec3_unit2_name": "Neweb Technologies",    "sec3_unit2_role": "제3자 결제 기술 지원",    "sec3_unit2_desc": "시스템 개발, 유지 보수, 사이버 보안 보호 및 고객 서비스를 제공합니다.",    "sec4_title": "전자 이전(E-Transfer)의 장점",    "sec4_card1_title": "온라인 구매, 즉시 발급",    "sec4_card1_desc": "배송을 기다릴 필요가 없습니다. 온라인 결제 후 즉시 번호를 획득하세요.",    "sec4_card2_title": "낮은 위험, 보안 및 신뢰성",    "sec4_card2_desc": "결제 보안이 보장됩니다. 데이터 전송은 완전히 암호화되어 종이 분실 위험을 방지합니다.",    "sec4_card3_title": "공간 효율성, 보관 불필요",    "sec4_card3_desc": "7년치 데이터를 클라우드에 저장하여 사무실 공간을 효과적으로 확보합니다.",    "sec4_card4_title": "시간 절약, 빠른 검색",    "sec4_card4_desc": "체계적인 인덱싱을 통해 번호나 날짜로 과거 영수증을 몇 초 만에 검색할 수 있습니다.",    "sec5_title": "운영 타임라인",    "sec5_item1_title": "일일 운영",    "sec5_item1_desc": "플랫폼에서 언제든지 발급(Issue), 무효화(Void) 또는 에누리(Allowance) (단일 또는 일괄)를 할 수 있습니다. 에누리 영수증에는 시간이나 주기 제한이 없습니다.",    "sec5_item1_badge": "발급 / 무효화 / 에누리",    "sec5_item2_badge": "데이터 마감 및 수정 기한",    "sec5_item2_title": "홀수 달 1일 (AM 0:00)",    "sec5_item2_desc": "구매자 이름과 사업자 등록 번호는 다음 홀수 달 1일 전까지(1회만) 수정할 수 있습니다. 그 이후에는 데이터가 잠겨 업로드됩니다. 이 날짜 이후에는 이전 영수증을 수정할 수 없습니다.",    "sec5_item3_title": "재정부 업로드",    "sec5_item3_desc": "플랫폼은 이전 두 달간의 영수증 데이터(발급/무효화/에누리)를 재정부 전자 송장 플랫폼에 자동으로 업로드합니다.",    "sec5_item3_badge": "자동화 시스템 프로세스",    "sec5_item4_badge": "사업자 신고",    "sec5_item4_title": "홀수 달 15일",    "sec5_item4_desc": "사업자는 세무 신고를 위해 플랫폼에서 발급 내역을 다운로드할 수 있습니다. 이 날짜 이후에는 이전 영수증의 취소가 허용되지 않습니다.",    "sec6_title": "서비스 활성화",    "sec6_prep_title": "준비 사항",    "sec6_prep_list": "<ul class='detail-list text-gray-700 mb-6'><li>MOEACA IC 카드</li><li>칩 카드 리더기</li><li>사업자 등록 번호 (Tax ID)</li><li>Windows PC (검증 툴용)</li></ul>",    "sec6_steps_title": "활성화 프로세스",    "sec6_steps_list": "<ol class='list-decimal pl-5 space-y-3 text-gray-700'><li><a href='#' class='text-[#709581] hover:underline font-bold'>www.travelinvoice.com.tw</a> 에 접속하여 [Activate]를 클릭합니다.</li><li>'MOEACA Verification Tool'을 다운로드하여 설치합니다.</li><li>IC 카드를 삽입하고 사업자 등록 번호, 관리자 이메일, 비밀번호를 입력합니다.</li><li>검증이 완료되면 활성화가 완료됩니다.</li></ol>",    "sec6_warn_title": "보안 참고 사항: API 연동",    "sec6_warn_desc": "귀사가 자동화(예: ERP 연동)를 위해 API를 사용할 계획이라면 보안을 위해 **IP 화이트리스트 메커니즘**을 사용합니다.",    "sec6_warn_apply": "<p><strong>신청 방법:</strong></p><ul class='list-disc pl-5 mt-2 text-gray-600'><li>다운로드 영역에서 'IP Setup Form' 다운로드</li><li>고정 서버 IP 기입</li><li>회사 직인 날인</li><li>고객 센터로 팩스 또는 이메일 발송</li></ul>",    "sec6_img_alt": "createImg('pic/P14.png', '계정 활성화')",    "sec7_title": "업계 기능 설명",    "sec7_sub1_title": "계정 및 권한 관리",    "sec7_sub1_head1": "보조 계정 (Assistant Accounts)",    "sec7_sub1_desc1": "최대 **30개의 보조 계정**을 지원하여 대형 여행사의 업무 분담(예: 회계, OP, 영업)을 용이하게 합니다.",    "sec7_sub1_head2": "그룹 권한",    "sec7_sub1_list": "<ul class='detail-list text-sm text-gray-600'><li>사용자 지정 그룹 이름 (예: 회계팀).</li><li>상세 권한: 조회, 다운로드, 추가(발급), 수정, 무효화, 에누리, 기본 설정.</li></ul>",    "sec7_sub1_head3": "계정 상태 제어",    "sec7_sub1_table": "<table class='w-full text-sm text-left text-gray-600 border'><thead class='bg-gray-100 font-bold text-[#292929]'><tr><th class='p-3 border-b'>기능</th><th class='p-3 border-b'>설명</th></tr></thead><tbody><tr><td class='p-3 border-b'>비활성화/활성화</td><td class='p-3 border-b'>퇴사 시 즉시 비활성화, 복직 시 재활성화.</td></tr><tr><td class='p-3 border-b'>알림 재발송</td><td class='p-3 border-b'>직원이 활성화 이메일을 놓친 경우 원클릭 재발송.</td></tr><tr><td class='p-3 border-b'>편집/삭제</td><td class='p-3 border-b'>언제든지 그룹 조정 또는 계정 삭제 가능.</td></tr></tbody></table>",    "sec7_sub1_img_group": "<div class='dual-img-grid'><div>${createImg('pic/P18.png', '기본 프로필')}<div class='img-caption'><strong>1. 기본 설정:</strong><ol class='caption-list'><li>로그인 후 회사 정보 확인.</li><li>주소가 사업자 등록과 일치하는지 확인.</li><li>회사 로고 업로드 (선택 사항).</li></ol></div></div><div>${createImg('pic/P19.png', '보조 계정 설정')}<div class='img-caption'><strong>2. 보조 계정:</strong><ol class='caption-list'><li>'Permissions' &gt; 'Group Settings'로 이동하여 그룹 추가.</li><li>그룹 권한 설정.</li><li>'Account Settings'로 이동하여 보조 계정 추가 및 그룹 할당.</li></ol></div></div></div>",    "sec7_sub2_title": "구매 및 재고",    "sec7_sub2_head1": "온라인 구매 프로세스",    "sec7_sub2_list1": "<ol class='list-decimal pl-5 space-y-2 text-sm text-gray-600'><li>'Purchase E-Receipts' 선택.</li><li>수량 입력 (예: 3개 단위, 단위당 1000매).</li><li>시스템이 총액 계산.</li><li>결제 선택: <strong>WebATM</strong> (즉시) 또는 <strong>ATM 이체</strong> (가상 계좌).</li><li>결제 후 TATA에서 종이 증빙을 발급하여 우편 발송.</li></ol>",    "sec7_sub2_head2": "재고 기능",    "sec7_sub2_list2": "<ul class='detail-list text-sm text-gray-600'><li><strong>유효 기간 없음:</strong> 구매한 번호는 영구적으로 유효합니다.</li><li><strong>선입선출(FIFO):</strong> 시스템은 가장 먼저 구매한 번호를 자동으로 사용합니다.</li><li><strong>연간 조회:</strong> 연도별 사용량/잔여 상태 확인 (예: 2016, 2017...).</li></ul>",    "sec7_sub2_img_group": "<div class='dual-img-grid'><div><div class=\"space-y-4\">${createImg('pic/P20.png', '구매 흐름 1')}${createImg('pic/P21.png', '구매 흐름 2')}${createImg('pic/P22.png', '구매 흐름 3')}</div><div class='img-caption'><strong>1. 구매 프로세스:</strong><ol class='caption-list'><li>'Receipt Ops' &gt; 'Purchase Receipts' 선택.</li><li>수량 입력 (1000매/단위).</li><li>결제 선택 (WebATM/ATM).</li><li>금액 확인 및 결제.</li></ol></div></div><div><div class=\"space-y-4\">${createImg('pic/P23.png', '재고 조회 1')}${createImg('pic/P24.png', '재고 조회 2')}</div><div class='img-caption'><strong>2. 재고 조회:</strong><ol class='caption-list'><li>'Receipt Ops' &gt; 'Inventory Query' 선택.</li><li>구매 연도별 번호 확인.</li><li>사용/잔여 수량 확인.</li><li>시스템은 FIFO 로직 사용.</li></ol></div></div></div>",    "sec7_sub3_title": "발급 (단일/일괄)",    "sec7_sub3_head1": "단일 발급",    "sec7_sub3_desc1": "개별 여행객(FIT)이나 소량 발급에 적합합니다. 필수 필드:",    "sec7_sub3_list1": "<ul class='text-sm text-gray-600 grid grid-cols-2 gap-2'><li>• 사용자 지정 ID (내부 참조용)</li><li>• 구매자 이름</li><li>• 구매자 사업자 등록 번호 (B2B 필수)</li><li>• 이메일 (알림용)</li><li>• 품목/가격/수량</li></ul>",    "sec7_sub3_head2": "일괄 업로드 사양",    "sec7_sub3_list2": "<ul class='detail-list text-sm text-gray-700'><li><strong>형식:</strong> .txt 일반 텍스트</li><li><strong>인코딩:</strong> Unicode (문자 깨짐 방지)</li><li><strong>파일명:</strong> 영문/숫자만 가능, 한글/중문 불가.</li><li><strong>용량 제한:</strong> 2MB (약 1만 건)</li><li><strong>검사:</strong> 시스템은 중복 방지를 위해 사용자 지정 ID를 검사합니다.</li></ul>",    "sec7_sub3_img_group": "<div class='dual-img-grid'><div>${createImg('pic/P25.png', '단일 발급')}<div class='img-caption'><strong>1. 단일 발급:</strong><ol class='caption-list'><li>'Custom ID' (내부 주문 번호) 입력.</li><li>구매자 정보 (이름/Tax ID) 입력.</li><li>상세 내용 (품목/금액) 입력.</li><li>알림용 이메일 확인.</li></ol></div></div><div>${createImg('pic/P26.png', '일괄 발급')}<div class='img-caption'><strong>2. 일괄 발급:</strong><ol class='caption-list'><li>.txt 형식만 가능.</li><li>Unicode 인코딩.</li><li>영문/숫자 파일명만 가능.</li><li>최대 크기 2MB.</li></ol></div></div></div>",    "sec7_sub4_title": "무효화 및 에누리 (양방향 확인)",    "sec7_sub4_note": "규정에 따라 무효화(Void) 및 에누리(Allowance)는 완료를 위해 **'구매자 동의'**가 필요합니다.",    "sec7_sub4_head1": "무효화 프로세스",    "sec7_sub4_list1": "<ol class='list-decimal pl-5 text-sm text-gray-600 space-y-2'><li>여행사가 플랫폼에서 사유와 함께 무효화 시작.</li><li>'Require Buyer Confirmation' 체크.</li><li>시스템이 소비자에게 이메일 발송.</li><li>소비자가 **'Confirm Void'** 링크 클릭.</li><li>상태가 'Void Confirmed'로 업데이트됨.</li></ol>",    "sec7_sub4_head2": "에누리 프로세스 (부분 환불)",    "sec7_sub4_list2": "<ol class='list-decimal pl-5 text-sm text-gray-600 space-y-2'><li>여행사가 영수증 조회 후 'Allowance' 클릭.</li><li>금액 및 품목 입력.</li><li>시스템이 소비자에게 이메일 발송.</li><li>소비자가 링크 클릭, 상세 확인 후 **'Agree'** 클릭.</li><li>에누리 완료, 증빙 생성됨.</li></ol>",    "sec7_sub4_img_group": "<div class='dual-img-grid'><div>${createImg('pic/P28.png', '영수증 무효화')}<div class='img-caption'><strong>1. 무효화 프로세스:</strong><ol class='caption-list'><li>무효화할 영수증 조회.</li><li>'Void' 버튼 클릭.</li><li>사유 입력.</li><li>'Require Buyer Confirmation' 체크 (필수).</li></ol></div></div><div>${createImg('pic/P30.png', '영수증 에누리')}<div class='img-caption'><strong>2. 에누리 프로세스:</strong><ol class='caption-list'><li>영수증 조회, 'Allowance' 클릭.</li><li>에누리 번호 및 상세 입력.</li><li>시스템이 알림 발송.</li><li>구매자가 온라인에서 동의해야 함.</li></ol></div></div></div>",    "sec7_sub5_title": "수정 및 보고",    "sec7_sub5_head1": "엄격한 수정 규칙",    "sec7_sub5_desc1": "세무 규정 준수를 위해 수정은 엄격히 제한됩니다:",    "sec7_sub5_card1_title": "마감 기한",    "sec7_sub5_card1_desc": "다음 홀수 달 1일 이전",    "sec7_sub5_card2_title": "빈도",    "sec7_sub5_card2_desc": "1회만 가능",    "sec7_sub5_card3_title": "인쇄 상태",    "sec7_sub5_card3_desc": "구매자가 인쇄한 경우 수정 불가",    "sec7_sub5_head2": "조회 및 다운로드",    "sec7_sub5_desc2": "날짜, 금액, 사용자 지정 ID, 상태(발급/무효화/에누리)로 필터링. 대사 및 신고를 위한 **Excel/CSV 다운로드** 지원.",    "sec7_sub5_img_group": "<div class='dual-img-grid'><div><div class=\"space-y-4\">${createImg('pic/P32.png', '조회 상세 1')}${createImg('pic/P33.png', '조회 상세 2')}</div><div class='img-caption'><strong>1. 조회 및 보고:</strong><ol class='caption-list'><li>조건 설정 (날짜/상태/키워드).</li><li>목록에 상태 표시됨.</li><li>'Detail' 클릭하여 전체 보기.</li><li>Excel 내보내기 지원.</li></ol></div></div><div><div class=\"space-y-4\">${createImg('pic/P34.png', '인쇄 수정 1')}${createImg('pic/P35.png', '인쇄 수정 2')}</div><div class='img-caption'><strong>2. 수정 제한:</strong><ol class='caption-list'><li>다음 홀수 달 1일 전까지 수정 가능.</li><li>구매자 이름/Tax ID만 수정 가능.</li><li>1회 제한.</li><li>인쇄된 경우 수정 불가.</li></ol></div></div></div>",    "sec8_title": "소비자 기능",    "sec8_sub_title": "소비자 서비스 구역",    "sec8_sub_desc": "24시간 연중무휴 조회 및 인쇄 서비스를 제공합니다. 소비자는 계정을 등록할 필요가 없으며 알림 메일에 있는 정보를 사용하여 서비스를 이용할 수 있습니다.",    "sec8_sub_list": "<ul class='space-y-4'><li class='flex items-center'><span class='bg-white text-[#709581] rounded-full w-6 h-6 flex items-center justify-center mr-3 text-sm'>✓</span>즉각적인 이메일 알림 <br>(개시/취소/할인)</li><li class='flex items-center'><span class='bg-white text-[#709581] rounded-full w-6 h-6 flex items-center justify-center mr-3 text-sm'>✓</span>온라인 영수증 상세 조회</li><li class='flex items-center'><span class='bg-white text-[#709581] rounded-full w-6 h-6 flex items-center justify-center mr-3 text-sm'>✓</span>PDF 다운로드 및 인쇄 (재인쇄 지원)</li></ul>",    "sec8_process_title": "영수증 조회 및 검증 프로세스",    "sec8_process_desc": "여행사로부터 '개시 통지(Opening Notice)'를 받으시면 플랫폼의 'Inquiry Area'로 이동하여 편지에 제공된 다음 정보를 입력하십시오:",    "sec8_field1_label": "열 1",    "sec8_field1_val": "영수증 번호",    "sec8_field1_note": "예: T00329351",    "sec8_field2_label": "열 2",    "sec8_field2_val": "랜덤 코드",    "sec8_field2_note": "4자리 또는 8자리 검증 코드",    "sec8_field3_label": "열 3",    "sec8_field3_val": "개시일",    "sec8_field3_note": "YYYY-MM-DD",    "sec8_field4_label": "보안 검증",    "sec8_field4_val": "이미지 인증 코드",    "sec8_field4_note": "입력 화면에 표시된 숫자",    "sec8_img_group": "<div class='dual-img-grid'><div>${createImg('pic/P40.png', '조회 영역')}<div class='img-caption'><strong>1. 조회 단계:</strong><ol class='caption-list'><li>영수증 번호 입력.</li><li>랜덤 코드 입력.</li><li>날짜 선택.</li><li>보안 문자 입력.</li></ol></div></div><div>${createImg('pic/P41.png', '다운로드 인쇄')}<div class='img-caption'><strong>2. 다운로드/인쇄:</strong><ol class='caption-list'><li>성공 시 상세 내용 표시됨.</li><li>'Print Receipt' 클릭하여 PDF 보기.</li><li>시스템이 인쇄 횟수 기록.</li><li>1회 인쇄 (재인쇄는 여행사 통해 가능).</li></ol></div></div></div>",    "sec9_title": "고객 지원",    "sec9_tel_label": "전화",    "sec9_tel_val": "02-2786-3655",    "sec9_mail_label": "이메일",    "sec9_mail_val": "cs@newebpay.com",    "sec9_time_label": "운영 시간",    "sec9_time_val": "매일 08:00 ~ 23:00",    "sec10_title": "시스템 통합 파트너",    "sec10_desc": "예약, 발권, ERP, 결제, 영수증 - 모든 것을 하나로!<br>API 연동을 통한 완전 자동화.",    "sec10_partner1": "Neweb Technologies",    "sec10_partner2": "COWELL",    "sec10_partner3": "Sabre",    "sec10_img_alt": "createImg('pic/P45.png', '통합 파트너')",    "footer_title": "여행업 대수전부 전자 영수증 부가 서비스 플랫폼",    "footer_terms": "이용 약관",    "footer_privacy": "개인정보 처리방침",    "footer_security": "정보 보안",    "footer_copyright": "&copy; Neweb Financial Technologies Group. All rights reserved."  },        
+        };
+
+        // 2. 獲取 URL 參數的函數
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // 3. 切換語言函數 (無刷新切換)
+        function changeLanguage(lang) {
+            // 更新網址但不重整頁面
+            const url = new URL(window.location);
+            url.searchParams.set('lang', lang);
+            window.history.pushState({}, '', url);
+            
+            // 呼叫渲染函數更新內容
+            renderPage(lang);
+        }
+
+        // 新增函數：初始化語言選單
+        function initLangSelector(currentLang) {
+            const langSelector = document.getElementById('lang-selector');
+            if(!langSelector) return;
+
+            // 清空現有選項
+            langSelector.innerHTML = '';
+
+            // 遍歷 resources 物件的 key 來產生選項
+            Object.keys(resources).forEach(langKey => {
+                const option = document.createElement('option');
+                option.value = langKey;
+                // 使用 resource 中的 lang_name，如果沒有則顯示 key
+                option.text = resources[langKey].lang_name || langKey;
+                
+                // 如果是當前語言，設為選中
+                if(langKey === currentLang) {
+                    option.selected = true;
+                }
+                
+                langSelector.appendChild(option);
+            });
+        }
+
+        // 4. 主要渲染邏輯 (獨立為可重複呼叫的函數)
+        function renderPage(currentLang) {
+            // 檢查 resources 中是否有此語言，若無則預設 zh-TW
+            // 注意：這裡改為動態檢查 resources 物件，不再依賴硬編碼的 supportedLangs 陣列
+            const lang = resources[currentLang] ? currentLang : 'zh-TW';
+
+            // 更新 HTML lang 屬性
+            document.documentElement.lang = lang;
+
+            // 更新下拉選單
+            initLangSelector(lang);
+            
+            // 選擇對應的字典
+            const dict = resources[lang];
+            const defaultDict = resources['zh-TW']; // 預設語言備份
+
+            // 渲染所有帶有 data-i18n 屬性的元素
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                // 優先使用當前語言，若無則使用預設語言 (Fallback)
+                const text = (dict && dict[key]) ? dict[key] : defaultDict[key];
+                
+                if (text) {
+                    // 使用 innerHTML 以保留字典中的 HTML 標籤 (如 <strong>, <br>, <img>)
+                    element.innerHTML = text;
+                }
+            });
+
+            // 動態生成導覽列
+            const navList = document.getElementById('nav-list');
+            const navItems = [
+                { key: 'nav_pain', link: '#pain_points' },
+                { key: 'nav_law', link: '#regulations' },
+                { key: 'nav_intro', link: '#intro' },
+                { key: 'nav_pros', link: '#advantages' },
+                { key: 'nav_time', link: '#timeline' },
+                { key: 'nav_start', link: '#activation' },
+                { key: 'nav_b2b', link: '#industry_features' },
+                { key: 'nav_b2c', link: '#consumer_features' },
+                { key: 'nav_cs', link: '#support' }
+            ];
+
+            navList.innerHTML = ''; // 清空
+            navItems.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'my-2 lg:my-0';
+                const a = document.createElement('a');
+                a.href = item.link;
+                a.className = 'hover:text-[#709581] transition-colors block py-2 lg:py-0 border-b lg:border-none border-gray-700 lg:hover:text-[#709581]';
+                // 同樣使用 Fallback 機制處理導覽列文字
+                const itemText = (dict && dict[item.key]) ? dict[item.key] : (defaultDict[item.key] || item.key);
+                a.innerText = itemText;
+                li.appendChild(a);
+                navList.appendChild(li);
+            });
+        }
+
+        function init() {
+            // 取得 lang 參數，若無則預設 'zh-TW'
+            const langParam = getQueryParam('lang');
+            renderPage(langParam);
+        }
+
+        // 監聽瀏覽器上一頁/下一頁事件 (支援歷史紀錄)
+        window.addEventListener('popstate', () => {
+            const lang = getQueryParam('lang');
+            renderPage(lang);
+        });
+
+        // 執行初始化
+        window.addEventListener('DOMContentLoaded', init);
+
+    </script>
+</body>
+</html>

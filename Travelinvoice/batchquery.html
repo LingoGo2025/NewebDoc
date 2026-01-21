@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="page_title"></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="https://www.travelinvoice.com.tw/images/image/travelInvoice.ico" type="image/x-icon" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        html { scroll-behavior: smooth; }
+        body { background-color: #f8fafc; color: #334155; }
+        
+        /* Custom Scrollbar */
+        .scrollable-area::-webkit-scrollbar { width: 6px; }
+        .scrollable-area::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+        
+        /* Navigation Active State */
+        .sidebar-active { background-color: #e0f2fe; color: #0284c7; border-right: 4px solid #0284c7; font-weight: 600; }
+        
+        /* Tabs */
+        .tab-btn { border-bottom: 2px solid transparent; transition: all 0.3s; }
+        .tab-btn:hover { color: #60a5fa; }
+        .tab-btn.active { border-bottom-color: #3b82f6; color: #3b82f6; font-weight: 600; background-color: rgba(59, 130, 246, 0.05); }
+        
+        /* Table Styles */
+        .params-table th { background-color: #f1f5f9; color: #475569; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; white-space: nowrap; }
+        .params-table td { vertical-align: top; color: #334155; border-bottom: 1px solid #e2e8f0; }
+        .params-table tr:hover { background-color: #f8fafc; }
+        .required-badge { background-color: #dcfce7; color: #166534; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; border: 1px solid #bbf7d0; }
+        .optional-badge { background-color: #f1f5f9; color: #64748b; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; border: 1px solid #e2e8f0; }
+        .cond-badge { background-color: #fef9c3; color: #854d0e; padding: 2px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; border: 1px solid #fde047; }
+
+        /* Tool styles */
+        .tool-tab-btn { transition: all 0.2s; }
+        .tool-tab-btn.active { border-bottom-color: #9333ea; color: #9333ea; background-color: #faf5ff; }
+        
+        /* Code block */
+        pre { margin: 0; }
+    </style>
+</head>
+<body class="text-slate-800 font-sans">
+
+    <!-- Mobile Header -->
+    <header class="lg:hidden bg-white shadow-sm p-4 sticky top-0 z-50 flex justify-between items-center border-b border-slate-200">
+        <h1 class="text-lg font-bold text-blue-700 flex items-center">
+            <i class="fas fa-search-dollar mr-2"></i> <span data-i18n="header_mobile_title"></span>
+        </h1>
+        <button id="menu-btn" class="text-slate-600 focus:outline-none hover:text-blue-600 transition">
+            <i class="fas fa-bars text-2xl"></i>
+        </button>
+    </header>
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 w-72 bg-white shadow-xl transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 border-r border-slate-200 flex flex-col">
+            
+            <!-- Top Section -->
+            <div class="p-6 border-b border-slate-100 bg-gradient-to-r from-blue-50 to-white shrink-0">
+                <h2 class="text-2xl font-bold text-blue-700 tracking-tight" data-i18n="sidebar_brand"></h2>
+                <p class="text-sm text-slate-500 mt-1 font-medium"><span data-i18n="sidebar_subtitle"></span><br><span class="text-xs text-slate-400" data-i18n="sidebar_version"></span></p>
+            </div>
+
+            <!-- Scrollable Navigation Area -->
+            <div class="flex-1 overflow-y-auto scrollable-area">
+                <nav class="p-4 space-y-1">
+                    <a href="#intro" class="nav-link block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-info-circle w-5 group-hover:text-blue-500 transition-colors mr-2"></i> <span data-i18n="nav_intro"></span>
+                    </a>
+                    <a href="#setup" class="nav-link block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-cogs w-5 group-hover:text-blue-500 transition-colors mr-2"></i> <span data-i18n="nav_setup"></span>
+                    </a>
+                    <a href="#tool" class="nav-link block px-4 py-2 text-sm text-purple-700 bg-purple-50 hover:bg-purple-100 hover:text-purple-800 rounded-lg transition-colors group border border-purple-100 mb-4 shadow-sm">
+                        <i class="fas fa-wrench w-5 group-hover:text-purple-600 transition-colors mr-2"></i> <span data-i18n="nav_tool"></span>
+                    </a>
+
+                    <div class="px-4 py-2 text-xs font-bold text-slate-400 uppercase tracking-wider mt-4" data-i18n="nav_group_query"></div>
+                    
+                    <a href="#api_search_receipt" class="nav-link block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-file-invoice w-5 group-hover:text-blue-500 transition-colors mr-2"></i> <span data-i18n="nav_search_receipt"></span>
+                    </a>
+                    <a href="#api_search_invalid" class="nav-link block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-ban w-5 group-hover:text-blue-500 transition-colors mr-2"></i> <span data-i18n="nav_search_invalid"></span>
+                    </a>
+                    <a href="#api_search_allowance" class="nav-link block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-percentage w-5 group-hover:text-blue-500 transition-colors mr-2"></i> <span data-i18n="nav_search_allowance"></span>
+                    </a>
+                    <a href="#api_search_custom" class="nav-link block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-tag w-5 group-hover:text-blue-500 transition-colors mr-2"></i> <span data-i18n="nav_search_custom"></span>
+                    </a>
+
+                    <div class="px-4 py-2 text-xs font-bold text-slate-400 uppercase tracking-wider mt-4" data-i18n="nav_group_appendix"></div>
+
+                    <a href="#errors" class="nav-link block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-exclamation-triangle w-5 group-hover:text-blue-500 transition-colors mr-2"></i> <span data-i18n="nav_errors"></span>
+                    </a>
+                    <a href="#example" class="nav-link block px-4 py-2 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-code w-5 group-hover:text-blue-500 transition-colors mr-2"></i> <span data-i18n="nav_example"></span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Footer with Language Switcher -->
+            <div class="p-4 border-t border-slate-200 bg-slate-50 shrink-0">
+                <div class="relative group w-full">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <select id="lang-select" onchange="changeLang(this.value)" class="w-full appearance-none bg-white hover:bg-white text-slate-600 font-medium py-2.5 pl-10 pr-8 rounded-lg text-sm transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer border border-slate-300 hover:border-blue-400 shadow-sm">
+                        <!-- Options injected by JS -->
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500 group-hover:text-slate-700">
+                        <i class="fas fa-chevron-up text-xs"></i>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-72 p-4 lg:p-8 w-[95%] mx-auto max-w-[1920px]">
+            
+            <!-- Intro -->
+            <section id="intro" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h1 class="text-3xl font-bold text-slate-900" data-i18n="intro_title"></h1>
+                </div>
+                
+                <div class="bg-white p-6 lg:p-8 rounded-xl shadow-sm border border-slate-200">
+                    <p class="text-slate-700 leading-relaxed mb-6 text-lg" data-i18n="intro_desc"></p>
+                    
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center">
+                        <span class="bg-blue-100 text-blue-600 w-8 h-8 rounded-full flex items-center justify-center text-sm mr-2"><i class="fas fa-list-ul"></i></span> 
+                        <span data-i18n="intro_funcs_title"></span>
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 flex items-start">
+                            <i class="fas fa-calendar-alt text-2xl text-green-600 mt-1 mr-4"></i>
+                            <div>
+                                <h4 class="font-bold text-slate-700" data-i18n="usecase_1_title"></h4>
+                                <p class="text-sm text-slate-500 mt-1" data-i18n="usecase_1_desc"></p>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 flex items-start">
+                            <i class="fas fa-search text-2xl text-blue-500 mt-1 mr-4"></i>
+                            <div>
+                                <h4 class="font-bold text-slate-700" data-i18n="usecase_2_title"></h4>
+                                <p class="text-sm text-slate-500 mt-1" data-i18n="usecase_2_desc"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Setup -->
+            <section id="setup" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="setup_title"></h2>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                         <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                            <h3 class="font-bold text-slate-800 mb-2 flex items-center"><i class="fas fa-key text-blue-500 mr-2"></i> <span data-i18n="setup_card1_title"></span></h3>
+                            <p class="text-sm text-slate-600" data-i18n="setup_card1_desc"></p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                            <h3 class="font-bold text-slate-800 mb-2 flex items-center"><i class="fas fa-network-wired text-blue-500 mr-2"></i> <span data-i18n="setup_card2_title"></span></h3>
+                            <p class="text-sm text-slate-600" data-i18n="setup_card2_desc"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tool -->
+             <section id="tool" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-purple-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="tool_title"></h2>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md border border-purple-100 overflow-hidden">
+                    <div class="bg-purple-50 p-4 border-b border-purple-100">
+                        <p class="text-purple-800 text-sm" data-i18n="tool_intro"></p>
+                    </div>
+
+                    <div class="flex border-b border-slate-200">
+                        <button onclick="switchToolTab('aes-encrypt')" class="tool-tab-btn active flex-1 py-4 text-sm font-bold text-center hover:bg-slate-50 transition border-b-2 border-purple-600 text-purple-600">
+                            <i class="fas fa-lock mr-2"></i> <span data-i18n="tool_tab_encrypt"></span>
+                        </button>
+                        <button onclick="switchToolTab('aes-decrypt')" class="tool-tab-btn flex-1 py-4 text-sm font-bold text-center hover:bg-slate-50 transition border-b-2 border-transparent text-slate-500">
+                            <i class="fas fa-unlock mr-2"></i> <span data-i18n="tool_tab_decrypt"></span>
+                        </button>
+                        <button onclick="switchToolTab('check-code')" class="tool-tab-btn flex-1 py-4 text-sm font-bold text-center hover:bg-slate-50 transition border-b-2 border-transparent text-slate-500">
+                            <i class="fas fa-check-double mr-2"></i> <span data-i18n="tool_tab_checkcode"></span>
+                        </button>
+                    </div>
+
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 pb-6 border-b border-slate-100">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Hash Key (32 bytes)</label>
+                                <input type="text" id="toolKey" data-i18n-placeholder="tool_ph_key" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm bg-slate-50">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Hash IV (16 bytes)</label>
+                                <input type="text" id="toolIv" data-i18n-placeholder="tool_ph_iv" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm bg-slate-50">
+                            </div>
+                        </div>
+
+                        <div id="aes-encrypt" class="tool-content active">
+                            <div class="mb-4">
+                                <label class="block text-sm font-bold text-slate-700 mb-2" data-i18n="tool_lbl_qs"></label>
+                                <textarea id="encryptInput" rows="5" data-i18n-placeholder="tool_ph_qs" class="w-full p-3 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm text-slate-600"></textarea>
+                                <p class="text-xs text-slate-400 mt-1 text-right" data-i18n="tool_note_qs"></p>
+                            </div>
+                            <button onclick="runEncrypt()" class="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700 transition shadow-sm font-bold text-sm">
+                                <i class="fas fa-arrow-down mr-1"></i> <span data-i18n="tool_btn_encrypt"></span>
+                            </button>
+                            <div class="mt-4">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="tool_lbl_hex"></label>
+                                <div class="relative">
+                                    <textarea id="encryptOutput" readonly rows="3" class="w-full p-3 bg-slate-800 text-green-400 rounded font-mono text-sm border-none focus:ring-0"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="aes-decrypt" class="tool-content hidden">
+                             <div class="mb-4">
+                                <label class="block text-sm font-bold text-slate-700 mb-2" data-i18n="tool_lbl_enc_hex"></label>
+                                <textarea id="decryptInput" rows="4" data-i18n-placeholder="tool_ph_enc_hex" class="w-full p-3 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm text-slate-600"></textarea>
+                            </div>
+                            <button onclick="runDecrypt()" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition shadow-sm font-bold text-sm">
+                                <i class="fas fa-arrow-down mr-1"></i> <span data-i18n="tool_btn_decrypt"></span>
+                            </button>
+                            <div class="mt-4">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="tool_lbl_decrypt_res"></label>
+                                <div class="relative">
+                                    <textarea id="decryptOutput" readonly rows="3" class="w-full p-3 bg-slate-800 text-green-400 rounded font-mono text-sm border-none focus:ring-0"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="check-code" class="tool-content hidden">
+                            <p class="text-sm text-slate-600 mb-4 bg-yellow-50 p-2 border border-yellow-100 rounded" data-i18n="tool_cc_desc"></p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-1" data-i18n="tool_lbl_cc_mid"></label>
+                                    <input type="text" id="cc_mid" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-1" data-i18n="tool_lbl_cc_ts"></label>
+                                    <input type="text" id="cc_ts" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-1" data-i18n="tool_lbl_cc_start"></label>
+                                    <input type="text" id="cc_start" placeholder="YYYYMMDD" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-1" data-i18n="tool_lbl_cc_end"></label>
+                                    <input type="text" id="cc_end" placeholder="YYYYMMDD" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm">
+                                </div>
+                            </div>
+                            <button onclick="runCheckCode()" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition shadow-sm font-bold text-sm">
+                                <i class="fas fa-calculator mr-1"></i> <span data-i18n="tool_btn_checkcode"></span>
+                            </button>
+                            <div class="mt-4">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="tool_lbl_checkcode_res"></label>
+                                <div class="relative">
+                                    <textarea id="checkCodeOutput" readonly rows="2" class="w-full p-3 bg-slate-800 text-yellow-400 rounded font-mono text-sm border-none focus:ring-0"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Rule Explanation Section -->
+                        <div class="mt-6 border-t border-slate-200 pt-6">
+                            <h3 class="font-bold text-slate-800 mb-4 flex items-center">
+                                <i class="fas fa-book-open text-purple-600 mr-2"></i> <span data-i18n="tool_rule_title"></span>
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- AES Block -->
+                                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                                    <h4 class="font-bold text-slate-700 mb-2 border-b border-slate-200 pb-2" data-i18n="tool_rule_aes_title"></h4>
+                                    <ul class="list-disc list-inside text-sm text-slate-600 space-y-1">
+                                        <li data-i18n="tool_rule_aes_1"></li>
+                                        <li data-i18n="tool_rule_aes_2"></li>
+                                        <li data-i18n="tool_rule_aes_3"></li>
+                                        <li data-i18n="tool_rule_aes_4"></li>
+                                    </ul>
+                                </div>
+                                <!-- CheckCode Block -->
+                                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                                     <h4 class="font-bold text-slate-700 mb-2 border-b border-slate-200 pb-2" data-i18n="tool_rule_chk_title"></h4>
+                                     <ol class="list-decimal list-inside text-sm text-slate-600 space-y-1">
+                                        <li data-i18n="tool_rule_chk_1"></li>
+                                        <li data-i18n="tool_rule_chk_2"></li>
+                                        <li class="break-all" data-i18n="tool_rule_chk_3"></li>
+                                        <li data-i18n="tool_rule_chk_4"></li>
+                                     </ol>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+             <!-- API Template Generator -->
+             <div id="api-container"></div>
+
+             <!-- Errors -->
+             <section id="errors" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="err_title"></h2>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 mb-4">
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-4 top-3.5 text-slate-400"></i>
+                        <input type="text" id="errorSearch" data-i18n-placeholder="err_ph" class="w-full pl-10 p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                </div>
+                <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-slate-200 max-h-[600px] overflow-y-auto">
+                    <table class="w-full text-left text-sm" id="errorTable">
+                        <thead class="bg-slate-50 text-slate-600 uppercase font-bold sticky top-0 border-b border-slate-200 shadow-sm">
+                            <tr>
+                                <th class="px-6 py-4 w-1/4" data-i18n="th_err_code"></th>
+                                <th class="px-6 py-4" data-i18n="th_err_reason"></th>
+                                <th class="px-6 py-4" data-i18n="th_err_note"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 font-mono text-slate-700">
+                             <!-- Dynamic Generation -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Example -->
+            <section id="example" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="example_title"></h2>
+                </div>
+                
+                <div class="bg-slate-800 rounded-lg shadow-lg overflow-hidden relative">
+                    <div class="flex border-b border-slate-600 bg-slate-900 px-2">
+                        <button onclick="switchTab('php', event)" class="tab-btn active px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors">PHP</button>
+                        <button onclick="switchTab('nodejs', event)" class="tab-btn px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors">Node.js</button>
+                        <button onclick="switchTab('python', event)" class="tab-btn px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors">Python</button>
+                        <button onclick="switchTab('csharp', event)" class="tab-btn px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors">C# (.NET)</button>
+                    </div>
+
+                    <textarea id="code-display" readonly class="w-full h-[600px] p-4 bg-[#272822] text-[#f8f8f2] font-mono text-sm leading-6 border-none outline-none resize-none"></textarea>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // --- Multi-language Data (Partial for brevity, only zh-TW is required) ---
+        const langData = {
+            'zh-TW': {name: '繁體中文',data: {page_title: '電子收據批次查詢 API 文件',header_mobile_title: '批次查詢 API',sidebar_brand: 'TRINVI',sidebar_subtitle: '電子收據加值服務平台',sidebar_version: '批次查詢 V1.0.8',nav_intro: '簡介與功能',nav_setup: '串接前置準備',nav_tool: '加密測試工具',nav_group_query: '查詢作業',nav_search_receipt: '批次查詢收據',nav_search_invalid: '批次查詢作廢',nav_search_allowance: '批次查詢折讓',nav_search_custom: '自訂編號查詢',nav_group_appendix: '附錄',nav_errors: '錯誤代碼表',nav_example: '範例程式碼',intro_title: '簡介與功能',intro_desc: '旅行業代收轉付電子收據加值服務平台提供各旅行同業公會旗下會員透過程式串接方式，進行單據查詢。此 API 以搜尋種類 (SearchType_) 來區分查詢收據開立、作廢單及折讓單，並透過時間區間與單據狀態，來進行所設定期間內的資料查詢。',intro_funcs_title: '主要功能',usecase_1_title: '多樣化查詢',usecase_1_desc: '支援依據時間區間查詢收據、作廢單、折讓單。',usecase_2_title: '詳細資訊回傳',usecase_2_desc: '回傳完整的收據明細、商品資訊、金額與狀態，並提供 JSON 格式回傳。',setup_title: '串接前置準備',setup_card1_title: '取得金鑰',setup_card1_desc: '須登入電子收據平台後台取得商店代號 (MerchantID) 以及對應的 Hash Key 與 Hash IV。',setup_card2_title: '確認網址',setup_card2_desc: '<span class="block mb-1"><b>測試環境:</b> <code class="text-blue-600">https://capi.travelinvoice.com.tw/invoice_searchall</code></span><span class="block"><b>正式環境:</b> <code class="text-green-600">https://api.travelinvoice.com.tw/invoice_searchall</code></span>',tool_title: '加密測試工具',tool_intro: '此工具可協助您產生 PostData_ 加密字串，驗證 CheckCodeSearch，或解密回傳結果。',tool_tab_encrypt: 'PostData 加密',tool_tab_decrypt: 'PostData 解密',tool_tab_checkcode: 'CheckCodeSearch 產生',tool_ph_key: '例如: abcdefghijklmnopqrstuvwxyzabcdef (32 bytes)',tool_ph_iv: '例如: 1234567890123456 (16 bytes)',tool_lbl_qs: '原始字串 (Query String 格式)',tool_ph_qs: '例如: Version=2.0&TimeStamp=1588320000&SearchType_=1&StartDate=2020-05-11',tool_note_qs: '請確保輸入格式為 Key=Value&Key2=Value2',tool_btn_encrypt: '執行加密 (AES-256-CBC)',tool_lbl_hex: 'PostData 加密結果 (Hex)',tool_lbl_enc_hex: '加密字串 (Hex String)',tool_ph_enc_hex: '例如: f329a61f014cdad8acae2b497b32514fcb57dffb44dafd2b5531e8ac4d206093',tool_btn_decrypt: '執行解密',tool_lbl_decrypt_res: '解密結果',tool_btn_checkcode: '產生 CheckCodeSearch',tool_lbl_checkcode_res: 'CheckCodeSearch 結果',tool_lbl_cc_mid: 'MerchantID (旅行社統一編號)',tool_lbl_cc_ts: 'TimeStamp (時間戳記)',tool_lbl_cc_start: 'StartDate (YYYYMMDD)',tool_lbl_cc_end: 'EndDate (YYYYMMDD)',tool_cc_desc: '注意: 此處 CheckCodeSearch 產生規則為將 MerchantID, StartDate, EndDate, TimeStamp 排序後串接，並加上 HashIV 與 HashKey 進行 SHA256 加密。',tool_rule_title: '加密與檢查碼運算規則說明',tool_rule_aes_title: 'AES 加密規則 (PostData_)',tool_rule_aes_1: '演算法: AES-256-CBC',tool_rule_aes_2: 'Padding: PKCS7 (部分語言需手動補位)',tool_rule_aes_3: '轉換: 將參數組合成 Query String 後加密',tool_rule_aes_4: '輸出: 轉為 Hex String (不分大小寫)',tool_rule_chk_title: 'CheckCodeSearch 檢查碼規則',tool_rule_chk_1: '排序: 將 MerchantID, StartDate, EndDate, TimeStamp 依 A-Z 順序排列',tool_rule_chk_2: '串接: 轉為 Query String (Key=Value&...)，日期需去除分隔符號',tool_rule_chk_3: '頭尾: HashIV=...&...&HashKey=...',tool_rule_chk_4: '運算: SHA256 雜湊後轉大寫',err_title: '錯誤代碼表',err_ph: '搜尋代碼或原因...',th_err_code: '錯誤代碼',th_err_reason: '錯誤原因',th_err_note: '備註',example_title: '範例程式碼',lbl_api_url_test: 'URL (測試環境)',lbl_api_url_prod: 'URL (正式環境)',lbl_lvl1_title: '第一層參數 (HTTP Post)',lbl_lvl2_req_title: 'PostData_ 內含參數 (請求)',lbl_lvl2_res_title: 'Response 回應參數 (JSON)',lbl_retinv_structure: 'ReturnInvoice 內容 (JSON Array)',th_param: '參數名稱',th_name: '中文名稱',th_required: '必填',th_type: '型態',th_note: '備註',th_len: '長度',val_yes: '是',val_no: '否',val_cond: '條件',api_search_receipt_title: '批次查詢收據 (SearchType=1)',p_mid_name: '旅行社統一編號', p_mid_note: '旅行社統一編號。',p_stype_name: '搜尋種類', p_stype_note: '固定帶 1。',p_postdata_name: '加密資料', p_postdata_note: '相關加密方法請參考加密測試工具中說明。',p_ver_name: '串接程式版本', p_ver_note: '固定帶 2.0',p_ts_name: '時間戳記', p_ts_note: 'Unix Timestamp (秒)。',p_ifrom_name: '收據來源', p_ifrom_note: '空值=不分來源, 0=API建立, 1=官網操作建立。',p_istatus_name: '收據狀態', p_istatus_note: '空值=全部收據, 0=預約開立, 1=已開立, 2=取消預約開立, 3=已作廢。',p_astatus_name: '折讓狀態', p_astatus_note: '空值=全部已開立收據, 0=已開立且未折讓, 1=已開立且有折讓。(僅當 InvoiceStatus=1 時有效)',p_cat_name: '收據種類', p_cat_note: '空值=不過濾, B2B=營利事業, B2C=個人。',p_sname_name: '經辦人名稱', p_sname_note: '空值=所有經辦人。可過濾特定經辦人 (需完整名稱)。',p_ord_name: '自訂編號', p_ord_note: '旅行社於開立收據時輸入的自訂編號。',p_sdate_name: '查詢起始日期', p_sdate_note: '查詢區間起始 (收據開立時間)，例: 2016-02-25。<br>若有填入查詢起始日期，則查詢結束日期為必填。',p_edate_name: '查詢結束日期', p_edate_note: '1. 查詢區間結束。<br>2. 查詢區間最長為 90 天。<br>例: 若查詢起始日期為 09-01，最長可接受之查詢結束日期為 11-29 23:59:59。',r_status_name: '回傳狀態', r_status_note: 'SUCCESS=成功, 失敗則回傳錯誤代碼。',r_msg_name: '回傳訊息', r_msg_note: '文字，敘述此次狀態。',r_retinv_name: '回傳的收據資料', r_retinv_note: '內容為 JSON 格式字串 Array。',r_chk_name: '檢查碼', r_chk_note: '用來檢查此次資料回傳的合法性。',ri_itrans_name: '開立流水號', ri_itrans_note: '收據開立時產生的系統流水號。',ri_ord_name: '自訂編號', ri_ord_note: '1. 旅行社於開立收據時輸入的自訂編號。<br>2. 若自訂編號為重覆多筆，則回傳相對應的收據資料。',ri_inum_name: '收據號碼', ri_inum_note: '此次查詢的收據號碼。',ri_rand_name: '收據防偽隨機碼', ri_rand_note: '於開立收據時，所產生的8碼收據防偽隨機碼。',ri_bname_name: '買受人名稱', ri_bname_note: '開立收據時的買受人名稱，個人姓名或營業人名稱。',ri_bubn_name: '買受人統一編號', ri_bubn_note: '1. 若為B2B收據，此欄位為買受人統一編號。<br>2. 若為B2C收據，此欄位為空值。',ri_baddr_name: '買受人地址', ri_baddr_note: '於開立收據時，該張收據的買受人地址。',ri_bphone_name: '買受人手機號碼', ri_bphone_note: '於開立收據時，該張收據的買受人手機號碼。',ri_bemail_name: '買受人電子信箱', ri_bemail_note: '於開立收據時，該張收據的買受人電子信箱。',ri_cat_name: '收據種類', ri_cat_note: '該張收據的收據種類。<br>B2B=買受人為營利事業單位(有統編), B2C=買受人為個人',ri_tot_name: '收據金額', ri_tot_note: '純數字，為收據總金額。',ri_ctime_name: '開立收據時間', ri_ctime_note: '該張收據開立時間，例: 2014-09-25 12:12:12',ri_istatus_name: '收據狀態', ri_istatus_note: '該張收據之收據狀態。<br>0=預約開立, 1=已開立, 2=取消預約開立, 3=已作廢',ri_idetail_name: '商品明細', ri_idetail_note: '該張收據開立時的商品資訊 (JSON格式)。<br>ItemNum=品項序號, ItemName=商品名稱, ItemCount=數量, ItemWord=單位, ItemPrice=單價, ItemAmount=小計',ri_tname_name: '團名', ri_tname_note: '該張收據的團名',ri_tno_name: '團號', ri_tno_note: '該張收據的團號',ri_tdate_name: '預計出團日', ri_tdate_note: '該張收據出團日,出團日當天會發提醒信至指定信箱',ri_tax_name: '申報註記', ri_tax_note: '0=未申報, 1=已申報。',api_search_invalid_title: '批次查詢作廢 (SearchType=3)',p_stype_invalid_note: '固定帶 3。',p_inv_from_name: '作廢單來源', p_inv_from_note: '空值=不分, 0=API建立, 1=官網建立。',p_inv_status_name: '作廢單狀態', p_inv_status_note: '空值=全部, 0=未確認, 1=已確認, 2=取消之未確認。',p_sdate_inv_note: '查詢區間起始 (作廢單建立時間)。<br>若有填入查詢起始日期，則查詢結束日期為必填。',ri_inv_no_name: '作廢單流水號', ri_inv_no_note: '作廢單開立時產生的系統流水號。',ri_inv_rsn_name: '作廢原因', ri_inv_rsn_note: '作廢原因',ri_inv_ctime_name: '作廢單建立日期', ri_inv_ctime_note: '該張作廢單建立時間，例：2014-09-25 12:12:12。',ri_inv_status_name: '作廢單狀態', ri_inv_status_note: '該張作廢讓單之狀態。<br>0=未確認作廢單, 1=已確認作廢單, 2=取消作廢單',api_search_allow_title: '批次查詢折讓 (SearchType=2)',p_stype_allow_note: '固定帶 2。',p_allow_from_name: '折讓單來源', p_allow_from_note: '空值=不分, 0=API建立, 1=官網建立。',p_allow_status_name: '折讓單狀態', p_allow_status_note: '空值=全部, 0=未確認, 1=已確認, 2=取消之未確認。',p_inum_opt_name: '收據號碼', p_inum_opt_note: '空值=不限定。若帶入此值，建議留空日期區間。',p_sdate_allow_note: '查詢起始 (折讓單建立時間)。若有帶收據號碼，可留空此欄。<br>若有填入查詢起始日期，則查詢結束日期為必填。',p_edate_allow_note: '1. 查詢區間結束。<br>2. 查詢區間最長為 90 天。<br>3. 若有帶收據號碼，可留空此欄。<br>例: 若查詢起始日期為 09-01，最長可接受之查詢結束日期為 11-29 23:59:59。',ri_allow_no_name: '折讓流水號', ri_allow_no_note: '折讓單開立時產生的系統流水號。',ri_allow_amt_name: '折讓金額', ri_allow_amt_note: '純數字，為折讓單金額。',ri_allow_ctime_name: '折讓單建立日期', ri_allow_ctime_note: '該張折讓單建立時間，例：2014-09-25 12:12:12。',ri_allow_status_name: '折讓狀態', ri_allow_status_note: '該張折讓單之狀態。<br>0=未確認折讓, 1=已確認折讓, 2=取消折讓',api_search_custom_title: '自訂編號查詢 (SearchType=4)',p_stype_custom_note: '固定帶 4。',err_KEY10001: '非旅行社 API 串接 IP', err_note_KEY10001: '',err_KEY10002: '資料解密錯誤', err_note_KEY10002: '',err_KEY10003: '版本錯誤', err_note_KEY10003: '',err_KEY10004: '資料不齊全', err_note_KEY10004: '',err_KEY10009: '旅行社統編錯誤', err_note_KEY10009: '請確認 MerchantID_ 參數拼寫',err_KEY10010: '旅行社統一編號空白', err_note_KEY10010: '',err_KEY10011: 'PostData_ 欄位空白', err_note_KEY10011: '',err_KEY10012: '資料傳遞錯誤', err_note_KEY10012: '請再次確認參數拼寫與格式',err_KEY10013: '資料空白', err_note_KEY10013: '',err_KEY10014: '作業逾時', err_note_KEY10014: '通常泛指 I/O 上的 time out',err_KEY10019: '旅行社已被停權', err_note_KEY10019: '',err_KEY10020: 'SearchType_ 欄位空白', err_note_KEY10020: '',err_KEY10021: 'ReturnType_ 欄位空白', err_note_KEY10021: '',err_INV20014: '統一編號格式有誤', err_note_INV20014: '',err_INV70001: '欄位資料格式錯誤', err_note_INV70001: '',err_WEB1002: '日期格式有誤', err_note_WEB1002: '',err_NOR10001: '網路連線異常', err_note_NOR10001: '',err_BS10001: '查詢區間錯誤', err_note_BS10001: '',err_BS10002: '收據來源錯誤', err_note_BS10002: '請確認所帶入的收據來源參數',err_BS10003: '收據狀態錯誤', err_note_BS10003: '請確認所帶入的收據狀態參數',err_BS10004: '收據種類錯誤', err_note_BS10004: '請確認所帶入的收據種類參數',err_BS10005: '取得查詢收據資料失敗', err_note_BS10005: '請多嘗試幾次,若一直出現此錯誤請聯繫客服',err_BS10006: '查無收據資料', err_note_BS10006: '',err_BS10007: '折讓狀態錯誤', err_note_BS10007: '請確認所帶入的折讓單狀態參數',err_BS10008: '搜尋種類錯誤', err_note_BS10008: '搜尋種類值 1-4 請確認所帶參數',err_BS10009: '折讓單來源錯誤', err_note_BS10009: '請確認所帶入的折讓單來源參數',err_BS10010: '折讓單狀態錯誤', err_note_BS10010: '請確認所帶入的折讓單狀態參數',err_BS10011: '作廢單來源錯誤', err_note_BS10011: '請確認所帶入的作廢單來源參數',err_BS10012: '作廢單狀態錯誤', err_note_BS10012: '請確認所帶入的作廢單狀態參數',err_BS10013: '日期區間有誤', err_note_BS10013: '最多查詢 90 日資料',err_BS10014: '日期區間有誤', err_note_BS10014: '起始日期不得大於結束日期'                }            },
+            'EN': {name: 'English',data: {page_title: 'E-Receipt Batch Query API Documentation',header_mobile_title: 'Batch Query API',sidebar_brand: 'TRINVI',sidebar_subtitle: 'E-Receipt Value-Added Platform',sidebar_version: 'Batch Query V1.0.8',nav_intro: 'Introduction & Features',nav_setup: 'Prerequisites',nav_tool: 'Encryption Tool',nav_group_query: 'Query Operations',nav_search_receipt: 'Batch Query Receipts',nav_search_invalid: 'Batch Query Void',nav_search_allowance: 'Batch Query Allowance',nav_search_custom: 'Query by Custom ID',nav_group_appendix: 'Appendix',nav_errors: 'Error Codes',nav_example: 'Code Examples',intro_title: 'Introduction & Features',intro_desc: 'The Travel Industry Collection & Payment Transfer E-Receipt Value-Added Service Platform allows members of travel industry associations to query documents via API integration. This API uses Search Type (SearchType_) to distinguish between Receipt Issuance, Void Notes, and Allowance Notes, allowing data retrieval within a specified period based on time range and document status.',intro_funcs_title: 'Key Features',usecase_1_title: 'Diversified Queries',usecase_1_desc: 'Supports querying Receipts, Void Notes, and Allowance Notes based on time intervals.',usecase_2_title: 'Detailed Response',usecase_2_desc: 'Returns complete receipt details, item information, amounts, and statuses in JSON format.',setup_title: 'Integration Prerequisites',setup_card1_title: 'Get Keys',setup_card1_desc: 'You must log in to the E-Receipt Platform backend to obtain the MerchantID and the corresponding Hash Key and Hash IV.',setup_card2_title: 'Confirm URLs',setup_card2_desc: '<span class="block mb-1"><b>Test Env:</b> <code class="text-blue-600">https://capi.travelinvoice.com.tw/invoice_searchall</code></span><span class="block"><b>Prod Env:</b> <code class="text-green-600">https://api.travelinvoice.com.tw/invoice_searchall</code></span>',tool_title: 'Encryption Test Tool',tool_intro: 'This tool helps you generate the PostData_ encrypted string, verify CheckCodeSearch, or decrypt response results.',tool_tab_encrypt: 'PostData Encryption',tool_tab_decrypt: 'PostData Decryption',tool_tab_checkcode: 'Generate CheckCodeSearch',tool_ph_key: 'Ex: abcdefghijklmnopqrstuvwxyzabcdef (32 bytes)',tool_ph_iv: 'Ex: 1234567890123456 (16 bytes)',tool_lbl_qs: 'Original String (Query String Format)',tool_ph_qs: 'Ex: Version=2.0&TimeStamp=1588320000&SearchType_=1&StartDate=2020-05-11',tool_note_qs: 'Ensure format is Key=Value&Key2=Value2',tool_btn_encrypt: 'Encrypt (AES-256-CBC)',tool_lbl_hex: 'PostData Encrypted Result (Hex)',tool_lbl_enc_hex: 'Encrypted String (Hex String)',tool_ph_enc_hex: 'Ex: f329a61f014cdad8acae2b497b32514fcb57dffb44dafd2b5531e8ac4d206093',tool_btn_decrypt: 'Decrypt',tool_lbl_decrypt_res: 'Decrypted Result',tool_btn_checkcode: 'Generate CheckCodeSearch',tool_lbl_checkcode_res: 'CheckCodeSearch Result',tool_lbl_cc_mid: 'MerchantID (Travel Agency Tax ID)',tool_lbl_cc_ts: 'TimeStamp',tool_lbl_cc_start: 'StartDate (YYYYMMDD)',tool_lbl_cc_end: 'EndDate (YYYYMMDD)',tool_cc_desc: 'Note: The CheckCodeSearch generation rule involves sorting MerchantID, StartDate, EndDate, and TimeStamp, concatenating them, and then encrypting with HashIV and HashKey using SHA256.',tool_rule_title: 'Encryption & Check Code Rules',tool_rule_aes_title: 'AES Encryption Rules (PostData_)',tool_rule_aes_1: 'Algorithm: AES-256-CBC',tool_rule_aes_2: 'Padding: PKCS7 (Manual padding required in some languages)',tool_rule_aes_3: 'Transformation: Combine parameters into a Query String then encrypt',tool_rule_aes_4: 'Output: Convert to Hex String (Case insensitive)',tool_rule_chk_title: 'CheckCodeSearch Rules',tool_rule_chk_1: 'Sort: Arrange MerchantID, StartDate, EndDate, TimeStamp alphabetically (A-Z)',tool_rule_chk_2: 'Concatenate: Convert to Query String (Key=Value&...), remove date separators',tool_rule_chk_3: 'Head/Tail: HashIV=...&...&HashKey=...',tool_rule_chk_4: 'Operation: SHA256 Hash converted to Uppercase',err_title: 'Error Code Table',err_ph: 'Search code or reason...',th_err_code: 'Error Code',th_err_reason: 'Reason',th_err_note: 'Note',example_title: 'Code Examples',lbl_api_url_test: 'URL (Test Env)',lbl_api_url_prod: 'URL (Prod Env)',lbl_lvl1_title: 'Level 1 Parameters (HTTP Post)',lbl_lvl2_req_title: 'Parameters in PostData_ (Request)',lbl_lvl2_res_title: 'Response Parameters (JSON)',lbl_retinv_structure: 'ReturnInvoice Content (JSON Array)',th_param: 'Parameter',th_name: 'Name',th_required: 'Required',th_type: 'Type',th_note: 'Note',th_len: 'Length',val_yes: 'Yes',val_no: 'No',val_cond: 'Conditional',api_search_receipt_title: 'Batch Query Receipts (SearchType=1)',p_mid_name: 'Travel Agency Tax ID', p_mid_note: 'Travel Agency Unified Business Number.',p_stype_name: 'Search Type', p_stype_note: 'Fixed value: 1.',p_postdata_name: 'Encrypted Data', p_postdata_note: 'Please refer to the Encryption Tool section for methods.',p_ver_name: 'Program Version', p_ver_note: 'Fixed value: 2.0',p_ts_name: 'Timestamp', p_ts_note: 'Unix Timestamp (seconds).',p_ifrom_name: 'Receipt Source', p_ifrom_note: 'Null=All, 0=API Created, 1=Web Portal Created.',p_istatus_name: 'Receipt Status', p_istatus_note: 'Null=All, 0=Reserved, 1=Issued, 2=Reservation Cancelled, 3=Voided.',p_astatus_name: 'Allowance Status', p_astatus_note: 'Null=All Issued Receipts, 0=Issued w/o Allowance, 1=Issued with Allowance. (Valid only when InvoiceStatus=1)',p_cat_name: 'Receipt Category', p_cat_note: 'Null=No Filter, B2B=Business Entity, B2C=Individual.',p_sname_name: 'Handler Name', p_sname_note: 'Null=All Handlers. Can filter by specific handler (Full name required).',p_ord_name: 'Custom Order ID', p_ord_note: 'Custom ID entered by the travel agency when issuing the receipt.',p_sdate_name: 'Start Date', p_sdate_note: 'Query range start (Receipt Issue Date), Ex: 2016-02-25.<br>If Start Date is filled, End Date is required.',p_edate_name: 'End Date', p_edate_note: '1. Query range end.<br>2. Max range is 90 days.<br>Ex: If Start Date is 09-01, max accepted End Date is 11-29 23:59:59.',r_status_name: 'Return Status', r_status_note: 'SUCCESS=Success, otherwise returns error code.',r_msg_name: 'Return Message', r_msg_note: 'Text description of the status.',r_retinv_name: 'Returned Receipt Data', r_retinv_note: 'Content is a JSON Array string.',r_chk_name: 'Check Code', r_chk_note: 'Used to verify the legitimacy of the returned data.',ri_itrans_name: 'Issue Serial No.', ri_itrans_note: 'System serial number generated upon issuance.',ri_ord_name: 'Custom Order ID', ri_ord_note: '1. Custom ID entered by the travel agency.<br>2. If multiple records exist for the ID, corresponding receipt data is returned.',ri_inum_name: 'Receipt Number', ri_inum_note: 'The receipt number for this query.',ri_rand_name: 'Random Code', ri_rand_note: '8-digit anti-counterfeit random code generated upon issuance.',ri_bname_name: 'Buyer Name', ri_bname_note: 'Name of the buyer (Individual or Business) at issuance.',ri_bubn_name: 'Buyer Tax ID', ri_bubn_note: '1. For B2B, this is the Buyer\'s Tax ID.<br>2. For B2C, this is null.',ri_baddr_name: 'Buyer Address', ri_baddr_note: 'Buyer\'s address recorded at issuance.',ri_bphone_name: 'Buyer Mobile', ri_bphone_note: 'Buyer\'s mobile number recorded at issuance.',ri_bemail_name: 'Buyer Email', ri_bemail_note: 'Buyer\'s email address recorded at issuance.',ri_cat_name: 'Category', ri_cat_note: 'Receipt category.<br>B2B=Buyer is a Business Entity (Tax ID), B2C=Buyer is an Individual.',ri_tot_name: 'Total Amount', ri_tot_note: 'Numeric, total receipt amount.',ri_ctime_name: 'Issue Time', ri_ctime_note: 'Time of issuance, Ex: 2014-09-25 12:12:12',ri_istatus_name: 'Receipt Status', ri_istatus_note: 'Status of the receipt.<br>0=Reserved, 1=Issued, 2=Reservation Cancelled, 3=Voided',ri_idetail_name: 'Item Details', ri_idetail_note: 'Item info at issuance (JSON format).<br>ItemNum=Seq, ItemName=Name, ItemCount=Qty, ItemWord=Unit, ItemPrice=Unit Price, ItemAmount=Subtotal',ri_tname_name: 'Group Name', ri_tname_note: 'Group Name associated with the receipt.',ri_tno_name: 'Group No.', ri_tno_note: 'Group Number associated with the receipt.',ri_tdate_name: 'Departure Date', ri_tdate_note: 'Estimated departure date; a reminder email is sent to the designated address on this day.',ri_tax_name: 'Declaration Flag', ri_tax_note: '0=Undeclared, 1=Declared.',api_search_invalid_title: 'Batch Query Void (SearchType=3)',p_stype_invalid_note: 'Fixed value: 3.',p_inv_from_name: 'Void Source', p_inv_from_note: 'Null=All, 0=API Created, 1=Web Portal Created.',p_inv_status_name: 'Void Status', p_inv_status_note: 'Null=All, 0=Unconfirmed, 1=Confirmed, 2=Cancelled Unconfirmed.',p_sdate_inv_note: 'Query range start (Void Note creation time).<br>If Start Date is filled, End Date is required.',ri_inv_no_name: 'Void Serial No.', ri_inv_no_note: 'System serial number generated upon voiding.',ri_inv_rsn_name: 'Void Reason', ri_inv_rsn_note: 'Reason for voiding.',ri_inv_ctime_name: 'Void Date', ri_inv_ctime_note: 'Time the void note was created, Ex: 2014-09-25 12:12:12.',ri_inv_status_name: 'Void Status', ri_inv_status_note: 'Status of the void note.<br>0=Unconfirmed, 1=Confirmed, 2=Cancelled',api_search_allow_title: 'Batch Query Allowance (SearchType=2)',p_stype_allow_note: 'Fixed value: 2.',p_allow_from_name: 'Allowance Source', p_allow_from_note: 'Null=All, 0=API Created, 1=Web Portal Created.',p_allow_status_name: 'Allowance Status', p_allow_status_note: 'Null=All, 0=Unconfirmed, 1=Confirmed, 2=Cancelled Unconfirmed.',p_inum_opt_name: 'Receipt Number', p_inum_opt_note: 'Null=No Limit. If value provided, date range is optional (recommended to leave empty).',p_sdate_allow_note: 'Query start (Allowance creation time). Can be empty if Receipt Number is provided.<br>If Start Date is filled, End Date is required.',p_edate_allow_note: '1. Query range end.<br>2. Max range is 90 days.<br>3. Can be empty if Receipt Number is provided.<br>Ex: If Start Date is 09-01, max accepted End Date is 11-29 23:59:59.',ri_allow_no_name: 'Allowance Serial No.', ri_allow_no_note: 'System serial number generated upon allowance.',ri_allow_amt_name: 'Allowance Amount', ri_allow_amt_note: 'Numeric, allowance amount.',ri_allow_ctime_name: 'Allowance Date', ri_allow_ctime_note: 'Time the allowance note was created, Ex: 2014-09-25 12:12:12.',ri_allow_status_name: 'Allowance Status', ri_allow_status_note: 'Status of the allowance.<br>0=Unconfirmed, 1=Confirmed, 2=Cancelled',api_search_custom_title: 'Query by Custom ID (SearchType=4)',p_stype_custom_note: 'Fixed value: 4.',err_KEY10001: 'Non-Travel Agency API IP', err_note_KEY10001: '',err_KEY10002: 'Data Decryption Error', err_note_KEY10002: '',err_KEY10003: 'Version Error', err_note_KEY10003: '',err_KEY10004: 'Incomplete Data', err_note_KEY10004: '',err_KEY10009: 'Invalid Tax ID', err_note_KEY10009: 'Check spelling of MerchantID_ parameter.',err_KEY10010: 'Tax ID is Empty', err_note_KEY10010: '',err_KEY10011: 'PostData_ Field is Empty', err_note_KEY10011: '',err_KEY10012: 'Data Transmission Error', err_note_KEY10012: 'Recheck parameter spelling and format.',err_KEY10013: 'Data is Empty', err_note_KEY10013: '',err_KEY10014: 'Operation Timeout', err_note_KEY10014: 'Usually refers to I/O timeout.',err_KEY10019: 'Agency Account Suspended', err_note_KEY10019: '',err_KEY10020: 'SearchType_ Field is Empty', err_note_KEY10020: '',err_KEY10021: 'ReturnType_ Field is Empty', err_note_KEY10021: '',err_INV20014: 'Invalid Tax ID Format', err_note_INV20014: '',err_INV70001: 'Field Data Format Error', err_note_INV70001: '',err_WEB1002: 'Date Format Error', err_note_WEB1002: '',err_NOR10001: 'Network Connection Error', err_note_NOR10001: '',err_BS10001: 'Query Range Error', err_note_BS10001: '',err_BS10002: 'Receipt Source Error', err_note_BS10002: 'Check the Receipt Source parameter.',err_BS10003: 'Receipt Status Error', err_note_BS10003: 'Check the Receipt Status parameter.',err_BS10004: 'Receipt Category Error', err_note_BS10004: 'Check the Receipt Category parameter.',err_BS10005: 'Failed to Retrieve Receipt Data', err_note_BS10005: 'Please retry. If error persists, contact support.',err_BS10006: 'No Receipt Data Found', err_note_BS10006: '',err_BS10007: 'Allowance Status Error', err_note_BS10007: 'Check the Allowance Status parameter.',err_BS10008: 'Search Type Error', err_note_BS10008: 'Value must be 1-4. Check parameter.',err_BS10009: 'Allowance Source Error', err_note_BS10009: 'Check the Allowance Source parameter.',err_BS10010: 'Allowance Status Error', err_note_BS10010: 'Check the Allowance Status parameter.',err_BS10011: 'Void Source Error', err_note_BS10011: 'Check the Void Source parameter.',err_BS10012: 'Void Status Error', err_note_BS10012: 'Check the Void Status parameter.',err_BS10013: 'Date Range Error', err_note_BS10013: 'Max query range is 90 days.',err_BS10014: 'Date Range Error', err_note_BS10014: 'Start Date cannot be later than End Date.'}            },       
+            'SV': {name: 'Svenska',data: {    page_title: 'API-dokumentation för batch-sökning av e-kvitton',    header_mobile_title: 'Batch-söknings-API',    sidebar_brand: 'TRINVI',    sidebar_subtitle: 'Mervärdesplattform för e-kvitton',    sidebar_version: 'Batch-sökning V1.0.8',    nav_intro: 'Introduktion och funktioner',    nav_setup: 'Förutsättningar',    nav_tool: 'Krypteringsverktyg',    nav_group_query: 'Sökoperationer',    nav_search_receipt: 'Batch-sökning av kvitton',    nav_search_invalid: 'Batch-sökning av makuleringar',    nav_search_allowance: 'Batch-sökning av rabatter',    nav_search_custom: 'Sök via anpassat ID',    nav_group_appendix: 'Bilaga',    nav_errors: 'Felkoder',    nav_example: 'Kodexempel',    intro_title: 'Introduktion och funktioner',    intro_desc: 'Resebranschens plattform för mervärdestjänster för e-kvitton vid insamling och betalningsöverföring gör det möjligt för medlemmar i resebranschföreningar att söka dokument via API-integration. Detta API använder söktyp (SearchType_) för att skilja mellan kvittoutfärdande, makuleringsnotor och rabattnotor, vilket möjliggör datahämtning inom en viss period baserat på tidsintervall och dokumentstatus.',    intro_funcs_title: 'Nyckelfunktioner',    usecase_1_title: 'Diversifierade sökningar',    usecase_1_desc: 'Stöder sökning av kvitton, makuleringsnotor och rabattnotor baserat på tidsintervall.',    usecase_2_title: 'Detaljerat svar',    usecase_2_desc: 'Returnerar fullständiga kvittodetaljer, artikelinformation, belopp och statusar i JSON-format.',    setup_title: 'Förutsättningar för integration',    setup_card1_title: 'Hämta nycklar',    setup_card1_desc: 'Du måste logga in på e-kvittoplattformens backend för att få MerchantID och motsvarande Hash Key och Hash IV.',    setup_card2_title: 'Bekräfta URL:er',    setup_card2_desc: '<span class="block mb-1"><b>Testmiljö:</b> <code class="text-blue-600">https://capi.travelinvoice.com.tw/invoice_searchall</code></span><span class="block"><b>Prod-miljö:</b> <code class="text-green-600">https://api.travelinvoice.com.tw/invoice_searchall</code></span>',    tool_title: 'Testverktyg för kryptering',    tool_intro: 'Detta verktyg hjälper dig att generera den krypterade strängen PostData_, verifiera CheckCodeSearch eller dekryptera svarsresultat.',    tool_tab_encrypt: 'PostData-kryptering',    tool_tab_decrypt: 'PostData-dekryptering',    tool_tab_checkcode: 'Generera CheckCodeSearch',    tool_ph_key: 'T.ex.: abcdefghijklmnopqrstuvwxyzabcdef (32 bytes)',    tool_ph_iv: 'T.ex.: 1234567890123456 (16 bytes)',    tool_lbl_qs: 'Ursprunglig sträng (Query String-format)',    tool_ph_qs: 'T.ex.: Version=2.0&TimeStamp=1588320000&SearchType_=1&StartDate=2020-05-11',    tool_note_qs: 'Se till att formatet är Key=Value&Key2=Value2',    tool_btn_encrypt: 'Kryptera (AES-256-CBC)',    tool_lbl_hex: 'PostData krypterat resultat (Hex)',    tool_lbl_enc_hex: 'Krypterad sträng (Hex String)',    tool_ph_enc_hex: 'T.ex.: f329a61f014cdad8acae2b497b32514fcb57dffb44dafd2b5531e8ac4d206093',    tool_btn_decrypt: 'Dekryptera',    tool_lbl_decrypt_res: 'Dekrypterat resultat',    tool_btn_checkcode: 'Generera CheckCodeSearch',    tool_lbl_checkcode_res: 'CheckCodeSearch Resultat',    tool_lbl_cc_mid: 'MerchantID (Resebyråns skatte-ID)',    tool_lbl_cc_ts: 'TimeStamp',    tool_lbl_cc_start: 'StartDate (ÅÅÅÅMMDD)',    tool_lbl_cc_end: 'EndDate (ÅÅÅÅMMDD)',    tool_cc_desc: 'Obs: Regeln för generering av CheckCodeSearch innebär sortering av MerchantID, StartDate, EndDate och TimeStamp, sammanfogning av dem och sedan kryptering med HashIV och HashKey med hjälp av SHA256.',    tool_rule_title: 'Regler för kryptering och kontrollkod',    tool_rule_aes_title: 'Regler för AES-kryptering (PostData_)',    tool_rule_aes_1: 'Algoritm: AES-256-CBC',    tool_rule_aes_2: 'Padding: PKCS7 (Manuell padding krävs i vissa språk)',    tool_rule_aes_3: 'Omvandling: Kombinera parametrar till en Query String och kryptera sedan',    tool_rule_aes_4: 'Utdata: Konvertera till Hex String (Skiftlägesokänslig)',    tool_rule_chk_title: 'Regler för CheckCodeSearch',    tool_rule_chk_1: 'Sortera: Ordna MerchantID, StartDate, EndDate, TimeStamp alfabetiskt (A-Ö)',    tool_rule_chk_2: 'Sammanfoga: Konvertera till Query String (Key=Value&...), ta bort datumavgränsare',    tool_rule_chk_3: 'Huvud/Svans: HashIV=...&...&HashKey=...',    tool_rule_chk_4: 'Operation: SHA256-hash konverterad till versaler',    err_title: 'Felkodstabell',    err_ph: 'Sök kod eller orsak...',    th_err_code: 'Felkod',    th_err_reason: 'Orsak',    th_err_note: 'Notering',    example_title: 'Kodexempel',    lbl_api_url_test: 'URL (Testmiljö)',    lbl_api_url_prod: 'URL (Prod-miljö)',    lbl_lvl1_title: 'Nivå 1 Parametrar (HTTP Post)',    lbl_lvl2_req_title: 'Parametrar i PostData_ (Förfrågan)',    lbl_lvl2_res_title: 'Svarsparametrar (JSON)',    lbl_retinv_structure: 'ReturnInvoice Innehåll (JSON Array)',    th_param: 'Parameter',    th_name: 'Namn',    th_required: 'Obligatorisk',    th_type: 'Typ',    th_note: 'Notering',    th_len: 'Längd',    val_yes: 'Ja',    val_no: 'Nej',    val_cond: 'Villkorlig',    api_search_receipt_title: 'Batch-sökning av kvitton (SearchType=1)',    p_mid_name: 'Resebyråns skatte-ID', p_mid_note: 'Resebyråns enhetliga företagsnummer.',    p_stype_name: 'Söktyp', p_stype_note: 'Fast värde: 1.',    p_postdata_name: 'Krypterade data', p_postdata_note: 'Se avsnittet Krypteringsverktyg för metoder.',    p_ver_name: 'Programversion', p_ver_note: 'Fast värde: 2.0',    p_ts_name: 'Tidsstämpel', p_ts_note: 'Unix Timestamp (sekunder).',    p_ifrom_name: 'Kvittokälla', p_ifrom_note: 'Null=Alla, 0=Skapad via API, 1=Skapad via webbportal.',    p_istatus_name: 'Kvittostatus', p_istatus_note: 'Null=Alla, 0=Reserverad, 1=Utfärdad, 2=Reservation annullerad, 3=Makulerad.',    p_astatus_name: 'Rabattstatus', p_astatus_note: 'Null=Alla utfärdade kvitton, 0=Utfärdade utan rabatt, 1=Utfärdade med rabatt. (Giltig endast när InvoiceStatus=1)',    p_cat_name: 'Kvittokategori', p_cat_note: 'Null=Inget filter, B2B=Affärsenhet, B2C=Privatperson.',    p_sname_name: 'Handläggarnamn', p_sname_note: 'Null=Alla handläggare. Kan filtrera på specifik handläggare (Fullständigt namn krävs).',    p_ord_name: 'Anpassat order-ID', p_ord_note: 'Anpassat ID som anges av resebyrån vid utfärdande av kvittot.',    p_sdate_name: 'Startdatum', p_sdate_note: 'Sökintervall start (Kvittots utfärdandedatum), T.ex.: 2016-02-25.<br>Om startdatum är ifyllt är slutdatum obligatoriskt.',    p_edate_name: 'Slutdatum', p_edate_note: '1. Sökintervall slut.<br>2. Max intervall är 90 dagar.<br>T.ex.: Om startdatum är 09-01, är max accepterat slutdatum 11-29 23:59:59.',    r_status_name: 'Returstatus', r_status_note: 'SUCCESS=Framgång, annars returneras felkod.',    r_msg_name: 'Returmeddelande', r_msg_note: 'Textbeskrivning av statusen.',    r_retinv_name: 'Returnerade kvittodata', r_retinv_note: 'Innehållet är en JSON Array-sträng.',    r_chk_name: 'Kontrollkod', r_chk_note: 'Används för att verifiera legitimiteten hos de returnerade data.',    ri_itrans_name: 'Utfärdande serienr', ri_itrans_note: 'Systemets serienummer som genereras vid utfärdande.',    ri_ord_name: 'Anpassat order-ID', ri_ord_note: '1. Anpassat ID som anges av resebyrån.<br>2. Om flera poster finns för ID:t returneras motsvarande kvittodata.',    ri_inum_name: 'Kvittonummer', ri_inum_note: 'Kvittonumret för denna sökning.',    ri_rand_name: 'Slumpkod', ri_rand_note: '8-siffrig slumpmässig kod för förfalskningsskydd som genereras vid utfärdande.',    ri_bname_name: 'Köparens namn', ri_bname_note: 'Namn på köparen (Privatperson eller Företag) vid utfärdande.',    ri_bubn_name: 'Köparens skatte-ID', ri_bubn_note: '1. För B2B är detta köparens skatte-ID.<br>2. För B2C är detta null.',    ri_baddr_name: 'Köparens adress', ri_baddr_note: 'Köparens adress registrerad vid utfärdande.',    ri_bphone_name: 'Köparens mobil', ri_bphone_note: 'Köparens mobilnummer registrerat vid utfärdande.',    ri_bemail_name: 'Köparens e-post', ri_bemail_note: 'Köparens e-postadress registrerad vid utfärdande.',    ri_cat_name: 'Kategori', ri_cat_note: 'Kvittokategori.<br>B2B=Köparen är en affärsenhet (Skatte-ID), B2C=Köparen är en privatperson.',    ri_tot_name: 'Totalbelopp', ri_tot_note: 'Numeriskt, totalt kvittobelopp.',    ri_ctime_name: 'Utfärdandetid', ri_ctime_note: 'Tidpunkt för utfärdande, T.ex.: 2014-09-25 12:12:12',    ri_istatus_name: 'Kvittostatus', ri_istatus_note: 'Status för kvittot.<br>0=Reserverad, 1=Utfärdad, 2=Reservation annullerad, 3=Makulerad',    ri_idetail_name: 'Artikeldetaljer', ri_idetail_note: 'Artikelinfo vid utfärdande (JSON-format).<br>ItemNum=Sekvens, ItemName=Namn, ItemCount=Antal, ItemWord=Enhet, ItemPrice=Enhetspris, ItemAmount=Delsumma',    ri_tname_name: 'Gruppnamn', ri_tname_note: 'Gruppnamn associerat med kvittot.',    ri_tno_name: 'Gruppnr', ri_tno_note: 'Gruppnummer associerat med kvittot.',    ri_tdate_name: 'Avresedatum', ri_tdate_note: 'Beräknat avresedatum; ett påminnelsemail skickas till den angivna adressen denna dag.',    ri_tax_name: 'Deklarationsflagga', ri_tax_note: '0=Odeklarerad, 1=Deklarerad.',    api_search_invalid_title: 'Batch-sökning av makuleringar (SearchType=3)',    p_stype_invalid_note: 'Fast värde: 3.',    p_inv_from_name: 'Makuleringskälla', p_inv_from_note: 'Null=Alla, 0=Skapad via API, 1=Skapad via webbportal.',    p_inv_status_name: 'Makuleringsstatus', p_inv_status_note: 'Null=Alla, 0=Obekräftad, 1=Bekräftad, 2=Annullerad obekräftad.',    p_sdate_inv_note: 'Sökintervall start (Skapandetid för makuleringsnota).<br>Om startdatum är ifyllt är slutdatum obligatoriskt.',    ri_inv_no_name: 'Makuleringens serienr', ri_inv_no_note: 'Systemets serienummer som genereras vid makulering.',    ri_inv_rsn_name: 'Makuleringsorsak', ri_inv_rsn_note: 'Orsak till makulering.',    ri_inv_ctime_name: 'Makuleringsdatum', ri_inv_ctime_note: 'Tidpunkt då makuleringsnotan skapades, T.ex.: 2014-09-25 12:12:12.',    ri_inv_status_name: 'Makuleringsstatus', ri_inv_status_note: 'Status för makuleringsnotan.<br>0=Obekräftad, 1=Bekräftad, 2=Annullerad',    api_search_allow_title: 'Batch-sökning av rabatter (SearchType=2)',    p_stype_allow_note: 'Fast värde: 2.',    p_allow_from_name: 'Rabattkälla', p_allow_from_note: 'Null=Alla, 0=Skapad via API, 1=Skapad via webbportal.',    p_allow_status_name: 'Rabattstatus', p_allow_status_note: 'Null=Alla, 0=Obekräftad, 1=Bekräftad, 2=Annullerad obekräftad.',    p_inum_opt_name: 'Kvittonummer', p_inum_opt_note: 'Null=Ingen gräns. Om värde anges är datumintervall valfritt (rekommenderas att lämna tomt).',    p_sdate_allow_note: 'Sökstart (Skapandetid för rabatt). Kan vara tomt om kvittonummer anges.<br>Om startdatum är ifyllt är slutdatum obligatoriskt.',    p_edate_allow_note: '1. Sökintervall slut.<br>2. Max intervall är 90 dagar.<br>3. Kan vara tomt om kvittonummer anges.<br>T.ex.: Om startdatum är 09-01, är max accepterat slutdatum 11-29 23:59:59.',    ri_allow_no_name: 'Rabattens serienr', ri_allow_no_note: 'Systemets serienummer som genereras vid rabatt.',    ri_allow_amt_name: 'Rabattbelopp', ri_allow_amt_note: 'Numeriskt, rabattbelopp.',    ri_allow_ctime_name: 'Rabattdatum', ri_allow_ctime_note: 'Tidpunkt då rabattnotan skapades, T.ex.: 2014-09-25 12:12:12.',    ri_allow_status_name: 'Rabattstatus', ri_allow_status_note: 'Status för rabatten.<br>0=Obekräftad, 1=Bekräftad, 2=Annullerad',    api_search_custom_title: 'Sök via anpassat ID (SearchType=4)',    p_stype_custom_note: 'Fast värde: 4.',    err_KEY10001: 'Ej resebyrå-API-IP', err_note_KEY10001: '',    err_KEY10002: 'Fel vid datadekryptering', err_note_KEY10002: '',    err_KEY10003: 'Versionsfel', err_note_KEY10003: '',    err_KEY10004: 'Ofullständiga data', err_note_KEY10004: '',    err_KEY10009: 'Ogiltigt skatte-ID', err_note_KEY10009: 'Kontrollera stavningen av parametern MerchantID_.',    err_KEY10010: 'Skatte-ID är tomt', err_note_KEY10010: '',    err_KEY10011: 'Fältet PostData_ är tomt', err_note_KEY10011: '',    err_KEY10012: 'Dataöverföringsfel', err_note_KEY10012: 'Kontrollera parameterstavning och format igen.',    err_KEY10013: 'Data är tomt', err_note_KEY10013: '',    err_KEY10014: 'Operationstidsgräns', err_note_KEY10014: 'Avser vanligtvis I/O-timeout.',    err_KEY10019: 'Byråns konto avstängt', err_note_KEY10019: '',    err_KEY10020: 'Fältet SearchType_ är tomt', err_note_KEY10020: '',    err_KEY10021: 'Fältet ReturnType_ är tomt', err_note_KEY10021: '',    err_INV20014: 'Ogiltigt format på skatte-ID', err_note_INV20014: '',    err_INV70001: 'Formatfel i fältdata', err_note_INV70001: '',    err_WEB1002: 'Datumformatfel', err_note_WEB1002: '',    err_NOR10001: 'Nätverksanslutningsfel', err_note_NOR10001: '',    err_BS10001: 'Sökintervallsfel', err_note_BS10001: '',    err_BS10002: 'Fel på kvittokälla', err_note_BS10002: 'Kontrollera parametern för kvittokälla.',    err_BS10003: 'Fel på kvittostatus', err_note_BS10003: 'Kontrollera parametern för kvittostatus.',    err_BS10004: 'Fel på kvittokategori', err_note_BS10004: 'Kontrollera parametern för kvittokategori.',    err_BS10005: 'Misslyckades att hämta kvittodata', err_note_BS10005: 'Försök igen. Om felet kvarstår, kontakta support.',    err_BS10006: 'Inga kvittodata hittades', err_note_BS10006: '',    err_BS10007: 'Fel på rabattstatus', err_note_BS10007: 'Kontrollera parametern för rabattstatus.',    err_BS10008: 'Söktypsfel', err_note_BS10008: 'Värdet måste vara 1-4. Kontrollera parametern.',    err_BS10009: 'Fel på rabattkälla', err_note_BS10009: 'Kontrollera parametern för rabattkälla.',    err_BS10010: 'Fel på rabattstatus', err_note_BS10010: 'Kontrollera parametern för rabattstatus.',    err_BS10011: 'Fel på makuleringskälla', err_note_BS10011: 'Kontrollera parametern för makuleringskälla.',    err_BS10012: 'Fel på makuleringsstatus', err_note_BS10012: 'Kontrollera parametern för makuleringsstatus.',    err_BS10013: 'Datumintervallsfel', err_note_BS10013: 'Max sökintervall är 90 dagar.',    err_BS10014: 'Datumintervallsfel', err_note_BS10014: 'Startdatum kan inte vara senare än slutdatum.'}            },        
+            'JP': {name: '日本語',data: {    page_title: '電子領収書一括照会APIドキュメント',    header_mobile_title: '一括照会API',    sidebar_brand: 'TRINVI',    sidebar_subtitle: '電子領収書付加価値サービスプラットフォーム',    sidebar_version: '一括照会 V1.0.8',    nav_intro: 'はじめにと機能',    nav_setup: '連携の準備',    nav_tool: '暗号化テストツール',    nav_group_query: '照会操作',    nav_search_receipt: '領収書の一括照会',    nav_search_invalid: '無効伝票の一括照会',    nav_search_allowance: '値引伝票の一括照会',    nav_search_custom: 'カスタムIDで照会',    nav_group_appendix: '付録',    nav_errors: 'エラーコード表',    nav_example: 'コード例',    intro_title: 'はじめにと機能',    intro_desc: '旅行業界代収転付電子領収書付加価値サービスプラットフォームは、旅行業協会の会員がプログラム連携を通じてドキュメントを照会できるようにします。このAPIは、検索タイプ（SearchType_）を使用して、領収書の発行、無効伝票、値引伝票を区別し、時間範囲とドキュメントの状態に基づいて、設定された期間内のデータを取得します。',    intro_funcs_title: '主な機能',    usecase_1_title: '多様な照会',    usecase_1_desc: '時間範囲に基づいた領収書、無効伝票、値引伝票の照会をサポートします。',    usecase_2_title: '詳細なレスポンス',    usecase_2_desc: '完全な領収書の詳細、商品情報、金額、状態をJSON形式で返します。',    setup_title: '連携の準備',    setup_card1_title: 'キーの取得',    setup_card1_desc: '電子領収書プラットフォームの管理画面にログインして、加盟店ID（MerchantID）および対応するHash KeyとHash IVを取得する必要があります。',    setup_card2_title: 'URLの確認',    setup_card2_desc: '<span class="block mb-1"><b>テスト環境:</b> <code class="text-blue-600">https://capi.travelinvoice.com.tw/invoice_searchall</code></span><span class="block"><b>本番環境:</b> <code class="text-green-600">https://api.travelinvoice.com.tw/invoice_searchall</code></span>',    tool_title: '暗号化テストツール',    tool_intro: 'このツールは、PostData_暗号化文字列の生成、CheckCodeSearchの検証、またはレスポンス結果の復号化を支援します。',    tool_tab_encrypt: 'PostData暗号化',    tool_tab_decrypt: 'PostData復号化',    tool_tab_checkcode: 'CheckCodeSearch生成',    tool_ph_key: '例: abcdefghijklmnopqrstuvwxyzabcdef (32 bytes)',    tool_ph_iv: '例: 1234567890123456 (16 bytes)',    tool_lbl_qs: '元の文字列 (Query String形式)',    tool_ph_qs: '例: Version=2.0&TimeStamp=1588320000&SearchType_=1&StartDate=2020-05-11',    tool_note_qs: '形式がKey=Value&Key2=Value2であることを確認してください',    tool_btn_encrypt: '暗号化実行 (AES-256-CBC)',    tool_lbl_hex: 'PostData暗号化結果 (Hex)',    tool_lbl_enc_hex: '暗号化文字列 (Hex String)',    tool_ph_enc_hex: '例: f329a61f014cdad8acae2b497b32514fcb57dffb44dafd2b5531e8ac4d206093',    tool_btn_decrypt: '復号化実行',    tool_lbl_decrypt_res: '復号化結果',    tool_btn_checkcode: 'CheckCodeSearch生成',    tool_lbl_checkcode_res: 'CheckCodeSearch結果',    tool_lbl_cc_mid: 'MerchantID (旅行会社統一番号)',    tool_lbl_cc_ts: 'TimeStamp (タイムスタンプ)',    tool_lbl_cc_start: 'StartDate (YYYYMMDD)',    tool_lbl_cc_end: 'EndDate (YYYYMMDD)',    tool_cc_desc: '注意: ここでのCheckCodeSearch生成ルールは、MerchantID、StartDate、EndDate、TimeStampをソートして連結し、HashIVとHashKeyを加えてSHA256で暗号化することです。',    tool_rule_title: '暗号化とチェックコードの計算ルール説明',    tool_rule_aes_title: 'AES暗号化ルール (PostData_)',    tool_rule_aes_1: 'アルゴリズム: AES-256-CBC',    tool_rule_aes_2: 'パディング: PKCS7 (一部の言語では手動パディングが必要)',    tool_rule_aes_3: '変換: パラメータをQuery Stringに組み合わせてから暗号化',    tool_rule_aes_4: '出力: Hex Stringに変換 (大文字小文字を区別しない)',    tool_rule_chk_title: 'CheckCodeSearchチェックコードルール',    tool_rule_chk_1: 'ソート: MerchantID、StartDate、EndDate、TimeStampをA-Z順に並べ替え',    tool_rule_chk_2: '連結: Query String (Key=Value&...) に変換、日付の区切り文字を削除',    tool_rule_chk_3: '先頭と末尾: HashIV=...&...&HashKey=...',    tool_rule_chk_4: '計算: SHA256ハッシュ後、大文字に変換',    err_title: 'エラーコード表',    err_ph: 'コードまたは理由を検索...',    th_err_code: 'エラーコード',    th_err_reason: 'エラー理由',    th_err_note: '備考',    example_title: 'コード例',    lbl_api_url_test: 'URL (テスト環境)',    lbl_api_url_prod: 'URL (本番環境)',    lbl_lvl1_title: '第一階層パラメータ (HTTP Post)',    lbl_lvl2_req_title: 'PostData_ 内包パラメータ (リクエスト)',    lbl_lvl2_res_title: 'Response 応答パラメータ (JSON)',    lbl_retinv_structure: 'ReturnInvoice 内容 (JSON Array)',    th_param: 'パラメータ名',    th_name: '名称',    th_required: '必須',    th_type: '型',    th_note: '備考',    th_len: '長さ',    val_yes: 'はい',    val_no: 'いいえ',    val_cond: '条件付き',    api_search_receipt_title: '領収書一括照会 (SearchType=1)',    p_mid_name: '旅行会社統一番号', p_mid_note: '旅行会社の統一番号。',    p_stype_name: '検索タイプ', p_stype_note: '固定値 1。',    p_postdata_name: '暗号化データ', p_postdata_note: '暗号化方法については、暗号化テストツールの説明を参照してください。',    p_ver_name: '連携プログラムバージョン', p_ver_note: '固定値 2.0',    p_ts_name: 'タイムスタンプ', p_ts_note: 'Unix Timestamp (秒)。',    p_ifrom_name: '領収書ソース', p_ifrom_note: 'Null=ソース区分なし, 0=API作成, 1=Web管理画面作成。',    p_istatus_name: '領収書ステータス', p_istatus_note: 'Null=全領収書, 0=発行予約, 1=発行済み, 2=発行予約取消, 3=無効済み。',    p_astatus_name: '値引ステータス', p_astatus_note: 'Null=全発行済み領収書, 0=発行済み且つ値引なし, 1=発行済み且つ値引あり。(InvoiceStatus=1の場合のみ有効)',    p_cat_name: '領収書種類', p_cat_note: 'Null=フィルタなし, B2B=事業用, B2C=個人用。',    p_sname_name: '担当者名', p_sname_note: 'Null=全担当者。特定の担当者をフィルタ可能 (完全な名前が必要)。',    p_ord_name: 'カスタムID', p_ord_note: '旅行会社が領収書発行時に入力したカスタム番号。',    p_sdate_name: '照会開始日', p_sdate_note: '照会期間開始 (領収書発行時間)、例: 2016-02-25。<br>照会開始日を入力した場合、照会終了日は必須です。',    p_edate_name: '照会終了日', p_edate_note: '1. 照会期間終了。<br>2. 照会期間は最長90日。<br>例: 照会開始日が09-01の場合、受け入れ可能な最長照会終了日は11-29 23:59:59。',    r_status_name: 'リターンステータス', r_status_note: 'SUCCESS=成功, 失敗時はエラーコードを返却。',    r_msg_name: 'リターンメッセージ', r_msg_note: '今回の状態を記述するテキスト。',    r_retinv_name: '返却領収書データ', r_retinv_note: '内容はJSON形式の文字列配列。',    r_chk_name: 'チェックコード', r_chk_note: '今回のデータ返却の正当性を検証するために使用。',    ri_itrans_name: '発行シリアル番号', ri_itrans_note: '領収書発行時に生成されるシステムシリアル番号。',    ri_ord_name: 'カスタムID', ri_ord_note: '1. 旅行会社が領収書発行時に入力したカスタム番号。<br>2. カスタム番号が重複して複数ある場合、対応する領収書データを返却。',    ri_inum_name: '領収書番号', ri_inum_note: '今回照会の領収書番号。',    ri_rand_name: '領収書偽造防止ランダムコード', ri_rand_note: '領収書発行時に生成される8桁の偽造防止ランダムコード。',    ri_bname_name: '購入者名', ri_bname_note: '領収書発行時の購入者名、個人名または事業者名。',    ri_bubn_name: '購入者統一番号', ri_bubn_note: '1. B2B領収書の場合、この欄は購入者統一番号。<br>2. B2C領収書の場合、この欄はNull。',    ri_baddr_name: '購入者住所', ri_baddr_note: '領収書発行時の、その領収書の購入者住所。',    ri_bphone_name: '購入者携帯番号', ri_bphone_note: '領収書発行時の、その領収書の購入者携帯番号。',    ri_bemail_name: '購入者メールアドレス', ri_bemail_note: '領収書発行時の、その領収書の購入者メールアドレス。',    ri_cat_name: '領収書種類', ri_cat_note: 'その領収書の種類。<br>B2B=購入者が事業単位(統一番号あり), B2C=購入者が個人',    ri_tot_name: '領収書金額', ri_tot_note: '数値、領収書の合計金額。',    ri_ctime_name: '領収書発行時間', ri_ctime_note: 'その領収書の発行時間、例: 2014-09-25 12:12:12',    ri_istatus_name: '領収書ステータス', ri_istatus_note: 'その領収書のステータス。<br>0=発行予約, 1=発行済み, 2=発行予約取消, 3=無効済み',    ri_idetail_name: '商品明細', ri_idetail_note: 'その領収書発行時の商品情報 (JSON形式)。<br>ItemNum=品目番号, ItemName=商品名, ItemCount=数量, ItemWord=単位, ItemPrice=単価, ItemAmount=小計',    ri_tname_name: 'ツアー名', ri_tname_note: 'その領収書のツアー名',    ri_tno_name: 'ツアー番号', ri_tno_note: 'その領収書のツアー番号',    ri_tdate_name: '出発予定日', ri_tdate_note: 'その領収書の出発日、出発日当日に指定メールアドレスへリマインドメールを送信',    ri_tax_name: '申告フラグ', ri_tax_note: '0=未申告, 1=申告済み。',    api_search_invalid_title: '無効伝票一括照会 (SearchType=3)',    p_stype_invalid_note: '固定値 3。',    p_inv_from_name: '無効伝票ソース', p_inv_from_note: 'Null=区分なし, 0=API作成, 1=Web管理画面作成。',    p_inv_status_name: '無効伝票ステータス', p_inv_status_note: 'Null=全て, 0=未確認, 1=確認済み, 2=取消済み未確認。',    p_sdate_inv_note: '照会期間開始 (無効伝票作成時間)。<br>照会開始日を入力した場合、照会終了日は必須です。',    ri_inv_no_name: '無効伝票シリアル番号', ri_inv_no_note: '無効伝票発行時に生成されるシステムシリアル番号。',    ri_inv_rsn_name: '無効理由', ri_inv_rsn_note: '無効にする理由',    ri_inv_ctime_name: '無効伝票作成日時', ri_inv_ctime_note: 'その無効伝票の作成時間、例：2014-09-25 12:12:12。',    ri_inv_status_name: '無効伝票ステータス', ri_inv_status_note: 'その無効伝票のステータス。<br>0=未確認無効伝票, 1=確認済み無効伝票, 2=無効伝票取消',    api_search_allow_title: '値引伝票一括照会 (SearchType=2)',    p_stype_allow_note: '固定値 2。',    p_allow_from_name: '値引伝票ソース', p_allow_from_note: 'Null=区分なし, 0=API作成, 1=Web管理画面作成。',    p_allow_status_name: '値引伝票ステータス', p_allow_status_note: 'Null=全て, 0=未確認, 1=確認済み, 2=取消済み未確認。',    p_inum_opt_name: '領収書番号', p_inum_opt_note: 'Null=限定なし。この値を入力する場合、日付期間は空欄を推奨。',    p_sdate_allow_note: '照会開始 (値引伝票作成時間)。領収書番号がある場合は空欄可。<br>照会開始日を入力した場合、照会終了日は必須です。',    p_edate_allow_note: '1. 照会期間終了。<br>2. 照会期間は最長90日。<br>3. 領収書番号がある場合は空欄可。<br>例: 照会開始日が09-01の場合、受け入れ可能な最長照会終了日は11-29 23:59:59。',    ri_allow_no_name: '値引シリアル番号', ri_allow_no_note: '値引伝票発行時に生成されるシステムシリアル番号。',    ri_allow_amt_name: '値引金額', ri_allow_amt_note: '数値、値引伝票の金額。',    ri_allow_ctime_name: '値引伝票作成日時', ri_allow_ctime_note: 'その値引伝票の作成時間、例：2014-09-25 12:12:12。',    ri_allow_status_name: '値引ステータス', ri_allow_status_note: 'その値引伝票のステータス。<br>0=未確認値引, 1=確認済み値引, 2=値引取消',    api_search_custom_title: 'カスタムID照会 (SearchType=4)',    p_stype_custom_note: '固定値 4。',    err_KEY10001: '旅行会社API連携IPではありません', err_note_KEY10001: '',    err_KEY10002: 'データ復号化エラー', err_note_KEY10002: '',    err_KEY10003: 'バージョンエラー', err_note_KEY10003: '',    err_KEY10004: 'データ不完全', err_note_KEY10004: '',    err_KEY10009: '旅行会社統一番号エラー', err_note_KEY10009: 'MerchantID_ パラメータのスペルを確認してください',    err_KEY10010: '旅行会社統一番号が空白', err_note_KEY10010: '',    err_KEY10011: 'PostData_ 欄が空白', err_note_KEY10011: '',    err_KEY10012: 'データ転送エラー', err_note_KEY10012: 'パラメータのスペルと形式を再確認してください',    err_KEY10013: 'データが空白', err_note_KEY10013: '',    err_KEY10014: '操作タイムアウト', err_note_KEY10014: '通常はI/Oのタイムアウトを指します',    err_KEY10019: '旅行会社アカウント停止中', err_note_KEY10019: '',    err_KEY10020: 'SearchType_ 欄が空白', err_note_KEY10020: '',    err_KEY10021: 'ReturnType_ 欄が空白', err_note_KEY10021: '',    err_INV20014: '統一番号の形式エラー', err_note_INV20014: '',    err_INV70001: 'フィールドデータ形式エラー', err_note_INV70001: '',    err_WEB1002: '日付形式エラー', err_note_WEB1002: '',    err_NOR10001: 'ネットワーク接続異常', err_note_NOR10001: '',    err_BS10001: '照会期間エラー', err_note_BS10001: '',    err_BS10002: '領収書ソースエラー', err_note_BS10002: '入力された領収書ソースパラメータを確認してください',    err_BS10003: '領収書ステータスエラー', err_note_BS10003: '入力された領収書ステータスパラメータを確認してください',    err_BS10004: '領収書種類エラー', err_note_BS10004: '入力された領収書種類パラメータを確認してください',    err_BS10005: '領収書照会データ取得失敗', err_note_BS10005: '数回再試行してください。エラーが続く場合はカスタマーサービスへ連絡してください',    err_BS10006: '領収書データなし', err_note_BS10006: '',    err_BS10007: '値引ステータスエラー', err_note_BS10007: '入力された値引伝票ステータスパラメータを確認してください',    err_BS10008: '検索タイプエラー', err_note_BS10008: '検索タイプ値 1-4 の入力パラメータを確認してください',    err_BS10009: '値引伝票ソースエラー', err_note_BS10009: '入力された値引伝票ソースパラメータを確認してください',    err_BS10010: '値引伝票ステータスエラー', err_note_BS10010: '入力された値引伝票ステータスパラメータを確認してください',    err_BS10011: '無効伝票ソースエラー', err_note_BS10011: '入力された無効伝票ソースパラメータを確認してください',    err_BS10012: '無効伝票ステータスエラー', err_note_BS10012: '入力された無効伝票ステータスパラメータを確認してください',    err_BS10013: '日付期間エラー', err_note_BS10013: '最大照会可能期間は90日です',    err_BS10014: '日付期間エラー', err_note_BS10014: '開始日は終了日より後にはできません'}            },        
+            'KO': {name: '한국어',data: {    page_title: '전자 영수증 일괄 조회 API 문서',    header_mobile_title: '일괄 조회 API',    sidebar_brand: 'TRINVI',    sidebar_subtitle: '전자 영수증 부가 서비스 플랫폼',    sidebar_version: '일괄 조회 V1.0.8',    nav_intro: '소개 및 기능',    nav_setup: '연동 준비',    nav_tool: '암호화 테스트 도구',    nav_group_query: '조회 작업',    nav_search_receipt: '영수증 일괄 조회',    nav_search_invalid: '무효 전표 일괄 조회',    nav_search_allowance: '공제(할인) 전표 일괄 조회',    nav_search_custom: '사용자 정의 ID 조회',    nav_group_appendix: '부록',    nav_errors: '오류 코드표',    nav_example: '코드 예제',    intro_title: '소개 및 기능',    intro_desc: '여행 업계 대수전부(Collection & Payment Transfer) 전자 영수증 부가 서비스 플랫폼은 여행업 협회 회원들이 API 연동을 통해 문서를 조회할 수 있도록 지원합니다. 이 API는 검색 유형(SearchType_)을 사용하여 영수증 발행, 무효 전표, 공제(할인) 전표를 구분하며, 설정된 기간 내의 데이터를 시간 범위와 문서 상태에 따라 조회합니다.',    intro_funcs_title: '주요 기능',    usecase_1_title: '다양한 조회',    usecase_1_desc: '시간 범위에 따른 영수증, 무효 전표, 공제(할인) 전표 조회를 지원합니다.',    usecase_2_title: '상세한 응답',    usecase_2_desc: '전체 영수증 상세 내역, 상품 정보, 금액 및 상태를 JSON 형식으로 반환합니다.',    setup_title: '연동 준비',    setup_card1_title: '키(Key) 발급',    setup_card1_desc: '전자 영수증 플랫폼 관리자 페이지에 로그인하여 가맹점 ID(MerchantID) 및 해당 Hash Key와 Hash IV를 확인해야 합니다.',    setup_card2_title: 'URL 확인',    setup_card2_desc: '<span class="block mb-1"><b>테스트 환경:</b> <code class="text-blue-600">https://capi.travelinvoice.com.tw/invoice_searchall</code></span><span class="block"><b>운영 환경:</b> <code class="text-green-600">https://api.travelinvoice.com.tw/invoice_searchall</code></span>',    tool_title: '암호화 테스트 도구',    tool_intro: '이 도구는 PostData_ 암호화 문자열 생성, CheckCodeSearch 검증 또는 응답 결과 복호화를 지원합니다.',    tool_tab_encrypt: 'PostData 암호화',    tool_tab_decrypt: 'PostData 복호화',    tool_tab_checkcode: 'CheckCodeSearch 생성',    tool_ph_key: '예: abcdefghijklmnopqrstuvwxyzabcdef (32 bytes)',    tool_ph_iv: '예: 1234567890123456 (16 bytes)',    tool_lbl_qs: '원본 문자열 (Query String 형식)',    tool_ph_qs: '예: Version=2.0&TimeStamp=1588320000&SearchType_=1&StartDate=2020-05-11',    tool_note_qs: '형식이 Key=Value&Key2=Value2 인지 확인하십시오.',    tool_btn_encrypt: '암호화 실행 (AES-256-CBC)',    tool_lbl_hex: 'PostData 암호화 결과 (Hex)',    tool_lbl_enc_hex: '암호화 문자열 (Hex String)',    tool_ph_enc_hex: '예: f329a61f014cdad8acae2b497b32514fcb57dffb44dafd2b5531e8ac4d206093',    tool_btn_decrypt: '복호화 실행',    tool_lbl_decrypt_res: '복호화 결과',    tool_btn_checkcode: 'CheckCodeSearch 생성',    tool_lbl_checkcode_res: 'CheckCodeSearch 결과',    tool_lbl_cc_mid: 'MerchantID (여행사 사업자 번호)',    tool_lbl_cc_ts: 'TimeStamp (타임스탬프)',    tool_lbl_cc_start: 'StartDate (YYYYMMDD)',    tool_lbl_cc_end: 'EndDate (YYYYMMDD)',    tool_cc_desc: '주의: 여기서 CheckCodeSearch 생성 규칙은 MerchantID, StartDate, EndDate, TimeStamp를 정렬하여 연결한 후, HashIV와 HashKey를 더해 SHA256으로 암호화하는 것입니다.',    tool_rule_title: '암호화 및 체크 코드 연산 규칙 설명',    tool_rule_aes_title: 'AES 암호화 규칙 (PostData_)',    tool_rule_aes_1: '알고리즘: AES-256-CBC',    tool_rule_aes_2: '패딩: PKCS7 (일부 언어에서는 수동 패딩 필요)',    tool_rule_aes_3: '변환: 파라미터를 Query String으로 조합한 후 암호화',    tool_rule_aes_4: '출력: Hex String으로 변환 (대소문자 구분 없음)',    tool_rule_chk_title: 'CheckCodeSearch 체크 코드 규칙',    tool_rule_chk_1: '정렬: MerchantID, StartDate, EndDate, TimeStamp를 A-Z 순서로 정렬',    tool_rule_chk_2: '연결: Query String (Key=Value&...) 으로 변환, 날짜 구분 기호 제거',    tool_rule_chk_3: '앞뒤 연결: HashIV=...&...&HashKey=...',    tool_rule_chk_4: '연산: SHA256 해시 후 대문자로 변환',    err_title: '오류 코드표',    err_ph: '코드 또는 원인 검색...',    th_err_code: '오류 코드',    th_err_reason: '오류 원인',    th_err_note: '비고',    example_title: '코드 예제',    lbl_api_url_test: 'URL (테스트 환경)',    lbl_api_url_prod: 'URL (운영 환경)',    lbl_lvl1_title: '1단계 파라미터 (HTTP Post)',    lbl_lvl2_req_title: 'PostData_ 포함 파라미터 (요청)',    lbl_lvl2_res_title: 'Response 응답 파라미터 (JSON)',    lbl_retinv_structure: 'ReturnInvoice 내용 (JSON Array)',    th_param: '파라미터명',    th_name: '명칭',    th_required: '필수',    th_type: '타입',    th_note: '비고',    th_len: '길이',    val_yes: '예',    val_no: '아니요',    val_cond: '조건부',    api_search_receipt_title: '영수증 일괄 조회 (SearchType=1)',    p_mid_name: '여행사 사업자 번호', p_mid_note: '여행사의 사업자 등록 번호입니다.',    p_stype_name: '검색 유형', p_stype_note: '고정값 1.',    p_postdata_name: '암호화 데이터', p_postdata_note: '암호화 방법은 암호화 테스트 도구 설명을 참조하십시오.',    p_ver_name: '연동 프로그램 버전', p_ver_note: '고정값 2.0',    p_ts_name: '타임스탬프', p_ts_note: 'Unix Timestamp (초).',    p_ifrom_name: '영수증 출처', p_ifrom_note: 'Null=구분 없음, 0=API 생성, 1=웹 관리자 페이지 생성.',    p_istatus_name: '영수증 상태', p_istatus_note: 'Null=전체 영수증, 0=발행 예약, 1=발행 완료, 2=발행 예약 취소, 3=무효 처리됨.',    p_astatus_name: '공제(할인) 상태', p_astatus_note: 'Null=전체 발행된 영수증, 0=발행 완료 및 공제 없음, 1=발행 완료 및 공제 있음. (InvoiceStatus=1일 때만 유효)',    p_cat_name: '영수증 종류', p_cat_note: 'Null=필터링 없음, B2B=사업자용, B2C=개인용.',    p_sname_name: '담당자명', p_sname_note: 'Null=전체 담당자. 특정 담당자 필터링 가능 (전체 이름 필요).',    p_ord_name: '사용자 정의 ID', p_ord_note: '여행사가 영수증 발행 시 입력한 사용자 정의 번호.',    p_sdate_name: '조회 시작일', p_sdate_note: '조회 기간 시작 (영수증 발행 시간), 예: 2016-02-25.<br>조회 시작일을 입력한 경우, 조회 종료일은 필수입니다.',    p_edate_name: '조회 종료일', p_edate_note: '1. 조회 기간 종료.<br>2. 조회 기간은 최대 90일.<br>예: 조회 시작일이 09-01인 경우, 허용 가능한 최대 조회 종료일은 11-29 23:59:59.',    r_status_name: '반환 상태', r_status_note: 'SUCCESS=성공, 실패 시 오류 코드 반환.',    r_msg_name: '반환 메시지', r_msg_note: '현재 상태를 설명하는 텍스트.',    r_retinv_name: '반환된 영수증 데이터', r_retinv_note: '내용은 JSON 형식의 문자열 배열.',    r_chk_name: '체크 코드', r_chk_note: '이번 데이터 반환의 유효성을 검증하는 데 사용됩니다.',    ri_itrans_name: '발행 일련번호', ri_itrans_note: '영수증 발행 시 생성되는 시스템 일련번호.',    ri_ord_name: '사용자 정의 ID', ri_ord_note: '1. 여행사가 영수증 발행 시 입력한 사용자 정의 번호.<br>2. 사용자 정의 번호가 중복되어 여러 건일 경우, 해당하는 모든 영수증 데이터를 반환.',    ri_inum_name: '영수증 번호', ri_inum_note: '이번 조회된 영수증 번호.',    ri_rand_name: '위조 방지 랜덤 코드', ri_rand_note: '영수증 발행 시 생성되는 8자리 위조 방지 랜덤 코드.',    ri_bname_name: '구매자명', ri_bname_note: '영수증 발행 시의 구매자 이름 (개인명 또는 상호명).',    ri_bubn_name: '구매자 사업자 번호', ri_bubn_note: '1. B2B 영수증인 경우, 이 필드는 구매자 사업자 번호.<br>2. B2C 영수증인 경우, 이 필드는 Null.',    ri_baddr_name: '구매자 주소', ri_baddr_note: '영수증 발행 시 입력된 구매자 주소.',    ri_bphone_name: '구매자 휴대폰 번호', ri_bphone_note: '영수증 발행 시 입력된 구매자 휴대폰 번호.',    ri_bemail_name: '구매자 이메일', ri_bemail_note: '영수증 발행 시 입력된 구매자 이메일 주소.',    ri_cat_name: '영수증 종류', ri_cat_note: '해당 영수증의 종류.<br>B2B=구매자가 사업자(사업자 번호 있음), B2C=구매자가 개인',    ri_tot_name: '영수증 금액', ri_tot_note: '숫자, 영수증 총 금액.',    ri_ctime_name: '영수증 발행 시간', ri_ctime_note: '해당 영수증의 발행 시간, 예: 2014-09-25 12:12:12',    ri_istatus_name: '영수증 상태', ri_istatus_note: '해당 영수증의 상태.<br>0=발행 예약, 1=발행 완료, 2=발행 예약 취소, 3=무효 처리됨',    ri_idetail_name: '상품 상세', ri_idetail_note: '영수증 발행 시의 상품 정보 (JSON 형식).<br>ItemNum=순번, ItemName=상품명, ItemCount=수량, ItemWord=단위, ItemPrice=단가, ItemAmount=소계',    ri_tname_name: '투어명', ri_tname_note: '해당 영수증의 투어명',    ri_tno_name: '투어 번호', ri_tno_note: '해당 영수증의 투어 번호',    ri_tdate_name: '출발 예정일', ri_tdate_note: '해당 영수증의 출발일, 출발일 당일 지정된 이메일 주소로 알림 메일 발송',    ri_tax_name: '신고 플래그', ri_tax_note: '0=미신고, 1=신고 완료.',    api_search_invalid_title: '무효 전표 일괄 조회 (SearchType=3)',    p_stype_invalid_note: '고정값 3.',    p_inv_from_name: '무효 전표 출처', p_inv_from_note: 'Null=구분 없음, 0=API 생성, 1=웹 관리자 페이지 생성.',    p_inv_status_name: '무효 전표 상태', p_inv_status_note: 'Null=전체, 0=미확인, 1=확인됨, 2=취소된 미확인.',    p_sdate_inv_note: '조회 기간 시작 (무효 전표 생성 시간).<br>조회 시작일을 입력한 경우, 조회 종료일은 필수입니다.',    ri_inv_no_name: '무효 전표 일련번호', ri_inv_no_note: '무효 전표 발행 시 생성되는 시스템 일련번호.',    ri_inv_rsn_name: '무효 사유', ri_inv_rsn_note: '무효 처리 사유',    ri_inv_ctime_name: '무효 전표 생성 일시', ri_inv_ctime_note: '해당 무효 전표의 생성 시간, 예: 2014-09-25 12:12:12.',    ri_inv_status_name: '무효 전표 상태', ri_inv_status_note: '해당 무효 전표의 상태.<br>0=미확인 무효 전표, 1=확인된 무효 전표, 2=무효 전표 취소',    api_search_allow_title: '공제(할인) 전표 일괄 조회 (SearchType=2)',    p_stype_allow_note: '고정값 2.',    p_allow_from_name: '공제 전표 출처', p_allow_from_note: 'Null=구분 없음, 0=API 생성, 1=웹 관리자 페이지 생성.',    p_allow_status_name: '공제 전표 상태', p_allow_status_note: 'Null=전체, 0=미확인, 1=확인됨, 2=취소된 미확인.',    p_inum_opt_name: '영수증 번호', p_inum_opt_note: 'Null=제한 없음. 이 값을 입력하는 경우, 날짜 기간은 비워두는 것을 권장.',    p_sdate_allow_note: '조회 시작 (공제 전표 생성 시간). 영수증 번호가 있는 경우 비워둘 수 있음.<br>조회 시작일을 입력한 경우, 조회 종료일은 필수입니다.',    p_edate_allow_note: '1. 조회 기간 종료.<br>2. 조회 기간은 최대 90일.<br>3. 영수증 번호가 있는 경우 비워둘 수 있음.<br>예: 조회 시작일이 09-01인 경우, 허용 가능한 최대 조회 종료일은 11-29 23:59:59.',    ri_allow_no_name: '공제 일련번호', ri_allow_no_note: '공제 전표 발행 시 생성되는 시스템 일련번호.',    ri_allow_amt_name: '공제 금액', ri_allow_amt_note: '숫자, 공제 전표의 금액.',    ri_allow_ctime_name: '공제 전표 생성 일시', ri_allow_ctime_note: '해당 공제 전표의 생성 시간, 예: 2014-09-25 12:12:12.',    ri_allow_status_name: '공제 상태', ri_allow_status_note: '해당 공제 전표의 상태.<br>0=미확인 공제, 1=확인된 공제, 2=공제 취소',    api_search_custom_title: '사용자 정의 ID 조회 (SearchType=4)',    p_stype_custom_note: '고정값 4.',    err_KEY10001: '여행사 API 연동 IP가 아닙니다', err_note_KEY10001: '',    err_KEY10002: '데이터 복호화 오류', err_note_KEY10002: '',    err_KEY10003: '버전 오류', err_note_KEY10003: '',    err_KEY10004: '데이터 불완전', err_note_KEY10004: '',    err_KEY10009: '여행사 사업자 번호 오류', err_note_KEY10009: 'MerchantID_ 파라미터의 철자를 확인하십시오',    err_KEY10010: '여행사 사업자 번호가 공란입니다', err_note_KEY10010: '',    err_KEY10011: 'PostData_ 필드가 공란입니다', err_note_KEY10011: '',    err_KEY10012: '데이터 전송 오류', err_note_KEY10012: '파라미터의 철자와 형식을 재확인하십시오',    err_KEY10013: '데이터가 공란입니다', err_note_KEY10013: '',    err_KEY10014: '작업 시간 초과', err_note_KEY10014: '일반적으로 I/O 시간 초과를 의미합니다',    err_KEY10019: '여행사 계정 정지됨', err_note_KEY10019: '',    err_KEY10020: 'SearchType_ 필드가 공란입니다', err_note_KEY10020: '',    err_KEY10021: 'ReturnType_ 필드가 공란입니다', err_note_KEY10021: '',    err_INV20014: '사업자 번호 형식 오류', err_note_INV20014: '',    err_INV70001: '필드 데이터 형식 오류', err_note_INV70001: '',    err_WEB1002: '날짜 형식 오류', err_note_WEB1002: '',    err_NOR10001: '네트워크 연결 이상', err_note_NOR10001: '',    err_BS10001: '조회 기간 오류', err_note_BS10001: '',    err_BS10002: '영수증 출처 오류', err_note_BS10002: '입력된 영수증 출처 파라미터를 확인하십시오',    err_BS10003: '영수증 상태 오류', err_note_BS10003: '입력된 영수증 상태 파라미터를 확인하십시오',    err_BS10004: '영수증 종류 오류', err_note_BS10004: '입력된 영수증 종류 파라미터를 확인하십시오',    err_BS10005: '영수증 조회 데이터 획득 실패', err_note_BS10005: '몇 번 재시도하십시오. 오류가 지속되면 고객센터에 문의하십시오',    err_BS10006: '영수증 데이터 없음', err_note_BS10006: '',    err_BS10007: '공제 상태 오류', err_note_BS10007: '입력된 공제 전표 상태 파라미터를 확인하십시오',    err_BS10008: '검색 유형 오류', err_note_BS10008: '검색 유형 값 1-4 의 입력 파라미터를 확인하십시오',    err_BS10009: '공제 전표 출처 오류', err_note_BS10009: '입력된 공제 전표 출처 파라미터를 확인하십시오',    err_BS10010: '공제 전표 상태 오류', err_note_BS10010: '입력된 공제 전표 상태 파라미터를 확인하십시오',    err_BS10011: '무효 전표 출처 오류', err_note_BS10011: '입력된 무효 전표 출처 파라미터를 확인하십시오',    err_BS10012: '무효 전표 상태 오류', err_note_BS10012: '입력된 무효 전표 상태 파라미터를 확인하십시오',    err_BS10013: '날짜 기간 오류', err_note_BS10013: '최대 조회 가능 기간은 90일입니다',    err_BS10014: '날짜 기간 오류', err_note_BS10014: '시작일은 종료일보다 늦을 수 없습니다'}            },        
+        
+        };
+
+        const apiDefinitions = [
+            {
+                id: 'api_search_receipt',
+                titleKey: 'api_search_receipt_title',
+                urls: {
+                    test: 'https://capi.travelinvoice.com.tw/invoice_searchall',
+                    prod: 'https://api.travelinvoice.com.tw/invoice_searchall'
+                },
+                lvl1: [
+                    { name: 'MerchantID_', nameKey: 'p_mid_name', req: true, type: 'Varchar(8)', noteKey: 'p_mid_note' },
+                    { name: 'SearchType_', nameKey: 'p_stype_name', req: true, type: 'Varchar(1)', noteKey: 'p_stype_note' },
+                    { name: 'PostData_', nameKey: 'p_postdata_name', req: true, type: 'Text', noteKey: 'p_postdata_note' }
+                ],
+                lvl2: [
+                    { name: 'Version', nameKey: 'p_ver_name', req: true, type: 'Varchar(5)', len: '5', noteKey: 'p_ver_note' },
+                    { name: 'TimeStamp', nameKey: 'p_ts_name', req: true, type: 'Varchar(30)', len: '30', noteKey: 'p_ts_note' },
+                    { name: 'InvoiceFrom', nameKey: 'p_ifrom_name', req: false, type: 'Int(1)', len: '1', noteKey: 'p_ifrom_note' },
+                    { name: 'InvoiceStatus', nameKey: 'p_istatus_name', req: false, type: 'Int(1)', len: '1', noteKey: 'p_istatus_note' },
+                    { name: 'AllowStatus', nameKey: 'p_astatus_name', req: false, type: 'Int(1)', len: '1', noteKey: 'p_astatus_note' },
+                    { name: 'Category', nameKey: 'p_cat_name', req: false, type: 'Varchar(5)', len: '5', noteKey: 'p_cat_note' },
+                    { name: 'SellerName', nameKey: 'p_sname_name', req: false, type: 'Varchar(50)', len: '50', noteKey: 'p_sname_note' },
+                    { name: 'MerchantOrderNo', nameKey: 'p_ord_name', req: false, type: 'Varchar(30)', len: '30', noteKey: 'p_ord_note' },
+                    { name: 'StartDate', nameKey: 'p_sdate_name', req: true, type: 'DateTime', len: '', noteKey: 'p_sdate_note' },
+                    { name: 'EndDate', nameKey: 'p_edate_name', req: true, type: 'DateTime', len: '', noteKey: 'p_edate_note' }
+                ],
+                res: [
+                    { name: 'Status', nameKey: 'r_status_name', type: 'Varchar(10)', noteKey: 'r_status_note' },
+                    { name: 'Message', nameKey: 'r_msg_name', type: 'Varchar(30)', noteKey: 'r_msg_note' },
+                    { name: 'MerchantID', nameKey: 'p_mid_name', type: 'Varchar(8)', noteKey: 'p_mid_note' },
+                    { name: 'ReturnInvoice', nameKey: 'r_retinv_name', type: 'Text', noteKey: 'r_retinv_note' },
+                    { name: 'CheckCodeSearch', nameKey: 'r_chk_name', type: 'Varchar(150)', noteKey: 'r_chk_note' }
+                ],
+                retInv: [
+                    { name: 'InvoiceTransNo', nameKey: 'ri_itrans_name', type: 'Varchar(20)', noteKey: 'ri_itrans_note' },
+                    { name: 'MerchantOrderNo', nameKey: 'ri_ord_name', type: 'Varchar(30)', noteKey: 'ri_ord_note' },
+                    { name: 'InvoiceNumber', nameKey: 'ri_inum_name', type: 'Varchar(9)', noteKey: 'ri_inum_note' },
+                    { name: 'RandomNum', nameKey: 'ri_rand_name', type: 'Varchar(4)', noteKey: 'ri_rand_note' },
+                    { name: 'BuyerName', nameKey: 'ri_bname_name', type: 'Varchar(60)', noteKey: 'ri_bname_note' },
+                    { name: 'BuyerUBN', nameKey: 'ri_bubn_name', type: 'Varchar(10)', noteKey: 'ri_bubn_note' },
+                    { name: 'BuyerAddress', nameKey: 'ri_baddr_name', type: 'Varchar(200)', noteKey: 'ri_baddr_note' },
+                    { name: 'BuyerPhone', nameKey: 'ri_bphone_name', type: 'Varchar(15)', noteKey: 'ri_bphone_note' },
+                    { name: 'BuyerEmail', nameKey: 'ri_bemail_name', type: 'Varchar(100)', noteKey: 'ri_bemail_note' },
+                    { name: 'Category', nameKey: 'ri_cat_name', type: 'Varchar(5)', noteKey: 'ri_cat_note' },
+                    { name: 'TotalAmt', nameKey: 'ri_tot_name', type: 'Int(8)', noteKey: 'ri_tot_note' },
+                    { name: 'CreateTime', nameKey: 'ri_ctime_name', type: 'DateTime', noteKey: 'ri_ctime_note' },
+                    { name: 'InvoiceStatus', nameKey: 'ri_istatus_name', type: 'Int(1)', noteKey: 'ri_istatus_note' },
+                    { name: 'ItemDetail', nameKey: 'ri_idetail_name', type: 'Text', noteKey: 'ri_idetail_note' },
+                    { name: 'TourName', nameKey: 'ri_tname_name', type: 'Varchar(200)', noteKey: 'ri_tname_note' },
+                    { name: 'TourNo', nameKey: 'ri_tno_name', type: 'Varchar(50)', noteKey: 'ri_tno_note' },
+                    { name: 'TourDate', nameKey: 'ri_tdate_name', type: 'Varchar(8)', noteKey: 'ri_tdate_note' },
+                    { name: 'TaxNoted', nameKey: 'ri_tax_name', type: 'Int(1)', noteKey: 'ri_tax_note' }
+                ]
+            },
+            {
+                id: 'api_search_invalid',
+                titleKey: 'api_search_invalid_title',
+                urls: {
+                    test: 'https://capi.travelinvoice.com.tw/invoice_searchall',
+                    prod: 'https://api.travelinvoice.com.tw/invoice_searchall'
+                },
+                lvl1: [
+                    { name: 'MerchantID_', nameKey: 'p_mid_name', req: true, type: 'Varchar(8)', noteKey: 'p_mid_note' },
+                    { name: 'SearchType_', nameKey: 'p_stype_name', req: true, type: 'Varchar(1)', noteKey: 'p_stype_invalid_note' },
+                    { name: 'PostData_', nameKey: 'p_postdata_name', req: true, type: 'Text', noteKey: 'p_postdata_note' }
+                ],
+                lvl2: [
+                    { name: 'Version', nameKey: 'p_ver_name', req: true, type: 'Varchar(5)', len: '5', noteKey: 'p_ver_note' },
+                    { name: 'TimeStamp', nameKey: 'p_ts_name', req: true, type: 'Varchar(30)', len: '30', noteKey: 'p_ts_note' },
+                    { name: 'InvalidFrom', nameKey: 'p_inv_from_name', req: false, type: 'Int(1)', len: '1', noteKey: 'p_inv_from_note' },
+                    { name: 'InvalidStatus', nameKey: 'p_inv_status_name', req: false, type: 'Int(1)', len: '1', noteKey: 'p_inv_status_note' },
+                    { name: 'SellerName', nameKey: 'p_sname_name', req: false, type: 'Varchar(50)', len: '50', noteKey: 'p_sname_note' },
+                    { name: 'StartDate', nameKey: 'p_sdate_name', req: true, type: 'DateTime', len: '', noteKey: 'p_sdate_inv_note' },
+                    { name: 'EndDate', nameKey: 'p_edate_name', req: true, type: 'DateTime', len: '', noteKey: 'p_edate_note' }
+                ],
+                res: [
+                    { name: 'Status', nameKey: 'r_status_name', type: 'Varchar(10)', noteKey: 'r_status_note' },
+                    { name: 'Message', nameKey: 'r_msg_name', type: 'Varchar(30)', noteKey: 'r_msg_note' },
+                    { name: 'MerchantID', nameKey: 'p_mid_name', type: 'Varchar(8)', noteKey: 'p_mid_note' },
+                    { name: 'ReturnInvoice', nameKey: 'r_retinv_name', type: 'Text', noteKey: 'r_retinv_note' },
+                    { name: 'CheckCodeSearch', nameKey: 'r_chk_name', type: 'Varchar(150)', noteKey: 'r_chk_note' }
+                ],
+                retInv: [
+                    { name: 'InvalidNo', nameKey: 'ri_inv_no_name', type: 'Varchar(20)', noteKey: 'ri_inv_no_note' },
+                    { name: 'InvoiceNumber', nameKey: 'ri_inum_name', type: 'Varchar(9)', noteKey: 'ri_inum_note' },
+                    { name: 'InvalidReason', nameKey: 'ri_inv_rsn_name', type: 'Varchar(10)', noteKey: 'ri_inv_rsn_note' },
+                    { name: 'CreateTime', nameKey: 'ri_inv_ctime_name', type: 'DateTime', noteKey: 'ri_inv_ctime_note' },
+                    { name: 'InvalidStatus', nameKey: 'ri_inv_status_name', type: 'Int(1)', noteKey: 'ri_inv_status_note' }
+                ]
+            },
+            {
+                id: 'api_search_allowance',
+                titleKey: 'api_search_allow_title',
+                urls: {
+                    test: 'https://capi.travelinvoice.com.tw/invoice_searchall',
+                    prod: 'https://api.travelinvoice.com.tw/invoice_searchall'
+                },
+                lvl1: [
+                    { name: 'MerchantID_', nameKey: 'p_mid_name', req: true, type: 'Varchar(8)', noteKey: 'p_mid_note' },
+                    { name: 'SearchType_', nameKey: 'p_stype_name', req: true, type: 'Varchar(1)', noteKey: 'p_stype_allow_note' },
+                    { name: 'PostData_', nameKey: 'p_postdata_name', req: true, type: 'Text', noteKey: 'p_postdata_note' }
+                ],
+                lvl2: [
+                    { name: 'Version', nameKey: 'p_ver_name', req: true, type: 'Varchar(5)', len: '5', noteKey: 'p_ver_note' },
+                    { name: 'TimeStamp', nameKey: 'p_ts_name', req: true, type: 'Varchar(30)', len: '30', noteKey: 'p_ts_note' },
+                    { name: 'AllowFrom', nameKey: 'p_allow_from_name', req: false, type: 'Int(1)', len: '1', noteKey: 'p_allow_from_note' },
+                    { name: 'AllowStatus', nameKey: 'p_allow_status_name', req: false, type: 'Int(1)', len: '1', noteKey: 'p_allow_status_note' },
+                    { name: 'SellerName', nameKey: 'p_sname_name', req: false, type: 'Varchar(50)', len: '50', noteKey: 'p_sname_note' },
+                    { name: 'InvoiceNumber', nameKey: 'p_inum_opt_name', req: false, type: 'Varchar(9)', len: '9', noteKey: 'p_inum_opt_note' },
+                    { name: 'StartDate', nameKey: 'p_sdate_name', req: 'cond', type: 'DateTime', len: '', noteKey: 'p_sdate_allow_note' },
+                    { name: 'EndDate', nameKey: 'p_edate_name', req: 'cond', type: 'DateTime', len: '', noteKey: 'p_edate_allow_note' }
+                ],
+                res: [
+                    { name: 'Status', nameKey: 'r_status_name', type: 'Varchar(10)', noteKey: 'r_status_note' },
+                    { name: 'Message', nameKey: 'r_msg_name', type: 'Varchar(30)', noteKey: 'r_msg_note' },
+                    { name: 'MerchantID', nameKey: 'p_mid_name', type: 'Varchar(8)', noteKey: 'p_mid_note' },
+                    { name: 'ReturnInvoice', nameKey: 'r_retinv_name', type: 'Text', noteKey: 'r_retinv_note' },
+                    { name: 'CheckCodeSearch', nameKey: 'r_chk_name', type: 'Varchar(150)', noteKey: 'r_chk_note' }
+                ],
+                retInv: [
+                    { name: 'AllowanceNo', nameKey: 'ri_allow_no_name', type: 'Varchar(20)', noteKey: 'ri_allow_no_note' },
+                    { name: 'InvoiceNumber', nameKey: 'ri_inum_name', type: 'Varchar(9)', noteKey: 'ri_inum_note' },
+                    { name: 'BuyerEmail', nameKey: 'ri_bemail_name', type: 'Varchar(100)', noteKey: 'ri_bemail_note' },
+                    { name: 'TotalAmt', nameKey: 'ri_allow_amt_name', type: 'Int(8)', noteKey: 'ri_allow_amt_note' },
+                    { name: 'CreateTime', nameKey: 'ri_allow_ctime_name', type: 'DateTime', noteKey: 'ri_allow_ctime_note' },
+                    { name: 'AllowStatus', nameKey: 'ri_allow_status_name', type: 'Int(1)', noteKey: 'ri_allow_status_note' },
+                    { name: 'ItemDetail', nameKey: 'ri_idetail_name', type: 'Text', noteKey: 'ri_idetail_note' }
+                ]
+            },
+            {
+                id: 'api_search_custom',
+                titleKey: 'api_search_custom_title',
+                urls: {
+                    test: 'https://capi.travelinvoice.com.tw/invoice_searchall',
+                    prod: 'https://api.travelinvoice.com.tw/invoice_searchall'
+                },
+                lvl1: [
+                    { name: 'MerchantID_', nameKey: 'p_mid_name', req: true, type: 'Varchar(8)', noteKey: 'p_mid_note' },
+                    { name: 'SearchType_', nameKey: 'p_stype_name', req: true, type: 'Varchar(1)', noteKey: 'p_stype_custom_note' },
+                    { name: 'PostData_', nameKey: 'p_postdata_name', req: true, type: 'Text', noteKey: 'p_postdata_note' }
+                ],
+                lvl2: [
+                    { name: 'Version', nameKey: 'p_ver_name', req: true, type: 'Varchar(5)', len: '5', noteKey: 'p_ver_note' },
+                    { name: 'TimeStamp', nameKey: 'p_ts_name', req: true, type: 'Varchar(30)', len: '30', noteKey: 'p_ts_note' },
+                    { name: 'InvoiceFrom', nameKey: 'p_ifrom_name', req: false, type: 'Int(1)', len: '1', noteKey: 'p_ifrom_note' },
+                    { name: 'InvoiceStatus', nameKey: 'p_istatus_name', req: false, type: 'Int(1)', len: '1', noteKey: 'p_istatus_note' },
+                    { name: 'AllowStatus', nameKey: 'p_astatus_name', req: false, type: 'Int(1)', len: '1', noteKey: 'p_astatus_note' },
+                    { name: 'Category', nameKey: 'p_cat_name', req: false, type: 'Varchar(5)', len: '5', noteKey: 'p_cat_note' },
+                    { name: 'SellerName', nameKey: 'p_sname_name', req: false, type: 'Varchar(50)', len: '50', noteKey: 'p_sname_note' },
+                    { name: 'MerchantOrderNo', nameKey: 'p_ord_name', req: true, type: 'Varchar(30)', len: '30', noteKey: 'p_ord_note' },
+                    { name: 'StartDate', nameKey: 'p_sdate_name', req: false, type: 'DateTime', len: '', noteKey: 'p_sdate_note' },
+                    { name: 'EndDate', nameKey: 'p_edate_name', req: false, type: 'DateTime', len: '', noteKey: 'p_edate_note' }
+                ],
+                res: [
+                    { name: 'Status', nameKey: 'r_status_name', type: 'Varchar(10)', noteKey: 'r_status_note' },
+                    { name: 'Message', nameKey: 'r_msg_name', type: 'Varchar(30)', noteKey: 'r_msg_note' },
+                    { name: 'MerchantID', nameKey: 'p_mid_name', type: 'Varchar(8)', noteKey: 'p_mid_note' },
+                    { name: 'ReturnInvoice', nameKey: 'r_retinv_name', type: 'Text', noteKey: 'r_retinv_note' },
+                    { name: 'CheckCodeSearch', nameKey: 'r_chk_name', type: 'Varchar(150)', noteKey: 'r_chk_note' }
+                ],
+                retInv: [
+                    { name: 'InvoiceTransNo', nameKey: 'ri_itrans_name', type: 'Varchar(20)', noteKey: 'ri_itrans_note' },
+                    { name: 'MerchantOrderNo', nameKey: 'ri_ord_name', type: 'Varchar(30)', noteKey: 'ri_ord_note' },
+                    { name: 'InvoiceNumber', nameKey: 'ri_inum_name', type: 'Varchar(9)', noteKey: 'ri_inum_note' },
+                    { name: 'RandomNum', nameKey: 'ri_rand_name', type: 'Varchar(4)', noteKey: 'ri_rand_note' },
+                    { name: 'BuyerName', nameKey: 'ri_bname_name', type: 'Varchar(60)', noteKey: 'ri_bname_note' },
+                    { name: 'BuyerUBN', nameKey: 'ri_bubn_name', type: 'Varchar(10)', noteKey: 'ri_bubn_note' },
+                    { name: 'BuyerAddress', nameKey: 'ri_baddr_name', type: 'Varchar(200)', noteKey: 'ri_baddr_note' },
+                    { name: 'BuyerPhone', nameKey: 'ri_bphone_name', type: 'Varchar(15)', noteKey: 'ri_bphone_note' },
+                    { name: 'BuyerEmail', nameKey: 'ri_bemail_name', type: 'Varchar(100)', noteKey: 'ri_bemail_note' },
+                    { name: 'Category', nameKey: 'ri_cat_name', type: 'Varchar(5)', noteKey: 'ri_cat_note' },
+                    { name: 'TotalAmt', nameKey: 'ri_tot_name', type: 'Int(8)', noteKey: 'ri_tot_note' },
+                    { name: 'CreateTime', nameKey: 'ri_ctime_name', type: 'DateTime', noteKey: 'ri_ctime_note' },
+                    { name: 'InvoiceStatus', nameKey: 'ri_istatus_name', type: 'Int(1)', noteKey: 'ri_istatus_note' },
+                    { name: 'ItemDetail', nameKey: 'ri_idetail_name', type: 'Text', noteKey: 'ri_idetail_note' },
+                    { name: 'TourName', nameKey: 'ri_tname_name', type: 'Varchar(200)', noteKey: 'ri_tname_note' },
+                    { name: 'TourNo', nameKey: 'ri_tno_name', type: 'Varchar(50)', noteKey: 'ri_tno_note' },
+                    { name: 'TourDate', nameKey: 'ri_tdate_name', type: 'Varchar(8)', noteKey: 'ri_tdate_note' },
+                    { name: 'TaxNoted', nameKey: 'ri_tax_name', type: 'Int(1)', noteKey: 'ri_tax_note' }
+                ]
+            }
+        ];
+
+        const errorCodes = [
+            { code: 'KEY10001', key: 'err_KEY10001', note: 'err_note_KEY10001' },
+            { code: 'KEY10002', key: 'err_KEY10002', note: 'err_note_KEY10002' },
+            { code: 'KEY10003', key: 'err_KEY10003', note: 'err_note_KEY10003' },
+            { code: 'KEY10004', key: 'err_KEY10004', note: 'err_note_KEY10004' },
+            { code: 'KEY10009', key: 'err_KEY10009', note: 'err_note_KEY10009' },
+            { code: 'KEY10010', key: 'err_KEY10010', note: 'err_note_KEY10010' },
+            { code: 'KEY10011', key: 'err_KEY10011', note: 'err_note_KEY10011' },
+            { code: 'KEY10012', key: 'err_KEY10012', note: 'err_note_KEY10012' },
+            { code: 'KEY10013', key: 'err_KEY10013', note: 'err_note_KEY10013' },
+            { code: 'KEY10014', key: 'err_KEY10014', note: 'err_note_KEY10014' },
+            { code: 'KEY10019', key: 'err_KEY10019', note: 'err_note_KEY10019' },
+            { code: 'KEY10020', key: 'err_KEY10020', note: 'err_note_KEY10020' },
+            { code: 'KEY10021', key: 'err_KEY10021', note: 'err_note_KEY10021' },
+            { code: 'INV20014', key: 'err_INV20014', note: 'err_note_INV20014' },
+            { code: 'INV70001', key: 'err_INV70001', note: 'err_note_INV70001' },
+            { code: 'WEB1002', key: 'err_WEB1002', note: 'err_note_WEB1002' },
+            { code: 'NOR10001', key: 'err_NOR10001', note: 'err_note_NOR10001' },
+            { code: 'BS10001', key: 'err_BS10001', note: 'err_note_BS10001' },
+            { code: 'BS10002', key: 'err_BS10002', note: 'err_note_BS10002' },
+            { code: 'BS10003', key: 'err_BS10003', note: 'err_note_BS10003' },
+            { code: 'BS10004', key: 'err_BS10004', note: 'err_note_BS10004' },
+            { code: 'BS10005', key: 'err_BS10005', note: 'err_note_BS10005' },
+            { code: 'BS10006', key: 'err_BS10006', note: 'err_note_BS10006' },
+            { code: 'BS10007', key: 'err_BS10007', note: 'err_note_BS10007' },
+            { code: 'BS10008', key: 'err_BS10008', note: 'err_note_BS10008' },
+            { code: 'BS10009', key: 'err_BS10009', note: 'err_note_BS10009' },
+            { code: 'BS10010', key: 'err_BS10010', note: 'err_note_BS10010' },
+            { code: 'BS10011', key: 'err_BS10011', note: 'err_note_BS10011' },
+            { code: 'BS10012', key: 'err_BS10012', note: 'err_note_BS10012' },
+            { code: 'BS10013', key: 'err_BS10013', note: 'err_note_BS10013' },
+            { code: 'BS10014', key: 'err_BS10014', note: 'err_note_BS10014' }
+        ];
+
+        const codeExamples = {
+            php: `<?php
+// PHP Example: Batch Query Receipts (SearchType_=1)
+
+// Padding function (PKCS7)
+function add_padding($string, $blocksize = 32) {
+    $len = strlen($string);
+    $pad = $blocksize - ($len % $blocksize);
+    $string .= str_repeat(chr($pad), $pad);
+    return $string;
+}
+
+// 1. Setup Parameters
+$key = 'abcdefghijklmnopqrstuvwxyzabcdef'; // Your Hash Key (32 bytes)
+$iv  = '1234567890123456';             // Your Hash IV (16 bytes)
+$merchantID = '70565326';
+$url = 'https://capi.travelinvoice.com.tw/invoice_searchall';
+
+// 2. Prepare PostData Array
+$postDataArray = [
+    'Version' => '2.0',
+    'TimeStamp' => time(),
+    'InvoiceFrom' => '0', // 0=API
+    'InvoiceStatus' => '1', // 1=Issued
+    'StartDate' => '2020-05-11',
+    'EndDate' => '2020-05-15'
+];
+
+// 3. Convert to Query String and Encrypt
+$postDataStr = http_build_query($postDataArray);
+// Note: Use OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING with manual padding
+$encrypted = openssl_encrypt(add_padding($postDataStr), 'aes-256-cbc', $key, OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING, $iv);
+$postDataHex = bin2hex($encrypted);
+
+?>
+
+<!-- 4. Submit Form -->
+<form action="<?php echo $url; ?>" method="post">
+    <input type="hidden" name="MerchantID_" value="<?php echo $merchantID; ?>">
+    <input type="hidden" name="SearchType_" value="1">
+    <input type="hidden" name="PostData_" value="<?php echo $postDataHex; ?>">
+    <input type="submit" value="Submit">
+</form>`,
+            nodejs: `const crypto = require('crypto');
+const querystring = require('querystring');
+const axios = require('axios');
+
+// 1. Setup Parameters
+const key = 'abcdefghijklmnopqrstuvwxyzabcdef'; // 32 bytes
+const iv  = '1234567890123456';             // 16 bytes
+const merchantID = '70565326';
+const url = 'https://capi.travelinvoice.com.tw/invoice_searchall';
+
+// 2. Prepare Parameters
+const params = {
+    Version: '2.0',
+    TimeStamp: Math.floor(Date.now() / 1000),
+    InvoiceFrom: '0',
+    InvoiceStatus: '1',
+    StartDate: '2020-05-11',
+    EndDate: '2020-05-15'
+};
+
+// 3. Convert to Query String
+const dataString = querystring.stringify(params);
+
+// 4. AES Encryption (Node.js crypto uses PKCS7 by default)
+const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+let encrypted = cipher.update(dataString, 'utf8', 'hex');
+encrypted += cipher.final('hex');
+
+// 5. Send POST Request
+const formBody = querystring.stringify({
+    MerchantID_: merchantID,
+    SearchType_: '1',
+    PostData_: encrypted
+});
+
+axios.post(url, formBody, {
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+}).then(res => {
+    console.log('Response:', res.data);
+}).catch(err => {
+    console.error(err);
+});`,
+            python: `import time
+import urllib.parse
+import requests
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
+import binascii
+
+# 1. Setup Parameters
+key = b'abcdefghijklmnopqrstuvwxyzabcdef' # 32 bytes
+iv  = b'1234567890123456'             # 16 bytes
+merchant_id = '70565326'
+url = 'https://capi.travelinvoice.com.tw/invoice_searchall'
+
+# 2. Prepare Parameters
+params = {
+    'Version': '2.0',
+    'TimeStamp': int(time.time()),
+    'InvoiceFrom': '0',
+    'InvoiceStatus': '1',
+    'StartDate': '2020-05-11',
+    'EndDate': '2020-05-15'
+}
+
+# 3. Convert to Query String
+data_string = urllib.parse.urlencode(params)
+
+# 4. AES Encryption (PKCS7 Padding)
+cipher = AES.new(key, AES.MODE_CBC, iv)
+encrypted_bytes = cipher.encrypt(pad(data_string.encode('utf-8'), AES.block_size))
+post_data_hex = binascii.hexlify(encrypted_bytes).decode('utf-8')
+
+# 5. Send Request
+payload = {
+    'MerchantID_': merchant_id,
+    'SearchType_': '1',
+    'PostData_': post_data_hex
+}
+response = requests.post(url, data=payload)
+print(response.text)`,
+            csharp: `using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web;
+using System.Threading.Tasks;
+
+public class Program
+{
+    public static async Task Main()
+    {
+        string key = "abcdefghijklmnopqrstuvwxyzabcdef";
+        string iv = "1234567890123456";
+        string merchantID = "70565326";
+        string url = "https://capi.travelinvoice.com.tw/invoice_searchall";
+
+        // Prepare Parameters
+        var paramsDict = new Dictionary<string, string>
+        {
+            { "Version", "2.0" },
+            { "TimeStamp", DateTimeOffset.Now.ToUnixTimeSeconds().ToString() },
+            { "InvoiceFrom", "0" },
+            { "InvoiceStatus", "1" },
+            { "StartDate", "2020-05-11" },
+            { "EndDate", "2020-05-15" }
+        };
+
+        // Convert to Query String
+        string dataString = string.Join("&", paramsDict.Select(p => $"{p.Key}={HttpUtility.UrlEncode(p.Value)}"));
+
+        // Encrypt
+        string postDataHex = EncryptAES256(dataString, key, iv);
+
+        // Send
+        using (var client = new HttpClient())
+        {
+            var content = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("MerchantID_", merchantID),
+                new KeyValuePair<string, string>("SearchType_", "1"),
+                new KeyValuePair<string, string>("PostData_", postDataHex)
+            });
+
+            var response = await client.PostAsync(url, content);
+            string result = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(result);
+        }
+    }
+
+    public static string EncryptAES256(string source, string key, string iv)
+    {
+        byte[] sourceBytes = Encoding.UTF8.GetBytes(source);
+        using (var aes = Aes.Create())
+        {
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
+            aes.Key = Encoding.UTF8.GetBytes(key);
+            aes.IV = Encoding.UTF8.GetBytes(iv);
+
+            using (var encryptor = aes.CreateEncryptor())
+            {
+                byte[] encryptedBytes = encryptor.TransformFinalBlock(sourceBytes, 0, sourceBytes.Length);
+                return BitConverter.ToString(encryptedBytes).Replace("-", "").ToLower();
+            }
+        }
+    }
+}`
+        };
+
+        // --- Core Logic ---
+        
+        // Check for URL parameter 'lang'
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlLang = urlParams.get('lang');
+        
+        // Use URL param if valid, otherwise default to zh-TW
+        let currentLang = (urlLang && langData[urlLang]) ? urlLang : 'zh-TW';
+        let currentCodeTab = 'php';
+
+        function applyTranslations(lang) {
+            const data = langData[lang]?.data;
+            if (!data) return;
+
+            // Simple text replacements
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (data[key]) el.innerHTML = data[key];
+            });
+
+            // Placeholder replacements
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (data[key]) el.setAttribute('placeholder', data[key]);
+            });
+
+            // Dynamic API Template Rendering
+            renderApiTemplates(data);
+        }
+
+        function renderApiTemplates(data) {
+            const container = document.getElementById('api-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            apiDefinitions.forEach(api => {
+                const title = data[api.titleKey];
+                
+                // Build Level 1 Rows
+                const lvl1Rows = api.lvl1.map(p => `
+                    <tr>
+                        <td class="px-4 py-2 font-mono font-bold text-blue-600">${p.name}</td>
+                        <td class="px-4 py-2">${data[p.nameKey] || ''}</td>
+                        <td class="px-4 py-2"><span class="required-badge">${data['val_yes']}</span></td>
+                        <td class="px-4 py-2 font-mono">${p.type}</td>
+                        <td class="px-4 py-2">${data[p.noteKey] || ''}</td>
+                    </tr>
+                `).join('');
+
+                // Build Level 2 Rows
+                const lvl2Rows = api.lvl2.map(p => {
+                    let reqBadge = '';
+                    if (p.req === true) reqBadge = `<span class="required-badge">${data['val_yes']}</span>`;
+                    else if (p.req === false) reqBadge = `<span class="optional-badge">${data['val_no']}</span>`;
+                    else if (p.req === 'cond') reqBadge = `<span class="cond-badge">${data['val_cond']}</span>`;
+
+                    return `<tr>
+                        <td class="px-4 py-2 font-mono font-medium">${p.name}</td>
+                        <td class="px-4 py-2">${data[p.nameKey] || ''}</td>
+                        <td class="px-4 py-2 text-center">${reqBadge}</td>
+                        <td class="px-4 py-2 font-mono text-xs">${p.type}</td>
+                        <td class="px-4 py-2 font-mono text-xs">${p.len}</td>
+                        <td class="px-4 py-2">${data[p.noteKey] || ''}</td>
+                    </tr>`;
+                }).join('');
+
+                // Build Response Rows
+                const resRows = api.res.map(r => `
+                    <tr>
+                        <td class="px-4 py-2 font-mono font-bold text-blue-600">${r.name}</td>
+                        <td class="px-4 py-2">${data[r.nameKey] || ''}</td>
+                        <td class="px-4 py-2 font-mono text-xs">${r.type}</td>
+                        <td class="px-4 py-2">${data[r.noteKey] || ''}</td>
+                    </tr>
+                `).join('');
+
+                // Build ReturnInvoice Detail Rows
+                let retInvTable = '';
+                if (api.retInv && api.retInv.length > 0) {
+                    const retInvRows = api.retInv.map(r => `
+                        <tr>
+                            <td class="px-4 py-2 font-mono font-bold text-green-600">${r.name}</td>
+                            <td class="px-4 py-2">${data[r.nameKey] || ''}</td>
+                            <td class="px-4 py-2 font-mono text-xs">${r.type}</td>
+                            <td class="px-4 py-2 text-sm">${data[r.noteKey] || ''}</td>
+                        </tr>
+                    `).join('');
+
+                    retInvTable = `
+                    <h4 class="font-bold text-slate-700 mb-2 mt-8">${data['lbl_retinv_structure']}</h4>
+                    <div class="overflow-x-auto border rounded-lg max-h-[500px] overflow-y-auto">
+                        <table class="w-full text-left text-sm params-table">
+                            <thead class="bg-slate-50 sticky top-0 shadow-sm">
+                                <tr>
+                                    <th class="px-4 py-2 w-1/5">${data['th_param']}</th>
+                                    <th class="px-4 py-2 w-1/5">${data['th_name']}</th>
+                                    <th class="px-4 py-2 w-20">${data['th_type']}</th>
+                                    <th class="px-4 py-2">${data['th_note']}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">${retInvRows}</tbody>
+                        </table>
+                    </div>`;
+                }
+
+                const sectionHtml = `
+                <section id="${api.id}" class="mb-12 scroll-mt-24">
+                    <div class="flex items-center mb-6">
+                        <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                        <h2 class="text-2xl font-bold text-slate-900">${title}</h2>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mb-6">
+                            <div class="bg-slate-50 p-3 rounded border border-slate-100 break-all">
+                                <span class="font-bold text-slate-700 block mb-1">${data['lbl_api_url_test']}</span>
+                                <code class="text-blue-600">${api.urls.test}</code>
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded border border-slate-100 break-all">
+                                <span class="font-bold text-slate-700 block mb-1">${data['lbl_api_url_prod']}</span>
+                                <code class="text-green-600">${api.urls.prod}</code>
+                            </div>
+                        </div>
+
+                        <h4 class="font-bold text-slate-700 mb-2">${data['lbl_lvl1_title']}</h4>
+                        <div class="overflow-x-auto mb-8 border rounded-lg">
+                            <table class="w-full text-left text-sm params-table">
+                                <thead class="bg-slate-50">
+                                    <tr>
+                                        <th class="px-4 py-2 w-1/5">${data['th_param']}</th>
+                                        <th class="px-4 py-2 w-1/5">${data['th_name']}</th>
+                                        <th class="px-4 py-2 w-20">${data['th_required']}</th>
+                                        <th class="px-4 py-2 w-1/6">${data['th_type']}</th>
+                                        <th class="px-4 py-2">${data['th_note']}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>${lvl1Rows}</tbody>
+                            </table>
+                        </div>
+
+                        <h4 class="font-bold text-slate-700 mb-2">${data['lbl_lvl2_req_title']}</h4>
+                        <div class="overflow-x-auto border rounded-lg max-h-[500px] overflow-y-auto mb-8">
+                            <table class="w-full text-left text-sm params-table">
+                                <thead class="bg-slate-50 sticky top-0 shadow-sm">
+                                    <tr>
+                                        <th class="px-4 py-2 w-1/5">${data['th_param']}</th>
+                                        <th class="px-4 py-2 w-1/5">${data['th_name']}</th>
+                                        <th class="px-4 py-2 w-20 text-center">${data['th_required']}</th>
+                                        <th class="px-4 py-2 w-20">${data['th_type']}</th>
+                                        <th class="px-4 py-2 w-20">${data['th_len']}</th>
+                                        <th class="px-4 py-2">${data['th_note']}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">${lvl2Rows}</tbody>
+                            </table>
+                        </div>
+
+                        <h4 class="font-bold text-slate-700 mb-2">${data['lbl_lvl2_res_title']}</h4>
+                        <div class="overflow-x-auto border rounded-lg max-h-[500px] overflow-y-auto">
+                            <table class="w-full text-left text-sm params-table">
+                                <thead class="bg-slate-50 sticky top-0 shadow-sm">
+                                    <tr>
+                                        <th class="px-4 py-2 w-1/5">${data['th_param']}</th>
+                                        <th class="px-4 py-2 w-1/5">${data['th_name']}</th>
+                                        <th class="px-4 py-2 w-20">${data['th_type']}</th>
+                                        <th class="px-4 py-2">${data['th_note']}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">${resRows}</tbody>
+                            </table>
+                        </div>
+
+                        ${retInvTable}
+                    </div>
+                </section>
+                `;
+                container.innerHTML += sectionHtml;
+            });
+        }
+
+        function initLangDropdown() {
+            const select = document.getElementById('lang-select');
+            const languages = Object.keys(langData);
+            if (languages.length === 0) return;
+
+            select.innerHTML = '';
+            languages.forEach(langKey => {
+                const option = document.createElement('option');
+                option.value = langKey;
+                option.textContent = langData[langKey].name;
+                if(langKey === currentLang) option.selected = true;
+                select.appendChild(option);
+            });
+        }
+
+        function changeLang(targetLang) {
+            currentLang = targetLang;
+            applyTranslations(targetLang);
+            
+            // Update URL query string without reloading page
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', targetLang);
+            window.history.pushState({}, '', newUrl);
+        }
+
+        function renderErrorTable() {
+            const tbody = document.querySelector('#errorTable tbody');
+            const data = langData[currentLang]?.data;
+            if (!tbody || !data) return;
+            
+            tbody.innerHTML = errorCodes.map(err => `
+                <tr class="hover:bg-slate-50">
+                    <td class="px-6 py-3 font-bold text-red-600 font-mono">${err.code}</td>
+                    <td class="px-6 py-3 text-slate-600"><span data-i18n="${err.key}">${data[err.key] || ''}</span></td>
+                    <td class="px-6 py-3 text-slate-500 text-xs"><span data-i18n="${err.note}">${data[err.note] || ''}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        window.onload = function() {
+            initLangDropdown();
+            renderErrorTable();
+            applyTranslations(currentLang);
+            loadCode(currentCodeTab);
+        };
+
+        function switchTab(lang, event) {
+            document.querySelectorAll('#example .tab-btn').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            currentCodeTab = lang;
+            loadCode(lang);
+        }
+
+        function loadCode(lang) {
+            const display = document.getElementById('code-display');
+            display.value = codeExamples[lang] || "// Code example not available.";
+        }
+
+        function switchToolTab(tabId) {
+            document.querySelectorAll('.tool-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tool-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tool-tab-btn').forEach(el => {
+                el.classList.remove('active', 'border-purple-600', 'text-purple-600');
+                el.classList.add('border-transparent', 'text-slate-500');
+            });
+
+            const targetContent = document.getElementById(tabId);
+            targetContent.classList.remove('hidden');
+            targetContent.classList.add('active');
+
+            const btn = event.currentTarget;
+            btn.classList.remove('border-transparent', 'text-slate-500');
+            btn.classList.add('active', 'border-purple-600', 'text-purple-600');
+        }
+
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        let isMenuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        const searchInput = document.getElementById('errorSearch');
+        searchInput.addEventListener('keyup', (e) => {
+            const term = e.target.value.toLowerCase();
+            const tableRows = document.querySelectorAll('#errorTable tbody tr');
+            tableRows.forEach(row => {
+                const code = row.children[0].textContent.toLowerCase();
+                const reason = row.children[1].textContent.toLowerCase();
+                if (code.includes(term) || reason.includes(term)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // --- Tools Logic ---
+
+        function getKeys() {
+            const key = document.getElementById('toolKey').value.trim();
+            const iv = document.getElementById('toolIv').value.trim();
+            
+            if (!key || !iv) {
+                alert('請輸入 Hash Key (32碼) 與 Hash IV (16碼)');
+                return null;
+            }
+            return { key, iv };
+        }
+
+        function runEncrypt() {
+            const keys = getKeys();
+            if (!keys) return;
+            const data = document.getElementById('encryptInput').value.trim();
+            if (!data) return alert('請輸入原始字串');
+
+            try {
+                const keyHex = CryptoJS.enc.Utf8.parse(keys.key);
+                const ivHex = CryptoJS.enc.Utf8.parse(keys.iv);
+
+                const encrypted = CryptoJS.AES.encrypt(data, keyHex, {
+                    iv: ivHex,
+                    mode: CryptoJS.mode.CBC,
+                    padding: CryptoJS.pad.Pkcs7
+                });
+
+                document.getElementById('encryptOutput').value = encrypted.ciphertext.toString(CryptoJS.enc.Hex);
+            } catch (e) {
+                alert('Encrypt Error: ' + e.message);
+            }
+        }
+
+        function runDecrypt() {
+            const keys = getKeys();
+            if (!keys) return;
+            const hexStr = document.getElementById('decryptInput').value.trim();
+            if (!hexStr) return alert('請輸入加密後的 Hex 字串');
+
+            try {
+                const keyHex = CryptoJS.enc.Utf8.parse(keys.key);
+                const ivHex = CryptoJS.enc.Utf8.parse(keys.iv);
+                
+                const encryptedHex = CryptoJS.enc.Hex.parse(hexStr);
+                const encryptedBase64 = CryptoJS.enc.Base64.stringify(encryptedHex);
+
+                const decrypted = CryptoJS.AES.decrypt(encryptedBase64, keyHex, {
+                    iv: ivHex,
+                    mode: CryptoJS.mode.CBC,
+                    padding: CryptoJS.pad.Pkcs7
+                });
+
+                const result = decrypted.toString(CryptoJS.enc.Utf8);
+                if(!result) throw new Error("Result is empty");
+                document.getElementById('decryptOutput').value = result;
+            } catch (e) {
+                alert('Decrypt Failed: Check Key/IV');
+            }
+        }
+
+        function runCheckCode() {
+            const keys = getKeys();
+            if (!keys) return;
+
+            // Get values specific to Batch Query CheckCodeSearch rule
+            const mid = document.getElementById('cc_mid').value.trim();
+            const ts = document.getElementById('cc_ts').value.trim();
+            const start = document.getElementById('cc_start').value.trim();
+            const end = document.getElementById('cc_end').value.trim();
+
+            if (!mid || !ts || !start || !end) {
+                alert('所有 CheckCodeSearch 欄位皆為必填');
+                return;
+            }
+
+            const params = {
+                'MerchantID': mid,
+                'TimeStamp': ts,
+                'StartDate': start,
+                'EndDate': end
+            };
+
+            try {
+                // Sort keys A-Z
+                const sortedKeys = Object.keys(params).sort();
+                
+                const sortedParams = [];
+                sortedKeys.forEach(key => {
+                    sortedParams.push(`${key}=${params[key]}`);
+                });
+                
+                const sortedString = sortedParams.join('&');
+                const checkStr = `HashIV=${keys.iv}&${sortedString}&HashKey=${keys.key}`;
+                const hash = CryptoJS.SHA256(checkStr).toString(CryptoJS.enc.Hex).toUpperCase();
+                
+                document.getElementById('checkCodeOutput').value = hash;
+
+            } catch (e) {
+                alert('Error: ' + e.message);
+            }
+        }
+
+        // Scroll Spy
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
+                 if (sections.length > 0) {
+                     current = sections[sections.length - 1].getAttribute('id');
+                 }
+            }
+
+            navLinks.forEach(link => {
+                link.classList.remove('sidebar-active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('sidebar-active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
