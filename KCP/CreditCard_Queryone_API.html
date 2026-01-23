@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://www.newebpay.com/images/head.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://www.newebpay.com/images/head.ico" type="image/x-icon">    
+    <title data-i18n="page_title"></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        html { scroll-behavior: smooth; }
+        body { background-color: #f8fafc; }
+        
+        /* Custom Scrollbar */
+        .scrollable-area::-webkit-scrollbar { width: 6px; }
+        .scrollable-area::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+        
+        /* Navigation Active State */
+        .sidebar-active { background-color: #e0f2fe; color: #0284c7; border-right: 4px solid #0284c7; font-weight: 600; }
+        
+        /* Tabs */
+        .tab-btn { border-bottom: 2px solid transparent; transition: all 0.3s; }
+        .tab-btn:hover { color: #60a5fa; }
+        .tab-btn.active { border-bottom-color: #3b82f6; color: #3b82f6; font-weight: 600; background-color: rgba(59, 130, 246, 0.05); }
+        
+        /* Table Styles */
+        .params-table th { background-color: #f1f5f9; color: #475569; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; }
+        .params-table td { vertical-align: top; color: #334155; }
+        .params-table tr:hover { background-color: #f8fafc; }
+
+        /* Tool styles */
+        .tool-tab-btn { transition: all 0.2s; }
+        .tool-tab-btn.active { border-bottom-color: #9333ea; color: #9333ea; background-color: #faf5ff; }
+    </style>
+</head>
+<body class="text-slate-800 font-sans">
+
+    <!-- Mobile Header -->
+    <header class="lg:hidden bg-white shadow-sm p-4 sticky top-0 z-50 flex justify-between items-center border-b border-slate-200">
+        <h1 class="text-lg font-bold text-blue-700 flex items-center">
+            <i class="fas fa-search-dollar mr-2"></i> <span data-i18n="header_mobile_title"></span>
+        </h1>
+        <button id="menu-btn" class="text-slate-600 focus:outline-none hover:text-blue-600 transition">
+            <i class="fas fa-bars text-2xl"></i>
+        </button>
+    </header>
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 w-72 bg-white shadow-xl transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 border-r border-slate-200 flex flex-col">
+            
+            <!-- Top Section -->
+            <div class="p-6 border-b border-slate-100 bg-gradient-to-r from-blue-50 to-white shrink-0">
+                <h2 class="text-2xl font-bold text-blue-700 tracking-tight" data-i18n="sidebar_brand"></h2>
+                <p class="text-sm text-slate-500 mt-1 font-medium"><span data-i18n="sidebar_subtitle"></span><br><span class="text-xs text-slate-400" data-i18n="sidebar_version_note"></span></p>
+                
+                <div class="mt-4">
+                    <div class="text-xs bg-blue-100 text-blue-800 px-3 py-1 rounded-full inline-block font-mono font-semibold">Ver: 1.3</div>
+                </div>
+            </div>
+
+            <!-- Scrollable Navigation Area -->
+            <div class="flex-1 overflow-y-auto scrollable-area">
+                <nav class="p-4 space-y-1">
+                    <a href="#intro" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-info-circle w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_intro"></span>
+                    </a>
+                    <a href="#setup" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-cogs w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_setup"></span>
+                    </a>
+                    <a href="#tool" class="nav-link block px-4 py-3 text-sm text-purple-700 bg-purple-50 hover:bg-purple-100 hover:text-purple-800 rounded-lg transition-colors group border border-purple-100 mb-4 shadow-sm">
+                        <i class="fas fa-wrench w-6 group-hover:text-purple-600 transition-colors"></i> <span data-i18n="nav_tool"></span>
+                    </a>
+                    <div class="px-4 py-2 text-xs font-bold text-slate-400 uppercase tracking-wider mt-4" data-i18n="nav_group_api"></div>
+                    <a href="#request" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-paper-plane w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_request"></span>
+                    </a>
+                    <a href="#encryption" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-lock w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_encryption"></span>
+                    </a>
+                    <a href="#response" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-reply w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_response"></span>
+                    </a>
+                    <a href="#errors" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-exclamation-triangle w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_errors"></span>
+                    </a>
+                    <a href="#example" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-code w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_example"></span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Footer with Language Switcher -->
+            <div class="p-4 border-t border-slate-200 bg-slate-50 shrink-0">
+                <div class="relative group w-full">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <select id="lang-select" onchange="changeLang(this.value)" class="w-full appearance-none bg-white hover:bg-white text-slate-600 font-medium py-2.5 pl-10 pr-8 rounded-lg text-sm transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer border border-slate-300 hover:border-blue-400 shadow-sm">
+                        <!-- Options injected by JS -->
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500 group-hover:text-slate-700">
+                        <i class="fas fa-chevron-up text-xs"></i>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-72 p-4 lg:p-8 w-[95%] mx-auto max-w-[1920px]">
+            
+            <!-- Intro -->
+            <section id="intro" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h1 class="text-3xl font-bold text-slate-900" data-i18n="intro_title"></h1>
+                </div>
+                
+                <div class="bg-white p-6 lg:p-8 rounded-xl shadow-sm border border-slate-200">
+                    <p class="text-slate-700 leading-relaxed mb-6 text-lg" data-i18n="intro_desc"></p>
+                    
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center">
+                        <span class="bg-blue-100 text-blue-600 w-8 h-8 rounded-full flex items-center justify-center text-sm mr-2"><i class="fas fa-list-ul"></i></span> 
+                        <span data-i18n="intro_funcs_title"></span>
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 flex items-start">
+                            <i class="fas fa-search text-2xl text-green-600 mt-1 mr-4"></i>
+                            <div>
+                                <h4 class="font-bold text-slate-700" data-i18n="usecase_1_title"></h4>
+                                <p class="text-sm text-slate-500 mt-1" data-i18n="usecase_1_desc"></p>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 flex items-start">
+                            <i class="fas fa-file-invoice text-2xl text-blue-500 mt-1 mr-4"></i>
+                            <div>
+                                <h4 class="font-bold text-slate-700" data-i18n="usecase_2_title"></h4>
+                                <p class="text-sm text-slate-500 mt-1" data-i18n="usecase_2_desc"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Setup -->
+            <section id="setup" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="setup_title"></h2>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                         <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                            <h3 class="font-bold text-slate-800 mb-2 flex items-center"><i class="fas fa-key text-blue-500 mr-2"></i> <span data-i18n="setup_card1_title"></span></h3>
+                            <p class="text-sm text-slate-600" data-i18n="setup_card1_desc"></p>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-lg border border-slate-100">
+                            <h3 class="font-bold text-slate-800 mb-2 flex items-center"><i class="fas fa-network-wired text-blue-500 mr-2"></i> <span data-i18n="setup_card2_title"></span></h3>
+                            <p class="text-sm text-slate-600" data-i18n="setup_card2_desc"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tool -->
+             <section id="tool" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-purple-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="tool_title"></h2>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md border border-purple-100 overflow-hidden">
+                    <div class="bg-purple-50 p-4 border-b border-purple-100">
+                        <p class="text-purple-800 text-sm" data-i18n="tool_intro"></p>
+                    </div>
+
+                    <div class="flex border-b border-slate-200 overflow-x-auto">
+                        <button onclick="switchToolTab('checkvalue-calc')" class="tool-tab-btn active flex-1 py-4 px-4 text-sm font-bold text-center hover:bg-slate-50 transition border-b-2 border-purple-600 text-purple-600 whitespace-nowrap">
+                            <i class="fas fa-file-signature mr-2"></i> <span data-i18n="tool_tab_checkvalue"></span>
+                        </button>
+                         <button onclick="switchToolTab('checkcode-calc')" class="tool-tab-btn flex-1 py-4 px-4 text-sm font-bold text-center hover:bg-slate-50 transition border-b-2 border-transparent text-slate-500 whitespace-nowrap">
+                            <i class="fas fa-calculator mr-2"></i> <span data-i18n="tool_tab_checkcode"></span>
+                        </button>
+                    </div>
+
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 pb-6 border-b border-slate-100">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Hash Key</label>
+                                <input type="text" id="toolKey" data-i18n-placeholder="tool_ph_key" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm bg-slate-50">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Hash IV</label>
+                                <input type="text" id="toolIv" data-i18n-placeholder="tool_ph_iv" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm bg-slate-50">
+                            </div>
+                        </div>
+
+                        <!-- CheckValue Tab (Request) -->
+                        <div id="checkvalue-calc" class="tool-content active">
+                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">MerchantID</label>
+                                    <input type="text" id="cvMid" class="w-full p-2 border border-slate-300 rounded font-mono text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Amt</label>
+                                    <input type="text" id="cvAmt" class="w-full p-2 border border-slate-300 rounded font-mono text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">MerchantOrderNo</label>
+                                    <input type="text" id="cvOrd" class="w-full p-2 border border-slate-300 rounded font-mono text-sm">
+                                </div>
+                             </div>
+                             
+                             <div class="bg-slate-50 p-3 rounded border border-slate-200 mb-4">
+                                 <p class="text-xs text-slate-500 mb-1" data-i18n="tool_cv_formula_lbl"></p>
+                                 <code id="cvFormulaPreview" class="block text-xs text-slate-400 break-all font-mono">IV=...&Amt=...&MerchantID=...&MerchantOrderNo=...&Key=...</code>
+                             </div>
+
+                            <button onclick="runCheckValue()" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition shadow-sm font-bold text-sm">
+                                <i class="fas fa-arrow-down mr-1"></i> <span data-i18n="tool_btn_cv"></span>
+                            </button>
+                            <div class="mt-4">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">CheckValue (SHA256)</label>
+                                <div class="relative">
+                                    <textarea id="cvOutput" readonly rows="2" class="w-full p-3 bg-slate-800 text-green-400 rounded font-mono text-sm border-none focus:ring-0"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CheckCode Tab (Response) -->
+                        <div id="checkcode-calc" class="tool-content hidden">
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">MerchantID</label>
+                                    <input type="text" id="ccMid" class="w-full p-2 border border-slate-300 rounded font-mono text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Amt</label>
+                                    <input type="text" id="ccAmt" class="w-full p-2 border border-slate-300 rounded font-mono text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">MerchantOrderNo</label>
+                                    <input type="text" id="ccOrd" class="w-full p-2 border border-slate-300 rounded font-mono text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">TradeNo</label>
+                                    <input type="text" id="ccTrade" class="w-full p-2 border border-slate-300 rounded font-mono text-sm">
+                                </div>
+                             </div>
+                             
+                             <div class="bg-slate-50 p-3 rounded border border-slate-200 mb-4">
+                                 <p class="text-xs text-slate-500 mb-1" data-i18n="tool_cc_formula_lbl"></p>
+                                 <code id="ccFormulaPreview" class="block text-xs text-slate-400 break-all font-mono">HashIV=...&Amt=...&MerchantID=...&MerchantOrderNo=...&TradeNo=...&HashKey=...</code>
+                             </div>
+
+                            <button onclick="runCheckCode()" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition shadow-sm font-bold text-sm">
+                                <i class="fas fa-check-circle mr-1"></i> <span data-i18n="tool_btn_cc"></span>
+                            </button>
+                            <div class="mt-4">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">CheckCode (SHA256)</label>
+                                <div class="relative">
+                                    <textarea id="ccOutput" readonly rows="2" class="w-full p-3 bg-slate-800 text-yellow-400 rounded font-mono text-sm border-none focus:ring-0"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Request -->
+            <section id="request" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="req_title"></h2>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 border-l-4 border-blue-500 pl-3" data-i18n="req_api_info"></h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div class="bg-slate-50 p-3 rounded border border-slate-100">
+                            <div class="text-xs text-slate-500 uppercase mb-1">Method</div>
+                            <div class="font-mono font-bold text-green-600 text-lg">POST</div>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded border border-slate-100 md:col-span-2">
+                            <div class="flex flex-col space-y-2">
+                                <div>
+                                    <div class="text-xs text-slate-500 uppercase mb-1" data-i18n="req_url_prod"></div>
+                                    <div class="font-mono text-blue-600 select-all font-medium">https://core.newebpay.com/API/QueryTradeInfo</div>
+                                </div>
+                                <div class="border-t border-slate-200 pt-2">
+                                    <div class="text-xs text-slate-500 uppercase mb-1" data-i18n="req_url_test"></div>
+                                    <div class="font-mono text-slate-500 select-all">https://ccore.newebpay.com/API/QueryTradeInfo</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Params -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+                    <div class="p-4 bg-slate-100 border-b border-slate-200">
+                        <h3 class="font-bold text-slate-700" data-i18n="req_lvl1_title"></h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm params-table">
+                            <thead class="bg-slate-50 border-b border-slate-200">
+                                <tr>
+                                    <th class="px-6 py-4 w-1/6" data-i18n="th_param"></th>
+                                    <th class="px-6 py-4 w-1/6" data-i18n="th_name"></th>
+                                    <th class="px-6 py-4 w-24 text-center" data-i18n="th_required"></th>
+                                    <th class="px-6 py-4" data-i18n="th_type"></th>
+                                    <th class="px-6 py-4 w-1/3" data-i18n="th_note"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <tr>
+                                    <td class="px-6 py-4 font-mono font-bold text-blue-600">MerchantID</td>
+                                    <td class="px-6 py-4" data-i18n="req_MerchantID_name"></td>
+                                    <td class="px-6 py-4 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-4 font-mono text-xs">String(15)</td>
+                                    <td class="px-6 py-4" data-i18n="req_MerchantID_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-mono font-medium">Version</td>
+                                    <td class="px-6 py-4" data-i18n="req_Version_name"></td>
+                                    <td class="px-6 py-4 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-4 font-mono text-xs">String(5)</td>
+                                    <td class="px-6 py-4" data-i18n="req_Version_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-mono font-medium">RespondType</td>
+                                    <td class="px-6 py-4" data-i18n="req_RespondType_name"></td>
+                                    <td class="px-6 py-4 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-4 font-mono text-xs">String(6)</td>
+                                    <td class="px-6 py-4" data-i18n="req_RespondType_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-mono font-bold text-blue-600">CheckValue</td>
+                                    <td class="px-6 py-4" data-i18n="req_CheckValue_name"></td>
+                                    <td class="px-6 py-4 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-4 font-mono text-xs">String(255)</td>
+                                    <td class="px-6 py-4" data-i18n="req_CheckValue_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-mono font-medium">TimeStamp</td>
+                                    <td class="px-6 py-4" data-i18n="req_TimeStamp_name"></td>
+                                    <td class="px-6 py-4 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-4 font-mono text-xs">String(50)</td>
+                                    <td class="px-6 py-4" data-i18n="req_TimeStamp_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-mono font-medium">MerchantOrderNo</td>
+                                    <td class="px-6 py-4" data-i18n="req_MerchantOrderNo_name"></td>
+                                    <td class="px-6 py-4 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-4 font-mono text-xs">String(30)</td>
+                                    <td class="px-6 py-4" data-i18n="req_MerchantOrderNo_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-mono font-medium">Amt</td>
+                                    <td class="px-6 py-4" data-i18n="req_Amt_name"></td>
+                                    <td class="px-6 py-4 text-center text-green-600"><i class="fas fa-check"></i></td>
+                                    <td class="px-6 py-4 font-mono text-xs">Int(10)</td>
+                                    <td class="px-6 py-4" data-i18n="req_Amt_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-mono font-medium">Gateway</td>
+                                    <td class="px-6 py-4" data-i18n="req_Gateway_name"></td>
+                                    <td class="px-6 py-4 text-center text-slate-400">-</td>
+                                    <td class="px-6 py-4 font-mono text-xs">String(10)</td>
+                                    <td class="px-6 py-4" data-i18n="req_Gateway_note"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Encryption Rules Section -->
+            <section id="encryption" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="enc_title"></h2>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8">
+                    <!-- Request CheckValue -->
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                        <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded flex items-center justify-center text-xs mr-2"><i class="fas fa-key"></i></span>
+                        <span data-i18n="enc_cv_title"></span>
+                    </h3>
+                    <p class="text-slate-600 mb-4" data-i18n="enc_cv_desc"></p>
+                    
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-4 mb-8">
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800" data-i18n="enc_cv_step1_title"></h4>
+                                <p class="text-sm text-slate-600 mt-1" data-i18n="enc_cv_step1_desc"></p>
+                                <code class="block bg-slate-800 text-slate-300 p-2 rounded mt-2 text-xs font-mono">IV={HashIV}&Amt={Amt}&MerchantID={MerchantID}&MerchantOrderNo={MerchantOrderNo}&Key={HashKey}</code>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800" data-i18n="enc_cv_step2_title"></h4>
+                                <p class="text-sm text-slate-600 mt-1" data-i18n="enc_cv_step2_desc"></p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">3</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800" data-i18n="enc_cv_step3_title"></h4>
+                                <p class="text-sm text-slate-600 mt-1" data-i18n="enc_cv_step3_desc"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CheckCode Rule -->
+                     <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center border-t border-slate-200 pt-6">
+                        <span class="w-6 h-6 bg-green-100 text-green-600 rounded flex items-center justify-center text-xs mr-2"><i class="fas fa-check-double"></i></span>
+                        <span data-i18n="enc_cc_title"></span>
+                    </h3>
+                    <p class="text-slate-600 mb-4" data-i18n="enc_cc_desc"></p>
+                    <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                        <h4 class="font-bold text-green-900 text-sm mb-2" data-i18n="enc_cc_step1_title"></h4>
+                        <p class="text-sm text-green-800 mb-2" data-i18n="enc_cc_step1_desc"></p>
+                        <code class="block bg-white border border-green-200 text-green-700 p-3 rounded font-mono text-sm mb-4">
+                            HashIV={HashIV}&Amt={Amt}&MerchantID={MerchantID}&MerchantOrderNo={MerchantOrderNo}&TradeNo={TradeNo}&HashKey={HashKey}
+                        </code>
+                         <h4 class="font-bold text-green-900 text-sm mb-2" data-i18n="enc_cc_step2_title"></h4>
+                        <p class="text-sm text-green-800" data-i18n="enc_cc_step2_desc">
+                        </p>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Response -->
+            <section id="response" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="res_title"></h2>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-6">
+                    <p class="text-slate-600 mb-4" data-i18n="res_desc"></p>
+                    <table class="w-full text-left text-sm mb-6 border border-slate-200">
+                        <thead class="bg-slate-50">
+                            <tr>
+                                <th class="px-4 py-2 border-b" data-i18n="th_param"></th>
+                                <th class="px-4 py-2 border-b" data-i18n="th_name"></th>
+                                <th class="px-4 py-2 border-b" data-i18n="th_type"></th>
+                                <th class="px-4 py-2 border-b" data-i18n="th_note"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="px-4 py-2 border-b font-mono font-bold text-blue-600">Status</td>
+                                <td class="px-4 py-2 border-b" data-i18n="res_Status_name"></td>
+                                <td class="px-4 py-2 border-b font-mono text-xs">String(10)</td>
+                                <td class="px-4 py-2 border-b" data-i18n="res_Status_note"></td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 border-b font-mono font-bold text-blue-600">Message</td>
+                                <td class="px-4 py-2 border-b" data-i18n="res_Message_name"></td>
+                                <td class="px-4 py-2 border-b font-mono text-xs">String(30)</td>
+                                <td class="px-4 py-2 border-b" data-i18n="res_Message_note"></td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2 border-b font-mono font-bold text-blue-600">Result</td>
+                                <td class="px-4 py-2 border-b" data-i18n="res_Result_name"></td>
+                                <td class="px-4 py-2 border-b font-mono text-xs">JSON Object</td>
+                                <td class="px-4 py-2 border-b" data-i18n="res_Result_note"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                     <!-- Result Details -->
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                        <h4 class="font-bold text-slate-700 mb-3" data-i18n="res_detail_title"></h4>
+                        <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm params-table bg-white rounded shadow-sm overflow-hidden">
+                             <thead class="bg-slate-100 border-b border-slate-200">
+                                <tr>
+                                    <th class="px-4 py-2 w-1/4" data-i18n="th_param"></th>
+                                    <th class="px-4 py-2" data-i18n="th_name"></th>
+                                    <th class="px-4 py-2" data-i18n="th_type"></th>
+                                    <th class="px-4 py-2" data-i18n="th_note"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">MerchantID</td>
+                                    <td class="px-4 py-2" data-i18n="resd_MerchantID_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">String(15)</td>
+                                    <td class="px-4 py-2" data-i18n="resd_MerchantID_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">Amt</td>
+                                    <td class="px-4 py-2" data-i18n="resd_Amt_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">Int(10)</td>
+                                    <td class="px-4 py-2" data-i18n="resd_Amt_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">TradeNo</td>
+                                    <td class="px-4 py-2" data-i18n="resd_TradeNo_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">String(20)</td>
+                                    <td class="px-4 py-2" data-i18n="resd_TradeNo_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">MerchantOrderNo</td>
+                                    <td class="px-4 py-2" data-i18n="resd_MerchantOrderNo_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">String(30)</td>
+                                    <td class="px-4 py-2" data-i18n="resd_MerchantOrderNo_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">TradeStatus</td>
+                                    <td class="px-4 py-2" data-i18n="resd_TradeStatus_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">String(1)</td>
+                                    <td class="px-4 py-2" data-i18n="resd_TradeStatus_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">PaymentType</td>
+                                    <td class="px-4 py-2" data-i18n="resd_PaymentType_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">String(10)</td>
+                                    <td class="px-4 py-2" data-i18n="resd_PaymentType_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">CreateTime</td>
+                                    <td class="px-4 py-2" data-i18n="resd_CreateTime_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">DateTime</td>
+                                    <td class="px-4 py-2" data-i18n="resd_CreateTime_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">PayTime</td>
+                                    <td class="px-4 py-2" data-i18n="resd_PayTime_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">DateTime</td>
+                                    <td class="px-4 py-2" data-i18n="resd_PayTime_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono text-green-600 font-bold">CheckCode</td>
+                                    <td class="px-4 py-2" data-i18n="resd_CheckCode_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">Hash</td>
+                                    <td class="px-4 py-2" data-i18n="resd_CheckCode_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">FundTime</td>
+                                    <td class="px-4 py-2" data-i18n="resd_FundTime_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">Date</td>
+                                    <td class="px-4 py-2" data-i18n="resd_FundTime_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">RespondCode</td>
+                                    <td class="px-4 py-2" data-i18n="resd_RespondCode_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">String(10)</td>
+                                    <td class="px-4 py-2" data-i18n="resd_RespondCode_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">Auth</td>
+                                    <td class="px-4 py-2" data-i18n="resd_Auth_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">String(10)</td>
+                                    <td class="px-4 py-2" data-i18n="resd_Auth_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">PaymentMethod</td>
+                                    <td class="px-4 py-2" data-i18n="resd_PaymentMethod_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">String(15)</td>
+                                    <td class="px-4 py-2" data-i18n="resd_PaymentMethod_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">ECI</td>
+                                    <td class="px-4 py-2" data-i18n="resd_ECI_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">String(2)</td>
+                                    <td class="px-4 py-2" data-i18n="resd_ECI_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">CloseAmt</td>
+                                    <td class="px-4 py-2" data-i18n="resd_CloseAmt_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">Int</td>
+                                    <td class="px-4 py-2" data-i18n="resd_CloseAmt_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">CloseStatus</td>
+                                    <td class="px-4 py-2" data-i18n="resd_CloseStatus_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">String(1)</td>
+                                    <td class="px-4 py-2" data-i18n="resd_CloseStatus_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">BackBalance</td>
+                                    <td class="px-4 py-2" data-i18n="resd_BackBalance_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">Int</td>
+                                    <td class="px-4 py-2" data-i18n="resd_BackBalance_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">BackStatus</td>
+                                    <td class="px-4 py-2" data-i18n="resd_BackStatus_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">String(1)</td>
+                                    <td class="px-4 py-2" data-i18n="resd_BackStatus_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">RespondMsg</td>
+                                    <td class="px-4 py-2" data-i18n="resd_RespondMsg_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">String</td>
+                                    <td class="px-4 py-2" data-i18n="resd_RespondMsg_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">Inst</td>
+                                    <td class="px-4 py-2" data-i18n="resd_Inst_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">Int</td>
+                                    <td class="px-4 py-2" data-i18n="resd_Inst_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">InstFirst</td>
+                                    <td class="px-4 py-2" data-i18n="resd_InstFirst_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">Int</td>
+                                    <td class="px-4 py-2" data-i18n="resd_InstFirst_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">InstEach</td>
+                                    <td class="px-4 py-2" data-i18n="resd_InstEach_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">Int</td>
+                                    <td class="px-4 py-2" data-i18n="resd_InstEach_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">Card6No</td>
+                                    <td class="px-4 py-2" data-i18n="resd_Card6No_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">String(6)</td>
+                                    <td class="px-4 py-2" data-i18n="resd_Card6No_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">Card4No</td>
+                                    <td class="px-4 py-2" data-i18n="resd_Card4No_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">String(4)</td>
+                                    <td class="px-4 py-2" data-i18n="resd_Card4No_note"></td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2 font-mono">AuthBank</td>
+                                    <td class="px-4 py-2" data-i18n="resd_AuthBank_name"></td>
+                                    <td class="px-4 py-2 font-mono text-xs">String(10)</td>
+                                    <td class="px-4 py-2" data-i18n="resd_AuthBank_note"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Errors -->
+             <section id="errors" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="err_title"></h2>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 mb-4">
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-4 top-3.5 text-slate-400"></i>
+                        <input type="text" id="errorSearch" data-i18n-placeholder="err_search_ph" class="w-full pl-10 p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                </div>
+                <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-slate-200 max-h-[600px] overflow-y-auto">
+                    <table class="w-full text-left text-sm" id="errorTable">
+                        <thead class="bg-slate-50 text-slate-600 uppercase font-bold sticky top-0 border-b border-slate-200 shadow-sm">
+                            <tr>
+                                <th class="px-6 py-4 w-1/4" data-i18n="th_err_code"></th>
+                                <th class="px-6 py-4" data-i18n="th_err_reason"></th>
+                                <th class="px-6 py-4" data-i18n="th_note"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 font-mono text-slate-700">
+                             <!-- Dynamic Generation -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Example -->
+            <section id="example" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="example_title"></h2>
+                </div>
+                
+                <div class="bg-slate-800 rounded-lg shadow-lg overflow-hidden relative">
+                    <div class="flex border-b border-slate-600 bg-slate-900 px-2">
+                        <button onclick="switchTab('php', event)" class="tab-btn active px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors">PHP</button>
+                        <button onclick="switchTab('nodejs', event)" class="tab-btn px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors">Node.js</button>
+                        <button onclick="switchTab('python', event)" class="tab-btn px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors">Python</button>
+                        <button onclick="switchTab('csharp', event)" class="tab-btn px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors">C# (.NET)</button>
+                    </div>
+
+                    <textarea id="code-display" readonly class="w-full h-[600px] p-4 bg-[#272822] text-[#f8f8f2] font-mono text-sm leading-6 border-none outline-none resize-none"></textarea>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // Multi-language configuration
+        const langData = {
+            'zh-TW': {name: '繁體中文',data: {page_title: '藍新金流 - 單筆交易查詢 API 文件',header_mobile_title: '單筆交易查詢 API',sidebar_brand: 'NewebPay',sidebar_subtitle: '單筆交易查詢 API',sidebar_version_note: '(QueryTradeInfo)',nav_intro: '簡介與功能',nav_setup: '串接前置準備',nav_tool: '加密測試工具',nav_group_api: 'API 規格',nav_request: '請求參數 (Request)',nav_encryption: '加密規則詳解',nav_response: '回應參數 (Response)',nav_errors: '錯誤代碼表',nav_example: '範例程式碼',intro_title: '簡介與功能',intro_desc: '提供商店查詢特定一筆交易的狀態與詳細資訊。可查詢交易金額、支付狀態、時間以及金融機構回應碼等資訊。',intro_funcs_title: '應用場景',usecase_1_title: '訂單狀態確認',usecase_1_desc: '當商店端未收到 Notify 回調時，可主動呼叫此 API 確認訂單是否已付款。',usecase_2_title: '對帳與客服',usecase_2_desc: '客服人員可使用此 API 查詢交易細節，或用於系統自動對帳程序。',setup_title: '串接前置準備',setup_card1_title: '取得金鑰',setup_card1_desc: '須於藍新金流會員專區取得商店代號 (MerchantID) 以及對應的 <code>Hash Key</code> 與 <code>Hash IV</code>。',setup_card2_title: '確認網址',setup_card2_desc: '測試環境：https://ccore.newebpay.com/API/QueryTradeInfo<br>正式環境：https://core.newebpay.com/API/QueryTradeInfo',tool_title: '加密測試工具',tool_intro: '此工具可協助您計算 CheckValue (Request) 或驗證 CheckCode (Response)。',tool_tab_checkvalue: 'CheckValue 產生 (Request)',tool_tab_checkcode: 'CheckCode 驗證 (Response)',tool_tab_encrypt: 'AES 加密 (通用工具)',tool_tab_decrypt: 'AES 解密 (通用工具)',tool_ph_key: '例如: Fs5cX1TGqYM2PpdbE14a9H83YQSQF5jn',tool_ph_iv: '例如: C6AcmfqJILwgnhIP',tool_cv_formula_lbl: '計算公式預覽 (SHA256)',tool_cc_formula_lbl: '計算公式預覽 (SHA256)',tool_btn_cv: '產生 CheckValue',tool_btn_cc: '計算 CheckCode',tool_lbl_qs: '原始請求字串 (Query String)',tool_ph_qs: '例如: RespondType=JSON&Version=1.3...',tool_note_urlencode: '請確認字串格式',tool_btn_encrypt: '執行 AES 加密',tool_lbl_hex: '加密結果 (Hex String)',tool_lbl_enc_hex: '加密字串 (Hex String)',tool_ph_enc_hex: '例如: 0ef82edabaf8964d...',tool_btn_decrypt: '執行 AES 解密',tool_lbl_decrypt_res: '解密結果',req_title: '請求參數 (Request)',req_api_info: 'API 資訊',req_url_prod: 'URL (正式環境)',req_url_test: 'URL (測試環境)',req_lvl1_title: 'Post 參數說明',th_param: '參數名稱',th_name: '中文名稱',th_required: '必填',th_type: '型態',th_note: '備註',enc_title: '加密規則詳解',enc_cv_title: 'CheckValue 檢查碼產生 (Request)',enc_cv_desc: '發送查詢請求時，必須計算 CheckValue 以確保資料完整性。',enc_cv_step1_title: 'Step 1: 參數串接',enc_cv_step1_desc: '將 Amt, MerchantID, MerchantOrderNo 依序串接，並在前後加上 IV 與 Key。',enc_cv_step2_title: 'Step 2: SHA256 加密',enc_cv_step2_desc: '將串接後的字串進行 SHA256 雜湊運算。',enc_cv_step3_title: 'Step 3: 轉大寫',enc_cv_step3_desc: '將 SHA256 運算結果轉換為大寫字串，即為 CheckValue。',enc_cc_title: 'CheckCode 檢核碼產生 (Response)',enc_cc_desc: '接收到查詢結果後，應驗證 CheckCode 以確保資料未經竄改。',enc_cc_step1_title: 'Step 1: 參數串接',enc_cc_step1_desc: '將 Result 內的參數依序串接 (HashIV, Amt, MerchantID, MerchantOrderNo, TradeNo, HashKey)。',enc_cc_step2_title: 'Step 2: SHA256 與轉大寫',enc_cc_step2_desc: '進行 SHA256 加密後轉大寫。',res_title: '回應參數 (Response)',res_desc: 'API 回傳 JSON 或 String 格式資料。',res_detail_title: 'Result 物件內含參數',err_title: '錯誤代碼表',err_search_ph: '搜尋代碼...',th_err_code: '錯誤代碼',th_err_reason: '錯誤原因',example_title: '範例程式碼',err_MPG01002_reason: '時間戳記不可空白', err_MPG01002_note: 'TimeStamp',err_MPG01005_reason: 'TokenTerm不可空白/設定錯誤', err_MPG01005_note: 'TokenTerm',err_MPG01008_reason: '分期參數設定錯誤', err_MPG01008_note: 'InstFlag',err_MPG01009_reason: '商店代號不可空白', err_MPG01009_note: 'MerchantID',err_MPG01011_reason: '回傳規格設定錯誤', err_MPG01011_note: 'RespondType',err_MPG01012_reason: '商店訂單編號不可空白/設定錯誤', err_MPG01012_note: 'MerchantOrderNo：限英數字、底線，長度30字',err_TRA20002_reason: '查無交易資料', err_TRA20002_note: '',err_4101_reason: 'EncryptData_ 不可為空白', err_4101_note: '',err_4102_reason: 'HashData_ 不可為空白', err_4102_note: '',err_4103_reason: 'HashData_ 資料檢查不符合', err_4103_note: '',err_4104_reason: '加密資料有誤', err_4104_note: '請確認Hash_Key與Hash_IV是否正確',err_4105_reason: 'TimeStamp 為空', err_4105_note: '',err_4106_reason: 'UID_ 不可為空白', err_4106_note: '',err_9000_reason: '網路連線失敗', err_9000_note: '',alert_input_keys: '請輸入 Hash Key 與 Hash IV',alert_input_cv_params: '請完整填寫 MerchantID, Amt, MerchantOrderNo',alert_input_cc_params: '請完整填寫所有欄位',req_MerchantID_name: '商店代號', req_MerchantID_note: '藍新金流商店代號。',req_Version_name: '串接程式版本', req_Version_note: '1.3',req_RespondType_name: '回傳格式', req_RespondType_note: 'JSON 或是 String',req_CheckValue_name: '檢查碼', req_CheckValue_note: '請參考加密規則詳解',req_TimeStamp_name: '時間戳記', req_TimeStamp_note: 'Unix 時間戳記。容許誤差 120 秒。',req_MerchantOrderNo_name: '商店訂單編號', req_MerchantOrderNo_note: '限英、數字、底線。同一商店中不可重複。',req_Amt_name: '訂單金額', req_Amt_note: '此次交易的總金額，例：1000',req_Gateway_name: '資料來源', req_Gateway_note: '預設為空值。',res_Status_name: '回傳狀態', res_Status_note: '若查詢成功則回傳SUCCESS，失敗則回傳錯誤代碼。',res_Message_name: '回傳訊息', res_Message_note: '敘述此次交易查詢的狀態。',res_Result_name: '回傳內容', res_Result_note: '若查詢成功，該筆交易詳細資訊會放到此欄位。',resd_MerchantID_name: '商店代號', resd_MerchantID_note: '藍新金流商店代號',resd_Amt_name: '交易金額', resd_Amt_note: '此筆訂單之交易金額',resd_TradeNo_name: '藍新金流交易序號', resd_TradeNo_note: '藍新金流交易序號',resd_MerchantOrderNo_name: '商店訂單編號', resd_MerchantOrderNo_note: '商店訂單編號',resd_TradeStatus_name: '支付狀態', resd_TradeStatus_note: '0=未付款, 1=付款成功, 2=付款失敗, 3=取消付款, 6=退款',resd_PaymentType_name: '支付方式', resd_PaymentType_note: 'CREDIT',resd_CreateTime_name: '交易建立時間', resd_CreateTime_note: '藍新金流接收到此筆交易資料的時間',resd_PayTime_name: '支付完成時間', resd_PayTime_note: '交易付款完成資訊的時間',resd_CheckCode_name: '檢核碼', resd_CheckCode_note: '請參考加密規則詳解',resd_FundTime_name: '預計撥款日', resd_FundTime_note: '預計撥款的時間',resd_RespondCode_name: '金融機構回應碼', resd_RespondCode_note: '由金融機構所回應的回應碼',resd_Auth_name: '授權碼', resd_Auth_note: '由金融機構所回應的授權碼',resd_PaymentMethod_name: '交易類別', resd_PaymentMethod_note: 'CREDIT, FOREIGN, UNIONPAY, APPLEPAY, etc.',resd_ECI_name: 'ECI值', resd_ECI_note: '3D驗證結果，例：3D',resd_CloseAmt_name: '請款金額', resd_CloseAmt_note: '已請款金額',resd_CloseStatus_name: '請款狀態', resd_CloseStatus_note: '0=未請款, 1=等待請款, 2=請款處理中, 3=請款完成',resd_BackBalance_name: '可退款餘額', resd_BackBalance_note: '剩餘可退款金額',resd_BackStatus_name: '退款狀態', resd_BackStatus_note: '0=未退款, 1=等待退款, 2=退款處理中, 3=退款完成',resd_RespondMsg_name: '回應訊息', resd_RespondMsg_note: '金融機構回應訊息',resd_Inst_name: '分期期數', resd_Inst_note: '分期交易期數',resd_InstFirst_name: '首期金額', resd_InstFirst_note: '分期首期金額',resd_InstEach_name: '每期金額', resd_InstEach_note: '分期每期金額',resd_Card6No_name: '信用卡前6碼', resd_Card6No_note: '信用卡卡號前六碼',resd_Card4No_name: '信用卡後4碼', resd_Card4No_note: '信用卡卡號後四碼',resd_AuthBank_name: '收單金融機構', resd_AuthBank_note: '收單金融機構代碼 (例如: Esun, Taishin, CTBC...)',            }},            
+            'EN': {name: 'English',data: {page_title: 'NewebPay - Single Transaction Query API Docs',header_mobile_title: 'Query Trade Info API',sidebar_brand: 'NewebPay',sidebar_subtitle: 'Query Trade Info API',sidebar_version_note: '(QueryTradeInfo)',nav_intro: 'Intro & Features',nav_setup: 'Prerequisites',nav_tool: 'Encryption Tool',nav_group_api: 'API Specs',nav_request: 'Request Parameters',nav_encryption: 'Encryption Rules',nav_response: 'Response Parameters',nav_errors: 'Error Codes',nav_example: 'Example Code',intro_title: 'Intro & Features',intro_desc: 'Allows merchants to query the status and details of a specific transaction. Information such as transaction amount, payment status, time, and financial institution response codes can be queried.',intro_funcs_title: 'Use Cases',usecase_1_title: 'Order Status Confirmation',usecase_1_desc: 'When the merchant does not receive a Notify callback, this API can be called to confirm if the order has been paid.',usecase_2_title: 'Reconciliation & Support',usecase_2_desc: 'Customer support can use this API to query transaction details, or it can be used for automated system reconciliation.',setup_title: 'Prerequisites',setup_card1_title: 'Get Keys',setup_card1_desc: 'You must obtain the MerchantID and the corresponding <code>Hash Key</code> and <code>Hash IV</code> from the NewebPay Member Area.',setup_card2_title: 'Confirm URL',setup_card2_desc: 'Test Env: https://ccore.newebpay.com/API/QueryTradeInfo<br>Prod Env: https://core.newebpay.com/API/QueryTradeInfo',tool_title: 'Encryption Test Tool',tool_intro: 'This tool helps you calculate CheckValue (Request) or verify CheckCode (Response).',tool_tab_checkvalue: 'Generate CheckValue (Request)',tool_tab_checkcode: 'Verify CheckCode (Response)',tool_tab_encrypt: 'AES Encrypt (General)',tool_tab_decrypt: 'AES Decrypt (General)',tool_ph_key: 'Ex: Fs5cX1TGqYM2PpdbE14a9H83YQSQF5jn',tool_ph_iv: 'Ex: C6AcmfqJILwgnhIP',tool_cv_formula_lbl: 'Formula Preview (SHA256)',tool_cc_formula_lbl: 'Formula Preview (SHA256)',tool_btn_cv: 'Generate CheckValue',tool_btn_cc: 'Calculate CheckCode',tool_lbl_qs: 'Raw Query String',tool_ph_qs: 'Ex: RespondType=JSON&Version=1.3...',tool_note_urlencode: 'Check string format',tool_btn_encrypt: 'Execute AES Encrypt',tool_lbl_hex: 'Result (Hex String)',tool_lbl_enc_hex: 'Encrypted String (Hex String)',tool_ph_enc_hex: 'Ex: 0ef82edabaf8964d...',tool_btn_decrypt: 'Execute AES Decrypt',tool_lbl_decrypt_res: 'Decrypted Result',req_title: 'Request Parameters',req_api_info: 'API Info',req_url_prod: 'URL (Production)',req_url_test: 'URL (Test)',req_lvl1_title: 'Post Parameters',th_param: 'Parameter',th_name: 'Name',th_required: 'Required',th_type: 'Type',th_note: 'Note',enc_title: 'Encryption Rules Detail',enc_cv_title: 'CheckValue Generation (Request)',enc_cv_desc: 'When sending a query request, CheckValue must be calculated to ensure data integrity.',enc_cv_step1_title: 'Step 1: Concatenation',enc_cv_step1_desc: 'Concatenate Amt, MerchantID, MerchantOrderNo in order, and add IV and Key at the beginning and end.',enc_cv_step2_title: 'Step 2: SHA256 Encryption',enc_cv_step2_desc: 'Perform SHA256 hashing on the concatenated string.',enc_cv_step3_title: 'Step 3: To Uppercase',enc_cv_step3_desc: 'Convert the SHA256 result to an uppercase string to get the CheckValue.',enc_cc_title: 'CheckCode Generation (Response)',enc_cc_desc: 'After receiving the query result, verify the CheckCode to ensure data has not been tampered with.',enc_cc_step1_title: 'Step 1: Concatenation',enc_cc_step1_desc: 'Concatenate parameters inside Result in order (HashIV, Amt, MerchantID, MerchantOrderNo, TradeNo, HashKey).',enc_cc_step2_title: 'Step 2: SHA256 & Uppercase',enc_cc_step2_desc: 'Perform SHA256 encryption and convert to uppercase.',res_title: 'Response Parameters',res_desc: 'API returns data in JSON or String format.',res_detail_title: 'Parameters inside Result Object',err_title: 'Error Code Table',err_search_ph: 'Search codes...',th_err_code: 'Error Code',th_err_reason: 'Reason',example_title: 'Example Code',err_MPG01002_reason: 'Timestamp cannot be empty', err_MPG01002_note: 'TimeStamp',err_MPG01005_reason: 'TokenTerm cannot be empty/setting error', err_MPG01005_note: 'TokenTerm',err_MPG01008_reason: 'Installment parameter setting error', err_MPG01008_note: 'InstFlag',err_MPG01009_reason: 'MerchantID cannot be empty', err_MPG01009_note: 'MerchantID',err_MPG01011_reason: 'RespondType setting error', err_MPG01011_note: 'RespondType',err_MPG01012_reason: 'MerchantOrderNo cannot be empty/setting error', err_MPG01012_note: 'MerchantOrderNo: Alphanumeric and underscore only, max length 30',err_TRA20002_reason: 'Transaction data not found', err_TRA20002_note: '',err_4101_reason: 'EncryptData_ cannot be empty', err_4101_note: '',err_4102_reason: 'HashData_ cannot be empty', err_4102_note: '',err_4103_reason: 'HashData_ data check mismatch', err_4103_note: '',err_4104_reason: 'Encryption data error', err_4104_note: 'Please check if Hash_Key and Hash_IV are correct',err_4105_reason: 'TimeStamp is empty', err_4105_note: '',err_4106_reason: 'UID_ cannot be empty', err_4106_note: '',err_9000_reason: 'Network connection failed', err_9000_note: '',alert_input_keys: 'Please enter Hash Key and Hash IV',alert_input_cv_params: 'Please fill in MerchantID, Amt, MerchantOrderNo',alert_input_cc_params: 'Please fill in all fields',req_MerchantID_name: 'Merchant ID', req_MerchantID_note: 'NewebPay Merchant ID.',req_Version_name: 'API Version', req_Version_note: '1.3',req_RespondType_name: 'Response Format', req_RespondType_note: 'JSON or String',req_CheckValue_name: 'Check Value', req_CheckValue_note: 'Refer to Encryption Rules Detail',req_TimeStamp_name: 'Timestamp', req_TimeStamp_note: 'Unix Timestamp. Tolerance of 120 seconds.',req_MerchantOrderNo_name: 'Merchant Order No', req_MerchantOrderNo_note: 'Alphanumeric and underscore only. Must be unique within the store.',req_Amt_name: 'Order Amount', req_Amt_note: 'Total amount of this transaction, e.g., 1000',req_Gateway_name: 'Data Source', req_Gateway_note: 'Default is empty.',res_Status_name: 'Return Status', res_Status_note: 'Returns SUCCESS if query succeeds, otherwise returns error code.',res_Message_name: 'Return Message', res_Message_note: 'Describes the status of this transaction query.',res_Result_name: 'Return Content', res_Result_note: 'If query succeeds, detailed transaction info is placed in this field.',resd_MerchantID_name: 'Merchant ID', resd_MerchantID_note: 'NewebPay Merchant ID',resd_Amt_name: 'Trade Amount', resd_Amt_note: 'Transaction amount of this order',resd_TradeNo_name: 'NewebPay Trade No', resd_TradeNo_note: 'NewebPay Transaction Serial Number',resd_MerchantOrderNo_name: 'Merchant Order No', resd_MerchantOrderNo_note: 'Merchant Order Number',resd_TradeStatus_name: 'Payment Status', resd_TradeStatus_note: '0=Unpaid, 1=Success, 2=Failed, 3=Cancelled, 6=Refunded',resd_PaymentType_name: 'Payment Type', resd_PaymentType_note: 'CREDIT',resd_CreateTime_name: 'Create Time', resd_CreateTime_note: 'Time when NewebPay received this transaction data',resd_PayTime_name: 'Payment Time', resd_PayTime_note: 'Time when payment was completed',resd_CheckCode_name: 'Check Code', resd_CheckCode_note: 'Refer to Encryption Rules Detail',resd_FundTime_name: 'Est. Funding Date', resd_FundTime_note: 'Estimated time of fund allocation',resd_RespondCode_name: 'Bank Response Code', resd_RespondCode_note: 'Response code returned by the financial institution',resd_Auth_name: 'Auth Code', resd_Auth_note: 'Authorization code returned by the financial institution',resd_PaymentMethod_name: 'Trade Category', resd_PaymentMethod_note: 'CREDIT, FOREIGN, UNIONPAY, APPLEPAY, etc.',resd_ECI_name: 'ECI Value', resd_ECI_note: '3D Verification Result, e.g., 3D',resd_CloseAmt_name: 'Request Amount', resd_CloseAmt_note: 'Amount already requested for settlement',resd_CloseStatus_name: 'Request Status', resd_CloseStatus_note: '0=Unrequested, 1=Waiting, 2=Processing, 3=Completed',resd_BackBalance_name: 'Refundable Bal.', resd_BackBalance_note: 'Remaining refundable amount',resd_BackStatus_name: 'Refund Status', resd_BackStatus_note: '0=No Refund, 1=Waiting, 2=Processing, 3=Completed',resd_RespondMsg_name: 'Response Msg', resd_RespondMsg_note: 'Financial institution response message',resd_Inst_name: 'Installments', resd_Inst_note: 'Number of installment periods',resd_InstFirst_name: 'First Amt', resd_InstFirst_note: 'Amount of the first installment',resd_InstEach_name: 'Each Amt', resd_InstEach_note: 'Amount of each subsequent installment',resd_Card6No_name: 'Card First 6', resd_Card6No_note: 'First 6 digits of the credit card number',resd_Card4No_name: 'Card Last 4', resd_Card4No_note: 'Last 4 digits of the credit card number',resd_AuthBank_name: 'Acquiring Bank', resd_AuthBank_note: 'Acquiring bank code (e.g., Esun, Taishin, CTBC...)',             }},        
+            'KO': {name: '한국어',data: {page_title: 'NewebPay - 단일 거래 조회 API 문서',header_mobile_title: '거래 정보 조회 API',sidebar_brand: 'NewebPay',sidebar_subtitle: '거래 정보 조회 API',sidebar_version_note: '(QueryTradeInfo)',nav_intro: '소개 및 기능',nav_setup: '연동 사전 준비',nav_tool: '암호화 테스트 도구',nav_group_api: 'API 사양',nav_request: '요청 매개변수 (Request)',nav_encryption: '암호화 규칙 상세',nav_response: '응답 매개변수 (Response)',nav_errors: '오류 코드표',nav_example: '예제 코드',intro_title: '소개 및 기능',intro_desc: '가맹점이 특정 거래의 상태와 상세 정보를 조회할 수 있도록 제공합니다. 거래 금액, 결제 상태, 시간 및 금융 기관 응답 코드 등의 정보를 조회할 수 있습니다.',intro_funcs_title: '사용 시나리오',usecase_1_title: '주문 상태 확인',usecase_1_desc: '가맹점이 Notify 콜백을 받지 못한 경우, 이 API를 호출하여 주문 결제 여부를 능동적으로 확인할 수 있습니다.',usecase_2_title: '대사 및 고객 서비스',usecase_2_desc: '고객 센터 담당자가 이 API를 사용하여 거래 세부 정보를 조회하거나, 시스템 자동 대사 절차에 사용할 수 있습니다.',setup_title: '연동 사전 준비',setup_card1_title: '키 발급',setup_card1_desc: 'NewebPay 가맹점 관리자 페이지에서 상점 아이디(MerchantID)와 해당 <code>Hash Key</code>, <code>Hash IV</code>를 발급받아야 합니다.',setup_card2_title: 'URL 확인',setup_card2_desc: '테스트 환경: https://ccore.newebpay.com/API/QueryTradeInfo<br>운영 환경: https://core.newebpay.com/API/QueryTradeInfo',tool_title: '암호화 테스트 도구',tool_intro: '이 도구는 CheckValue (Request) 계산 또는 CheckCode (Response) 검증을 도와줍니다.',tool_tab_checkvalue: 'CheckValue 생성 (Request)',tool_tab_checkcode: 'CheckCode 검증 (Response)',tool_tab_encrypt: 'AES 암호화 (공통 도구)',tool_tab_decrypt: 'AES 복호화 (공통 도구)',tool_ph_key: '예: Fs5cX1TGqYM2PpdbE14a9H83YQSQF5jn',tool_ph_iv: '예: C6AcmfqJILwgnhIP',tool_cv_formula_lbl: '계산 공식 미리보기 (SHA256)',tool_cc_formula_lbl: '계산 공식 미리보기 (SHA256)',tool_btn_cv: 'CheckValue 생성',tool_btn_cc: 'CheckCode 계산',tool_lbl_qs: '원본 요청 문자열 (Query String)',tool_ph_qs: '예: RespondType=JSON&Version=1.3...',tool_note_urlencode: '문자열 형식을 확인하세요',tool_btn_encrypt: 'AES 암호화 실행',tool_lbl_hex: '암호화 결과 (Hex String)',tool_lbl_enc_hex: '암호화된 문자열 (Hex String)',tool_ph_enc_hex: '예: 0ef82edabaf8964d...',tool_btn_decrypt: 'AES 복호화 실행',tool_lbl_decrypt_res: '복호화 결과',req_title: '요청 매개변수 (Request)',req_api_info: 'API 정보',req_url_prod: 'URL (운영 환경)',req_url_test: 'URL (테스트 환경)',req_lvl1_title: 'Post 매개변수 설명',th_param: '매개변수 명',th_name: '명칭',th_required: '필수',th_type: '타입',th_note: '비고',enc_title: '암호화 규칙 상세',enc_cv_title: 'CheckValue 검사 코드 생성 (Request)',enc_cv_desc: '조회 요청을 보낼 때, 데이터 무결성을 보장하기 위해 CheckValue를 계산해야 합니다.',enc_cv_step1_title: 'Step 1: 매개변수 연결',enc_cv_step1_desc: 'Amt, MerchantID, MerchantOrderNo 순서로 연결하고, 앞뒤에 IV와 Key를 추가합니다.',enc_cv_step2_title: 'Step 2: SHA256 암호화',enc_cv_step2_desc: '연결된 문자열에 대해 SHA256 해시 연산을 수행합니다.',enc_cv_step3_title: 'Step 3: 대문자 변환',enc_cv_step3_desc: 'SHA256 연산 결과를 대문자 문자열로 변환하면 CheckValue가 됩니다.',enc_cc_title: 'CheckCode 검증 코드 생성 (Response)',enc_cc_desc: '조회 결과를 수신한 후, 데이터가 변조되지 않았는지 확인하기 위해 CheckCode를 검증해야 합니다.',enc_cc_step1_title: 'Step 1: 매개변수 연결',enc_cc_step1_desc: 'Result 내의 매개변수를 순서대로 연결합니다 (HashIV, Amt, MerchantID, MerchantOrderNo, TradeNo, HashKey).',enc_cc_step2_title: 'Step 2: SHA256 및 대문자 변환',enc_cc_step2_desc: 'SHA256 암호화 후 대문자로 변환합니다.',res_title: '응답 매개변수 (Response)',res_desc: 'API는 JSON 또는 String 형식의 데이터를 반환합니다.',res_detail_title: 'Result 객체 포함 매개변수',err_title: '오류 코드표',err_search_ph: '코드 검색...',th_err_code: '오류 코드',th_err_reason: '오류 원인',example_title: '예제 코드',err_MPG01002_reason: '타임스탬프는 비워둘 수 없습니다', err_MPG01002_note: 'TimeStamp',err_MPG01005_reason: 'TokenTerm은 비워둘 수 없거나 설정 오류입니다', err_MPG01005_note: 'TokenTerm',err_MPG01008_reason: '할부 매개변수 설정 오류', err_MPG01008_note: 'InstFlag',err_MPG01009_reason: '상점 아이디는 비워둘 수 없습니다', err_MPG01009_note: 'MerchantID',err_MPG01011_reason: '반환 규격 설정 오류', err_MPG01011_note: 'RespondType',err_MPG01012_reason: '상점 주문 번호는 비워둘 수 없거나 설정 오류입니다', err_MPG01012_note: 'MerchantOrderNo: 영숫자, 밑줄 한정, 길이 30자',err_TRA20002_reason: '거래 데이터를 찾을 수 없습니다', err_TRA20002_note: '',err_4101_reason: 'EncryptData_는 비워둘 수 없습니다', err_4101_note: '',err_4102_reason: 'HashData_는 비워둘 수 없습니다', err_4102_note: '',err_4103_reason: 'HashData_ 데이터 검사 불일치', err_4103_note: '',err_4104_reason: '암호화 데이터 오류', err_4104_note: 'Hash_Key와 Hash_IV가 올바른지 확인하세요',err_4105_reason: 'TimeStamp가 비어 있습니다', err_4105_note: '',err_4106_reason: 'UID_는 비워둘 수 없습니다', err_4106_note: '',err_9000_reason: '네트워크 연결 실패', err_9000_note: '',alert_input_keys: 'Hash Key와 Hash IV를 입력하세요',alert_input_cv_params: 'MerchantID, Amt, MerchantOrderNo를 모두 입력하세요',alert_input_cc_params: '모든 필드를 입력하세요',req_MerchantID_name: '상점 아이디', req_MerchantID_note: 'NewebPay 상점 아이디.',req_Version_name: '연동 프로그램 버전', req_Version_note: '1.3',req_RespondType_name: '반환 형식', req_RespondType_note: 'JSON 또는 String',req_CheckValue_name: '검사 코드', req_CheckValue_note: '암호화 규칙 상세 참조',req_TimeStamp_name: '타임스탬프', req_TimeStamp_note: 'Unix 타임스탬프. 허용 오차 120초.',req_MerchantOrderNo_name: '상점 주문 번호', req_MerchantOrderNo_note: '영문, 숫자, 밑줄 한정. 동일 상점 내 중복 불가.',req_Amt_name: '주문 금액', req_Amt_note: '이번 거래의 총 금액, 예: 1000',req_Gateway_name: '데이터 출처', req_Gateway_note: '기본값은 빈 값.',res_Status_name: '반환 상태', res_Status_note: '조회 성공 시 SUCCESS 반환, 실패 시 오류 코드 반환.',res_Message_name: '반환 메시지', res_Message_note: '이번 거래 조회 상태에 대한 설명.',res_Result_name: '반환 내용', res_Result_note: '조회 성공 시, 해당 거래의 상세 정보가 이 필드에 포함됩니다.',resd_MerchantID_name: '상점 아이디', resd_MerchantID_note: 'NewebPay 상점 아이디',resd_Amt_name: '거래 금액', resd_Amt_note: '이 주문의 거래 금액',resd_TradeNo_name: 'NewebPay 거래 번호', resd_TradeNo_note: 'NewebPay 거래 일련번호',resd_MerchantOrderNo_name: '상점 주문 번호', resd_MerchantOrderNo_note: '상점 주문 번호',resd_TradeStatus_name: '지불 상태', resd_TradeStatus_note: '0=미결제, 1=결제 성공, 2=결제 실패, 3=결제 취소, 6=환불',resd_PaymentType_name: '지불 방식', resd_PaymentType_note: 'CREDIT',resd_CreateTime_name: '거래 생성 시간', resd_CreateTime_note: 'NewebPay가 이 거래 데이터를 수신한 시간',resd_PayTime_name: '지불 완료 시간', resd_PayTime_note: '거래 지불 완료 정보 시간',resd_CheckCode_name: '검증 코드', resd_CheckCode_note: '암호화 규칙 상세 참조',resd_FundTime_name: '예상 정산일', resd_FundTime_note: '예상 정산 시간',resd_RespondCode_name: '금융 기관 응답 코드', resd_RespondCode_note: '금융 기관에서 응답한 코드',resd_Auth_name: '승인 코드', resd_Auth_note: '금융 기관에서 응답한 승인 코드',resd_PaymentMethod_name: '거래 유형', resd_PaymentMethod_note: 'CREDIT, FOREIGN, UNIONPAY, APPLEPAY 등',resd_ECI_name: 'ECI 값', resd_ECI_note: '3D 인증 결과, 예: 3D',resd_CloseAmt_name: '청구 금액', resd_CloseAmt_note: '이미 청구된 금액',resd_CloseStatus_name: '청구 상태', resd_CloseStatus_note: '0=미청구, 1=청구 대기, 2=청구 처리 중, 3=청구 완료',resd_BackBalance_name: '환불 가능 잔액', resd_BackBalance_note: '남은 환불 가능 금액',resd_BackStatus_name: '환불 상태', resd_BackStatus_note: '0=미환불, 1=환불 대기, 2=환불 처리 중, 3=환불 완료',resd_RespondMsg_name: '응답 메시지', resd_RespondMsg_note: '금융 기관 응답 메시지',resd_Inst_name: '할부 개월 수', resd_Inst_note: '할부 거래 개월 수',resd_InstFirst_name: '첫 회 금액', resd_InstFirst_note: '할부 첫 회 금액',resd_InstEach_name: '매 회 금액', resd_InstEach_note: '할부 매 회 금액',resd_Card6No_name: '카드 앞 6자리', resd_Card6No_note: '신용카드 번호 앞 6자리',resd_Card4No_name: '카드 뒤 4자리', resd_Card4No_note: '신용카드 번호 뒤 4자리',resd_AuthBank_name: '매입 금융 기관', resd_AuthBank_note: '매입 금융 기관 코드 (예: Esun, Taishin, CTBC...)',             }},        
+        };
+
+        const errorCodes = [
+            'MPG01002', 'MPG01005', 'MPG01008', 'MPG01009', 'MPG01011', 
+            'MPG01012', 'TRA20002', '4101', '4102', '4103', '4104', 
+            '4105', '4106', '9000'
+        ];
+
+        const codeExamples = {
+            php: `<?php
+// 1. Setup Merchant Info
+$hashKey    = "YourHashKey"; 
+$hashIV     = "YourHashIV";  
+$merchantID = "MS12345678";  
+$apiUrl     = "https://ccore.newebpay.com/API/QueryTradeInfo";
+
+// 2. Prepare Parameters
+$params = [
+    'MerchantID'      => $merchantID,
+    'Version'         => '1.3',
+    'RespondType'     => 'JSON',
+    'TimeStamp'       => time(),
+    'MerchantOrderNo' => 'ORD_123456789', // Merchant Order No
+    'Amt'             => 30               // Order Amount
+];
+
+// 3. Calculate CheckValue
+// Formula: IV={iv}&Amt={amt}&MerchantID={mid}&MerchantOrderNo={mon}&Key={key}
+$checkStr = "IV=" . $hashIV . 
+            "&Amt=" . $params['Amt'] . 
+            "&MerchantID=" . $params['MerchantID'] . 
+            "&MerchantOrderNo=" . $params['MerchantOrderNo'] . 
+            "&Key=" . $hashKey;
+
+$checkValue = strtoupper(hash("sha256", $checkStr));
+$params['CheckValue'] = $checkValue;
+?>
+
+<!-- HTML Form -->
+<form method="post" action="<?php echo $apiUrl; ?>">
+    <?php foreach($params as $key => $value): ?>
+        <input type="text" name="<?php echo $key; ?>" value="<?php echo $value; ?>">
+        <label><?php echo $key; ?></label><br>
+    <?php endforeach; ?>
+    <input type="submit" value="Submit">
+</form>`,
+            nodejs: `const crypto = require('crypto');
+const querystring = require('querystring');
+const axios = require('axios');
+
+// 1. Setup Info
+const hashKey = 'YourHashKey';
+const hashIV  = 'YourHashIV';
+const merchantID = 'MS12345678';
+const apiUrl = 'https://ccore.newebpay.com/API/QueryTradeInfo';
+
+// 2. Prepare Parameters
+const params = {
+    MerchantID: merchantID,
+    Version: '1.3',
+    RespondType: 'JSON',
+    TimeStamp: Math.floor(Date.now() / 1000),
+    MerchantOrderNo: 'ORD_123456789',
+    Amt: 30
+};
+
+// 3. Calculate CheckValue
+// Formula: IV={iv}&Amt={amt}&MerchantID={mid}&MerchantOrderNo={mon}&Key={key}
+const checkStr = \`IV=\${hashIV}&Amt=\${params.Amt}&MerchantID=\${params.MerchantID}&MerchantOrderNo=\${params.MerchantOrderNo}&Key=\${hashKey}\`;
+const checkValue = crypto.createHash('sha256').update(checkStr).digest('hex').toUpperCase();
+
+// Add CheckValue to params
+params.CheckValue = checkValue;
+
+// 4. Send POST Request (form-urlencoded)
+axios.post(apiUrl, querystring.stringify(params), {
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+}).then(res => {
+    console.log('Response:', res.data);
+}).catch(err => {
+    console.error('Error:', err);
+});`,
+            python: `import time
+import requests
+import hashlib
+
+# 1. Setup Info
+hash_key = 'YourHashKey'
+hash_iv  = 'YourHashIV'
+merchant_id = 'MS12345678'
+api_url = 'https://ccore.newebpay.com/API/QueryTradeInfo'
+
+# 2. Prepare Parameters
+params = {
+    'MerchantID': merchant_id,
+    'Version': '1.3',
+    'RespondType': 'JSON',
+    'TimeStamp': int(time.time()),
+    'MerchantOrderNo': 'ORD_123456789',
+    'Amt': 30
+}
+
+# 3. Calculate CheckValue
+# Formula: IV={iv}&Amt={amt}&MerchantID={mid}&MerchantOrderNo={mon}&Key={key}
+check_str = f"IV={hash_iv}&Amt={params['Amt']}&MerchantID={params['MerchantID']}&MerchantOrderNo={params['MerchantOrderNo']}&Key={hash_key}"
+check_value = hashlib.sha256(check_str.encode('utf-8')).hexdigest().upper()
+
+params['CheckValue'] = check_value
+
+# 4. Send POST Request
+response = requests.post(api_url, data=params)
+print(response.text)`,
+            csharp: `using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+
+public class Program
+{
+    public static async Task Main()
+    {
+        string hashKey = "YourHashKey";
+        string hashIV = "YourHashIV";
+        string merchantID = "MS12345678";
+        string apiUrl = "https://ccore.newebpay.com/API/QueryTradeInfo";
+
+        // 1. Prepare Parameters
+        var paramsDict = new Dictionary<string, string>
+        {
+            { "MerchantID", merchantID },
+            { "Version", "1.3" },
+            { "RespondType", "JSON" },
+            { "TimeStamp", DateTimeOffset.Now.ToUnixTimeSeconds().ToString() },
+            { "MerchantOrderNo", "ORD_123456789" },
+            { "Amt", "30" }
+        };
+
+        // 2. Calculate CheckValue
+        // Formula: IV={iv}&Amt={amt}&MerchantID={mid}&MerchantOrderNo={mon}&Key={key}
+        string checkStr = $"IV={hashIV}&Amt={paramsDict["Amt"]}&MerchantID={paramsDict["MerchantID"]}&MerchantOrderNo={paramsDict["MerchantOrderNo"]}&Key={hashKey}";
+        
+        using (SHA256 sha256 = SHA256.Create())
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(checkStr);
+            byte[] hash = sha256.ComputeHash(bytes);
+            string checkValue = BitConverter.ToString(hash).Replace("-", "").ToUpper();
+            paramsDict.Add("CheckValue", checkValue);
+        }
+
+        // 3. Send Request
+        using (var client = new HttpClient())
+        {
+            var content = new FormUrlEncodedContent(paramsDict);
+            var response = await client.PostAsync(apiUrl, content);
+            string result = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(result);
+        }
+    }
+}`
+        };
+
+        // 1. 取得網址參數
+        const urlParams = new URLSearchParams(window.location.search);
+        const getLang = urlParams.get('lang');
+        let currentLang = (getLang && langData[getLang]) ? getLang : 'zh-TW';
+        let currentCodeTab = 'php';
+
+        function applyTranslations(lang = 'zh-TW') {
+            const data = langData[lang]?.data;
+            if (!data) return;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (data[key]) {
+                    el.innerHTML = data[key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (data[key]) {
+                    el.setAttribute('placeholder', data[key]);
+                }
+            });
+            document.documentElement.lang = lang;
+        }
+
+        function initLangDropdown() {
+            const select = document.getElementById('lang-select');
+            const languages = Object.keys(langData);
+            if (languages.length === 0) return;
+
+            select.innerHTML = '';
+            languages.forEach(langKey => {
+                const option = document.createElement('option');
+                option.value = langKey;
+                option.textContent = langData[langKey].name;
+                if(langKey === currentLang) option.selected = true;
+                select.appendChild(option);
+            });
+        }
+
+        function changeLang(targetLang) {
+            currentLang = targetLang;
+            applyTranslations(targetLang);
+            // Re-render error table
+            renderErrorTable();
+            // Re-load code
+            loadCode(currentCodeTab);
+        }
+
+        function renderErrorTable() {
+            const tbody = document.querySelector('#errorTable tbody');
+            if (!tbody) return;
+            
+            const data = langData[currentLang].data;
+            
+            tbody.innerHTML = '';
+            const html = errorCodes.map(code => {
+                const reasonKey = `err_${code}_reason`;
+                const noteKey = `err_${code}_note`;
+                
+                // Fallback empty if key not found (though structure ensures keys exist)
+                const reason = data[reasonKey] || '';
+                const note = data[noteKey] || '';
+
+                return `<tr>
+                    <td class="px-6 py-2 font-bold text-red-600">${code}</td>
+                    <td class="px-6 py-2" data-i18n="${reasonKey}">${reason}</td>
+                    <td class="px-6 py-2 text-slate-500 text-xs" data-i18n="${noteKey}">${note}</td>
+                </tr>`;
+            }).join('');
+            tbody.innerHTML = html;
+        }
+
+        window.onload = function() {
+            initLangDropdown();
+            applyTranslations(currentLang);
+            renderErrorTable();
+            loadCode(currentCodeTab);
+        };
+
+        function switchTab(lang, event) {
+            document.querySelectorAll('#example .tab-btn').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            currentCodeTab = lang;
+            loadCode(lang);
+        }
+
+        function loadCode(lang) {
+            const display = document.getElementById('code-display');
+            if (!lang) lang = 'php';
+            display.value = codeExamples[lang] || "// Code example not available.";
+        }
+
+        function switchToolTab(tabId) {
+            document.querySelectorAll('.tool-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tool-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tool-tab-btn').forEach(el => {
+                el.classList.remove('active', 'border-purple-600', 'text-purple-600');
+                el.classList.add('border-transparent', 'text-slate-500');
+            });
+
+            const targetContent = document.getElementById(tabId);
+            targetContent.classList.remove('hidden');
+            targetContent.classList.add('active');
+
+            const btn = event.currentTarget;
+            btn.classList.remove('border-transparent', 'text-slate-500');
+            btn.classList.add('active', 'border-purple-600', 'text-purple-600');
+        }
+
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        let isMenuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        const searchInput = document.getElementById('errorSearch');
+        searchInput.addEventListener('keyup', (e) => {
+            const term = e.target.value.toLowerCase();
+            const tableRows = document.querySelectorAll('#errorTable tbody tr');
+            tableRows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(term)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Tool Functions
+        function getKeys() {
+            const key = document.getElementById('toolKey').value.trim();
+            const iv = document.getElementById('toolIv').value.trim();
+            if (!key || !iv) {
+                alert(langData[currentLang].data.alert_input_keys);
+                return null;
+            }
+            return { key, iv };
+        }
+
+        // CheckValue Calculation (Request)
+        function runCheckValue() {
+            const keys = getKeys();
+            if (!keys) return;
+            
+            const mid = document.getElementById('cvMid').value.trim();
+            const amt = document.getElementById('cvAmt').value.trim();
+            const ord = document.getElementById('cvOrd').value.trim();
+            
+            if(!mid || !amt || !ord) {
+                 return alert(langData[currentLang].data.alert_input_cv_params);
+            }
+            
+            // Formula: IV=...&Amt=...&MerchantID=...&MerchantOrderNo=...&Key=...
+            // Note: PHP http_build_query uses array order. The doc says: array('Amt'=>..., 'MerchantID'=>..., 'MerchantOrderNo'=>...)
+            // So the middle part is: Amt=...&MerchantID=...&MerchantOrderNo=...
+            const dataString = `Amt=${amt}&MerchantID=${mid}&MerchantOrderNo=${ord}`;
+            const str = `IV=${keys.iv}&${dataString}&Key=${keys.key}`;
+            
+            document.getElementById('cvFormulaPreview').innerText = str;
+            
+            const hash = CryptoJS.SHA256(str).toString(CryptoJS.enc.Hex).toUpperCase();
+            document.getElementById('cvOutput').value = hash;
+        }
+
+        // CheckCode Calculation (Response)
+        function runCheckCode() {
+            const keys = getKeys();
+            if (!keys) return;
+            
+            const mid = document.getElementById('ccMid').value.trim();
+            const amt = document.getElementById('ccAmt').value.trim();
+            const ord = document.getElementById('ccOrd').value.trim();
+            const trade = document.getElementById('ccTrade').value.trim();
+            
+            if(!mid || !amt || !ord || !trade) {
+                 return alert(langData[currentLang].data.alert_input_cc_params);
+            }
+            
+            // Formula assumed from standard NewebPay pattern (HashIV first, then params, then HashKey)
+            // HashIV={iv}&Amt={amt}&MerchantID={mid}&MerchantOrderNo={ord}&TradeNo={trade}&HashKey={key}
+            const str = `HashIV=${keys.iv}&Amt=${amt}&MerchantID=${mid}&MerchantOrderNo=${ord}&TradeNo=${trade}&HashKey=${keys.key}`;
+            
+            document.getElementById('ccFormulaPreview').innerText = str;
+            
+            const hash = CryptoJS.SHA256(str).toString(CryptoJS.enc.Hex).toUpperCase();
+            document.getElementById('ccOutput').value = hash;
+        }
+
+        // Scroll Spy
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
+                 if (sections.length > 0) current = sections[sections.length - 1].getAttribute('id');
+            }
+
+            navLinks.forEach(link => {
+                link.classList.remove('sidebar-active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('sidebar-active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
