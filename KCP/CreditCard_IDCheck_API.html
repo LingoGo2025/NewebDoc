@@ -1,0 +1,2063 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://www.newebpay.com/images/head.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="https://www.newebpay.com/images/head.ico" type="image/x-icon">    
+    <title id="page-title">API 技術文件</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    
+    <!-- Highlight.js for Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai-sublime.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <!-- Highlight.js Line Numbers Plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js"></script>
+
+    <style>
+        html { scroll-behavior: smooth; }
+        body { background-color: #f8fafc; }
+        
+        /* Custom Scrollbar */
+        .scrollable-area::-webkit-scrollbar { width: 6px; }
+        .scrollable-area::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+        
+        /* Navigation Active State */
+        .sidebar-active { background-color: #e0f2fe; color: #0284c7; border-right: 4px solid #0284c7; font-weight: 600; }
+        
+        /* Tabs */
+        .tab-btn { border-bottom: 2px solid transparent; transition: all 0.3s; }
+        .tab-btn:hover { color: #60a5fa; }
+        .tab-btn.active { border-bottom-color: #3b82f6; color: #3b82f6; font-weight: 600; background-color: rgba(59, 130, 246, 0.05); }
+        
+        /* Table Styles */
+        .params-table th { background-color: #f1f5f9; color: #475569; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; }
+        .params-table td { vertical-align: top; color: #334155; }
+        .params-table tr:hover { background-color: #f8fafc; }
+
+        /* Tool styles */
+        .tool-tab-btn { transition: all 0.2s; }
+        .tool-tab-btn.active { border-bottom-color: #9333ea; color: #9333ea; background-color: #faf5ff; }
+
+        /* Code Block Styles & Line Numbers Overrides */
+        #code-container-wrapper {
+            background-color: #23241f; /* Monokai background */
+        }
+        #code-container-wrapper pre {
+            margin: 0;
+            padding: 0;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+        #code-container-wrapper code {
+            font-size: 0.875rem; /* text-sm */
+            line-height: 1.5;
+            padding: 1rem !important; /* Override hljs default padding */
+        }
+        
+        /* Highlight.js Line Numbers CSS */
+        .hljs-ln-numbers {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            text-align: right;
+            color: #5c6370;
+            border-right: 1px solid #3e3e3e;
+            vertical-align: top;
+            padding-right: 10px !important;
+            min-width: 40px;
+        }
+        .hljs-ln-code {
+            padding-left: 15px !important;
+        }
+        /* Ensure table takes full width inside pre */
+        .hljs-ln {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="text-slate-800 font-sans">
+
+    <!-- 
+        =========================================================================================
+        API CONFIGURATION & DATA INJECTION ZONE
+        =========================================================================================
+        此區塊放置所有由 PHP 動態生成的 JSON 資料變數。
+        請勿移除或重新命名 uiLabels 與 apiConfig 變數名稱。
+    -->
+    <script>
+        // =========================================================================================
+        //  UI Labels Configuration (UI 多國語系設定)
+        //  此區塊定義介面上的固定文字標籤。
+        //  PHP 程式應讀取語系檔後，將資料轉換為 JSON 格式並取代此變數內容。
+        //  結構說明: { '語系代碼': { name: '顯示名稱', data: { 'KEY': 'VALUE' } } }
+        // =========================================================================================
+        const uiLabels = {
+            'zh-TW': {
+                name: '繁體中文',
+                data: {
+                    sidebar_brand: 'NewebPay',
+                    nav_intro: '簡介與功能',
+                    nav_flowchart: '交易流程圖',
+                    nav_tool: '加密測試工具',
+                    nav_group_api: 'API 規格詳解',
+                    nav_apis: 'API 規格',
+                    nav_encryption: '加密規則詳解',
+                    nav_errors: '錯誤代碼表',
+                    nav_example: '範例程式碼',
+                    flowchart_title: '交易流程圖',
+                    tool_title: '加密測試工具',
+                    tool_intro: '此工具可協助您產生 PostData_ 加密字串，或解密回傳結果。',
+                    tool_tab_encrypt: 'AES 加密',
+                    tool_tab_decrypt: 'AES 解密',
+                    tool_tab_sha: 'SHA256 加密',
+                    tool_ph_key: '例如: AAAAvw3YlqoEk6G4HqRKDAYpHKZWxBBB',
+                    tool_ph_iv: '例如: AAAACC1FplieBBBB',
+                    tool_lbl_key: 'Hash Key (32 bytes)',
+                    tool_lbl_iv: 'Hash IV (16 bytes)',
+                    tool_lbl_qs: '請求參數 (Query String)',
+                    tool_ph_qs: '例如: TimeStamp=1400137200&CardNo=4000221111111111...',
+                    tool_note_urlencode: '請確認字串已經過 http_build_query 或 urlencode 處理',
+                    tool_note_sha_sort: '程式會自動將上方欄位依名稱排序(A-Z)後組合，並前後串接 Key/IV',
+                    tool_btn_encrypt: '執行加密產生 PostData_',
+                    tool_btn_sha: '執行 SHA256',
+                    tool_lbl_hex: '加密結果 (Hex String)',
+                    tool_lbl_enc_hex: '加密字串 (Hex String)',
+                    tool_lbl_sha_res: 'SHA256 結果 (Uppercase)',
+                    tool_ph_enc_hex: '例如: 0ef82edabaf8964d09992d7ec8e575f1...',
+                    tool_btn_decrypt: '執行解密',
+                    tool_lbl_decrypt_res: '解密結果 (原始資料)',
+                    tool_alert_missing_key: '請輸入 Hash Key 與 Hash IV',
+                    tool_alert_missing_data: '請輸入原始字串',
+                    tool_alert_encrypt_fail: '加密失敗: ',
+                    tool_alert_missing_hex: '請輸入加密後的 Hex 字串',
+                    tool_alert_decrypt_fail: '解密失敗，請檢查 Key/IV 或加密字串格式',
+                    req_title: '請求參數 (Request)',
+                    req_api_info: 'API 資訊',
+                    req_url_prod: 'URL (正式環境)',
+                    req_url_test: 'URL (測試環境)',
+                    req_lvl1_title: '第一層參數 (HTML Form Post)',
+                    th_param: '參數名稱',
+                    th_name: '中文名稱',
+                    th_required: '必填',
+                    th_type: '型態',
+                    th_note: '備註',
+                    req_lvl2_title: 'PostData_ 內含參數 (加密前)',
+                    enc_title: '加密規則詳解',
+                    enc_aes_title: 'AES 加解密機制 (PostData_)',
+                    enc_aes_desc: '為防止重要交易訊息洩漏，需於加密前使用商店之 Hash Key 及 Hash IV 對參數字串執行 AES 加密。',
+                    enc_step1_title: '生成請求字串',
+                    enc_step1_desc: '將所有參數依照 <code>http_build_query</code> 格式組合 (key=value&key2=value2...)。',
+                    enc_step2_title: 'AES 加密',
+                    enc_step2_desc: '加密演算法：<span class="font-bold text-red-600">AES-256-CBC</span><br>填充模式 (Padding)：<span class="font-bold text-red-600">PKCS7</span><br>Key / IV：請使用商店專屬的 Hash Key 與 Hash IV。',
+                    enc_step3_title: '轉十六進制 (Hex)',
+                    enc_step3_desc: '將加密後的二進位資料 (Raw Data) 轉換為 Hex String (小寫)，即為 <code>PostData_</code>。',
+                    enc_sha_title: 'SHA256 檢查碼機制 (CheckMacValue)',
+                    enc_sha_desc: '為確保資料傳輸完整性，需將特定參數排序後進行 SHA256 壓碼。',
+                    enc_sha_step1_title: '參數排序與組合',
+                    enc_sha_step1_desc: '將指定參數依欄位名稱 (A-Z) 排序，並組合成 Query String (key1=val1&key2=val2...)。',
+                    enc_sha_step2_title: '串接 Key 與 IV',
+                    enc_sha_step2_desc: '在排序後的字串前後分別串接 Hash Key 與 Hash IV。<br>格式：<code>HashKey=...&[SortedParams]&HashIV=...</code>',
+                    enc_sha_step3_title: 'SHA256 加密與轉大寫',
+                    enc_sha_step3_desc: '將串接後的字串進行 SHA256 加密，並將結果轉換為<strong>大寫</strong>。',
+                    res_title: '回應參數 (Response)',
+                    res_desc: 'API 回傳 JSON 格式資料。',
+                    res_lvl1_title: '回傳參數 (L1)',
+                    res_lvl2_title: '詳細資料 (L2 - Data/Result)',
+                    err_title: '錯誤代碼表',
+                    err_search_ph: '搜尋代碼...',
+                    th_err_code: '錯誤代碼',
+                    th_err_reason: '錯誤原因 / 備註',
+                    example_title: '範例程式碼',
+                    lbl_method: 'Method',
+                    lbl_encrypted_tag: 'AES-256-CBC Encrypted',
+                    lbl_api_index: 'API',
+                    msg_no_params: '未定義參數',
+                    msg_code_unavailable: '// 尚無程式範例',
+                    doc_title: '身份驗證 API 文件',
+                    doc_subtitle: '身份驗證技術串接手冊',
+                    doc_version: 'Ver: 1.0.0',
+                    doc_intro_title: '簡介與說明',
+                    doc_intro_desc: '身分驗證API主要是作為身分資料驗證，屬於前景API，需轉導頁面至藍新金流網址來填寫資料。\n身分驗證查詢API則為幕後，會直接回傳查詢結果。\n中華民國身分證資料需送內政部系統查驗，護照及居留證如資料完整則會先行通過但列為備查。',
+                    api_0_name: '身份驗證',
+                    api_0_l1_uid_label: '商店代號', api_0_l1_uid_note: '藍新金流商店代號。',
+                    api_0_l1_enc_label: '加密資料', api_0_l1_enc_note: '相關加密方法請參考加密規則說明',
+                    api_0_l1_ver_label: '串接程式版本', api_0_l1_ver_note: '請帶 1.0。',
+                    api_0_l1_ret_label: '支付完成返回商店網址', api_0_l1_ret_note: '1.驗證完成後導回商店頁 2.若為空值則停留在驗證完成頁',
+                    api_0_l2_time_label: '時間戳記', api_0_l2_time_note: 'Unix 時間戳記 (秒)。',
+                    api_0_l2_idv_label: '身份驗證碼', api_0_l2_idv_note: '英數字字串或是信用卡卡號（純數字）。',
+                    api_0_l2_lang_label: '顯示語系', api_0_l2_lang_note: 'en=英文, zh-tw=繁體中文(預設)。',
+                    api_0_l2_url_label: '網址增加驗證結果參數', api_0_l2_url_note: '0=不增加, 1=增加(預設)。<br>如填1，系統會在ReturnURL最後面加上responseCode這個網址參數<br>SUCCESS：驗證成功<br>DECLINE：有效請求但驗證失敗<br>ERROR：無效請求導致失敗',
+                    api_0_res1_stat_label: '回傳狀態碼', api_0_res1_stat_note: 'SUCCESS：成功，其他為錯誤代碼。',
+                    api_0_res1_msg_label: '回傳訊息', api_0_res1_msg_note: '敘述錯誤代碼說明。',
+                    api_0_res1_res_label: '回傳資料', api_0_res1_res_note: '內容請參考詳細資料表格。',
+                    api_0_res2_stat_label: '驗證結果', api_0_res2_stat_note: 'SUCCESS：驗證成功, DECLINE：有效請求但驗證失敗',
+                    api_0_res2_start_label: '驗證有效起始時間', api_0_res2_start_note: 'Timestamp格式。驗證失敗則為空值',
+                    api_0_res2_end_label: '驗證有效結束時間', api_0_res2_end_note: 'Timestamp格式。驗證失敗則為空值',
+                    api_0_res2_type_label: '驗證形態', api_0_res2_type_note: '1=中華民國身分證, 2=護照或中華民國居留證',
+                    api_1_name: '查詢身分驗證結果',
+                    api_1_l1_uid_label: '商店代號', api_1_l1_uid_note: '藍新金流商店代號。',
+                    api_1_l1_post_label: '加密資料', api_1_l1_post_note: '相關加密方法請參考加密規則說明',
+                    api_1_l1_ver_label: '串接程式版本', api_1_l1_ver_note: '請帶 1.0。',
+                    api_1_l2_time_label: '時間戳記', api_1_l2_time_note: 'Unix 時間戳記 (秒)。',
+                    api_1_l2_idv_label: '身份驗證碼', api_1_l2_idv_note: '填入要查詢的身份驗證碼',
+                    api_1_l2_lang_label: '顯示語系', api_1_l2_lang_note: 'en=英文, zh-tw=繁體中文(預設)。',
+                    api_1_res1_stat_label: '回傳狀態碼', api_1_res1_stat_note: 'SUCCESS：成功，其他為錯誤代碼。',
+                    api_1_res1_msg_label: '回傳訊息', api_1_res1_msg_note: '敘述錯誤代碼說明。',
+                    api_1_res1_data_label: '回傳資料', api_1_res1_data_note: '內容請參考詳細資料表格。',
+                    api_1_res1_uid_label: '商店代號', api_1_res1_uid_note: '藍新金流商店代號。',
+                    api_1_res1_ver_label: '串接程式版本', api_1_res1_ver_note: '本次呼叫使用的程式版本。',
+                    api_1_res2_stat_label: '驗證結果', api_1_res2_stat_note: 'SUCCESS：驗證成功, DECLINE：有效請求但驗證失敗',
+                    api_1_res2_start_label: '驗證有效起始時間', api_1_res2_start_note: 'Timestamp格式。驗證失敗則為空值',
+                    api_1_res2_end_label: '驗證有效結束時間', api_1_res2_end_note: 'Timestamp格式。驗證失敗則為空值',
+                    api_1_res2_type_label: '驗證形態', api_1_res2_type_note: '1=中華民國身分證, 2=護照或中華民國居留證',
+                    err_VFP201: '未接收到 EncryptData_ 參數',
+                    err_VFP202: '未接收到 IDVNo 參數',
+                    err_MIF101: '無權限可執行',
+                    err_MIF102: '解密失敗，無權限可執行',
+                    err_MIF103: '身分驗證失敗達三次，此身分證24小時內無法檢核!',
+                    err_MIF104: '查無此地區代碼',
+                    err_MIF105: '檢核系統異常',
+                    err_MIF106: '會員身分證發證日期(發證地點)資料有誤，請重新確認',
+                    err_MIF107: '身分證驗證失敗第一次，累計超過三次此身分證24小時內將無法檢核！',
+                    err_MIF108: '身分證驗證失敗第二次，累計超過三次此身分證24小時內將無法檢核！',
+                    err_MIF109: '身分證驗證失敗三次，此身分證24小時內無法檢核！',
+                    err_MIF110: '此身分證已停止使用',
+                    err_MIF111: '此身分證當事人已申請掛失',
+                    err_MIF112: '此身分證異常,已暫停使用權限',
+                    err_MIF113: '身分證驗證失敗',
+                    err_MIF201: '請確認身分證字號、發證日期、發證地點是否皆有填寫',
+                    err_MIF202: '動作未完成，請勿連續點擊',
+                    err_MIF401: '檢核系統異',
+                    err_FVS201: '請確認ID_type、IDVNo、MerID參數無缺少。',
+                    err_FVS202: '請上傳證件照。',
+                    err_FVS203: '缺少 sendData 參數資料。',
+                    err_FVS204: '上傳圖檔失敗，請重新上傳',
+                    err_FVS205: '上傳圖檔失敗，請重新上傳',
+                    err_FVS206: '建立驗證身分失敗',
+                    err_VSS201: '未接收到 EncryptData_ 參數',
+                    err_VSS202: '未接收到 IDVNo 參數'
+                }
+            },      
+            
+'EN': {
+                name: 'English',
+                data: {
+                    sidebar_brand: 'NewebPay',
+                    nav_intro: 'Introduction & Features',
+                    nav_flowchart: 'Transaction Flowchart',
+                    nav_tool: 'Encryption Testing Tool',
+                    nav_group_api: 'API Specifications Detail',
+                    nav_apis: 'API Specifications',
+                    nav_encryption: 'Encryption Rules Detail',
+                    nav_errors: 'Error Code Table',
+                    nav_example: 'Code Examples',
+                    flowchart_title: 'Transaction Flowchart',
+                    tool_title: 'Encryption Testing Tool',
+                    tool_intro: 'This tool helps you generate the PostData_ encrypted string or decrypt the response result.',
+                    tool_tab_encrypt: 'AES Encryption',
+                    tool_tab_decrypt: 'AES Decryption',
+                    tool_tab_sha: 'SHA256 Encryption',
+                    tool_ph_key: 'Ex: AAAAvw3YlqoEk6G4HqRKDAYpHKZWxBBB',
+                    tool_ph_iv: 'Ex: AAAACC1FplieBBBB',
+                    tool_lbl_key: 'Hash Key (32 bytes)',
+                    tool_lbl_iv: 'Hash IV (16 bytes)',
+                    tool_lbl_qs: 'Request Parameters (Query String)',
+                    tool_ph_qs: 'Ex: TimeStamp=1400137200&CardNo=4000221111111111...',
+                    tool_note_urlencode: 'Please ensure the string has been processed via http_build_query or urlencode',
+                    tool_note_sha_sort: 'The program will automatically sort the fields above by name (A-Z), combine them, and prepend/append Key/IV',
+                    tool_btn_encrypt: 'Execute Encryption to generate PostData_',
+                    tool_btn_sha: 'Execute SHA256',
+                    tool_lbl_hex: 'Encryption Result (Hex String)',
+                    tool_lbl_enc_hex: 'Encrypted String (Hex String)',
+                    tool_lbl_sha_res: 'SHA256 Result (Uppercase)',
+                    tool_ph_enc_hex: 'Ex: 0ef82edabaf8964d09992d7ec8e575f1...',
+                    tool_btn_decrypt: 'Execute Decryption',
+                    tool_lbl_decrypt_res: 'Decryption Result (Raw Data)',
+                    tool_alert_missing_key: 'Please enter Hash Key and Hash IV',
+                    tool_alert_missing_data: 'Please enter original string',
+                    tool_alert_encrypt_fail: 'Encryption Failed: ',
+                    tool_alert_missing_hex: 'Please enter the encrypted Hex string',
+                    tool_alert_decrypt_fail: 'Decryption failed, please check Key/IV or encrypted string format',
+                    req_title: 'Request Parameters (Request)',
+                    req_api_info: 'API Info',
+                    req_url_prod: 'URL (Production)',
+                    req_url_test: 'URL (Test)',
+                    req_lvl1_title: 'Level 1 Parameters (HTML Form Post)',
+                    th_param: 'Parameter Name',
+                    th_name: 'Name',
+                    th_required: 'Required',
+                    th_type: 'Type',
+                    th_note: 'Note',
+                    req_lvl2_title: 'PostData_ Included Parameters (Pre-encryption)',
+                    enc_title: 'Encryption Rules Detail',
+                    enc_aes_title: 'AES Encryption/Decryption Mechanism (PostData_)',
+                    enc_aes_desc: 'To prevent leakage of important transaction information, AES encryption must be performed on parameter strings using the merchant\'s Hash Key and Hash IV before encryption.',
+                    enc_step1_title: 'Generate Request String',
+                    enc_step1_desc: 'Combine all parameters according to the <code>http_build_query</code> format (key=value&key2=value2...).',
+                    enc_step2_title: 'AES Encryption',
+                    enc_step2_desc: 'Encryption Algorithm: <span class="font-bold text-red-600">AES-256-CBC</span><br>Padding Mode: <span class="font-bold text-red-600">PKCS7</span><br>Key / IV: Please use the merchant-specific Hash Key and Hash IV.',
+                    enc_step3_title: 'Convert to Hexadecimal (Hex)',
+                    enc_step3_desc: 'Convert the encrypted binary data (Raw Data) to a Hex String (lowercase), which becomes <code>PostData_</code>.',
+                    enc_sha_title: 'SHA256 Checksum Mechanism (CheckMacValue)',
+                    enc_sha_desc: 'To ensure data transmission integrity, specific parameters need to be sorted and then hashed using SHA256.',
+                    enc_sha_step1_title: 'Parameter Sorting and Combination',
+                    enc_sha_step1_desc: 'Sort specified parameters by field name (A-Z) and combine them into a Query String (key1=val1&key2=val2...).',
+                    enc_sha_step2_title: 'Concatenate Key and IV',
+                    enc_sha_step2_desc: 'Prepend Hash Key and append Hash IV to the sorted string.<br>Format: <code>HashKey=...&[SortedParams]&HashIV=...</code>',
+                    enc_sha_step3_title: 'SHA256 Encryption and Uppercase Conversion',
+                    enc_sha_step3_desc: 'Perform SHA256 encryption on the concatenated string and convert the result to <strong>uppercase</strong>.',
+                    res_title: 'Response Parameters (Response)',
+                    res_desc: 'API returns data in JSON format.',
+                    res_lvl1_title: 'Return Parameters (L1)',
+                    res_lvl2_title: 'Detailed Data (L2 - Data/Result)',
+                    err_title: 'Error Code Table',
+                    err_search_ph: 'Search code...',
+                    th_err_code: 'Error Code',
+                    th_err_reason: 'Error Reason / Note',
+                    example_title: 'Code Examples',
+                    lbl_method: 'Method',
+                    lbl_encrypted_tag: 'AES-256-CBC Encrypted',
+                    lbl_api_index: 'API',
+                    msg_no_params: 'Undefined Parameters',
+                    msg_code_unavailable: '// No code example available yet',
+                    doc_title: 'Identity Verification API Documentation',
+                    doc_subtitle: 'Identity Verification Technical Integration Manual',
+                    doc_version: 'Ver: 1.0.0',
+                    doc_intro_title: 'Introduction & Description',
+                    doc_intro_desc: 'The Identity Verification API is primarily used for verifying identity data. It is a foreground API that requires redirecting to the NewebPay website to fill in data.\nThe Identity Verification Query API is a background API that directly returns query results.\nROC ID card data needs to be sent to the Ministry of the Interior system for verification. Passports and Resident Certificates will pass preliminarily if data is complete but will be listed for future reference.',
+                    api_0_name: 'Identity Verification',
+                    api_0_l1_uid_label: 'Merchant ID', api_0_l1_uid_note: 'NewebPay Merchant ID.',
+                    api_0_l1_enc_label: 'Encrypted Data', api_0_l1_enc_note: 'Please refer to the encryption rules for relevant encryption methods.',
+                    api_0_l1_ver_label: 'Integration Program Version', api_0_l1_ver_note: 'Please enter 1.0.',
+                    api_0_l1_ret_label: 'Return URL after Payment Completion', api_0_l1_ret_note: '1. Redirect back to merchant page after verification completes 2. If empty, stay on the verification completion page',
+                    api_0_l2_time_label: 'Timestamp', api_0_l2_time_note: 'Unix Timestamp (seconds).',
+                    api_0_l2_idv_label: 'Identity Verification Code', api_0_l2_idv_note: 'Alphanumeric string or Credit Card Number (pure digits).',
+                    api_0_l2_lang_label: 'Display Language', api_0_l2_lang_note: 'en=English, zh-Tw=Traditional Chinese (Default).',
+                    api_0_l2_url_label: 'Add Verification Result Parameter to URL', api_0_l2_url_note: '0=Do not add, 1=Add (Default).<br>If set to 1, the system will add the responseCode parameter to the end of ReturnURL<br>SUCCESS: Verification successful<br>DECLINE: Valid request but verification failed<br>ERROR: Invalid request caused failure',
+                    api_0_res1_stat_label: 'Return Status Code', api_0_res1_stat_note: 'SUCCESS: Success, others are error codes.',
+                    api_0_res1_msg_label: 'Return Message', api_0_res1_msg_note: 'Description of the error code.',
+                    api_0_res1_res_label: 'Return Data', api_0_res1_res_note: 'Please refer to the detailed data table for content.',
+                    api_0_res2_stat_label: 'Verification Result', api_0_res2_stat_note: 'SUCCESS: Verification successful, DECLINE: Valid request but verification failed',
+                    api_0_res2_start_label: 'Verification Validity Start Time', api_0_res2_start_note: 'Timestamp format. Null if verification failed',
+                    api_0_res2_end_label: 'Verification Validity End Time', api_0_res2_end_note: 'Timestamp format. Null if verification failed',
+                    api_0_res2_type_label: 'Verification Type', api_0_res2_type_note: '1=ROC ID Card, 2=Passport or ROC Resident Certificate',
+                    api_1_name: 'Query Identity Verification Result',
+                    api_1_l1_uid_label: 'Merchant ID', api_1_l1_uid_note: 'NewebPay Merchant ID.',
+                    api_1_l1_post_label: 'Encrypted Data', api_1_l1_post_note: 'Please refer to the encryption rules for relevant encryption methods',
+                    api_1_l1_ver_label: 'Integration Program Version', api_1_l1_ver_note: 'Please enter 1.0.',
+                    api_1_l2_time_label: 'Timestamp', api_1_l2_time_note: 'Unix Timestamp (seconds).',
+                    api_1_l2_idv_label: 'Identity Verification Code', api_1_l2_idv_note: 'Enter the identity verification code to query',
+                    api_1_l2_lang_label: 'Display Language', api_1_l2_lang_note: 'en=English, zh-Tw=Traditional Chinese (Default).',
+                    api_1_res1_stat_label: 'Return Status Code', api_1_res1_stat_note: 'SUCCESS: Success, others are error codes.',
+                    api_1_res1_msg_label: 'Return Message', api_1_res1_msg_note: 'Description of the error code.',
+                    api_1_res1_data_label: 'Return Data', api_1_res1_data_note: 'Please refer to the detailed data table for content.',
+                    api_1_res1_uid_label: 'Merchant ID', api_1_res1_uid_note: 'NewebPay Merchant ID.',
+                    api_1_res1_ver_label: 'Integration Program Version', api_1_res1_ver_note: 'Program version used in this call.',
+                    api_1_res2_stat_label: 'Verification Result', api_1_res2_stat_note: 'SUCCESS: Verification successful, DECLINE: Valid request but verification failed',
+                    api_1_res2_start_label: 'Verification Validity Start Time', api_1_res2_start_note: 'Timestamp format. Null if verification failed',
+                    api_1_res2_end_label: 'Verification Validity End Time', api_1_res2_end_note: 'Timestamp format. Null if verification failed',
+                    api_1_res2_type_label: 'Verification Type', api_1_res2_type_note: '1=ROC ID Card, 2=Passport or ROC Resident Certificate',
+                    err_VFP201: 'EncryptData_ parameter not received',
+                    err_VFP202: 'IDVNo parameter not received',
+                    err_MIF101: 'No permission to execute',
+                    err_MIF102: 'Decryption failed, no permission to execute',
+                    err_MIF103: 'Identity verification failed three times. This ID cannot be verified within 24 hours!',
+                    err_MIF104: 'Region code not found',
+                    err_MIF105: 'Verification system abnormal',
+                    err_MIF106: 'Member ID issuance date (issuance place) data is incorrect, please reconfirm',
+                    err_MIF107: 'ID verification failed for the first time. If cumulative failures exceed three times, this ID cannot be verified within 24 hours!',
+                    err_MIF108: 'ID verification failed for the second time. If cumulative failures exceed three times, this ID cannot be verified within 24 hours!',
+                    err_MIF109: 'ID verification failed three times. This ID cannot be verified within 24 hours!',
+                    err_MIF110: 'This ID card has been suspended',
+                    err_MIF111: 'This ID card has been reported lost by the owner',
+                    err_MIF112: 'This ID card is abnormal, usage privileges have been suspended',
+                    err_MIF113: 'ID verification failed',
+                    err_MIF201: 'Please confirm ID number, issuance date, and issuance place are all filled in',
+                    err_MIF202: 'Action not completed, please do not click continuously',
+                    err_MIF401: 'Verification system exception',
+                    err_FVS201: 'Please confirm ID_type, IDVNo, MerID parameters are not missing.',
+                    err_FVS202: 'Please upload ID photo.',
+                    err_FVS203: 'Missing sendData parameter data.',
+                    err_FVS204: 'Image upload failed, please re-upload',
+                    err_FVS205: 'Image upload failed, please re-upload',
+                    err_FVS206: 'Failed to establish verification identity',
+                    err_VSS201: 'EncryptData_ parameter not received',
+                    err_VSS202: 'IDVNo parameter not received'
+                }
+            },            
+            
+        'KO': {
+                name: '한국어',
+                data: {
+                    sidebar_brand: 'NewebPay',
+                    nav_intro: '소개 및 기능',
+                    nav_flowchart: '거래 흐름도',
+                    nav_tool: '암호화 테스트 도구',
+                    nav_group_api: 'API 사양 상세',
+                    nav_apis: 'API 사양',
+                    nav_encryption: '암호화 규칙 상세',
+                    nav_errors: '오류 코드 표',
+                    nav_example: '코드 예제',
+                    flowchart_title: '거래 흐름도',
+                    tool_title: '암호화 테스트 도구',
+                    tool_intro: '이 도구는 PostData_ 암호화 문자열을 생성하거나 응답 결과를 복호화하는 데 도움을 줍니다.',
+                    tool_tab_encrypt: 'AES 암호화',
+                    tool_tab_decrypt: 'AES 복호화',
+                    tool_tab_sha: 'SHA256 암호화',
+                    tool_ph_key: '예: AAAAvw3YlqoEk6G4HqRKDAYpHKZWxBBB',
+                    tool_ph_iv: '예: AAAACC1FplieBBBB',
+                    tool_lbl_key: 'Hash Key (32 bytes)',
+                    tool_lbl_iv: 'Hash IV (16 bytes)',
+                    tool_lbl_qs: '요청 매개변수 (Query String)',
+                    tool_ph_qs: '예: TimeStamp=1400137200&CardNo=4000221111111111...',
+                    tool_note_urlencode: '문자열이 http_build_query 또는 urlencode 처리되었는지 확인하십시오',
+                    tool_note_sha_sort: '프로그램이 자동으로 위 필드를 이름순(A-Z)으로 정렬하고 조합한 뒤, 앞뒤에 Key/IV를 연결합니다',
+                    tool_btn_encrypt: '암호화 실행 및 PostData_ 생성',
+                    tool_btn_sha: 'SHA256 실행',
+                    tool_lbl_hex: '암호화 결과 (Hex String)',
+                    tool_lbl_enc_hex: '암호화된 문자열 (Hex String)',
+                    tool_lbl_sha_res: 'SHA256 결과 (대문자)',
+                    tool_ph_enc_hex: '예: 0ef82edabaf8964d09992d7ec8e575f1...',
+                    tool_btn_decrypt: '복호화 실행',
+                    tool_lbl_decrypt_res: '복호화 결과 (원본 데이터)',
+                    tool_alert_missing_key: 'Hash Key와 Hash IV를 입력하십시오',
+                    tool_alert_missing_data: '원본 문자열을 입력하십시오',
+                    tool_alert_encrypt_fail: '암호화 실패: ',
+                    tool_alert_missing_hex: '암호화된 Hex 문자열을 입력하십시오',
+                    tool_alert_decrypt_fail: '복호화 실패, Key/IV 또는 암호화 문자열 형식을 확인하십시오',
+                    req_title: '요청 매개변수 (Request)',
+                    req_api_info: 'API 정보',
+                    req_url_prod: 'URL (운영 환경)',
+                    req_url_test: 'URL (테스트 환경)',
+                    req_lvl1_title: '레벨 1 매개변수 (HTML Form Post)',
+                    th_param: '매개변수명',
+                    th_name: '이름',
+                    th_required: '필수',
+                    th_type: '유형',
+                    th_note: '비고',
+                    req_lvl2_title: 'PostData_ 포함 매개변수 (암호화 전)',
+                    enc_title: '암호화 규칙 상세',
+                    enc_aes_title: 'AES 암호화/복호화 메커니즘 (PostData_)',
+                    enc_aes_desc: '중요한 거래 정보 유출을 방지하기 위해, 암호화 전에 상점의 Hash Key 및 Hash IV를 사용하여 매개변수 문자열에 대해 AES 암호화를 수행해야 합니다.',
+                    enc_step1_title: '요청 문자열 생성',
+                    enc_step1_desc: '모든 매개변수를 <code>http_build_query</code> 형식(key=value&key2=value2...)으로 조합합니다.',
+                    enc_step2_title: 'AES 암호화',
+                    enc_step2_desc: '암호화 알고리즘: <span class="font-bold text-red-600">AES-256-CBC</span><br>패딩 모드 (Padding): <span class="font-bold text-red-600">PKCS7</span><br>Key / IV: 상점 전용 Hash Key와 Hash IV를 사용하십시오.',
+                    enc_step3_title: '16진수 변환 (Hex)',
+                    enc_step3_desc: '암호화된 이진 데이터(Raw Data)를 Hex String(소문자)으로 변환하면 <code>PostData_</code>가 됩니다.',
+                    enc_sha_title: 'SHA256 체크섬 메커니즘 (CheckMacValue)',
+                    enc_sha_desc: '데이터 전송 무결성을 보장하기 위해, 특정 매개변수를 정렬한 후 SHA256 해싱을 수행해야 합니다.',
+                    enc_sha_step1_title: '매개변수 정렬 및 조합',
+                    enc_sha_step1_desc: '지정된 매개변수를 필드명(A-Z) 순으로 정렬하고 Query String(key1=val1&key2=val2...)으로 조합합니다.',
+                    enc_sha_step2_title: 'Key와 IV 연결',
+                    enc_sha_step2_desc: '정렬된 문자열의 앞뒤에 각각 Hash Key와 Hash IV를 연결합니다.<br>형식: <code>HashKey=...&[SortedParams]&HashIV=...</code>',
+                    enc_sha_step3_title: 'SHA256 암호화 및 대문자 변환',
+                    enc_sha_step3_desc: '연결된 문자열에 대해 SHA256 암호화를 수행하고, 결과를 <strong>대문자</strong>로 변환합니다.',
+                    res_title: '응답 매개변수 (Response)',
+                    res_desc: 'API는 JSON 형식의 데이터를 반환합니다.',
+                    res_lvl1_title: '반환 매개변수 (L1)',
+                    res_lvl2_title: '상세 데이터 (L2 - Data/Result)',
+                    err_title: '오류 코드 표',
+                    err_search_ph: '코드 검색...',
+                    th_err_code: '오류 코드',
+                    th_err_reason: '오류 원인 / 비고',
+                    example_title: '코드 예제',
+                    lbl_method: 'Method',
+                    lbl_encrypted_tag: 'AES-256-CBC Encrypted',
+                    lbl_api_index: 'API',
+                    msg_no_params: '매개변수 미정의',
+                    msg_code_unavailable: '// 코드 예제 준비 중',
+                    doc_title: '신원 확인 API 문서',
+                    doc_subtitle: '신원 확인 기술 연동 매뉴얼',
+                    doc_version: 'Ver: 1.0.0',
+                    doc_intro_title: '소개 및 설명',
+                    doc_intro_desc: '신원 확인 API는 주로 신원 데이터를 검증하는 데 사용됩니다. 이는 포그라운드 API로, 데이터를 입력하기 위해 NewebPay 웹사이트로 리디렉션해야 합니다.\n신원 확인 조회 API는 백그라운드 API로, 조회 결과를 직접 반환합니다.\n대만 신분증 데이터는 검증을 위해 내무부 시스템으로 전송되어야 합니다. 여권 및 거류증은 데이터가 완전한 경우 우선 통과되지만 추후 참조를 위해 나열됩니다.',
+                    api_0_name: '신원 확인',
+                    api_0_l1_uid_label: '상점 ID', api_0_l1_uid_note: 'NewebPay 상점 ID.',
+                    api_0_l1_enc_label: '암호화 데이터', api_0_l1_enc_note: '관련 암호화 방법은 암호화 규칙 설명을 참조하십시오.',
+                    api_0_l1_ver_label: '연동 프로그램 버전', api_0_l1_ver_note: '1.0을 입력하십시오.',
+                    api_0_l1_ret_label: '결제 완료 후 상점 반환 URL', api_0_l1_ret_note: '1. 검증 완료 후 상점 페이지로 리디렉션 2. 비어 있으면 검증 완료 페이지에 머무름',
+                    api_0_l2_time_label: '타임스탬프', api_0_l2_time_note: 'Unix 타임스탬프 (초).',
+                    api_0_l2_idv_label: '신원 확인 코드', api_0_l2_idv_note: '영숫자 문자열 또는 신용카드 번호(숫자만).',
+                    api_0_l2_lang_label: '표시 언어', api_0_l2_lang_note: 'en=영어, zh-Tw=중국어 번체(기본값).',
+                    api_0_l2_url_label: 'URL에 검증 결과 매개변수 추가', api_0_l2_url_note: '0=추가 안 함, 1=추가(기본값).<br>1로 설정하면 시스템이 ReturnURL 끝에 responseCode 매개변수를 추가합니다<br>SUCCESS: 검증 성공<br>DECLINE: 유효한 요청이나 검증 실패<br>ERROR: 무효한 요청으로 인한 실패',
+                    api_0_res1_stat_label: '반환 상태 코드', api_0_res1_stat_note: 'SUCCESS: 성공, 그 외는 오류 코드.',
+                    api_0_res1_msg_label: '반환 메시지', api_0_res1_msg_note: '오류 코드 설명.',
+                    api_0_res1_res_label: '반환 데이터', api_0_res1_res_note: '내용은 상세 데이터 표를 참조하십시오.',
+                    api_0_res2_stat_label: '검증 결과', api_0_res2_stat_note: 'SUCCESS: 검증 성공, DECLINE: 유효한 요청이나 검증 실패',
+                    api_0_res2_start_label: '검증 유효 시작 시간', api_0_res2_start_note: 'Timestamp 형식. 검증 실패 시 null',
+                    api_0_res2_end_label: '검증 유효 종료 시간', api_0_res2_end_note: 'Timestamp 형식. 검증 실패 시 null',
+                    api_0_res2_type_label: '검증 유형', api_0_res2_type_note: '1=대만 신분증, 2=여권 또는 대만 거류증',
+                    api_1_name: '신원 확인 결과 조회',
+                    api_1_l1_uid_label: '상점 ID', api_1_l1_uid_note: 'NewebPay 상점 ID.',
+                    api_1_l1_post_label: '암호화 데이터', api_1_l1_post_note: '관련 암호화 방법은 암호화 규칙 설명을 참조하십시오',
+                    api_1_l1_ver_label: '연동 프로그램 버전', api_1_l1_ver_note: '1.0을 입력하십시오.',
+                    api_1_l2_time_label: '타임스탬프', api_1_l2_time_note: 'Unix 타임스탬프 (초).',
+                    api_1_l2_idv_label: '신원 확인 코드', api_1_l2_idv_note: '조회할 신원 확인 코드를 입력하십시오',
+                    api_1_l2_lang_label: '표시 언어', api_1_l2_lang_note: 'en=영어, zh-Tw=중국어 번체(기본값).',
+                    api_1_res1_stat_label: '반환 상태 코드', api_1_res1_stat_note: 'SUCCESS: 성공, 그 외는 오류 코드.',
+                    api_1_res1_msg_label: '반환 메시지', api_1_res1_msg_note: '오류 코드 설명.',
+                    api_1_res1_data_label: '반환 데이터', api_1_res1_data_note: '내용은 상세 데이터 표를 참조하십시오.',
+                    api_1_res1_uid_label: '상점 ID', api_1_res1_uid_note: 'NewebPay 상점 ID.',
+                    api_1_res1_ver_label: '연동 프로그램 버전', api_1_res1_ver_note: '이번 호출에 사용된 프로그램 버전.',
+                    api_1_res2_stat_label: '검증 결과', api_1_res2_stat_note: 'SUCCESS: 검증 성공, DECLINE: 유효한 요청이나 검증 실패',
+                    api_1_res2_start_label: '검증 유효 시작 시간', api_1_res2_start_note: 'Timestamp 형식. 검증 실패 시 null',
+                    api_1_res2_end_label: '검증 유효 종료 시간', api_1_res2_end_note: 'Timestamp 형식. 검증 실패 시 null',
+                    api_1_res2_type_label: '검증 유형', api_1_res2_type_note: '1=대만 신분증, 2=여권 또는 대만 거류증',
+                    err_VFP201: 'EncryptData_ 매개변수를 수신하지 못했습니다',
+                    err_VFP202: 'IDVNo 매개변수를 수신하지 못했습니다',
+                    err_MIF101: '실행 권한이 없습니다',
+                    err_MIF102: '복호화 실패, 실행 권한이 없습니다',
+                    err_MIF103: '신원 확인 3회 실패. 이 신분증은 24시간 내에 검증할 수 없습니다!',
+                    err_MIF104: '지역 코드를 찾을 수 없습니다',
+                    err_MIF105: '검증 시스템 이상',
+                    err_MIF106: '회원 신분증 발급일(발급 장소) 데이터 오류, 다시 확인해 주십시오',
+                    err_MIF107: '신분증 검증 1회 실패. 누적 3회 초과 시 이 신분증은 24시간 내에 검증할 수 없습니다!',
+                    err_MIF108: '신분증 검증 2회 실패. 누적 3회 초과 시 이 신분증은 24시간 내에 검증할 수 없습니다!',
+                    err_MIF109: '신분증 검증 3회 실패. 이 신분증은 24시간 내에 검증할 수 없습니다!',
+                    err_MIF110: '이 신분증은 사용이 중지되었습니다',
+                    err_MIF111: '이 신분증은 소유자에 의해 분실 신고되었습니다',
+                    err_MIF112: '이 신분증은 비정상 상태이며, 사용 권한이 일시 중지되었습니다',
+                    err_MIF113: '신분증 검증 실패',
+                    err_MIF201: '신분증 번호, 발급일, 발급 장소가 모두 입력되었는지 확인하십시오',
+                    err_MIF202: '작업이 완료되지 않았습니다. 연속으로 클릭하지 마십시오',
+                    err_MIF401: '검증 시스템 예외',
+                    err_FVS201: 'ID_type, IDVNo, MerID 매개변수가 누락되지 않았는지 확인하십시오.',
+                    err_FVS202: '신분증 사진을 업로드하십시오.',
+                    err_FVS203: 'sendData 매개변수 데이터가 누락되었습니다.',
+                    err_FVS204: '이미지 업로드 실패, 다시 업로드해 주십시오',
+                    err_FVS205: '이미지 업로드 실패, 다시 업로드해 주십시오',
+                    err_FVS206: '검증 신원 생성 실패',
+                    err_VSS201: 'EncryptData_ 매개변수를 수신하지 못했습니다',
+                    err_VSS202: 'IDVNo 매개변수를 수신하지 못했습니다'
+                }
+            },                                                                                
+        };
+
+        // =========================================================================================
+        //  API Configuration Data (API 核心設定資料)
+        //  此區塊包含所有動態資料，包括：
+        //  1. meta: 頁面標題、版本、流程圖設定（流程圖網址支援多張,用逗號分隔）
+        //  2. tools_config: 加密工具的參數與啟用狀態
+        //  3. apis: API 請求與回應的欄位定義
+        //  4. errors: 錯誤代碼列表
+        //  5. code_examples: 各程式語言範例代碼
+        //
+        //  注意：此變數內容應由 PHP 程式讀取外部設定後動態產生並取代。
+        // =========================================================================================
+        /* __PHP_INJECT_CONFIG__ */
+        const apiConfig = {
+            meta: {
+                title: "doc_title",
+                subtitle: "doc_subtitle",
+                version: "doc_version",
+                intro_title: "doc_intro_title",
+                intro_desc: "doc_intro_desc",
+                flowchart_urls: [
+                    "https://lingogo2025.github.io/NewebDoc/KCP/IDcheckFlow.png"
+                ] // Add URLs here. If empty [], the flowchart section is hidden.
+            },
+            tools_config: {
+                // Controls which tools are visible in the #tool section
+                sha: { 
+                    enabled: false, 
+                    params: { 
+                        key_label: 'HashKey', 
+                        iv_label: 'HashIV',
+                        // Defines which columns are used for SHA generation (Comma separated, order is ignored due to A-Z sorting)
+                        columns: 'Service,MerchantID,TradeInfo,TimeStamp,Version,MerchantOrderNo,Amt,ItemDesc' 
+                    } 
+                },
+                aes_encrypt: { enabled: true },
+                aes_decrypt: { enabled: true }
+            },
+            apis: [
+                {
+                    name: "api_0_name",
+                    method: "POST",
+                    url_test: "https://ccore.newebpay.com/API/PrecheckIdentity/form",
+                    url_prod: "https://core.newebpay.com/API/PrecheckIdentity/form",
+                    params_l1: [
+                        { name: "UID_", label: "api_0_l1_uid_label", required: "V", type: "Varchar(15)", note: "api_0_l1_uid_note" },
+                        { name: "EncryptData_", label: "api_0_l1_enc_label", required: "V", type: "Text", note: "api_0_l1_enc_note" },
+                        { name: "Version_", label: "api_0_l1_ver_label", required: "V", type: "Varchar(5)", note: "api_0_l1_ver_note" },
+                        { name: "ReturnURL_", label: "api_0_l1_ret_label", required: "V", type: "Varchar(150)", note: "api_0_l1_ret_note" }
+                    ],
+                    params_l2: [
+                        { name: "TimeStamp", label: "api_0_l2_time_label", required: "V", type: "Varchar(30)", note: "api_0_l2_time_note" },
+                        { name: "IDVNo", label: "api_0_l2_idv_label", required: "V", type: "Varchar(30)", note: "api_0_l2_idv_note" },
+                        { name: "LangType", label: "api_0_l2_lang_label", required: "", type: "Varchar(5)", note: "api_0_l2_lang_note" },
+                        { name: "URLGet", label: "api_0_l2_url_label", required: "", type: "Int(2)", note: "api_0_l2_url_note" }
+                    ],
+                    response_l1: [
+                        { name: "Status", label: "api_0_res1_stat_label", type: "Varchar(10)", note: "api_0_res1_stat_note" },
+                        { name: "Message", label: "api_0_res1_msg_label", type: "Varchar(30)", note: "api_0_res1_msg_note" },
+                        { name: "Result", label: "api_0_res1_res_label", type: "Array", note: "api_0_res1_res_note" }
+                    ],
+                    response_l2: [
+                        { name: "IDVStatus", label: "api_0_res2_stat_label", type: "Varchar(10)", note: "api_0_res2_stat_note" },
+                        { name: "IDVStart", label: "api_0_res2_start_label", type: "Varchar(10)", note: "api_0_res2_start_note" },
+                        { name: "IDVEnd", label: "api_0_res2_end_label", type: "Varchar(10)", note: "api_0_res2_end_note" },
+                    ]
+                },
+                {
+                    name: "api_1_name",
+                    method: "POST",
+                    url_test: "https://ccore.newebpay.com/API/PrecheckIdentity/verify",
+                    url_prod: "https://core.newebpay.com/API/PrecheckIdentity/verify",
+                    params_l1: [
+                        { name: "UID_", label: "api_1_l1_uid_label", required: "V", type: "Varchar(15)", note: "api_1_l1_uid_note" },
+                        { name: "PostData_", label: "api_1_l1_post_label", required: "V", type: "Text", note: "api_1_l1_post_note" },
+                        { name: "Version_", label: "api_1_l1_ver_label", required: "V", type: "Varchar(5)", note: "api_1_l1_ver_note" }
+                    ],
+                    params_l2: [
+                        { name: "TimeStamp", label: "api_1_l2_time_label", required: "V", type: "Varchar(30)", note: "api_1_l2_time_note" },
+                        { name: "IDVNo", label: "api_1_l2_idv_label", required: "V", type: "Varchar(30)", note: "api_1_l2_idv_note" },
+                    ],
+                    response_l1: [
+                        { name: "Status", label: "api_1_res1_stat_label", type: "Varchar(10)", note: "api_1_res1_stat_note" },
+                        { name: "Message", label: "api_1_res1_msg_label", type: "Varchar(30)", note: "api_1_res1_msg_note" },
+                        { name: "Data", label: "api_1_res1_data_label", type: "Array", note: "api_1_res1_data_note" },
+                        { name: "UID", label: "api_1_res1_uid_label", type: "Varchar(15)", note: "api_1_res1_uid_note" },
+                        { name: "Version", label: "api_1_res1_ver_label", type: "Varchar(5)", note: "api_1_res1_ver_note" }
+                    ],
+                    response_l2: [
+                         { name: "IDVStatus", label: "api_1_res2_stat_label", type: "Varchar(10)", note: "api_1_res2_stat_note" },
+                        { name: "IDVStart", label: "api_1_res2_start_label", type: "Varchar(10)", note: "api_1_res2_start_note" },
+                        { name: "IDVEnd", label: "api_1_res2_end_label", type: "Varchar(10)", note: "api_1_res2_end_note" },
+                        { name: "IDVType", label: "api_1_res2_type_label", type: "Varchar(2)", note: "api_1_res2_type_note" }
+                    ]
+                }
+            ],
+            errors: [
+                { code: "VFP201", reason: "err_VFP201" },
+                { code: "VFP202", reason: "err_VFP202" },
+                { code: "MIF101", reason: "err_MIF101" },
+                { code: "MIF102", reason: "err_MIF102" },
+                { code: "MIF103", reason: "err_MIF103" },
+                { code: "MIF104", reason: "err_MIF104" },
+                { code: "MIF105", reason: "err_MIF105" },
+                { code: "MIF106", reason: "err_MIF106" },
+                { code: "MIF107", reason: "err_MIF107" },
+                { code: "MIF108", reason: "err_MIF108" },
+                { code: "MIF109", reason: "err_MIF109" },
+                { code: "MIF110", reason: "err_MIF110" },
+                { code: "MIF111", reason: "err_MIF111" },
+                { code: "MIF112", reason: "err_MIF112" },
+                { code: "MIF113", reason: "err_MIF113" },
+                { code: "MIF201", reason: "err_MIF201" },
+                { code: "MIF202", reason: "err_MIF202" },
+                { code: "MIF401", reason: "err_MIF401" },
+                { code: "FVS201", reason: "err_FVS201" },
+                { code: "FVS202", reason: "err_FVS202" },
+                { code: "FVS203", reason: "err_FVS203" },
+                { code: "FVS204", reason: "err_FVS204" },
+                { code: "FVS205", reason: "err_FVS205" },
+                { code: "FVS206", reason: "err_FVS206" },
+                { code: "VSS201", reason: "err_VSS201" },
+                { code: "VSS202", reason: "err_VSS202" }
+            ],
+            code_examples: {
+                php: `<?php
+/*
+ * Identity Verification API Example (PHP)
+ *
+ * This example demonstrates how to encrypt the parameters and
+ * generate the HTML form for the Identity Verification API.
+ */
+
+$hashKey = "YOUR_HASH_KEY"; // 32 bytes
+$hashIv  = "YOUR_HASH_IV";  // 16 bytes
+$merchantId = "YOUR_MERCHANT_ID";
+$apiUrl = "https://ccore.newebpay.com/API/PrecheckIdentity/form"; // Test Env
+
+// 1. Prepare parameters for encryption (Level 2 Params)
+$tradeInfo = [
+    'TimeStamp' => time(),
+    'IDVNo'     => 'A123456789', // The ID to verify
+    'LangType'  => 'zh-tw',
+    'URLGet'    => 1
+];
+
+// 2. Build Query String
+$queryStr = http_build_query($tradeInfo);
+
+// 3. AES-256-CBC Encryption
+// Note: openssl_encrypt with OPENSSL_RAW_DATA returns raw binary
+$encrypted = openssl_encrypt(
+    $queryStr, 
+    'AES-256-CBC', 
+    $hashKey, 
+    OPENSSL_RAW_DATA, 
+    $hashIv
+);
+
+// 4. Convert to Hex String
+$encryptData = bin2hex($encrypted);
+
+// 5. Generate HTML Form
+?>
+<!DOCTYPE html>
+<html>
+<head><title>Identity Verification</title></head>
+<body>
+    <form action="<?php echo $apiUrl; ?>" method="post">
+        <input type="hidden" name="UID_" value="<?php echo $merchantId; ?>">
+        <input type="hidden" name="Version_" value="1.0">
+        <input type="hidden" name="EncryptData_" value="<?php echo $encryptData; ?>">
+        <input type="hidden" name="ReturnURL_" value="https://your-site.com/return">
+        <button type="submit">Verify Identity</button>
+    </form>
+</body>
+</html>`,
+                nodejs: `/*
+ * Identity Verification API Example (Node.js)
+ * Dependencies: crypto, querystring
+ */
+
+const crypto = require('crypto');
+const querystring = require('querystring');
+
+const hashKey = 'YOUR_HASH_KEY'; // 32 bytes
+const hashIv  = 'YOUR_HASH_IV';  // 16 bytes
+const merchantId = 'YOUR_MERCHANT_ID';
+const apiUrl = 'https://ccore.newebpay.com/API/PrecheckIdentity/form';
+
+// 1. Prepare Data
+const tradeInfo = {
+    TimeStamp: Math.floor(Date.now() / 1000),
+    IDVNo: 'A123456789',
+    LangType: 'zh-tw',
+    URLGet: 1
+};
+
+// 2. Build Query String
+const queryStr = querystring.stringify(tradeInfo);
+
+// 3. Encrypt Function (AES-256-CBC + PKCS7)
+function encrypt(text, key, iv) {
+    const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+    // setAutoPadding(true) handles PKCS7 automatically
+    let encrypted = cipher.update(text, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    return encrypted;
+}
+
+const encryptData = encrypt(queryStr, hashKey, hashIv);
+
+// 4. Output HTML Form logic (Console output for demo)
+console.log('Form Action:', apiUrl);
+console.log('UID_:', merchantId);
+console.log('Version_:', '1.0');
+console.log('EncryptData_:', encryptData);
+console.log('ReturnURL_:', 'https://your-site.com/return');
+`,
+                python: `# Identity Verification API Example (Python 3)
+# Dependencies: pycryptodome (pip install pycryptodome)
+
+import time
+import urllib.parse
+from Crypto.Cipher import AES
+from Crypto.Util.Padding import pad
+import binascii
+
+hash_key = b'YOUR_HASH_KEY_32_BYTES____' # Must be 32 bytes
+hash_iv  = b'YOUR_HASH_IV_16_'         # Must be 16 bytes
+merchant_id = 'YOUR_MERCHANT_ID'
+api_url = 'https://ccore.newebpay.com/API/PrecheckIdentity/form'
+
+# 1. Prepare Data
+trade_info = {
+    'TimeStamp': int(time.time()),
+    'IDVNo': 'A123456789',
+    'LangType': 'zh-tw',
+    'URLGet': 1
+}
+
+# 2. Build Query String
+query_str = urllib.parse.urlencode(trade_info)
+
+# 3. Encrypt (AES-256-CBC + PKCS7)
+cipher = AES.new(hash_key, AES.MODE_CBC, hash_iv)
+padded_data = pad(query_str.encode('utf-8'), AES.block_size)
+encrypted_bytes = cipher.encrypt(padded_data)
+
+# 4. Convert to Hex String
+encrypt_data = binascii.hexlify(encrypted_bytes).decode('utf-8')
+
+# 5. Output
+print(f"Form Action: {api_url}")
+print(f"UID_: {merchant_id}")
+print(f"Version_: 1.0")
+print(f"EncryptData_: {encrypt_data}")
+print(f"ReturnURL_: https://your-site.com/return")
+`,
+                csharp: `/*
+ * Identity Verification API Example (C# .NET Core)
+ */
+
+using System;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web; // System.Web.HttpUtility or System.Net.WebUtility
+
+public class Program
+{
+    public static void Main()
+    {
+        string hashKey = "YOUR_HASH_KEY_32_BYTES____"; // 32 chars
+        string hashIv  = "YOUR_HASH_IV_16_";         // 16 chars
+        string merchantId = "YOUR_MERCHANT_ID";
+        
+        // 1. Prepare Data
+        var tradeInfo = new Dictionary<string, string>
+        {
+            { "TimeStamp",  DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString() },
+            { "IDVNo",      "A123456789" },
+            { "LangType",   "zh-tw" },
+            { "URLGet",     "1" }
+        };
+        
+        // 2. Build Query String
+        // Note: You might need a custom method to match PHP's http_build_query exactly if specific encoding is needed
+        var queryStr = string.Join("&", tradeInfo.Select(kvp => $"{kvp.Key}={HttpUtility.UrlEncode(kvp.Value)}"));
+        
+        // 3. Encrypt
+        string encryptData = EncryptAES256(queryStr, hashKey, hashIv);
+        
+        // 4. Output
+        Console.WriteLine($"UID_: {merchantId}");
+        Console.WriteLine($"EncryptData_: {encryptData}");
+    }
+
+    public static string EncryptAES256(string source, string key, string iv)
+    {
+        byte[] sourceBytes = Encoding.UTF8.GetBytes(source);
+        byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+        byte[] ivBytes = Encoding.UTF8.GetBytes(iv);
+
+        using (Aes aes = Aes.Create())
+        {
+            aes.Key = keyBytes;
+            aes.IV = ivBytes;
+            aes.Mode = CipherMode.CBC;
+            aes.Padding = PaddingMode.PKCS7;
+
+            using (ICryptoTransform encryptor = aes.CreateEncryptor())
+            {
+                byte[] encryptedBytes = encryptor.TransformFinalBlock(sourceBytes, 0, sourceBytes.Length);
+                return BitConverter.ToString(encryptedBytes).Replace("-", "").ToLower();
+            }
+        }
+    }
+}
+`,
+                java: `/*
+ * Identity Verification API Example (Java)
+ */
+
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
+import java.util.Formatter;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        String hashKey = "YOUR_HASH_KEY_32_BYTES____"; // 32 bytes
+        String hashIv = "YOUR_HASH_IV_16_";          // 16 bytes
+        String merchantId = "YOUR_MERCHANT_ID";
+        String apiUrl = "https://ccore.newebpay.com/API/PrecheckIdentity/form";
+
+        // 1. Prepare Data
+        TreeMap<String, String> params = new TreeMap<>();
+        params.put("TimeStamp", String.valueOf(System.currentTimeMillis() / 1000));
+        params.put("IDVNo", "A123456789");
+        params.put("LangType", "zh-tw");
+        params.put("URLGet", "1");
+
+        // 2. Build Query String
+        // Note: Ensure values are URL encoded if they contain special characters.
+        String queryStr = params.entrySet().stream()
+            .map(e -> e.getKey() + "=" + e.getValue()) 
+            .collect(Collectors.joining("&"));
+
+        // 3. Encrypt
+        String encryptData = encrypt(queryStr, hashKey, hashIv);
+
+        // 4. Output
+        System.out.println("UID_: " + merchantId);
+        System.out.println("EncryptData_: " + encryptData);
+    }
+
+    public static String encrypt(String value, String key, String iv) throws Exception {
+        SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "AES");
+        IvParameterSpec ivSpec = new IvParameterSpec(iv.getBytes(StandardCharsets.UTF_8));
+
+        // Java's PKCS5Padding handles PKCS7 scheme
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
+        cipher.init(Cipher.ENCRYPT_MODE, skeySpec, ivSpec);
+
+        byte[] encrypted = cipher.doFinal(value.getBytes(StandardCharsets.UTF_8));
+        return byteToHex(encrypted);
+    }
+
+    private static String byteToHex(byte[] bytes) {
+        Formatter formatter = new Formatter();
+        for (byte b : bytes) {
+            formatter.format("%02x", b);
+        }
+        String result = formatter.toString();
+        formatter.close();
+        return result;
+    }
+}`,
+                go: `/*
+ * Identity Verification API Example (Go)
+ */
+
+package main
+
+import (
+	"bytes"
+	"crypto/aes"
+	"crypto/cipher"
+	"encoding/hex"
+	"fmt"
+	"net/url"
+	"time"
+)
+
+func main() {
+	hashKey := "YOUR_HASH_KEY_32_BYTES____" // 32 bytes
+	hashIv := "YOUR_HASH_IV_16_"          // 16 bytes
+	merchantId := "YOUR_MERCHANT_ID"
+
+	// 1. Prepare Data
+	v := url.Values{}
+	v.Set("TimeStamp", fmt.Sprintf("%d", time.Now().Unix()))
+	v.Set("IDVNo", "A123456789")
+	v.Set("LangType", "zh-tw")
+	v.Set("URLGet", "1")
+
+	// 2. Build Query String
+	// Go's url.Values.Encode() sorts keys alphabetically and URL-encodes values.
+	queryStr := v.Encode()
+
+	// 3. Encrypt
+	encryptData, err := AesEncrypt(queryStr, hashKey, hashIv)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	// 4. Output
+	fmt.Printf("UID_: %s\n", merchantId)
+	fmt.Printf("EncryptData_: %s\n", encryptData)
+}
+
+func AesEncrypt(encodeStr string, key string, iv string) (string, error) {
+	encodeBytes := []byte(encodeStr)
+	block, err := aes.NewCipher([]byte(key))
+	if err != nil {
+		return "", err
+	}
+
+	// PKCS7 Padding
+	blockSize := block.BlockSize()
+	padding := blockSize - len(encodeBytes)%blockSize
+	padtext := bytes.Repeat([]byte{byte(padding)}, padding)
+	encodeBytes = append(encodeBytes, padtext...)
+
+	blockMode := cipher.NewCBCEncrypter(block, []byte(iv))
+	crypted := make([]byte, len(encodeBytes))
+	blockMode.CryptBlocks(crypted, encodeBytes)
+
+	return hex.EncodeToString(crypted), nil
+}`
+            }
+        };
+    </script>
+
+    <!-- Mobile Header -->
+    <header class="lg:hidden bg-white shadow-sm p-4 sticky top-0 z-50 flex justify-between items-center border-b border-slate-200">
+        <h1 class="text-lg font-bold text-blue-700 flex items-center">
+            <i class="fas fa-book mr-2"></i> <span id="mobile-header-title">API 文件</span>
+        </h1>
+        <button id="menu-btn" class="text-slate-600 focus:outline-none hover:text-blue-600 transition">
+            <i class="fas fa-bars text-2xl"></i>
+        </button>
+    </header>
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 w-72 bg-white shadow-xl transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 border-r border-slate-200 flex flex-col">
+            
+            <!-- Top Section -->
+            <div class="p-6 border-b border-slate-100 bg-gradient-to-r from-blue-50 to-white shrink-0">
+                <h2 class="text-2xl font-bold text-blue-700 tracking-tight" data-i18n="sidebar_brand"></h2>
+                <p class="text-sm text-slate-500 mt-1 font-medium"><span id="sidebar-subtitle">API 文件</span><br><span class="text-xs text-slate-400" id="sidebar-version">Ver: 1.0</span></p>
+            </div>
+
+            <!-- Scrollable Navigation Area -->
+            <div class="flex-1 overflow-y-auto scrollable-area">
+                <nav class="p-4 space-y-1">
+                    <a href="#intro" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-info-circle w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_intro"></span>
+                    </a>
+                    
+                    <!-- Dynamic Flowchart Link (Hidden by default) -->
+                    <a href="#flowchart" id="nav-flowchart-link" class="nav-link hidden px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-project-diagram w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_flowchart"></span>
+                    </a>
+
+                    <a href="#tool" class="nav-link block px-4 py-3 text-sm text-purple-700 bg-purple-50 hover:bg-purple-100 hover:text-purple-800 rounded-lg transition-colors group border border-purple-100 mb-1 shadow-sm">
+                        <i class="fas fa-wrench w-6 group-hover:text-purple-600 transition-colors"></i> <span data-i18n="nav_tool"></span>
+                    </a>
+                    
+                    <a href="#encryption" id="nav-encryption-link" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group mb-4">
+                        <i class="fas fa-lock w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_encryption"></span>
+                    </a>
+
+                    <!-- API Group Header -->
+                    <div class="px-4 py-2 text-xs font-bold text-slate-400 uppercase tracking-wider mt-4" data-i18n="nav_group_api"></div>
+                    
+                    <!-- Dynamic API List Container -->
+                    <div id="sidebar-api-list"></div>
+
+                    <a href="#errors" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group mt-4">
+                        <i class="fas fa-exclamation-triangle w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_errors"></span>
+                    </a>
+                    <a href="#example" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-code w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_example"></span>
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Footer with Language Switcher -->
+            <div class="p-4 border-t border-slate-200 bg-slate-50 shrink-0">
+                <div class="relative group w-full">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <select id="lang-select" onchange="changeLang(this.value)" class="w-full appearance-none bg-white hover:bg-white text-slate-600 font-medium py-2.5 pl-10 pr-8 rounded-lg text-sm transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer border border-slate-300 hover:border-blue-400 shadow-sm">
+                        <!-- Options injected by JS -->
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500 group-hover:text-slate-700">
+                        <i class="fas fa-chevron-up text-xs"></i>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-72 p-4 lg:p-8 w-[95%] mx-auto max-w-[1920px]">
+            
+            <!-- Intro -->
+            <section id="intro" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h1 class="text-3xl font-bold text-slate-900" id="intro-title"></h1>
+                </div>
+                
+                <div class="bg-white p-6 lg:p-8 rounded-xl shadow-sm border border-slate-200">
+                    <!-- Dynamic Description -->
+                    <div id="intro-desc" class="text-slate-700 leading-relaxed text-lg whitespace-pre-line"></div>
+                </div>
+            </section>
+
+            <!-- Flowchart Section (Dynamic Visibility) -->
+            <section id="flowchart" class="mb-12 scroll-mt-24 hidden">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-orange-500 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="flowchart_title"></h2>
+                </div>
+                
+                <div id="flowchart-container" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-8">
+                    <!-- Images will be injected here -->
+                </div>
+            </section>
+
+            <!-- Tool -->
+             <section id="tool" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-purple-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="tool_title"></h2>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md border border-purple-100 overflow-hidden">
+                    <div class="bg-purple-50 p-4 border-b border-purple-100">
+                        <p class="text-purple-800 text-sm" data-i18n="tool_intro"></p>
+                    </div>
+
+                    <!-- Dynamic Tool Tabs -->
+                    <div class="flex border-b border-slate-200" id="tool-tabs-container">
+                        <!-- Tabs will be injected here -->
+                    </div>
+
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 pb-6 border-b border-slate-100">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="tool_lbl_key"></label>
+                                <input type="text" id="toolKey" data-i18n-placeholder="tool_ph_key" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm bg-slate-50">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="tool_lbl_iv"></label>
+                                <input type="text" id="toolIv" data-i18n-placeholder="tool_ph_iv" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm bg-slate-50">
+                            </div>
+                        </div>
+
+                        <!-- SHA Tool -->
+                        <div id="tool-sha" class="tool-content hidden">
+                            <div class="mb-4">
+                                <label class="block text-sm font-bold text-slate-700 mb-3" data-i18n="tool_lbl_qs"></label>
+                                <!-- Dynamic Inputs Area -->
+                                <div id="sha-inputs-area" class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-200">
+                                    <!-- JS will inject inputs here -->
+                                </div>
+                                <p class="text-xs text-slate-400 mt-2 text-right" data-i18n="tool_note_sha_sort"></p>
+                            </div>
+                            <button onclick="runSHA()" class="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700 transition shadow-sm font-bold text-sm w-full md:w-auto">
+                                <i class="fas fa-fingerprint mr-1"></i> <span data-i18n="tool_btn_sha"></span>
+                            </button>
+                            <div class="mt-4">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="tool_lbl_sha_res"></label>
+                                <div class="relative">
+                                    <textarea id="shaOutput" readonly rows="2" class="w-full p-3 bg-slate-800 text-green-400 rounded font-mono text-sm border-none focus:ring-0"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AES Encrypt -->
+                        <div id="tool-aes-encrypt" class="tool-content hidden">
+                            <div class="mb-4">
+                                <label class="block text-sm font-bold text-slate-700 mb-2" data-i18n="tool_lbl_qs"></label>
+                                <textarea id="encryptInput" rows="5" data-i18n-placeholder="tool_ph_qs" class="w-full p-3 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm text-slate-600"></textarea>
+                                <p class="text-xs text-slate-400 mt-1 text-right" data-i18n="tool_note_urlencode"></p>
+                            </div>
+                            <button onclick="runEncrypt()" class="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700 transition shadow-sm font-bold text-sm w-full md:w-auto">
+                                <i class="fas fa-lock mr-1"></i> <span data-i18n="tool_btn_encrypt"></span>
+                            </button>
+                            <div class="mt-4">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="tool_lbl_hex"></label>
+                                <div class="relative">
+                                    <textarea id="encryptOutput" readonly rows="3" class="w-full p-3 bg-slate-800 text-green-400 rounded font-mono text-sm border-none focus:ring-0"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AES Decrypt -->
+                        <div id="tool-aes-decrypt" class="tool-content hidden">
+                             <div class="mb-4">
+                                <label class="block text-sm font-bold text-slate-700 mb-2" data-i18n="tool_lbl_enc_hex"></label>
+                                <textarea id="decryptInput" rows="4" data-i18n-placeholder="tool_ph_enc_hex" class="w-full p-3 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm text-slate-600"></textarea>
+                            </div>
+                            <button onclick="runDecrypt()" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition shadow-sm font-bold text-sm w-full md:w-auto">
+                                <i class="fas fa-unlock mr-1"></i> <span data-i18n="tool_btn_decrypt"></span>
+                            </button>
+                            <div class="mt-4">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="tool_lbl_decrypt_res"></label>
+                                <div class="relative">
+                                    <textarea id="decryptOutput" readonly rows="3" class="w-full p-3 bg-slate-800 text-green-400 rounded font-mono text-sm border-none focus:ring-0"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Encryption Rules Section -->
+             <section id="encryption" class="mb-12 scroll-mt-24 hidden">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="enc_title"></h2>
+                </div>
+                
+                <!-- AES Rule Block -->
+                <div id="enc-rule-aes" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8 hidden">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                        <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded flex items-center justify-center text-xs mr-2"><i class="fas fa-lock"></i></span>
+                        <span data-i18n="enc_aes_title"></span>
+                    </h3>
+                    <p class="text-slate-600 mb-4" data-i18n="enc_aes_desc"></p>
+                    
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800" data-i18n="enc_step1_title"></h4>
+                                <p class="text-sm text-slate-600 mt-1" data-i18n="enc_step1_desc"></p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800" data-i18n="enc_step2_title"></h4>
+                                <p class="text-sm text-slate-600 mt-1" data-i18n="enc_step2_desc"></p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">3</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800" data-i18n="enc_step3_title"></h4>
+                                <p class="text-sm text-slate-600 mt-1" data-i18n="enc_step3_desc"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SHA Rule Block -->
+                <div id="enc-rule-sha" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8 hidden">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                        <span class="w-6 h-6 bg-purple-100 text-purple-600 rounded flex items-center justify-center text-xs mr-2"><i class="fas fa-fingerprint"></i></span>
+                        <span data-i18n="enc_sha_title"></span>
+                    </h3>
+                    <p class="text-slate-600 mb-4" data-i18n="enc_sha_desc"></p>
+                    
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">1</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800" data-i18n="enc_sha_step1_title"></h4>
+                                <p class="text-sm text-slate-600 mt-1" data-i18n="enc_sha_step1_desc"></p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">2</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800" data-i18n="enc_sha_step2_title"></h4>
+                                <p class="text-sm text-slate-600 mt-1" data-i18n="enc_sha_step2_desc"></p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">3</div>
+                            <div class="ml-4">
+                                <h4 class="font-bold text-slate-800" data-i18n="enc_sha_step3_title"></h4>
+                                <p class="text-sm text-slate-600 mt-1" data-i18n="enc_sha_step3_desc"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- APIs (Consolidated Request & Response) -->
+            <section id="apis" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="nav_apis">API 規格</h2>
+                </div>
+                
+                <!-- Dynamic API Groups Container -->
+                <div id="api-groups-container"></div>
+            </section>
+
+             <!-- Errors -->
+             <section id="errors" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="err_title"></h2>
+                </div>
+                
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 mb-4">
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-4 top-3.5 text-slate-400"></i>
+                        <input type="text" id="errorSearch" data-i18n-placeholder="err_search_ph" class="w-full pl-10 p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                </div>
+                <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-slate-200 max-h-[600px] overflow-y-auto">
+                    <table class="w-full text-left text-sm" id="errorTable">
+                        <thead class="bg-slate-50 text-slate-600 uppercase font-bold sticky top-0 border-b border-slate-200 shadow-sm">
+                            <tr>
+                                <th class="px-6 py-4 w-1/4" data-i18n="th_err_code"></th>
+                                <th class="px-6 py-4" data-i18n="th_err_reason"></th>
+                            </tr>
+                        </thead>
+                        <!-- Dynamic Content Here -->
+                        <tbody id="error-table-body" class="divide-y divide-slate-200 font-mono text-slate-700"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Example -->
+            <section id="example" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="example_title"></h2>
+                </div>
+                
+                <div class="bg-slate-800 rounded-lg shadow-lg overflow-hidden relative">
+                    <div class="flex border-b border-slate-600 bg-slate-900 px-2 overflow-x-auto">
+                        <button onclick="switchTab('php', event)" class="tab-btn active px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors whitespace-nowrap">PHP</button>
+                        <button onclick="switchTab('nodejs', event)" class="tab-btn px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors whitespace-nowrap">Node.js</button>
+                        <button onclick="switchTab('python', event)" class="tab-btn px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors whitespace-nowrap">Python</button>
+                        <button onclick="switchTab('csharp', event)" class="tab-btn px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors whitespace-nowrap">C# (.NET)</button>
+                        <button onclick="switchTab('java', event)" class="tab-btn px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors whitespace-nowrap">Java</button>
+                        <button onclick="switchTab('go', event)" class="tab-btn px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors whitespace-nowrap">Go</button>
+                    </div>
+
+                    <!-- Highlight.js container -->
+                    <div id="code-container-wrapper" class="h-[600px] overflow-auto scrollable-area">
+                        <pre id="code-container"><code id="code-display" class="h-full"></code></pre>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox-modal" class="fixed inset-0 z-[100] hidden bg-black/80 flex items-center justify-center p-4" onclick="closeLightbox(event)">
+        <div class="relative max-w-full max-h-full">
+            <button onclick="closeLightbox(event)" class="absolute -top-10 right-0 text-white hover:text-gray-300 text-2xl focus:outline-none">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="lightbox-image" src="" alt="Full Flowchart" class="max-w-full max-h-[90vh] object-contain rounded shadow-lg" onclick="event.stopPropagation()">
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================================
+        //  Logic Implementation
+        // =========================================================================================
+
+        let currentLang = 'zh-TW';
+        let currentCodeTab = 'php';
+
+        function renderAll() {
+            renderToolTabs();
+            renderMetaInfo();
+            renderFlowchart(); // New: Render Flowchart Section
+            renderEncryptionRules(); // New: Render Encryption Rules
+            renderAPIs(apiConfig.apis);
+            renderSidebarAPIs(apiConfig.apis); // New: Render Sidebar API List
+            renderErrorTable(apiConfig.errors, 'error-table-body');
+            loadCode(currentCodeTab);
+        }
+
+        // --- New: Render Tool Tabs based on Config ---
+        function renderToolTabs() {
+            const container = document.getElementById('tool-tabs-container');
+            const labels = uiLabels[currentLang].data;
+            const config = apiConfig.tools_config;
+            
+            let html = '';
+            let firstActive = false;
+
+            // SHA Tab
+            if (config.sha && config.sha.enabled) {
+                html += `<button onclick="switchToolTab('tool-sha')" class="tool-tab-btn flex-1 py-4 text-sm font-bold text-center hover:bg-slate-50 transition border-b-2 border-transparent text-slate-500">
+                            <i class="fas fa-fingerprint mr-2"></i> <span>${labels.tool_tab_sha}</span>
+                        </button>`;
+            }
+            
+            // Encrypt Tab
+            if (config.aes_encrypt && config.aes_encrypt.enabled) {
+                html += `<button onclick="switchToolTab('tool-aes-encrypt')" class="tool-tab-btn flex-1 py-4 text-sm font-bold text-center hover:bg-slate-50 transition border-b-2 border-transparent text-slate-500">
+                            <i class="fas fa-lock mr-2"></i> <span>${labels.tool_tab_encrypt}</span>
+                        </button>`;
+            }
+
+            // Decrypt Tab
+            if (config.aes_decrypt && config.aes_decrypt.enabled) {
+                html += `<button onclick="switchToolTab('tool-aes-decrypt')" class="tool-tab-btn flex-1 py-4 text-sm font-bold text-center hover:bg-slate-50 transition border-b-2 border-transparent text-slate-500">
+                            <i class="fas fa-unlock mr-2"></i> <span>${labels.tool_tab_decrypt}</span>
+                        </button>`;
+            }
+
+            container.innerHTML = html;
+
+            // Render inputs for SHA if enabled
+            if (config.sha && config.sha.enabled) {
+                renderSHAInputs();
+            }
+
+            // Activate first available tab
+            const firstBtn = container.querySelector('.tool-tab-btn');
+            if(firstBtn) {
+                firstBtn.click();
+            }
+        }
+
+        function renderSHAInputs() {
+            const container = document.getElementById('sha-inputs-area');
+            if (!container) return;
+            const config = apiConfig.tools_config.sha.params;
+            const columns = config.columns ? config.columns.split(',').map(s => s.trim()) : [];
+            
+            let html = '';
+            columns.forEach(col => {
+                html += `
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase mb-1">${col}</label>
+                        <input type="text" id="sha_param_${col}" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm text-slate-600 bg-white shadow-sm" placeholder="">
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // --- New Function: Render Encryption Rules ---
+        function renderEncryptionRules() {
+            const config = apiConfig.tools_config;
+            const section = document.getElementById('encryption');
+            const aesBlock = document.getElementById('enc-rule-aes');
+            const shaBlock = document.getElementById('enc-rule-sha');
+            const navLink = document.getElementById('nav-encryption-link');
+
+            let hasContent = false;
+
+            // Check AES
+            if (config.aes_encrypt && config.aes_encrypt.enabled) {
+                aesBlock.classList.remove('hidden');
+                hasContent = true;
+            } else {
+                aesBlock.classList.add('hidden');
+            }
+
+            // Check SHA
+            if (config.sha && config.sha.enabled) {
+                shaBlock.classList.remove('hidden');
+                hasContent = true;
+            } else {
+                shaBlock.classList.add('hidden');
+            }
+
+            // Toggle Section & Nav visibility
+            if (hasContent) {
+                section.classList.remove('hidden');
+                if(navLink) navLink.classList.remove('hidden');
+            } else {
+                section.classList.add('hidden');
+                if(navLink) navLink.classList.add('hidden');
+            }
+        }
+
+        function renderMetaInfo() {
+            const labels = uiLabels[currentLang].data;
+            document.getElementById('page-title').textContent = labels[apiConfig.meta.title] || apiConfig.meta.title;
+            document.getElementById('mobile-header-title').textContent = labels[apiConfig.meta.title] || apiConfig.meta.title;
+            document.getElementById('sidebar-subtitle').textContent = labels[apiConfig.meta.subtitle] || apiConfig.meta.subtitle;
+            document.getElementById('sidebar-version').textContent = labels[apiConfig.meta.version] || apiConfig.meta.version;
+            document.getElementById('intro-title').textContent = labels[apiConfig.meta.intro_title] || apiConfig.meta.intro_title;
+            document.getElementById('intro-desc').textContent = labels[apiConfig.meta.intro_desc] || apiConfig.meta.intro_desc;
+        }
+
+        // --- New Function: Render Flowchart ---
+        function renderFlowchart() {
+            const section = document.getElementById('flowchart');
+            const navLink = document.getElementById('nav-flowchart-link');
+            const container = document.getElementById('flowchart-container');
+            const urls = apiConfig.meta.flowchart_urls || [];
+
+            if (urls.length === 0) {
+                section.classList.add('hidden');
+                navLink.classList.add('hidden');
+                return;
+            }
+
+            section.classList.remove('hidden');
+            navLink.classList.remove('hidden');
+            
+            let html = '';
+            urls.forEach(url => {
+                html += `
+                    <div class="border rounded-lg overflow-hidden border-slate-100 cursor-pointer hover:opacity-90 transition" onclick="openLightbox('${url}')">
+                        <img src="${url}" alt="Flowchart" class="w-full h-auto object-contain bg-slate-50">
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // --- New Function: Render Sidebar API List ---
+        function renderSidebarAPIs(apis) {
+            const container = document.getElementById('sidebar-api-list');
+            if (!container) return;
+            const labels = uiLabels[currentLang].data;
+            
+            let html = '';
+            apis.forEach((api, index) => {
+                const apiName = labels[api.name] || api.name;
+                html += `
+                    <a href="#api-${index}" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group pl-6">
+                        <i class="fas fa-angle-right w-4 text-slate-400 group-hover:text-blue-500 transition-colors mr-2"></i> 
+                        <span>${apiName}</span>
+                    </a>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderAPIs(apis) {
+            const container = document.getElementById('api-groups-container');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            const labels = uiLabels[currentLang].data;
+
+            apis.forEach((api, index) => {
+                const apiName = labels[api.name] || api.name;
+                const groupDiv = document.createElement('div');
+                // Added id="api-X" and class="api-section" for scroll spy
+                groupDiv.id = 'api-' + index;
+                groupDiv.className = 'api-section mb-16 border-b-2 border-slate-100 pb-12 last:border-0 last:mb-0 last:pb-0 scroll-mt-24';
+                
+                // --- API HEADER ---
+                const headerHtml = `
+                    <div class="flex items-center mb-6">
+                         <div class="bg-blue-600 text-white font-bold px-3 py-1 rounded text-sm mr-3 shadow-sm">${labels.lbl_api_index} ${index + 1}</div>
+                        <h3 class="text-2xl font-bold text-slate-800">${apiName}</h3>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                            <div class="bg-slate-50 p-3 rounded border border-slate-100">
+                                <div class="text-xs text-slate-500 uppercase mb-1">${labels.lbl_method}</div>
+                                <div class="font-mono font-bold text-green-600 text-lg">${api.method}</div>
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded border border-slate-100 md:col-span-2">
+                                <div class="flex flex-col space-y-2">
+                                    <div>
+                                        <div class="text-xs text-slate-500 uppercase mb-1">${labels.req_url_prod}</div>
+                                        <div class="font-mono text-blue-600 select-all font-medium">${api.url_prod}</div>
+                                    </div>
+                                    <div class="border-t border-slate-200 pt-2">
+                                        <div class="text-xs text-slate-500 uppercase mb-1">${labels.req_url_test}</div>
+                                        <div class="font-mono text-slate-500 select-all">${api.url_test}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // --- REQUEST SECTION ---
+                let requestSectionHtml = '';
+                
+                // Level 1 Table
+                if(api.params_l1 && api.params_l1.length > 0) {
+                     requestSectionHtml += `
+                        <div class="mb-6">
+                            <h4 class="text-lg font-bold text-slate-700 mb-3 border-l-4 border-blue-500 pl-3">${labels.req_title}</h4>
+                            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-6">
+                                <div class="p-3 bg-slate-50 border-b border-slate-200">
+                                    <span class="text-sm font-bold text-slate-600">${labels.req_lvl1_title}</span>
+                                </div>
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-left text-sm params-table">
+                                        <thead class="bg-slate-50 border-b border-slate-200">
+                                            <tr>
+                                                <th class="px-6 py-4 w-1/6">${labels.th_param}</th>
+                                                <th class="px-6 py-4 w-1/6">${labels.th_name}</th>
+                                                <th class="px-6 py-4 w-24 text-center">${labels.th_required}</th>
+                                                <th class="px-6 py-4">${labels.th_type}</th>
+                                                <th class="px-6 py-4 w-1/3">${labels.th_note}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-slate-200">
+                                            ${generateTableRows(api.params_l1)}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Level 2 Table
+                if(api.params_l2 && api.params_l2.length > 0) {
+                    requestSectionHtml += `
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+                            <div class="p-3 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
+                                <span class="text-sm font-bold text-slate-600">${labels.req_lvl2_title}</span>
+                                <span class="text-xs text-slate-500 bg-white px-2 py-1 rounded border">${labels.lbl_encrypted_tag}</span>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-sm params-table">
+                                    <thead class="bg-slate-50 border-b border-slate-200">
+                                        <tr>
+                                            <th class="px-6 py-4 w-32">${labels.th_param}</th>
+                                            <th class="px-6 py-4 w-32">${labels.th_name}</th>
+                                            <th class="px-6 py-4 w-16 text-center">${labels.th_required}</th>
+                                            <th class="px-6 py-4 w-24">${labels.th_type}</th>
+                                            <th class="px-6 py-4">${labels.th_note}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-200">
+                                        ${generateTableRows(api.params_l2)}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // --- RESPONSE SECTION (UPDATED FOR L1 & L2) ---
+                let responseContent = '';
+
+                // Response Level 1
+                if (api.response_l1 && api.response_l1.length > 0) {
+                    responseContent += `
+                        <div class="mb-4">
+                            <div class="bg-slate-50 p-2 border-b border-slate-100">
+                                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">${labels.res_lvl1_title}</span>
+                            </div>
+                            <table class="w-full text-left text-sm border-b border-slate-200 mb-2">
+                                <thead class="bg-white">
+                                    <tr>
+                                        <th class="px-4 py-3 border-b font-bold text-slate-600">${labels.th_param}</th>
+                                        <th class="px-4 py-3 border-b font-bold text-slate-600">${labels.th_name}</th>
+                                        <th class="px-4 py-3 border-b font-bold text-slate-600">${labels.th_type}</th>
+                                        <th class="px-4 py-3 border-b font-bold text-slate-600">${labels.th_note}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    ${generateResponseRows(api.response_l1)}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                }
+
+                // Response Level 2
+                if (api.response_l2 && api.response_l2.length > 0) {
+                    responseContent += `
+                        <div>
+                            <div class="bg-slate-50 p-2 border-b border-slate-100">
+                                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">${labels.res_lvl2_title}</span>
+                            </div>
+                            <table class="w-full text-left text-sm">
+                                <thead class="bg-white">
+                                    <tr>
+                                        <th class="px-4 py-3 border-b font-bold text-slate-600">${labels.th_param}</th>
+                                        <th class="px-4 py-3 border-b font-bold text-slate-600">${labels.th_name}</th>
+                                        <th class="px-4 py-3 border-b font-bold text-slate-600">${labels.th_type}</th>
+                                        <th class="px-4 py-3 border-b font-bold text-slate-600">${labels.th_note}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    ${generateResponseRows(api.response_l2)}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                }
+                
+                // Fallback for old structure (backwards compatibility)
+                if (api.response && api.response.length > 0) {
+                     responseContent += `
+                        <table class="w-full text-left text-sm border-b border-slate-200 mb-2">
+                                <thead class="bg-white">
+                                    <tr>
+                                        <th class="px-4 py-3 border-b font-bold text-slate-600">${labels.th_param}</th>
+                                        <th class="px-4 py-3 border-b font-bold text-slate-600">${labels.th_name}</th>
+                                        <th class="px-4 py-3 border-b font-bold text-slate-600">${labels.th_type}</th>
+                                        <th class="px-4 py-3 border-b font-bold text-slate-600">${labels.th_note}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
+                                    ${generateResponseRows(api.response)}
+                                </tbody>
+                            </table>
+                     `;
+                }
+
+
+                const responseSectionHtml = `
+                    <div class="mb-4">
+                        <h4 class="text-lg font-bold text-slate-700 mb-3 border-l-4 border-green-500 pl-3">${labels.res_title}</h4>
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 mb-6 overflow-hidden">
+                            <div class="p-4 bg-slate-50 border-b border-slate-100">
+                                <p class="text-slate-600 text-sm">${labels.res_desc}</p>
+                            </div>
+                            ${responseContent}
+                        </div>
+                    </div>
+                `;
+
+                groupDiv.innerHTML = headerHtml + requestSectionHtml + responseSectionHtml;
+                container.appendChild(groupDiv);
+            });
+        }
+
+        function generateTableRows(dataArray) {
+            const labels = uiLabels[currentLang].data;
+            if (!dataArray || dataArray.length === 0) {
+                return `<tr><td colspan="5" class="p-4 text-center text-slate-400">${labels.msg_no_params}</td></tr>`;
+            }
+            
+            return dataArray.map(item => {
+                const isRequired = item.required === 'V' || item.required === true;
+                return `
+                    <tr>
+                        <td class="px-6 py-4 font-mono font-bold text-blue-600">${item.name}</td>
+                        <td class="px-6 py-4">${labels[item.label] || item.label}</td>
+                        <td class="px-6 py-4 text-center">
+                            ${isRequired ? '<i class="fas fa-check text-green-600"></i>' : '<span class="text-slate-300">-</span>'}
+                        </td>
+                        <td class="px-6 py-4 font-mono text-xs">${item.type}</td>
+                        <td class="px-6 py-4 text-sm text-slate-600">${labels[item.note] || item.note}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function generateResponseRows(dataArray) {
+             const labels = uiLabels[currentLang].data;
+             if (!dataArray || dataArray.length === 0) {
+                return `<tr><td colspan="4" class="p-4 text-center text-slate-400">${labels.msg_no_params}</td></tr>`;
+            }
+            return dataArray.map(item => `
+                <tr>
+                    <td class="px-4 py-3 font-mono font-bold text-blue-600">${item.name}</td>
+                    <td class="px-4 py-3 text-slate-700">${labels[item.label] || item.label}</td>
+                    <td class="px-4 py-3 font-mono text-xs text-slate-500">${item.type}</td>
+                    <td class="px-4 py-3 text-sm text-slate-600">${labels[item.note] || item.note}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Error Table Render
+        function renderErrorTable(dataArray, targetId) {
+            const tbody = document.getElementById(targetId);
+            if (!tbody) return;
+            const labels = uiLabels[currentLang].data;
+            
+            let html = '';
+            dataArray.forEach(item => {
+                html += `
+                    <tr>
+                        <td class="px-6 py-2 font-bold text-red-600 font-mono">${item.code}</td>
+                        <td class="px-6 py-2 text-sm text-slate-700">${labels[item.reason] || item.reason}</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        // UI Language Handling
+        function applyTranslations(lang = 'zh-TW') {
+            const data = uiLabels[lang]?.data;
+            if (!data) return;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (data[key]) {
+                    el.innerHTML = data[key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (data[key]) {
+                    el.setAttribute('placeholder', data[key]);
+                }
+            });
+        }
+
+        function initLangDropdown() {
+            const select = document.getElementById('lang-select');
+            const languages = Object.keys(uiLabels);
+            if (languages.length === 0) return;
+
+            select.innerHTML = '';
+            languages.forEach(langKey => {
+                const option = document.createElement('option');
+                option.value = langKey;
+                option.textContent = uiLabels[langKey].name;
+                if(langKey === currentLang) option.selected = true;
+                select.appendChild(option);
+            });
+        }
+
+        function changeLang(targetLang) {
+            currentLang = targetLang;
+
+            // --- Update URL Parameter ---
+            const url = new URL(window.location);
+            url.searchParams.set('lang', targetLang);
+            window.history.pushState({}, '', url);
+            // -----------------------------
+
+            applyTranslations(targetLang);
+            // Re-render groups to update labels inside dynamic HTML
+            renderAPIs(apiConfig.apis);
+            renderSidebarAPIs(apiConfig.apis);
+            renderMetaInfo();
+            renderErrorTable(apiConfig.errors, 'error-table-body');
+            renderToolTabs(); // Re-render tabs to update labels
+            renderFlowchart(); // Re-render flowchart title
+            renderEncryptionRules(); // Re-render encryption rules
+        }
+        
+        // --- New: Initialize from URL Params ---
+        function initFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const langParam = urlParams.get('lang');
+            
+            if (langParam && uiLabels[langParam]) {
+                currentLang = langParam;
+            }
+        }
+
+        // Code Tab Switcher
+        function switchTab(lang, event) {
+            document.querySelectorAll('#example .tab-btn').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            currentCodeTab = lang;
+            loadCode(lang);
+        }
+
+        function loadCode(lang) {
+            const container = document.getElementById('code-container');
+            if (!lang) lang = 'php';
+            
+            // Map internal lang keys to highlight.js classes if needed
+            const langMap = {
+                'php': 'php',
+                'nodejs': 'javascript',
+                'python': 'python',
+                'csharp': 'csharp',
+                'java': 'java',
+                'go': 'go'
+            };
+
+            const labels = uiLabels[currentLang].data;
+            const codeContent = apiConfig.code_examples[lang] || labels.msg_code_unavailable || "// Code example not available.";
+            
+            // Completely replace inner content to reset highlighting state
+            container.innerHTML = `<code id="code-display" class="h-full language-${langMap[lang] || 'plaintext'}"></code>`;
+            
+            const display = document.getElementById('code-display');
+            display.textContent = codeContent; // Automatically escapes HTML
+            
+            // Apply Highlight.js
+            hljs.highlightElement(display);
+            // Apply Line Numbers
+            hljs.lineNumbersBlock(display);
+        }
+
+        // Tool Tabs
+        function switchToolTab(tabId) {
+            document.querySelectorAll('.tool-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tool-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tool-tab-btn').forEach(el => {
+                el.classList.remove('active', 'border-purple-600', 'text-purple-600');
+                el.classList.add('border-transparent', 'text-slate-500');
+            });
+
+            // Activate button
+            // Since buttons are dynamic, we need to find the correct one in DOM or by ID if added
+            // Simplified: iterating buttons to find match in onclick is hard, so we rely on event.currentTarget
+            if (event && event.currentTarget) {
+                 event.currentTarget.classList.remove('border-transparent', 'text-slate-500');
+                 event.currentTarget.classList.add('active', 'border-purple-600', 'text-purple-600');
+            }
+
+            const targetContent = document.getElementById(tabId);
+            if(targetContent) {
+                targetContent.classList.remove('hidden');
+                targetContent.classList.add('active');
+            }
+        }
+
+        // Mobile Menu
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        let isMenuOpen = false;
+
+        menuBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            sidebar.classList.toggle('-translate-x-full');
+        });
+
+        // Error Search
+        const searchInput = document.getElementById('errorSearch');
+        searchInput.addEventListener('keyup', (e) => {
+            const term = e.target.value.toLowerCase();
+            const tableRows = document.querySelectorAll('#errorTable tbody tr');
+            tableRows.forEach(row => {
+                const code = row.children[0].textContent.toLowerCase();
+                const msg = row.children[1].textContent.toLowerCase();
+                if (code.includes(term) || msg.includes(term)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // AES Tools
+        function getKeys() {
+            const labels = uiLabels[currentLang].data;
+            const key = document.getElementById('toolKey').value.trim();
+            const iv = document.getElementById('toolIv').value.trim();
+            if (!key || !iv) {
+                alert(labels.tool_alert_missing_key);
+                return null;
+            }
+            return { key, iv };
+        }
+
+        function runEncrypt() {
+            const labels = uiLabels[currentLang].data;
+            const keys = getKeys();
+            if (!keys) return;
+            const data = document.getElementById('encryptInput').value.trim();
+            if (!data) return alert(labels.tool_alert_missing_data);
+
+            try {
+                const keyHex = CryptoJS.enc.Utf8.parse(keys.key);
+                const ivHex = CryptoJS.enc.Utf8.parse(keys.iv);
+
+                const encrypted = CryptoJS.AES.encrypt(data, keyHex, {
+                    iv: ivHex,
+                    mode: CryptoJS.mode.CBC,
+                    padding: CryptoJS.pad.Pkcs7
+                });
+
+                document.getElementById('encryptOutput').value = encrypted.ciphertext.toString(CryptoJS.enc.Hex);
+            } catch (e) {
+                console.error(e);
+                alert(labels.tool_alert_encrypt_fail + e.message);
+            }
+        }
+
+        function runDecrypt() {
+            const labels = uiLabels[currentLang].data;
+            const keys = getKeys();
+            if (!keys) return;
+            const hexStr = document.getElementById('decryptInput').value.trim();
+            if (!hexStr) return alert(labels.tool_alert_missing_hex);
+
+            try {
+                const keyHex = CryptoJS.enc.Utf8.parse(keys.key);
+                const ivHex = CryptoJS.enc.Utf8.parse(keys.iv);
+                
+                const encryptedHex = CryptoJS.enc.Hex.parse(hexStr);
+                const encryptedBase64 = CryptoJS.enc.Base64.stringify(encryptedHex);
+
+                const decrypted = CryptoJS.AES.decrypt(encryptedBase64, keyHex, {
+                    iv: ivHex,
+                    mode: CryptoJS.mode.CBC,
+                    padding: CryptoJS.pad.Pkcs7
+                });
+
+                document.getElementById('decryptOutput').value = decrypted.toString(CryptoJS.enc.Utf8);
+            } catch (e) {
+                console.error(e);
+                alert(labels.tool_alert_decrypt_fail);
+            }
+        }
+
+        // SHA Tool
+        function runSHA() {
+            const labels = uiLabels[currentLang].data;
+            const keys = getKeys();
+            if (!keys) return;
+            
+            const config = apiConfig.tools_config.sha.params;
+            const columns = config.columns ? config.columns.split(',').map(s => s.trim()) : [];
+            
+            if(columns.length === 0) {
+                alert("Configuration Error: No SHA columns defined.");
+                return;
+            }
+
+            try {
+                // 1. Collect values from individual inputs
+                let params = {};
+                columns.forEach(col => {
+                    const input = document.getElementById(`sha_param_${col}`);
+                    if(input) {
+                        // Only add if value exists (or logic requires adding empty ones? Usually empty params are included in query string if key exists)
+                        // Assuming standard behavior: include key=value
+                        params[col] = input.value.trim();
+                    }
+                });
+
+                // 2. Sort keys alphabetically (A-Z)
+                const sortedKeys = Object.keys(params).sort();
+                
+                // 3. Rebuild sorted string (Key=Value)
+                let sortedString = sortedKeys.map(key => {
+                    return `${key}=${params[key]}`;
+                }).join('&');
+
+                // 4. Wrap with Key/IV from config
+                const keyLabel = config.key_label || 'HashKey';
+                const ivLabel = config.iv_label || 'HashIV';
+                
+                const finalString = `${keyLabel}=${keys.key}&${sortedString}&${ivLabel}=${keys.iv}`;
+                
+                // 5. SHA256 Hash
+                const hash = CryptoJS.SHA256(finalString).toString(CryptoJS.enc.Hex).toUpperCase();
+                
+                document.getElementById('shaOutput').value = hash;
+                
+            } catch (e) {
+                console.error(e);
+                alert('SHA calculation failed: ' + e.message);
+            }
+        }
+
+        // Lightbox functions
+        function openLightbox(url) {
+            const modal = document.getElementById('lightbox-modal');
+            const img = document.getElementById('lightbox-image');
+            img.src = url;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeLightbox(event) {
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        // Scroll Spy
+        window.addEventListener('scroll', () => {
+            // Update selector to include dynamic API sections
+            const sections = document.querySelectorAll('section, .api-section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            let current = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
+                 if (sections.length > 0) {
+                     current = sections[sections.length - 1].getAttribute('id');
+                 }
+            }
+
+            navLinks.forEach(link => {
+                link.classList.remove('sidebar-active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('sidebar-active');
+                }
+            });
+        });
+
+        // Initialization
+        window.onload = function() {
+            initFromUrl(); // Check URL param first
+            initLangDropdown();
+            applyTranslations(currentLang);
+            renderAll(); 
+        };
+    </script>
+</body>
+</html>
