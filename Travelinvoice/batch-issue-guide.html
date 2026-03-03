@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://www.travelinvoice.com.tw/images/image/travelInvoice.ico" type="image/x-icon" />
+    <title id="page-title">Loading...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #f9fafb;
+        }
+        
+        .slide-img {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            cursor: zoom-in;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            background-color: #fff;
+            border: 1px solid #e5e7eb;
+            margin: 1rem 0;
+        }
+        .slide-img:hover {
+            opacity: 0.95;
+            transform: scale(1.01);
+        }
+
+        section {
+            padding-top: 5rem;
+            margin-bottom: 2rem;
+        }
+
+        #lightbox {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+        #lightbox.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        #lightbox img {
+            max-width: 95%;
+            max-height: 85vh;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            object-fit: contain;
+        }
+        #lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        #lightbox-close:hover {
+            color: #709581;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .manual-table th {
+            background-color: #f3f4f6;
+            color: #374151;
+            font-weight: bold;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .manual-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            vertical-align: top;
+        }
+        .manual-table tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+        .manual-table tr:hover {
+            background-color: #f0fdf4;
+        }
+
+        .step-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 9999px;
+            background-color: #709581;
+            color: white;
+            font-weight: bold;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #292929;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+    </style>
+</head>
+<body class="text-gray-700 relative bg-[#f9fafb]">
+
+    <div class="md:hidden fixed top-0 left-0 w-full h-16 bg-[#292929] text-white flex items-center justify-between px-4 z-40 shadow-md">
+        <span data-i18n="site_title" class="font-bold text-lg" style="color: rgb(82, 196, 97);"></span>
+        <button class="focus:outline-none" onclick="toggleSidebar()">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+        </button>
+    </div>
+
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden md:hidden" onclick="toggleSidebar()"></div>
+
+    <aside id="sidebar" class="fixed left-0 top-0 h-screen w-64 bg-[#292929] text-white flex flex-col z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
+        <div class="p-6 hidden md:block">
+            <span data-i18n="site_title" class="font-bold text-xl tracking-wider" style="color: rgb(82, 196, 97);"></span>
+        </div>
+        
+        <nav class="flex-1 overflow-y-auto custom-scrollbar px-3 py-6 mt-16 md:mt-0">
+            <ul id="nav-list" class="flex flex-col space-y-2 text-sm font-medium tracking-wide">
+            </ul>
+        </nav>
+        
+        <div class="p-4 border-t border-gray-700 bg-[#1f1f1f] mt-auto">
+            <div class="flex items-center gap-3 px-2 py-1">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path></svg>
+                <select id="lang-selector" onchange="changeLanguage(this.value)" class="bg-transparent text-gray-300 text-sm focus:outline-none font-bold cursor-pointer w-full">
+                </select>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 修正寬度計算：移除 w-[90%] 與 mx-auto，改為讓右側區塊自適應填滿剩餘空間 -->
+    <div class="md:ml-64 pt-16 md:pt-0 min-h-screen flex flex-col">
+        <header class="bg-[#709581] text-white pt-24 pb-16 px-6 shadow-md relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-64 h-64 bg-white opacity-5 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+            <div class="absolute bottom-0 right-0 w-96 h-96 bg-black opacity-5 rounded-full translate-x-1/3 translate-y-1/3"></div>
+
+            <!-- 將 90% 的寬度設定套用在內部容器上 -->
+            <div class="mx-auto text-center relative z-10 w-[90%]">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 tracking-wider drop-shadow-sm" data-i18n="hero_title"></h1>
+                <p class="text-xl opacity-90 font-light" data-i18n="hero_subtitle"></p>
+            </div>
+        </header>
+
+        <!-- 將 90% 的寬度設定套用在 main 上 -->
+        <main class="flex-1 mx-auto px-6 py-8 w-[90%] max-w-none">
+            <section id="section_rules" class="pt-10">
+                <h2 class="text-3xl font-bold text-[#292929] mb-8 border-b-2 border-[#709581] pb-3 flex items-center">
+                    <span class="bg-[#709581] text-white rounded-md px-3 py-1 text-xl mr-4 shadow-sm" data-i18n="badge_1"></span>
+                    <span data-i18n="ch1_title"></span>
+                </h2>
+                <div class="bg-white p-8 rounded-2xl shadow-md border-l-8 border-[#709581]">
+                    <p class="mb-6 text-gray-700 text-lg" data-i18n="ch1_desc"></p>
+                    <div data-i18n="ch1_list" class="pl-4"></div>
+                </div>
+            </section>
+
+            <section id="section_methods" class="pt-16">
+                <h2 class="text-3xl font-bold text-[#292929] mb-8 border-b-2 border-[#709581] pb-3 flex items-center">
+                    <span class="bg-[#709581] text-white rounded-md px-3 py-1 text-xl mr-4 shadow-sm" data-i18n="badge_2"></span>
+                    <span data-i18n="ch2_title"></span>
+                </h2>
+                <p class="text-lg text-gray-700 mb-8" data-i18n="ch2_desc"></p>
+
+                <div class="bg-[#f0fdf4] border border-[#709581] p-6 rounded-xl mb-12 flex flex-col sm:flex-row items-center justify-between shadow-sm">
+                    <div class="mb-4 sm:mb-0">
+                        <h3 class="font-bold text-[#292929] text-lg mb-1" data-i18n="download_title"></h3>
+                        <p class="text-gray-600 text-sm" data-i18n="download_desc"></p>
+                    </div>
+                    <a href="pic/Example.zip" class="flex items-center bg-[#709581] text-white px-6 py-3 rounded-lg font-bold hover:bg-[#5a7a69] transition-colors shadow-md flex-shrink-0">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        <span data-i18n="download_btn"></span>
+                    </a>
+                </div>
+
+                <div id="step1" class="mb-16">
+                    <h3 class="text-2xl font-bold text-[#292929] mb-6 flex items-center">
+                        <span data-i18n="ch2_step1_title"></span>
+                    </h3>
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100 mb-6">
+                        <p class="text-gray-700 mb-6 leading-relaxed" data-i18n="ch2_step1_desc"></p>
+                        <div class="text-center mb-8" data-i18n="img_sp1"></div>
+                        
+                        <h4 class="font-bold text-lg mb-4 text-[#709581] border-l-4 border-[#709581] pl-3" data-i18n="ch2_step1_table_title"></h4>
+                        <div class="overflow-x-auto">
+                            <div data-i18n="ch2_step1_table"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="step2" class="mb-16">
+                    <h3 class="text-2xl font-bold text-[#292929] mb-6 flex items-center">
+                        <span data-i18n="ch2_step2_title"></span>
+                    </h3>
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
+                        <div class="mb-10">
+                            <div class="flex items-start mb-4">
+                                <span class="step-circle" data-i18n="num_1"></span>
+                                <p class="text-gray-700 text-lg pt-1" data-i18n="ch2_step2_1"></p>
+                            </div>
+                            <div class="pl-12" data-i18n="img_sp2"></div>
+                        </div>
+                        <div class="mb-10">
+                            <div class="flex items-start mb-4">
+                                <span class="step-circle" data-i18n="num_2"></span>
+                                <p class="text-gray-700 text-lg pt-1" data-i18n="ch2_step2_2"></p>
+                            </div>
+                            <div class="pl-12" data-i18n="img_sp3"></div>
+                        </div>
+                        <div class="mb-10">
+                            <div class="flex items-start mb-4">
+                                <span class="step-circle" data-i18n="num_3"></span>
+                                <p class="text-gray-700 text-lg pt-1" data-i18n="ch2_step2_3"></p>
+                            </div>
+                            <div class="pl-12" data-i18n="img_sp4"></div>
+                        </div>
+                        <div class="mb-10">
+                            <div class="flex items-start mb-4">
+                                <span class="step-circle" data-i18n="num_4"></span>
+                                <p class="text-gray-700 text-lg pt-1" data-i18n="ch2_step2_4"></p>
+                            </div>
+                            <div class="pl-12" data-i18n="img_sp5"></div>
+                        </div>
+                        <div class="mb-10">
+                            <div class="flex items-start mb-4">
+                                <span class="step-circle" data-i18n="num_5"></span>
+                                <p class="text-gray-700 text-lg pt-1" data-i18n="ch2_step2_5"></p>
+                            </div>
+                            <div class="pl-12" data-i18n="img_sp6"></div>
+                        </div>
+                        <div class="mb-10">
+                            <div class="flex items-start mb-4">
+                                <span class="step-circle" data-i18n="num_6"></span>
+                                <p class="text-gray-700 text-lg pt-1" data-i18n="ch2_step2_6"></p>
+                            </div>
+                            <div class="pl-12" data-i18n="img_sp7"></div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="flex items-start mb-4">
+                                <span class="step-circle" data-i18n="num_7"></span>
+                                <p class="text-gray-700 text-lg pt-1" data-i18n="ch2_step2_7"></p>
+                            </div>
+                            <div class="pl-12" data-i18n="img_sp8"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="step3" class="mb-16">
+                    <h3 class="text-2xl font-bold text-[#292929] mb-6 flex items-center">
+                        <span data-i18n="ch2_step3_title"></span>
+                    </h3>
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
+                        <p class="text-gray-700 text-lg mb-6 leading-relaxed" data-i18n="ch2_step3_desc"></p>
+                        <div class="text-center" data-i18n="img_sp9"></div>
+                    </div>
+                </div>
+
+                <div id="step4" class="mb-16">
+                    <h3 class="text-2xl font-bold text-[#292929] mb-6 flex items-center">
+                        <span data-i18n="ch2_step4_title"></span>
+                    </h3>
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
+                        <div class="mb-10">
+                            <div class="flex items-start mb-4">
+                                <span class="step-circle" data-i18n="num_1"></span>
+                                <p class="text-gray-700 text-lg pt-1" data-i18n="ch2_step4_1"></p>
+                            </div>
+                            <div class="pl-12" data-i18n="img_sp10"></div>
+                        </div>
+                        <div class="mb-10">
+                            <div class="flex items-start mb-4">
+                                <span class="step-circle" data-i18n="num_2"></span>
+                                <p class="text-gray-700 text-lg pt-1" data-i18n="ch2_step4_2"></p>
+                            </div>
+                            <div class="pl-12" data-i18n="img_sp11"></div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="flex items-start mb-4">
+                                <span class="step-circle" data-i18n="num_3"></span>
+                                <p class="text-gray-700 text-lg pt-1" data-i18n="ch2_step4_3"></p>
+                            </div>
+                            <div class="pl-12" data-i18n="img_sp12"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="step5" class="mb-16">
+                    <h3 class="text-2xl font-bold text-[#292929] mb-6 flex items-center">
+                        <span data-i18n="ch2_step5_title"></span>
+                    </h3>
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
+                        <div class="mb-10">
+                            <div class="flex items-start mb-4">
+                                <span class="step-circle" data-i18n="num_1"></span>
+                                <p class="text-gray-700 text-lg pt-1" data-i18n="ch2_step5_1"></p>
+                            </div>
+                            <div class="pl-12" data-i18n="img_sp13"></div>
+                        </div>
+                        <div class="mb-10">
+                            <div class="flex items-start mb-4">
+                                <span class="step-circle" data-i18n="num_2"></span>
+                                <p class="text-gray-700 text-lg pt-1" data-i18n="ch2_step5_2"></p>
+                            </div>
+                            <div class="pl-12" data-i18n="img_sp14"></div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="flex items-start mb-4">
+                                <span class="step-circle" data-i18n="num_3"></span>
+                                <p class="text-gray-700 text-lg pt-1" data-i18n="ch2_step5_3"></p>
+                            </div>
+                            <div class="pl-12" data-i18n="img_sp15"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-gray-400 py-10 bg-[#292929] mt-auto">
+            <!-- 將 90% 的寬度設定套用在 footer 內容上 -->
+            <div class="mx-auto px-4 text-center w-[90%]">
+                <h4 class="text-white font-bold text-lg mb-4 tracking-wide" data-i18n="footer_title"></h4>
+                <p data-i18n="footer_copyright" class="text-sm"></p>
+            </div>
+        </footer>
+    </div>
+
+    <div id="lightbox" onclick="closeLightbox()">
+        <span id="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img id="lightbox-img" src="" alt="view image">
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function createImg(src, alt = 'image') {
+            return `<img src="${src}" alt="${alt}" class="slide-img" onclick="openLightbox(this.src)">`;
+        }
+
+        const resources = {
+            "zh-TW": {"page_title": "旅行業代收轉付電子收據 - 批次開立說明手冊","lang_name": "繁體中文","site_title": "旅行業電子收據平台","hero_title": "批次開立說明手冊","hero_subtitle": "旅行業代收轉付電子收據加值服務平台","badge_1": "1.","badge_2": "2.","num_1": "1","num_2": "2","num_3": "3","num_4": "4","num_5": "5","num_6": "6","num_7": "7","nav_ch1": "批次開立限制與說明","nav_ch2_1": "1. 建立 .txt 檔","nav_ch2_2": "2. 匯入範例 .txt","nav_ch2_3": "3. 編輯檔案","nav_ch2_4": "4. 存為 .txt 檔","nav_ch2_5": "5. 批次上傳開立","ch1_title": "旅行業代收轉付電子收據批次開立限制與說明","ch1_desc": "為便利旅行業多筆代收轉付電子收據開立，使用者可利用 .txt 檔批次開立功能執行旅行業代收轉付電子收據開立，上傳檔案格式之限制與格式說明如下：","ch1_list": "<ol class='list-decimal pl-5 space-y-3 text-gray-700 text-lg'><li>上傳檔案格式限制為 <strong>.txt 檔</strong>。</li><li>檔案大小限制為 <strong>2M bytes</strong>。</li><li>檔案編碼格式為 <strong>unicode</strong>。</li><li>每張旅行業代收轉付電子收據最多以<strong>七個品項</strong>為限。</li><li>資料內容均不得含有『<strong>&amp;</strong>』此字元(U+0026)。</li></ol>","ch2_title": "電子收據批次開立方式","ch2_desc": "會員可登入本加值服務平台於【官網網址：www.travelinvoice.com.tw】，執行電子收據開立、查詢、作廢、折讓、列印等功能，於左列項目電子收據管理，開立電子收據分頁中可找到批次開立功能，依本操作說明建立上傳 .txt 檔案，並完成檔案上傳即可。","download_title": "下載批次開立範例檔","download_desc": "請點擊右方按鈕下載包含範例格式的壓縮檔，解壓縮後即可依格式進行編輯。","download_btn": "下載範例檔 (.zip)","ch2_step1_title": "1. 建立 .txt 檔說明","ch2_step1_desc": "上傳 .txt 檔包含欄位有「收據種類」、「買受人名稱」、「買受人統一編號」...等共19項欄位，使用者可下載範例檔依其格式修改內容，並儲存為檔案編碼格式為 unicode 的 .txt 檔即可，欄位格式說明可參以下【.txt檔欄位說明】。","img_sp1": createImg('pic/sp1.png', '平台批次開立畫面'),"ch2_step1_table_title": "【.txt 檔欄位說明】","ch2_step1_table": "<table class='w-full text-sm text-left manual-table border border-gray-200 rounded-lg overflow-hidden'><thead><tr><th class='w-1/4'>欄位名稱</th><th class='w-1/12 text-center'>限制(字)</th><th class='w-1/12 text-center'>必填</th><th class='w-7/12'>備註</th></tr></thead><tbody><tr><td>收據種類</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. B2B=買受人為營利事業單位(有統編)<br>2. B2C=買受人為個人</td></tr><tr><td>買受人名稱</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>買受人名稱，個人姓名或營利事業單位名稱。此欄位為必填</td></tr><tr><td>買受人統一編號</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. 買受人(營利事業單位)統編，純數字。<br>2. 買受人為個人時，則不須填寫。<br>3. 當收據種類為B2B，則此欄位為必填。</td></tr><tr><td>買受人地址</td><td class='text-center'>100</td><td class='text-center'></td><td>買受人的聯絡地址</td></tr><tr><td>買受人電子信箱</td><td class='text-center'>100</td><td class='text-center font-bold text-red-500'>V</td><td>買受人的電子信箱。當收據開立時，寄送收據相關查詢資訊。此欄位為必填。</td></tr><tr><td>買受人手機</td><td class='text-center'>20</td><td class='text-center'></td><td>買受人的手機號碼</td></tr><tr><td>經辦人名稱</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>開立收據人員名稱。純記錄，系統不檢核。此欄位為必填。</td></tr><tr><td>收據總金額</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>純數字，為收據總金額</td></tr><tr><td>自訂編號</td><td class='text-center'>30</td><td class='text-center font-bold text-red-500'>V</td><td>旅行社於開立收據時提供的自訂編號。</td></tr><tr><td>備註</td><td class='text-center'>50</td><td class='text-center'></td><td>收據備註。</td></tr><tr><td>團名</td><td class='text-center'>50</td><td class='text-center'></td><td>1. 該張收據的團名<br>2. 全型/半型中文、英數、符號與空格，都算一個字<br>3. 不接受斷行與下列特殊符號:雙引號\"|單引號'|連結符號&amp;與 &lt; &gt;</td></tr><tr><td>團號</td><td class='text-center'>20</td><td class='text-center'></td><td>1. 該張收據的團號<br>2. 全型/半型中文、英數、符號與空格，都算一個字<br>3. 不接受斷行與下列特殊符號:雙引號\"|單引號'|連結符號&amp;與 &lt; &gt;</td></tr><tr><td>預計出團日</td><td class='text-center'>date</td><td class='text-center'></td><td>1. 格式為YYYY-MM-DD. 例:2014-10-05<br>2. 預計出團日不得晚於該收據實際開立日期的兩年後。<br>3. 出團日當天會寄發出團申報提醒通知至指定信箱</td></tr><tr><td>申報註記</td><td class='text-center'>1</td><td class='text-center'></td><td>0=未申報, 1=已申報<br>留空或無傳送此參數表示未申報</td></tr><tr><td>商品名稱</td><td class='text-center'>40</td><td class='text-center font-bold text-red-500'>V</td><td>1. 每樣商品名稱最多40個字。<br>2. 每個商品名稱以40字內為宜，若超過40個字將會無法完整印出於收據。</td></tr><tr><td>商品數量</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. 純數字。<br>2. 每個商品數量最多為5位數。</td></tr><tr><td>商品單位</td><td class='text-center'>2</td><td class='text-center font-bold text-red-500'>V</td><td>1. 內容如:個、件、本、張...<br>2. 每個商品單位最多兩個字。</td></tr><tr><td>商品單價</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. 純數字。<br>2. 每個商品單價不能超過8位數。</td></tr><tr><td>商品價格小計</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. 純數字。<br>2. 計算方式為:數量 *單價 = 小計。平台將會檢查計算結果。<br>3. 每個商品小計金額計算後不能超過8位數</td></tr></tbody></table><p class='text-sm text-gray-500 mt-2'>※備註：中、英、數字符號均算1個字。</p>","ch2_step2_title": "2. 匯入範例 .txt 檔","ch2_step2_1": "開啟 EXCEL，並新增一空白活頁簿。然後請尋找功能表單選擇【資料】，從【從文字檔】匯入範例 .txt 檔。","img_sp2": createImg('pic/sp2.png', 'Excel 匯入資料畫面'),"ch2_step2_2": "選擇【範例.txt檔】後點擊【匯入(M)】，匯入範例資料。","img_sp3": createImg('pic/sp3.png', '選擇檔案畫面'),"ch2_step2_3": "匯入步驟 3 之 1，選擇分隔符號後點擊【下一步(N)】。","img_sp4": createImg('pic/sp4.png', '匯入字串精靈步驟1'),"ch2_step2_4": "匯入步驟 3 之 2，分隔符號勾選【Tab鍵】後點擊【下一步(N)】。","img_sp5": createImg('pic/sp5.png', '匯入字串精靈步驟2'),"ch2_step2_5": "匯入步驟 3 之 3，依欄位內容將欄位的資料格式改為文字，後點擊【完成(F)】。","img_sp6": createImg('pic/sp6.png', '匯入字串精靈步驟3'),"ch2_step2_6": "匯入資料，選擇儲存格後點擊【確定】。","img_sp7": createImg('pic/sp7.png', '匯入資料確認'),"ch2_step2_7": "完成範例檔案匯入。","img_sp8": createImg('pic/sp8.png', '完成匯入畫面'),"ch2_step3_title": "3. 編輯","ch2_step3_desc": "每張收據的第一列皆應詳填寫各欄位的資訊，除收據種類【B2C】不需填寫買受人統一編號，當有多項商品可再下一列開始填寫商品名稱...等資訊，依序完成資料的填寫。","img_sp9": createImg('pic/sp9.png', 'Excel 編輯畫面'),"ch2_step4_title": "4. 建立 .txt 檔","ch2_step4_1": "依範例格式完成編輯後點擊【檔案】。","img_sp10": createImg('pic/sp10.png', 'Excel 儲存檔案'),"ch2_step4_2": "選擇另存新檔，指定儲存檔案的位置。","img_sp11": createImg('pic/sp11.png', '選擇另存新檔位置'),"ch2_step4_3": "選擇【Unicode 文字】儲存，並輸入檔案名稱【限英數混合組合】請輸後點擊【儲存】即可完成 .txt 檔。","img_sp12": createImg('pic/sp12.png', '存為 Unicode 文字'),"ch2_step5_title": "5. 批次開立","ch2_step5_1": "登入後點擊開立電子收據，即可進行單筆電子收據開立。","img_sp13": createImg('pic/sp13.png', '單筆開立畫面'),"ch2_step5_2": "點擊批次開立後，點擊【選擇檔案】選擇已完成編輯的 .txt 檔，後點擊【上傳】即可進行批次開立電子收據。","img_sp14": createImg('pic/sp14.png', '批次上傳畫面'),"ch2_step5_3": "確認檔案完成上傳後，可至【查詢電子收據】確認開立狀況。","img_sp15": createImg('pic/sp15.png', '查詢開立狀況'),"footer_title": "旅行業代收轉付電子收據加值服務平台","footer_copyright": "版權所有 &copy; 藍新科技股份有限公司. 網路互聯 通道整合 支付金流 核心技術"            },       
+            "EN": {    "page_title": "Travel Industry Electronic Receipt - Batch Issuance Manual",    "lang_name": "English",    "site_title": "Travel Industry Electronic Receipt Platform",    "hero_title": "Batch Issuance Manual",    "hero_subtitle": "Travel Industry Electronic Receipt Value-Added Service Platform",    "badge_1": "1.",    "badge_2": "2.",    "num_1": "1",    "num_2": "2",    "num_3": "3",    "num_4": "4",    "num_5": "5",    "num_6": "6",    "num_7": "7",    "nav_ch1": "Batch Issuance Restrictions and Instructions",    "nav_ch2_1": "1. Create .txt File",    "nav_ch2_2": "2. Import Sample .txt",    "nav_ch2_3": "3. Edit File",    "nav_ch2_4": "4. Save as .txt File",    "nav_ch2_5": "5. Batch Upload and Issue",    "ch1_title": "Travel Industry Electronic Receipt Batch Issuance Restrictions and Instructions",    "ch1_desc": "To facilitate the issuance of multiple electronic receipts for the travel industry, users can utilize the .txt file batch issuance function. The uploaded file format restrictions and instructions are as follows:",    "ch1_list": "<ol class='list-decimal pl-5 space-y-3 text-gray-700 text-lg'><li>The uploaded file format is limited to <strong>.txt file</strong>.</li><li>The file size limit is <strong>2M bytes</strong>.</li><li>The file encoding format must be <strong>unicode</strong>.</li><li>Each travel industry electronic receipt is limited to a maximum of <strong>seven items</strong>.</li><li>The data content must not contain the '<strong>&amp;</strong>' character (U+0026).</li></ol>",    "ch2_title": "Electronic Receipt Batch Issuance Method",    "ch2_desc": "Members can log into this value-added service platform at [Official Website: www.travelinvoice.com.tw] to execute functions such as issuing, querying, voiding, allowing, and printing electronic receipts. You can find the batch issuance function in the 'Issue Electronic Receipt' tab under 'Electronic Receipt Management' in the left menu. Follow these instructions to create and upload a .txt file to complete the process.",    "download_title": "Download Batch Issuance Sample File",    "download_desc": "Please click the button on the right to download the compressed file containing the sample format. After unzipping, you can edit it according to the format.",    "download_btn": "Download Sample File (.zip)",    "ch2_step1_title": "1. Creating a .txt File Instructions",    "ch2_step1_desc": "The uploaded .txt file contains a total of 19 fields, such as 'Receipt Type', 'Buyer Name', 'Buyer Tax ID', etc. Users can download the sample file, modify the content according to its format, and save it as a .txt file with Unicode encoding. For field format instructions, please refer to the [.txt File Field Instructions] below.",    "img_sp1": createImg('pic/sp1.png', 'Platform Batch Issuance Screen'),    "ch2_step1_table_title": "[.txt File Field Instructions]",    "ch2_step1_table": "<table class='w-full text-sm text-left manual-table border border-gray-200 rounded-lg overflow-hidden'><thead><tr><th class='w-1/4'>Field Name</th><th class='w-1/12 text-center'>Limit (Chars)</th><th class='w-1/12 text-center'>Required</th><th class='w-7/12'>Remarks</th></tr></thead><tbody><tr><td>Receipt Type</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. B2B=Buyer is a business entity (with Tax ID)<br>2. B2C=Buyer is an individual</td></tr><tr><td>Buyer Name</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>Buyer name, individual name, or business entity name. This field is required</td></tr><tr><td>Buyer Tax ID</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. Buyer (business entity) Tax ID, numbers only.<br>2. Not required if the buyer is an individual.<br>3. Required when the receipt type is B2B.</td></tr><tr><td>Buyer Address</td><td class='text-center'>100</td><td class='text-center'></td><td>Buyer's contact address</td></tr><tr><td>Buyer Email</td><td class='text-center'>100</td><td class='text-center font-bold text-red-500'>V</td><td>Buyer's email. Used to send receipt-related query information when the receipt is issued. This field is required.</td></tr><tr><td>Buyer Mobile</td><td class='text-center'>20</td><td class='text-center'></td><td>Buyer's mobile number</td></tr><tr><td>Handler Name</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>Name of the person issuing the receipt. For record only, the system does not verify. This field is required.</td></tr><tr><td>Total Receipt Amount</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>Numbers only, the total amount of the receipt</td></tr><tr><td>Custom Number</td><td class='text-center'>30</td><td class='text-center font-bold text-red-500'>V</td><td>Custom number provided by the travel agency when issuing the receipt.</td></tr><tr><td>Remarks</td><td class='text-center'>50</td><td class='text-center'></td><td>Receipt remarks.</td></tr><tr><td>Group Name</td><td class='text-center'>50</td><td class='text-center'></td><td>1. Group name for this receipt<br>2. Full-width/half-width Chinese, alphanumeric, symbols, and spaces each count as one character<br>3. Line breaks and the following special symbols are not accepted: double quotes \"|single quotes '|ampersand &amp; and &lt; &gt;</td></tr><tr><td>Group Number</td><td class='text-center'>20</td><td class='text-center'></td><td>1. Group number for this receipt<br>2. Full-width/half-width Chinese, alphanumeric, symbols, and spaces each count as one character<br>3. Line breaks and the following special symbols are not accepted: double quotes \"|single quotes '|ampersand &amp; and &lt; &gt;</td></tr><tr><td>Expected Departure Date</td><td class='text-center'>date</td><td class='text-center'></td><td>1. Format is YYYY-MM-DD. Ex: 2014-10-05<br>2. Expected departure date cannot be later than two years after the actual issuance date of the receipt.<br>3. A departure declaration reminder notice will be sent to the designated email on the departure date</td></tr><tr><td>Declaration Mark</td><td class='text-center'>1</td><td class='text-center'></td><td>0=Undeclared, 1=Declared<br>Leave blank or do not pass this parameter to indicate undeclared</td></tr><tr><td>Product Name</td><td class='text-center'>40</td><td class='text-center font-bold text-red-500'>V</td><td>1. Each product name has a maximum of 40 characters.<br>2. It is advisable to keep each product name within 40 characters, otherwise it may not be printed completely on the receipt.</td></tr><tr><td>Product Quantity</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. Numbers only.<br>2. Each product quantity is up to 5 digits.</td></tr><tr><td>Product Unit</td><td class='text-center'>2</td><td class='text-center font-bold text-red-500'>V</td><td>1. Content such as: piece, item, book, sheet...<br>2. Each product unit has a maximum of two characters.</td></tr><tr><td>Product Unit Price</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. Numbers only.<br>2. Each product unit price cannot exceed 8 digits.</td></tr><tr><td>Product Subtotal</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. Numbers only.<br>2. Calculation: Quantity * Unit Price = Subtotal. The platform will verify the calculation.<br>3. The subtotal amount for each product cannot exceed 8 digits after calculation</td></tr></tbody></table><p class='text-sm text-gray-500 mt-2'>※Note: Chinese, English, numbers, and symbols each count as 1 character.</p>",    "ch2_step2_title": "2. Import Sample .txt File",    "ch2_step2_1": "Open EXCEL and create a new blank workbook. Then go to the menu and select [Data], and import the sample .txt file from [From Text].",    "img_sp2": createImg('pic/sp2.png', 'Excel Import Data Screen'),    "ch2_step2_2": "Select the [Sample .txt file] and click [Import (M)] to import the sample data.",    "img_sp3": createImg('pic/sp3.png', 'Select File Screen'),    "ch2_step2_3": "Import step 1 of 3, select Delimited and click [Next (N)].",    "img_sp4": createImg('pic/sp4.png', 'Text Import Wizard Step 1'),    "ch2_step2_4": "Import step 2 of 3, check [Tab] as the delimiter and click [Next (N)].",    "img_sp5": createImg('pic/sp5.png', 'Text Import Wizard Step 2'),    "ch2_step2_5": "Import step 3 of 3, change the column data format to Text according to the field content, and click [Finish (F)].",    "img_sp6": createImg('pic/sp6.png', 'Text Import Wizard Step 3'),    "ch2_step2_6": "Import Data, select the cell and click [OK].",    "img_sp7": createImg('pic/sp7.png', 'Import Data Confirmation'),    "ch2_step2_7": "Completed sample file import.",    "img_sp8": createImg('pic/sp8.png', 'Import Completed Screen'),    "ch2_step3_title": "3. Edit",    "ch2_step3_desc": "The first row of each receipt must be filled with the information for all fields. Except for receipt type [B2C], which does not require the Buyer Tax ID. If there are multiple products, you can start filling in the product name and other information on the next row, completing the data entry sequentially.",    "img_sp9": createImg('pic/sp9.png', 'Excel Edit Screen'),    "ch2_step4_title": "4. Create .txt File",    "ch2_step4_1": "After completing the editing according to the sample format, click [File].",    "img_sp10": createImg('pic/sp10.png', 'Excel Save File'),    "ch2_step4_2": "Select Save As and specify the location to save the file.",    "img_sp11": createImg('pic/sp11.png', 'Select Save As Location'),    "ch2_step4_3": "Select [Unicode Text] to save, input the file name [limited to alphanumeric combinations], and click [Save] to complete the .txt file.",    "img_sp12": createImg('pic/sp12.png', 'Save as Unicode Text'),    "ch2_step5_title": "5. Batch Issuance",    "ch2_step5_1": "After logging in, click Issue Electronic Receipt to issue a single electronic receipt.",    "img_sp13": createImg('pic/sp13.png', 'Single Issuance Screen'),    "ch2_step5_2": "After clicking Batch Issuance, click [Choose File] to select the edited .txt file, then click [Upload] to perform the batch issuance of electronic receipts.",    "img_sp14": createImg('pic/sp14.png', 'Batch Upload Screen'),    "ch2_step5_3": "After confirming the file upload is complete, you can go to [Query Electronic Receipts] to check the issuance status.",    "img_sp15": createImg('pic/sp15.png', 'Query Issuance Status'),    "footer_title": "Travel Industry Electronic Receipt Value-Added Service Platform",    "footer_copyright": "Copyright &copy; Neweb Technologies Co., Ltd. Network Interconnection, Channel Integration, Payment Flow, Core Technology"},    
+            "JP": {    "page_title": "旅行業代行収納電子領収書 - 一括発行マニュアル",    "lang_name": "日本語",    "site_title": "旅行業電子領収書プラットフォーム",    "hero_title": "一括発行マニュアル",    "hero_subtitle": "旅行業代行収納電子領収書付加価値サービスプラットフォーム",    "badge_1": "1.",    "badge_2": "2.",    "num_1": "1",    "num_2": "2",    "num_3": "3",    "num_4": "4",    "num_5": "5",    "num_6": "6",    "num_7": "7",    "nav_ch1": "一括発行の制限と説明",    "nav_ch2_1": "1. .txtファイルの作成",    "nav_ch2_2": "2. サンプル.txtのインポート",    "nav_ch2_3": "3. ファイルの編集",    "nav_ch2_4": "4. .txtファイルとして保存",    "nav_ch2_5": "5. 一括アップロードと発行",    "ch1_title": "旅行業代行収納電子領収書 一括発行の制限と説明",    "ch1_desc": "旅行業における複数の代行収納電子領収書の発行を容易にするため、ユーザーは.txtファイルの一括発行機能を利用して電子領収書を発行できます。アップロードするファイルのフォーマット制限と説明は以下の通りです：",    "ch1_list": "<ol class='list-decimal pl-5 space-y-3 text-gray-700 text-lg'><li>アップロードするファイルのフォーマットは<strong>.txtファイル</strong>に限定されます。</li><li>ファイルサイズの制限は<strong>2Mバイト</strong>です。</li><li>ファイルのエンコード形式は<strong>unicode</strong>である必要があります。</li><li>各旅行業代行収納電子領収書の品目は最大<strong>7項目</strong>までです。</li><li>データ内容に「<strong>&amp;</strong>」文字（U+0026）を含めることはできません。</li></ol>",    "ch2_title": "電子領収書の一括発行方法",    "ch2_desc": "会員はこの付加価値サービスプラットフォーム【公式サイト：www.travelinvoice.com.tw】にログインし、電子領収書の発行、照会、無効化、値引き、印刷などの機能を実行できます。左側メニューの「電子領収書管理」の下にある「電子領収書の発行」タブで一括発行機能を見つけることができます。この操作説明に従って.txtファイルを作成し、アップロードを完了してください。",    "download_title": "一括発行サンプルファイルのダウンロード",    "download_desc": "右側のボタンをクリックして、サンプルフォーマットを含む圧縮ファイルをダウンロードしてください。解凍後、フォーマットに従って編集できます。",    "download_btn": "サンプルファイルのダウンロード (.zip)",    "ch2_step1_title": "1. .txtファイルの作成説明",    "ch2_step1_desc": "アップロードする.txtファイルには、「領収書の種類」、「購入者名」、「購入者統一番号」など合計19のフィールドが含まれます。ユーザーはサンプルファイルをダウンロードし、そのフォーマットに従って内容を変更し、エンコード形式がunicodeの.txtファイルとして保存してください。フィールドフォーマットの説明については、以下の【.txtファイルフィールド説明】を参照してください。",    "img_sp1": createImg('pic/sp1.png', 'プラットフォーム一括発行画面'),    "ch2_step1_table_title": "【.txtファイルフィールド説明】",    "ch2_step1_table": "<table class='w-full text-sm text-left manual-table border border-gray-200 rounded-lg overflow-hidden'><thead><tr><th class='w-1/4'>フィールド名</th><th class='w-1/12 text-center'>制限(文字)</th><th class='w-1/12 text-center'>必須</th><th class='w-7/12'>備考</th></tr></thead><tbody><tr><td>領収書の種類</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. B2B=購入者が営利事業単位（統一番号あり）<br>2. B2C=購入者が個人</td></tr><tr><td>購入者名</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>購入者名、個人名または営利事業単位名。このフィールドは必須です</td></tr><tr><td>購入者統一番号</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. 購入者（営利事業単位）の統一番号、数字のみ。<br>2. 購入者が個人の場合は記入不要。<br>3. 領収書の種類がB2Bの場合、このフィールドは必須です。</td></tr><tr><td>購入者住所</td><td class='text-center'>100</td><td class='text-center'></td><td>購入者の連絡先住所</td></tr><tr><td>購入者メールアドレス</td><td class='text-center'>100</td><td class='text-center font-bold text-red-500'>V</td><td>購入者のメールアドレス。領収書発行時に、領収書関連の照会情報が送信されます。このフィールドは必須です。</td></tr><tr><td>購入者携帯電話</td><td class='text-center'>20</td><td class='text-center'></td><td>購入者の携帯電話番号</td></tr><tr><td>担当者名</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>領収書発行担当者名。記録用であり、システムによる検証は行われません。このフィールドは必須です。</td></tr><tr><td>領収書合計金額</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>数字のみ、領収書の合計金額</td></tr><tr><td>カスタム番号</td><td class='text-center'>30</td><td class='text-center font-bold text-red-500'>V</td><td>旅行会社が領収書発行時に提供するカスタム番号。</td></tr><tr><td>備考</td><td class='text-center'>50</td><td class='text-center'></td><td>領収書の備考。</td></tr><tr><td>ツアー名</td><td class='text-center'>50</td><td class='text-center'></td><td>1. 該当領収書のツアー名<br>2. 全角/半角の中国語、英数字、記号、スペースはすべて1文字としてカウントされます<br>3. 改行および以下の特殊記号は受け付けられません：ダブルクォーテーション \" | シングルクォーテーション ' | アンパサンド &amp; および &lt; &gt;</td></tr><tr><td>ツアー番号</td><td class='text-center'>20</td><td class='text-center'></td><td>1. 該当領収書のツアー番号<br>2. 全角/半角の中国語、英数字、記号、スペースはすべて1文字としてカウントされます<br>3. 改行および以下の特殊記号は受け付けられません：ダブルクォーテーション \" | シングルクォーテーション ' | アンパサンド &amp; および &lt; &gt;</td></tr><tr><td>出発予定日</td><td class='text-center'>date</td><td class='text-center'></td><td>1. フォーマットはYYYY-MM-DD。例：2014-10-05<br>2. 出発予定日は、領収書の実際の発行日から2年後以降にすることはできません。<br>3. 出発当日に、指定されたメールアドレスに出発申告のリマインダー通知が送信されます</td></tr><tr><td>申告マーク</td><td class='text-center'>1</td><td class='text-center'></td><td>0=未申告、1=申告済み<br>空白にするか、このパラメータを送信しない場合は未申告を意味します</td></tr><tr><td>商品名</td><td class='text-center'>40</td><td class='text-center font-bold text-red-500'>V</td><td>1. 各商品名は最大40文字です。<br>2. 各商品名は40文字以内にすることをお勧めします。40文字を超えると、領収書に完全に印刷されない場合があります。</td></tr><tr><td>商品数量</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. 数字のみ。<br>2. 各商品数量は最大5桁です。</td></tr><tr><td>商品単位</td><td class='text-center'>2</td><td class='text-center font-bold text-red-500'>V</td><td>1. 内容例：個、件、冊、枚...<br>2. 各商品単位は最大2文字です。</td></tr><tr><td>商品単価</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. 数字のみ。<br>2. 各商品単価は8桁を超えてはなりません。</td></tr><tr><td>商品小計</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. 数字のみ。<br>2. 計算方法：数量 * 単価 = 小計。プラットフォームが計算結果を検証します。<br>3. 計算後の各商品小計金額は8桁を超えてはなりません</td></tr></tbody></table><p class='text-sm text-gray-500 mt-2'>※備考：中国語、英語、数字、記号はすべて1文字としてカウントされます。</p>",    "ch2_step2_title": "2. サンプル.txtのインポート",    "ch2_step2_1": "EXCELを開き、新しい空のブックを作成します。次に、メニューから「データ」を選択し、「テキストファイルから」を選択してサンプル.txtファイルをインポートします。",    "img_sp2": createImg('pic/sp2.png', 'Excelデータインポート画面'),    "ch2_step2_2": "【サンプル.txtファイル】を選択し、【インポート(M)】をクリックしてサンプルデータをインポートします。",    "img_sp3": createImg('pic/sp3.png', 'ファイル選択画面'),    "ch2_step2_3": "インポート手順 1 / 3。区切り文字を選択し、【次へ(N)】をクリックします。",    "img_sp4": createImg('pic/sp4.png', 'テキストファイルウィザードステップ1'),    "ch2_step2_4": "インポート手順 2 / 3。区切り文字として【タブ】にチェックを入れ、【次へ(N)】をクリックします。",    "img_sp5": createImg('pic/sp5.png', 'テキストファイルウィザードステップ2'),    "ch2_step2_5": "インポート手順 3 / 3。フィールドの内容に応じてデータ形式を文字列に変更し、【完了(F)】をクリックします。",    "img_sp6": createImg('pic/sp6.png', 'テキストファイルウィザードステップ3'),    "ch2_step2_6": "データのインポート。セルを選択し、【OK】をクリックします。",    "img_sp7": createImg('pic/sp7.png', 'データインポート確認'),    "ch2_step2_7": "サンプルファイルのインポートが完了しました。",    "img_sp8": createImg('pic/sp8.png', 'インポート完了画面'),    "ch2_step3_title": "3. 編集",    "ch2_step3_desc": "各領収書の最初の行には、すべてのフィールドの情報を記入する必要があります。ただし、領収書の種類が【B2C】の場合は、購入者統一番号の記入は不要です。複数の商品がある場合は、次の行から商品名などの情報を順次記入してデータ入力を完了させます。",    "img_sp9": createImg('pic/sp9.png', 'Excel編集画面'),    "ch2_step4_title": "4. .txtファイルとして保存",    "ch2_step4_1": "サンプルフォーマットに従って編集を完了した後、【ファイル】をクリックします。",    "img_sp10": createImg('pic/sp10.png', 'Excelファイル保存'),    "ch2_step4_2": "名前を付けて保存を選択し、ファイルの保存場所を指定します。",    "img_sp11": createImg('pic/sp11.png', '保存場所の指定'),    "ch2_step4_3": "【Unicodeテキスト】を選択して保存します。ファイル名【英数字の組み合わせに限定】を入力し、【保存】をクリックすると.txtファイルが完成します。",    "img_sp12": createImg('pic/sp12.png', 'Unicodeテキストとして保存'),    "ch2_step5_title": "5. 一括発行",    "ch2_step5_1": "ログイン後、「電子領収書の発行」をクリックすると、単一の電子領収書を発行できます。",    "img_sp13": createImg('pic/sp13.png', '単一発行画面'),    "ch2_step5_2": "「一括発行」をクリックした後、【ファイルの選択】をクリックして編集済みの.txtファイルを選択し、【アップロード】をクリックすると電子領収書の一括発行が行われます。",    "img_sp14": createImg('pic/sp14.png', '一括アップロード画面'),    "ch2_step5_3": "ファイルのアップロードが完了したことを確認した後、「電子領収書の照会」で発行状況を確認できます。",    "img_sp15": createImg('pic/sp15.png', '発行状況の照会'),    "footer_title": "旅行業代行収納電子領収書付加価値サービスプラットフォーム",    "footer_copyright": "Copyright &copy; 藍新科技股份有限公司. ネットワーク相互接続 チャネル統合 決済フロー コアテクノロジー"},        
+            "KO": {    "page_title": "여행업 대행수납 전자영수증 - 일괄 발행 매뉴얼",    "lang_name": "한국어",    "site_title": "여행업 전자영수증 플랫폼",    "hero_title": "일괄 발행 매뉴얼",    "hero_subtitle": "여행업 대행수납 전자영수증 부가 서비스 플랫폼",    "badge_1": "1.",    "badge_2": "2.",    "num_1": "1",    "num_2": "2",    "num_3": "3",    "num_4": "4",    "num_5": "5",    "num_6": "6",    "num_7": "7",    "nav_ch1": "일괄 발행 제한 및 설명",    "nav_ch2_1": "1. .txt 파일 생성",    "nav_ch2_2": "2. 샘플 .txt 가져오기",    "nav_ch2_3": "3. 파일 편집",    "nav_ch2_4": "4. .txt 파일로 저장",    "nav_ch2_5": "5. 일괄 업로드 및 발행",    "ch1_title": "여행업 대행수납 전자영수증 일괄 발행 제한 및 설명",    "ch1_desc": "여행업의 다중 대행수납 전자영수증 발행을 용이하게 하기 위해, 사용자는 .txt 파일 일괄 발행 기능을 이용하여 전자영수증을 발행할 수 있습니다. 업로드할 파일의 형식 제한 및 설명은 다음과 같습니다:",    "ch1_list": "<ol class='list-decimal pl-5 space-y-3 text-gray-700 text-lg'><li>업로드 파일 형식은 <strong>.txt 파일</strong>로 제한됩니다.</li><li>파일 크기 제한은 <strong>2M bytes</strong>입니다.</li><li>파일 인코딩 형식은 <strong>unicode</strong>여야 합니다.</li><li>각 여행업 대행수납 전자영수증의 품목은 최대 <strong>7개 항목</strong>으로 제한됩니다.</li><li>데이터 내용에 『<strong>&amp;</strong>』 문자(U+0026)가 포함되어서는 안 됩니다.</li></ol>",    "ch2_title": "전자영수증 일괄 발행 방법",    "ch2_desc": "회원은 본 부가 서비스 플랫폼【공식 웹사이트: www.travelinvoice.com.tw】에 로그인하여 전자영수증 발행, 조회, 무효화, 할인, 인쇄 등의 기능을 실행할 수 있습니다. 왼쪽 메뉴의 '전자영수증 관리' 하위에 있는 '전자영수증 발행' 탭에서 일괄 발행 기능을 찾을 수 있습니다. 본 조작 설명에 따라 .txt 파일을 생성하고 파일 업로드를 완료해 주십시오.",    "download_title": "일괄 발행 샘플 파일 다운로드",    "download_desc": "오른쪽 버튼을 클릭하여 샘플 형식이 포함된 압축 파일을 다운로드해 주십시오. 압축 해제 후 형식에 맞게 편집할 수 있습니다.",    "download_btn": "샘플 파일 다운로드 (.zip)",    "ch2_step1_title": "1. .txt 파일 생성 설명",    "ch2_step1_desc": "업로드하는 .txt 파일에는 '영수증 종류', '구매자명', '구매자 사업자등록번호' 등 총 19개 필드가 포함됩니다. 사용자는 샘플 파일을 다운로드하여 해당 형식에 따라 내용을 수정하고 인코딩 형식이 unicode인 .txt 파일로 저장하면 됩니다. 필드 형식 설명은 아래의 【.txt 파일 필드 설명】을 참조하십시오.",    "img_sp1": createImg('pic/sp1.png', '플랫폼 일괄 발행 화면'),    "ch2_step1_table_title": "【.txt 파일 필드 설명】",    "ch2_step1_table": "<table class='w-full text-sm text-left manual-table border border-gray-200 rounded-lg overflow-hidden'><thead><tr><th class='w-1/4'>필드명</th><th class='w-1/12 text-center'>제한(자)</th><th class='w-1/12 text-center'>필수</th><th class='w-7/12'>비고</th></tr></thead><tbody><tr><td>영수증 종류</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. B2B=구매자가 영리사업 단위(사업자번호 있음)<br>2. B2C=구매자가 개인</td></tr><tr><td>구매자명</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>구매자명, 개인 성명 또는 영리사업 단위명. 이 필드는 필수입니다</td></tr><tr><td>구매자 사업자등록번호</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. 구매자(영리사업 단위) 사업자번호, 숫자만.<br>2. 구매자가 개인일 경우 작성 불필요.<br>3. 영수증 종류가 B2B일 경우, 이 필드는 필수입니다.</td></tr><tr><td>구매자 주소</td><td class='text-center'>100</td><td class='text-center'></td><td>구매자의 연락처 주소</td></tr><tr><td>구매자 이메일</td><td class='text-center'>100</td><td class='text-center font-bold text-red-500'>V</td><td>구매자의 이메일. 영수증 발행 시 영수증 관련 조회 정보 발송. 이 필드는 필수입니다.</td></tr><tr><td>구매자 휴대폰</td><td class='text-center'>20</td><td class='text-center'></td><td>구매자의 휴대폰 번호</td></tr><tr><td>담당자명</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>영수증 발행 담당자명. 단순 기록용, 시스템 검증 안함. 이 필드는 필수입니다.</td></tr><tr><td>영수증 총 금액</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>숫자만, 영수증의 총 금액</td></tr><tr><td>사용자 지정 번호</td><td class='text-center'>30</td><td class='text-center font-bold text-red-500'>V</td><td>여행사가 영수증 발행 시 제공하는 사용자 지정 번호.</td></tr><tr><td>비고</td><td class='text-center'>50</td><td class='text-center'></td><td>영수증 비고.</td></tr><tr><td>투어명</td><td class='text-center'>50</td><td class='text-center'></td><td>1. 해당 영수증의 투어명<br>2. 전각/반각 문자, 영숫자, 기호 및 공백 모두 1자로 계산<br>3. 줄바꿈 및 다음 특수 기호는 허용되지 않습니다: 큰따옴표 \" | 작은따옴표 ' | 연결 기호 &amp; 및 &lt; &gt;</td></tr><tr><td>투어 번호</td><td class='text-center'>20</td><td class='text-center'></td><td>1. 해당 영수증의 투어 번호<br>2. 전각/반각 문자, 영숫자, 기호 및 공백 모두 1자로 계산<br>3. 줄바꿈 및 다음 특수 기호는 허용되지 않습니다: 큰따옴표 \" | 작은따옴표 ' | 연결 기호 &amp; 및 &lt; &gt;</td></tr><tr><td>예상 출발일</td><td class='text-center'>date</td><td class='text-center'></td><td>1. 형식은 YYYY-MM-DD. 예: 2014-10-05<br>2. 예상 출발일은 해당 영수증 실제 발행일로부터 2년 후보다 늦을 수 없습니다.<br>3. 출발 당일 지정된 이메일로 출발 신고 알림이 발송됩니다</td></tr><tr><td>신고 마크</td><td class='text-center'>1</td><td class='text-center'></td><td>0=미신고, 1=신고 완료<br>공란으로 두거나 이 매개변수를 전송하지 않으면 미신고를 의미함</td></tr><tr><td>상품명</td><td class='text-center'>40</td><td class='text-center font-bold text-red-500'>V</td><td>1. 각 상품명은 최대 40자입니다.<br>2. 각 상품명은 40자 이내를 권장하며, 40자를 초과할 경우 영수증에 완전하게 인쇄되지 않을 수 있습니다.</td></tr><tr><td>상품 수량</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. 숫자만.<br>2. 각 상품 수량은 최대 5자리입니다.</td></tr><tr><td>상품 단위</td><td class='text-center'>2</td><td class='text-center font-bold text-red-500'>V</td><td>1. 내용 예: 개, 건, 권, 장...<br>2. 각 상품 단위는 최대 2자입니다.</td></tr><tr><td>상품 단가</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. 숫자만.<br>2. 각 상품 단가는 8자리를 초과할 수 없습니다.</td></tr><tr><td>상품 소계</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. 숫자만.<br>2. 계산 방식: 수량 * 단가 = 소계. 플랫폼에서 계산 결과를 검증합니다.<br>3. 계산된 각 상품 소계 금액은 8자리를 초과할 수 없습니다</td></tr></tbody></table><p class='text-sm text-gray-500 mt-2'>※비고: 중국어, 영어, 한국어, 숫자, 기호는 모두 1자로 계산됩니다.</p>",    "ch2_step2_title": "2. 샘플 .txt 가져오기",    "ch2_step2_1": "EXCEL을 열고 새 빈 통합 문서를 만듭니다. 그런 다음 메뉴에서 【데이터】를 선택하고 【텍스트/CSV】(또는 텍스트 파일에서)에서 샘플 .txt 파일을 가져옵니다.",    "img_sp2": createImg('pic/sp2.png', 'Excel 데이터 가져오기 화면'),    "ch2_step2_2": "【샘플.txt 파일】을 선택하고 【가져오기(M)】를 클릭하여 샘플 데이터를 가져옵니다.",    "img_sp3": createImg('pic/sp3.png', '파일 선택 화면'),    "ch2_step2_3": "텍스트 마법사 3단계 중 1단계, 구분 기호를 선택한 후 【다음(N)】을 클릭합니다.",    "img_sp4": createImg('pic/sp4.png', '텍스트 마법사 1단계'),    "ch2_step2_4": "텍스트 마법사 3단계 중 2단계, 구분 기호로 【탭】을 체크한 후 【다음(N)】을 클릭합니다.",    "img_sp5": createImg('pic/sp5.png', '텍스트 마법사 2단계'),    "ch2_step2_5": "텍스트 마법사 3단계 중 3단계, 필드 내용에 따라 데이터 서식을 텍스트로 변경한 후 【마침(F)】을 클릭합니다.",    "img_sp6": createImg('pic/sp6.png', '텍스트 마법사 3단계'),    "ch2_step2_6": "데이터 가져오기, 셀을 선택한 후 【확인】을 클릭합니다.",    "img_sp7": createImg('pic/sp7.png', '데이터 가져오기 확인'),    "ch2_step2_7": "샘플 파일 가져오기를 완료했습니다.",    "img_sp8": createImg('pic/sp8.png', '가져오기 완료 화면'),    "ch2_step3_title": "3. 편집",    "ch2_step3_desc": "각 영수증의 첫 번째 행에는 모든 필드 정보를 빠짐없이 작성해야 합니다. 단, 영수증 종류가 【B2C】인 경우 구매자 사업자등록번호는 작성하지 않아도 됩니다. 여러 상품이 있는 경우 다음 행부터 상품명 등 정보를 순차적으로 작성하여 데이터 입력을 완료합니다.",    "img_sp9": createImg('pic/sp9.png', 'Excel 편집 화면'),    "ch2_step4_title": "4. .txt 파일로 저장",    "ch2_step4_1": "샘플 형식에 따라 편집을 완료한 후 【파일】을 클릭합니다.",    "img_sp10": createImg('pic/sp10.png', 'Excel 파일 저장'),    "ch2_step4_2": "다른 이름으로 저장을 선택하고 파일 저장 위치를 지정합니다.",    "img_sp11": createImg('pic/sp11.png', '다른 이름으로 저장 위치 지정'),    "ch2_step4_3": "【Unicode 텍스트】를 선택하여 저장합니다. 파일명【영숫자 혼합 조합 한정】을 입력한 후 【저장】을 클릭하면 .txt 파일이 완성됩니다.",    "img_sp12": createImg('pic/sp12.png', 'Unicode 텍스트로 저장'),    "ch2_step5_title": "5. 일괄 발행",    "ch2_step5_1": "로그인 후 '전자영수증 발행'을 클릭하면, 단일 전자영수증을 발행할 수 있습니다.",    "img_sp13": createImg('pic/sp13.png', '단일 발행 화면'),    "ch2_step5_2": "'일괄 발행'을 클릭한 후, 【파일 선택】을 클릭하여 편집 완료된 .txt 파일을 선택하고 【업로드】를 클릭하면 전자영수증 일괄 발행이 진행됩니다.",    "img_sp14": createImg('pic/sp14.png', '일괄 업로드 화면'),    "ch2_step5_3": "파일 업로드가 완료되었는지 확인한 후, 【전자영수증 조회】에서 발행 상태를 확인할 수 있습니다.",    "img_sp15": createImg('pic/sp15.png', '발행 상태 조회'),    "footer_title": "여행업 대행수납 전자영수증 부가 서비스 플랫폼",    "footer_copyright": "Copyright &copy; Neweb Technologies Co., Ltd. 네트워크 상호 연결 채널 통합 결제 플로우 핵심 기술"},        
+            "SV": {    "page_title": "Elektroniskt kvitto för resebyråer - Manual för massutfärdande",    "lang_name": "Svenska",    "site_title": "Plattform för elektroniska kvitton för resebyråer",    "hero_title": "Manual för massutfärdande",    "hero_subtitle": "Plattform för mervärdestjänster för elektroniska kvitton för resebyråer",    "badge_1": "1.",    "badge_2": "2.",    "num_1": "1",    "num_2": "2",    "num_3": "3",    "num_4": "4",    "num_5": "5",    "num_6": "6",    "num_7": "7",    "nav_ch1": "Restriktioner och instruktioner för massutfärdande",    "nav_ch2_1": "1. Skapa .txt-fil",    "nav_ch2_2": "2. Importera exempel-.txt",    "nav_ch2_3": "3. Redigera fil",    "nav_ch2_4": "4. Spara som .txt-fil",    "nav_ch2_5": "5. Massuppladdning och utfärdande",    "ch1_title": "Restriktioner och instruktioner för massutfärdande av elektroniska kvitton för resebyråer",    "ch1_desc": "För att underlätta utfärdandet av flera elektroniska kvitton för resebranschen kan användare använda .txt-filens funktion för massutfärdande. Restriktioner och instruktioner för det uppladdade filformatet är enligt följande:",    "ch1_list": "<ol class='list-decimal pl-5 space-y-3 text-gray-700 text-lg'><li>Det uppladdade filformatet är begränsat till <strong>.txt-fil</strong>.</li><li>Filstorleken är begränsad till <strong>2M bytes</strong>.</li><li>Filens kodningsformat måste vara <strong>unicode</strong>.</li><li>Varje elektroniskt kvitto för resebyråer är begränsat till maximalt <strong>sju artiklar</strong>.</li><li>Datainnehållet får inte innehålla tecknet '<strong>&amp;</strong>' (U+0026).</li></ol>",    "ch2_title": "Metod för massutfärdande av elektroniska kvitton",    "ch2_desc": "Medlemmar kan logga in på denna plattform för mervärdestjänster [Officiell webbplats: www.travelinvoice.com.tw] för att utföra funktioner som att utfärda, söka, ogiltigförklara, rabattera och skriva ut elektroniska kvitton. Du hittar funktionen för massutfärdande på fliken 'Utfärda elektroniskt kvitto' under 'Hantering av elektroniska kvitton' i den vänstra menyn. Följ dessa instruktioner för att skapa en .txt-fil och slutföra uppladdningen.",    "download_title": "Ladda ner exempelfil för massutfärdande",    "download_desc": "Klicka på knappen till höger för att ladda ner den komprimerade filen som innehåller exempelformatet. Efter uppackning kan du redigera den enligt formatet.",    "download_btn": "Ladda ner exempelfil (.zip)",    "ch2_step1_title": "1. Instruktioner för att skapa .txt-fil",    "ch2_step1_desc": "Den uppladdade .txt-filen innehåller totalt 19 fält, såsom 'Kvittotyp', 'Köparens namn', 'Köparens org.nr', etc. Användare kan ladda ner exempelfilen, ändra innehållet enligt dess format och spara den som en .txt-fil med Unicode-kodning. För fältformatinstruktioner, se [.txt-filens fältinstruktioner] nedan.",    "img_sp1": createImg('pic/sp1.png', 'Plattformens skärm för massutfärdande'),    "ch2_step1_table_title": "【.txt-filens fältinstruktioner】",    "ch2_step1_table": "<table class='w-full text-sm text-left manual-table border border-gray-200 rounded-lg overflow-hidden'><thead><tr><th class='w-1/4'>Fältnamn</th><th class='w-1/12 text-center'>Gräns (Tecken)</th><th class='w-1/12 text-center'>Krav</th><th class='w-7/12'>Anmärkning</th></tr></thead><tbody><tr><td>Kvittotyp</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. B2B=Köparen är ett företag (med org.nr)<br>2. B2C=Köparen är en privatperson</td></tr><tr><td>Köparens namn</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>Köparens namn, privatpersonens namn eller företagets namn. Detta fält är obligatoriskt</td></tr><tr><td>Köparens org.nr</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. Köparens (företagets) org.nr, endast siffror.<br>2. Krävs inte om köparen är en privatperson.<br>3. Obligatoriskt när kvittotypen är B2B.</td></tr><tr><td>Köparens adress</td><td class='text-center'>100</td><td class='text-center'></td><td>Köparens kontaktadress</td></tr><tr><td>Köparens e-post</td><td class='text-center'>100</td><td class='text-center font-bold text-red-500'>V</td><td>Köparens e-postadress. Används för att skicka kvittoinformation när kvittot utfärdas. Detta fält är obligatoriskt.</td></tr><tr><td>Köparens mobil</td><td class='text-center'>20</td><td class='text-center'></td><td>Köparens mobilnummer</td></tr><tr><td>Handläggarens namn</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>Namn på personen som utfärdar kvittot. Endast för registrering, systemet verifierar inte detta. Detta fält är obligatoriskt.</td></tr><tr><td>Totalt kvittobelopp</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>Endast siffror, kvittots totala belopp</td></tr><tr><td>Anpassat nummer</td><td class='text-center'>30</td><td class='text-center font-bold text-red-500'>V</td><td>Anpassat nummer som tillhandahålls av resebyrån vid utfärdandet av kvittot.</td></tr><tr><td>Anmärkningar</td><td class='text-center'>50</td><td class='text-center'></td><td>Kvittoanmärkningar.</td></tr><tr><td>Gruppnamn</td><td class='text-center'>50</td><td class='text-center'></td><td>1. Gruppnamn för detta kvitto<br>2. Helfälts-/halvfältsbokstäver, siffror, symboler och mellanslag räknas som ett tecken<br>3. Radbrytningar och följande specialsymboler accepteras inte: dubbla citattecken \" | enkla citattecken ' | et-tecken &amp; samt &lt; &gt;</td></tr><tr><td>Gruppnummer</td><td class='text-center'>20</td><td class='text-center'></td><td>1. Gruppnummer för detta kvitto<br>2. Helfälts-/halvfältsbokstäver, siffror, symboler och mellanslag räknas som ett tecken<br>3. Radbrytningar och följande specialsymboler accepteras inte: dubbla citattecken \" | enkla citattecken ' | et-tecken &amp; samt &lt; &gt;</td></tr><tr><td>Förväntat avresedatum</td><td class='text-center'>date</td><td class='text-center'></td><td>1. Formatet är ÅÅÅÅ-MM-DD. Ex: 2014-10-05<br>2. Förväntat avresedatum kan inte vara senare än två år efter kvittots faktiska utfärdandedatum.<br>3. En påminnelse skickas till angiven e-post på avresedagen</td></tr><tr><td>Deklarationsmarkering</td><td class='text-center'>1</td><td class='text-center'></td><td>0=Odeklarerad, 1=Deklarerad<br>Lämna tomt eller skicka inte denna parameter för odeklarerad</td></tr><tr><td>Produktnamn</td><td class='text-center'>40</td><td class='text-center font-bold text-red-500'>V</td><td>1. Varje produktnamn har högst 40 tecken.<br>2. Det rekommenderas att hålla varje produktnamn inom 40 tecken, annars kanske det inte skrivs ut helt på kvittot.</td></tr><tr><td>Produktkvantitet</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. Endast siffror.<br>2. Varje produktkvantitet kan ha upp till 5 siffror.</td></tr><tr><td>Produktsenhet</td><td class='text-center'>2</td><td class='text-center font-bold text-red-500'>V</td><td>1. Innehåll som: st, kolli, bok, blad...<br>2. Varje produktsenhet har högst två tecken.</td></tr><tr><td>Enhetspris</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. Endast siffror.<br>2. Varje enhetspris får inte överstiga 8 siffror.</td></tr><tr><td>Produktdelsumma</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. Endast siffror.<br>2. Beräkning: Kvantitet * Enhetspris = Delsumma. Plattformen kommer att verifiera beräkningen.<br>3. Den beräknade delsumman för varje produkt får inte överstiga 8 siffror</td></tr></tbody></table><p class='text-sm text-gray-500 mt-2'>※Obs: Kinesiska, engelska, koreanska, siffror och symboler räknas alla som 1 tecken.</p>",    "ch2_step2_title": "2. Importera exempel-.txt",    "ch2_step2_1": "Öppna EXCEL och skapa en ny tom arbetsbok. Välj sedan [Data] i menyn och importera exempel-.txt-filen från [Från text/CSV] (eller Från text).",    "img_sp2": createImg('pic/sp2.png', 'Excel dataimportskärm'),    "ch2_step2_2": "Välj [Exempel .txt-fil] och klicka på [Importera (M)] för att importera exempeldatan.",    "img_sp3": createImg('pic/sp3.png', 'Välj fil-skärm'),    "ch2_step2_3": "Importsteg 1 av 3, välj Avgränsade och klicka på [Nästa (N)].",    "img_sp4": createImg('pic/sp4.png', 'Textimportguiden steg 1'),    "ch2_step2_4": "Importsteg 2 av 3, markera [Tabb] som avgränsare och klicka på [Nästa (N)].",    "img_sp5": createImg('pic/sp5.png', 'Textimportguiden steg 2'),    "ch2_step2_5": "Importsteg 3 av 3, ändra kolumnens dataformat till Text enligt fältinnehållet och klicka på [Slutför (F)].",    "img_sp6": createImg('pic/sp6.png', 'Textimportguiden steg 3'),    "ch2_step2_6": "Importera data, markera cellen och klicka på [OK].",    "img_sp7": createImg('pic/sp7.png', 'Bekräftelse för dataimport'),    "ch2_step2_7": "Import av exempelfil slutförd.",    "img_sp8": createImg('pic/sp8.png', 'Skärm för slutförd import'),    "ch2_step3_title": "3. Redigera",    "ch2_step3_desc": "Den första raden för varje kvitto måste fyllas i med all fältinformation. Förutom kvittotyp [B2C], som inte kräver köparens org.nr. Om det finns flera produkter kan du fortsätta att fylla i produktnamn och annan information på nästa rad i ordningsföljd för att slutföra datainmatningen.",    "img_sp9": createImg('pic/sp9.png', 'Excel-redigeringsskärm'),    "ch2_step4_title": "4. Spara som .txt-fil",    "ch2_step4_1": "När redigeringen är klar enligt exempelformatet, klicka på [Arkiv].",    "img_sp10": createImg('pic/sp10.png', 'Spara Excel-fil'),    "ch2_step4_2": "Välj Spara som och ange var filen ska sparas.",    "img_sp11": createImg('pic/sp11.png', 'Välj plats för Spara som'),    "ch2_step4_3": "Välj att spara som [Unicode-text], ange filnamnet [endast alfanumeriska kombinationer] och klicka på [Spara] för att färdigställa .txt-filen.",    "img_sp12": createImg('pic/sp12.png', 'Spara som Unicode-text'),    "ch2_step5_title": "5. Massutfärdande",    "ch2_step5_1": "Efter inloggning klickar du på 'Utfärda elektroniskt kvitto' för att utfärda ett enskilt elektroniskt kvitto.",    "img_sp13": createImg('pic/sp13.png', 'Skärm för enskilt utfärdande'),    "ch2_step5_2": "Klicka på 'Massutfärdande', sedan på [Välj fil] för att välja den redigerade .txt-filen och klicka på [Ladda upp] för att utföra massutfärdandet av elektroniska kvitton.",    "img_sp14": createImg('pic/sp14.png', 'Skärm för massuppladdning'),    "ch2_step5_3": "När du har bekräftat att filen har laddats upp kan du gå till [Sök elektroniska kvitton] för att kontrollera utfärdandestatusen.",    "img_sp15": createImg('pic/sp15.png', 'Sök utfärdandestatus'),    "footer_title": "Plattform för mervärdestjänster för elektroniska kvitton för resebyråer",    "footer_copyright": "Copyright &copy; Neweb Technologies Co., Ltd. Nätverkssammankoppling, Kanalintegration, Betalningsflöde, Kärnteknologi"}        
+        
+        
+        
+        };
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        function changeLanguage(lang) {
+            const url = new URL(window.location);
+            url.searchParams.set('lang', lang);
+            window.history.pushState({}, '', url);
+            renderPage(lang);
+        }
+
+        function initLangSelector(currentLang) {
+            const langSelector = document.getElementById('lang-selector');
+            if(!langSelector) return;
+
+            langSelector.innerHTML = '';
+            Object.keys(resources).forEach(langKey => {
+                const option = document.createElement('option');
+                option.value = langKey;
+                option.text = resources[langKey].lang_name || langKey;
+                if(langKey === currentLang) option.selected = true;
+                langSelector.appendChild(option);
+            });
+        }
+
+        function renderPage(currentLang) {
+            const lang = resources[currentLang] ? currentLang : 'zh-TW';
+            document.documentElement.lang = lang;
+            initLangSelector(lang);
+            
+            const dict = resources[lang];
+            const defaultDict = resources['zh-TW'];
+
+            const pageTitle = document.getElementById('page-title');
+            if (pageTitle) {
+                pageTitle.innerText = (dict && dict['page_title']) ? dict['page_title'] : defaultDict['page_title'];
+            }
+
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                const text = (dict && dict[key]) ? dict[key] : defaultDict[key];
+                if (text) {
+                    element.innerHTML = text;
+                }
+            });
+
+            const navList = document.getElementById('nav-list');
+            const navItems = [
+                { key: 'nav_ch1', link: '#section_rules' },
+                { key: 'nav_ch2_1', link: '#step1' },
+                { key: 'nav_ch2_2', link: '#step2' },
+                { key: 'nav_ch2_3', link: '#step3' },
+                { key: 'nav_ch2_4', link: '#step4' },
+                { key: 'nav_ch2_5', link: '#step5' }
+            ];
+
+            navList.innerHTML = '';
+            navItems.forEach(item => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = item.link;
+                a.className = 'block py-3 px-4 rounded-lg hover:bg-[#414141] hover:text-[#709581] transition-colors border-l-4 border-transparent hover:border-[#709581] text-gray-300';
+                
+                a.onclick = () => {
+                    if (window.innerWidth < 768) {
+                        toggleSidebar();
+                    }
+                };
+                
+                const itemText = (dict && dict[item.key]) ? dict[item.key] : (defaultDict[item.key] || item.key);
+                a.innerText = itemText;
+                li.appendChild(a);
+                navList.appendChild(li);
+            });
+        }
+
+        function init() {
+            const langParam = getQueryParam('lang');
+            renderPage(langParam);
+        }
+
+        window.addEventListener('popstate', () => {
+            const lang = getQueryParam('lang');
+            renderPage(lang);
+        });
+
+        window.addEventListener('DOMContentLoaded', init);
+
+    </script>
+</body>
+</html>
