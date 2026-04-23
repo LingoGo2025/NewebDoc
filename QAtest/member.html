@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title"></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+
+    <style>
+        html { scroll-behavior: smooth; }
+        body { background-color: #f8fafc; }
+        .scrollable-area::-webkit-scrollbar { width: 6px; }
+        .scrollable-area::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+
+        /* 加上 !important 避免被 Tailwind utility classes 覆蓋 */
+        .sidebar-active {
+            background-color: #e0f2fe !important;
+            color: #0284c7 !important;
+            border-right: 4px solid #0284c7 !important;
+            font-weight: 600 !important;
+        }
+
+        /* 手風琴區塊 */
+        .accordion-content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease-in-out;
+        }
+        .accordion-content.is-open { grid-template-rows: 1fr; }
+        .accordion-inner { overflow: hidden; }
+
+        .chevron-icon { transition: transform 0.3s ease-in-out; }
+        .is-open .chevron-icon { transform: rotate(180deg); }
+
+        /* 目標跳轉高亮 */
+        .target-highlight {
+            animation: highlightFade 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            position: relative;
+            z-index: 10;
+        }
+        @keyframes highlightFade {
+            0%   { background-color: #bfdbfe; transform: scale(1.015); box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.2); }
+            20%  { background-color: #bfdbfe; transform: scale(1.015); }
+            100% { background-color: transparent; transform: scale(1); box-shadow: none; }
+        }
+        .target-highlight .q-text { color: #1e40af !important; transition: color 0.5s; }
+    </style>
+</head>
+<body class="text-slate-800 font-sans">
+
+    <script>
+        let qaConfig = {
+//繁體中文開始
+"zh-TW":{"languageName":"繁體中文","ui":{"title":"會員及帳務","subtitle":"","version":"","last_updated":"2026-04-23","sidebar_brand":"會員及帳務","search_placeholder":"搜尋常見問題...","nav_group_title":"問題分類","search_empty_title":"找不到符合的結果","search_empty_desc":"我們找不到包含「{keyword}」的常見問題，請嘗試使用其他關鍵字，或聯繫客服人員協助。","last_updated_lbl":"最後更新：","copied_msg":"連結已複製到剪貼簿！","hot_topics_title":"熱門問題","btn_back_to_list":"返回列表","btn_open_new_window":"另開視窗閱讀","lbl_related":"相關"},"items":[{"tag":"會員帳號","icon":"fas fa-users","is_hot":false,"is_link_mode":false,"q":"註冊到上線使用的常見問題(含助理帳號)","a":["<p>商家自註冊帳號至正式上線使用過程中，常見問題包含帳號開通、權限設定、串接測試及支付功能啟用等，說明如下：<\/p><ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>帳號申請與開通<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> 商家完成註冊後，需依流程提交相關審核資料，經審核通過後方可開通正式收款功能。審核期間及所需文件依服務類型而有所不同。<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>助理帳號設定<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> 主帳號可於後台建立助理帳號，並依角色需求設定不同操作權限（如訂單查詢、退款操作、報表下載等），以利內部人員分工使用。建議妥善控管權限範圍，確保帳號安全。<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>金流串接與測試<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> 商家需依串接文件完成API或MPG設定，並於測試環境進行交易驗證，確認付款流程、回傳機制及通知功能皆正常運作。<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>支付工具申請與啟用<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> 如需使用信用卡分期、LINE Pay、Apple Pay等支付方式，須另行完成相關申請與審核，並於後台啟用後方可提供消費者使用。<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>正式上線與驗證<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> 完成測試後，需確認正式環境參數設定正確，並進行實際交易驗證，確保金流運作正常後即可正式上線收款。<\/li><\/ol><p><br><\/p>"],"links":[]},{"tag":"商店與設定","icon":"fas fa-shop","is_hot":false,"is_link_mode":false,"q":"商店管理與相關設定","a":["<p>商店管理與相關設定提供商家於後台進行基本資料維護、權限控管及金流功能設定等操作，以確保系統運作符合實際營運需求。商家可於後台設定商店資訊（如商店名稱、聯絡資訊）、管理帳號與助理帳號權限，並依需求啟用或調整各項支付工具。<\/p><p>此外，商家亦可進行交易通知設定（如Return URL、Notify URL）、金流串接參數管理（如HashKey、HashIV）及其他相關功能配置，以確保交易流程順暢且資料回傳正確。<\/p><p>建議商家於上線前完成相關設定檢查，並定期檢視與更新，以維持系統安全性與營運穩定性。<\/p>"],"links":[]},{"tag":"收款與提款","icon":"fas fa-bank","is_hot":false,"is_link_mode":false,"q":"提領相關用語說明與規則","a":["<p>提領係指商家將已完成交易且符合撥款條件之款項，自金流帳戶申請轉入指定銀行帳戶之作業。相關用語與規則說明如下：<\/p><ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>可提領餘額<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> 指已完成交易且經過必要處理期間（如鑑別期、風險控管或退款保留期）後，可供商家申請提領之金額。<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>結算週期<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> 指交易款項自完成後至可提領之時間區間，依支付方式及合作銀行規定有所不同（如T+N日）。<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>撥款方式<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> 商家可依設定選擇自動撥款或手動提領。自動撥款將依固定週期執行，手動提領則由商家於後台提出申請。<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>提領申請時間<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> 提領申請需於系統規定之作業時間內提出，逾時將順延至下一作業日處理。<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>手續費與扣款項目<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> 提領金額可能扣除交易手續費、退款金額、爭議款項或其他應收費用，實際金額以系統結算結果為準。<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>入帳時間<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> 提領申請完成後，款項將依銀行作業時間入帳，實際到帳日可能因假日或銀行處理時間有所差異。<\/li><\/ol><p><br><\/p>"],"links":[]},{"tag":"收款與提款","icon":"fas fa-bank","is_hot":false,"is_link_mode":false,"q":"提領後，我如何查詢款項何時會到達我的銀行帳戶？","a":["<p>商家於完成提領申請後，可於商店後台查詢該筆提領紀錄之處理狀態與預計撥款資訊。一般而言，提領款項將依金流系統之作業流程及銀行處理時間入帳，實際入帳時間可能因申請時間、銀行別及是否遇假日而有所差異。<\/p><p>商家可透過以下方式確認入帳進度：<\/p><ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span>於後台查詢提領紀錄及狀態（如：處理中、已撥款）<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span>確認提領申請時間是否於作業時間內<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span>留意銀行入帳時間（通常為撥款後1～2個工作日內）<\/li><\/ol><p><br><\/p>"],"links":[]},{"tag":"交易與額度","icon":"fas fa-file-invoice-dollar","is_hot":false,"is_link_mode":false,"q":"交易、手續費用、額度管控","a":["<p>本服務提供多元支付交易處理機制，商家可透過金流系統完成交易建立、付款處理及交易結果回傳，並於後台查詢相關交易紀錄與狀態。<\/p><p><strong>一、交易說明<\/strong><\/p><p> 交易係指消費者透過各類支付工具（如信用卡、ATM、行動支付等）完成付款之行為。交易狀態將依實際流程區分為待付款、付款成功、失敗、取消或退款等，商家可依需求進行後續處理與管理。<\/p><p><strong>二、手續費用<\/strong><\/p><p> 各項交易將依支付方式及合作條件收取相應手續費，費率由收單銀行或金流服務商依商家類型、交易風險及合作內容核定。實際費用將於結算或撥款時自交易金額中扣除，相關明細可於報表中查詢。<\/p><p><strong>三、額度管控<\/strong><\/p><p> 交易額度係由收單銀行或金流服務機構依風險評估核定，包含單筆交易金額上限、每日交易限額及整體收款額度等。商家如有調整需求，須提出申請並經審核後方可調整，以確保交易安全與風險控管。<\/p>"],"links":[]}]},
+//繁體中文結束
+
+//英文開始
+"en": {"languageName":"English","ui":{"title":"Account & Billing","subtitle":"","version":"","last_updated":"2026-04-21","sidebar_brand":"Account & Billing","search_placeholder":"Search FAQs...","nav_group_title":"Categories","btn_expand_all":"Expand All","btn_collapse_all":"Collapse All","search_empty_title":"No matching results found","search_empty_desc":"We couldn't find any FAQs containing \"{keyword}\". Please try other keywords or contact customer service for assistance.","last_updated_lbl":"Last Updated:","copied_msg":"Link copied to clipboard!","hot_topics_title":"Hot Topics","btn_back_to_list":"Back to List","btn_open_new_window":"Open in new window","lbl_related":"Related","search_empty_desc_prefix":"We couldn't find any FAQs containing \"","search_empty_desc_suffix":"\". Please try other keywords or contact customer service for assistance.","overview_title":"FAQ Overview","btn_copy_link_title":"Copy link to this question"},"items":[{"tag":"Member Account","q":"FAQs from Registration to Going Live (Including Assistant Accounts)","a":["<p>Common questions during the process from merchant registration to officially going live include account activation, permission settings, integration testing, and payment function activation, as explained below:<\/p><ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>Account Application and Activation<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> After completing registration, merchants must submit relevant review materials according to the process. Once approved, the formal payment collection function can be activated. The review period and required documents vary depending on the service type.<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>Assistant Account Settings<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> The primary account can create assistant accounts in the backend and set different operational permissions (such as order inquiries, refund operations, report downloads, etc.) based on role requirements for internal division of labor. It is recommended to manage permissions properly to ensure account security.<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>Payment Integration and Testing<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> Merchants must complete API or MPG settings according to the integration documentation and perform transaction verification in a test environment to ensure the payment process, callback mechanism, and notification functions are working normally.<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>Payment Tool Application and Activation<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> To use payment methods such as credit card installments, LINE Pay, or Apple Pay, separate applications and reviews must be completed and enabled in the backend before being available to consumers.<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>Go-Live and Verification<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> After testing is completed, ensure the formal environment parameters are set correctly and perform an actual transaction verification. Once the payment flow is confirmed to be normal, the merchant can officially go live and collect payments.<\/li><\/ol><p><br><\/p>"]},{"tag":"Store & Settings","q":"Store Management and Related Settings","a":["<p>Store management and related settings allow merchants to maintain basic information, control permissions, and configure payment functions in the backend to ensure system operations meet actual business needs. Merchants can set store information (such as store name, contact info), manage primary and assistant account permissions, and enable or adjust various payment tools as needed.<\/p><p>Additionally, merchants can configure transaction notification settings (e.g., Return URL, Notify URL), manage payment integration parameters (e.g., HashKey, HashIV), and other related functions to ensure a smooth transaction process and accurate data callbacks.<\/p><p>It is recommended that merchants complete a check of all relevant settings before going live and review/update them periodically to maintain system security and operational stability.<\/p>"]},{"tag":"Collection & Withdrawal","q":"Withdrawal Terms and Rules","a":["<p>Withdrawal refers to the operation where a merchant applies to transfer funds from their payment account to a designated bank account for completed transactions that meet disbursement conditions. Relevant terms and rules are explained below:<\/p><ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>Withdrawable Balance<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> Refers to the amount available for withdrawal after transactions are completed and have passed the necessary processing period (e.g., appreciation period, risk control, or refund reserve period).<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>Settlement Cycle<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> Refers to the time interval from transaction completion to withdrawal availability, which varies depending on the payment method and partner bank regulations (e.g., T+N days).<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>Disbursement Method<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> Merchants can choose between automatic disbursement or manual withdrawal. Automatic disbursement is executed based on a fixed cycle, while manual withdrawal requires the merchant to submit an application through the backend.<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>Withdrawal Application Time<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> Withdrawal applications must be submitted within the system's designated operating hours; otherwise, they will be postponed to the next business day.<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>Fees and Deductions<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> Withdrawal amounts may be subject to deductions for transaction fees, refunds, disputed items, or other payable fees. The actual amount is based on the system settlement result.<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span><strong>Funds Crediting Time<\/strong><\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span> After the withdrawal application is completed, funds will be credited according to the bank's processing time. The actual arrival date may vary due to holidays or bank processing times.<\/li><\/ol><p><br><\/p>"]},{"tag":"Collection & Withdrawal","q":"After withdrawal, how can I check when the funds will arrive in my bank account?","a":["<p>After completing a withdrawal application, merchants can check the processing status and estimated disbursement information of the record in the store backend. Generally, funds will be credited according to the payment system's workflow and bank processing times. Actual credit times may vary depending on application timing, the specific bank, and holidays.<\/p><p>Merchants can confirm the progress of funds arrival through the following methods:<\/p><ol><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span>Check withdrawal records and status in the backend (e.g., Processing, Disbursed)<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span>Confirm if the withdrawal application time falls within operating hours<\/li><li data-list=\"ordered\"><span class=\"ql-ui\" contenteditable=\"false\"><\/span>Pay attention to bank credit times (usually within 1-2 business days after disbursement)<\/li><\/ol><p><br><\/p>"]},{"tag":"Transactions & Limits","q":"Transactions, Fees, and Limit Controls","a":["<p>This service provides multi-payment transaction processing mechanisms. Merchants can complete transaction creation, payment processing, and result callbacks through the payment system, and query relevant transaction records and statuses in the backend.<\/p><p><strong>1. Transaction Description<\/strong><\/p><p> A transaction refers to the act of a consumer completing a payment through various payment tools (e.g., credit cards, ATM, mobile payments). Transaction status will be categorized into pending payment, payment successful, failed, cancelled, or refunding based on the actual process. Merchants can perform subsequent processing and management as needed.<\/p><p><strong>2. Fees<\/strong><\/p><p> Each transaction will be charged a corresponding fee based on the payment method and partnership terms. Rates are determined by the acquiring bank or payment service provider based on the merchant type, transaction risk, and partnership details. Actual fees will be deducted from the transaction amount during settlement or disbursement. Details can be found in the reports.<\/p><p><strong>3. Limit Controls<\/strong><\/p><p> Transaction limits are determined by the acquiring bank or payment service institution based on risk assessment, including single transaction limits, daily transaction limits, and overall collection limits. If merchants need adjustments, they must submit an application for review to ensure transaction security and risk control.<\/p>"]}]},
+//英文結束
+};
+
+        let currentLang = Object.keys(qaConfig)[0];
+
+        /* 增加點擊跳轉的鎖定機制，避免 smooth scroll 延遲觸發錯誤高亮 */
+        let isClickScrolling = false;
+        let clickScrollTimeout;
+
+        function initLanguageFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const langParam = urlParams.get('lang');
+            if (langParam && qaConfig[langParam]) {
+                currentLang = langParam;
+            }
+        }
+
+        function getGroupedData() {
+            const items = qaConfig[currentLang].items;
+            const groups = [];
+            const groupMap = new Map();
+
+            items.forEach((item) => {
+                if (!groupMap.has(item.tag)) {
+                    const newGroup = { title: item.tag, icon: item.icon, items: [] };
+                    groups.push(newGroup);
+                    groupMap.set(item.tag, newGroup);
+                }
+                const groupIdx = groups.findIndex(g => g.title === item.tag);
+                const itemIdxInGroup = groupMap.get(item.tag).items.length;
+                groupMap.get(item.tag).items.push({
+                    q           : item.q,
+                    a           : Array.isArray(item.a) ? item.a.join('') : (item.a || ''),
+                    id          : `qa-${groupIdx}-${itemIdxInGroup}`,
+                    is_hot      : item.is_hot,
+                    is_link_mode: !!item.is_link_mode,
+                    links       : item.links || []
+                });
+            });
+
+            return groups;
+        }
+
+        /* 僅顯示「is_hot 且有連結」的項目於熱門問題區 */
+        function getHotItems() {
+            const grouped = getGroupedData();
+            const hotItems = [];
+            grouped.forEach(group => {
+                group.items.forEach(item => {
+                    if (item.is_hot) {
+                        hotItems.push({ q: item.q, id: item.id });
+                    }
+                });
+            });
+            return hotItems;
+        }
+
+        function escapeHtml(text) {
+            return String(text || '').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        function escapeRegExp(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+
+        function renderAll() {
+            renderMetaInfo();
+            renderSidebar();
+            renderHotTopics();
+            renderQAContent();
+            updateScrollSpy();
+        }
+
+        function renderMetaInfo() {
+            const ui = qaConfig[currentLang].ui;
+            document.getElementById('page-title').textContent = ui.title;
+            document.getElementById('mobile-header-title').textContent = ui.title;
+            document.getElementById('sidebar-brand').textContent = ui.sidebar_brand;
+            document.getElementById('sidebar-subtitle').textContent = ui.subtitle || '';
+            document.getElementById('main-title').textContent = ui.title;
+
+            const versionHtml = ui.version
+                ? `<span class="mr-2 font-semibold text-slate-500">${ui.version}</span>`
+                : '';
+            document.getElementById('sidebar-last-updated').innerHTML =
+                `${versionHtml}<span class="flex items-center"><i class="far fa-clock mr-1"></i>${ui.last_updated_lbl}${ui.last_updated}</span>`;
+
+            document.getElementById('searchInput').placeholder = ui.search_placeholder;
+            document.getElementById('nav-group-title').textContent = ui.nav_group_title;
+            document.getElementById('empty-title').textContent = ui.search_empty_title;
+            document.getElementById('ui-btn-back').textContent = ui.btn_back_to_list || '返回列表';
+            document.getElementById('ui-btn-new-window').textContent = ui.btn_open_new_window || '另開視窗閱讀';
+        }
+
+        function renderSidebar() {
+            const container = document.getElementById('sidebar-nav-list');
+            const groupedTags = getGroupedData();
+            container.innerHTML = groupedTags.map((tag, index) => `
+                <a href="#tag-${index}" onclick="scrollToSection(event, 'tag-${index}')" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 transition-colors rounded-lg group">
+                    <i class="${tag.icon} w-6 text-slate-400 group-hover:text-blue-500 transition-colors"></i>
+                    <span>${tag.title}</span>
+                </a>
+            `).join('');
+        }
+
+        function scrollToSection(event, id) {
+            event.preventDefault();
+            closeIframe();
+
+            const target = document.getElementById(id);
+            if (target) {
+                isClickScrolling = true;
+                clearTimeout(clickScrollTimeout);
+                clickScrollTimeout = setTimeout(() => { isClickScrolling = false; }, 800);
+
+                window.history.pushState(null, null, `#${id}`);
+
+                const offset = 100;
+                const bodyRect = document.body.getBoundingClientRect().top;
+                const elementRect = target.getBoundingClientRect().top;
+                window.scrollTo({ top: elementRect - bodyRect - offset, behavior: 'smooth' });
+
+                /* 點擊後立即強制更新高亮，不等 ScrollSpy */
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('sidebar-active');
+                    } else {
+                        link.classList.remove('sidebar-active');
+                    }
+                });
+            }
+        }
+
+        function renderHotTopics() {
+            const container = document.getElementById('hot-topics-container');
+            const hotItems = getHotItems();
+            const ui = qaConfig[currentLang].ui;
+
+            if (hotItems.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="mb-8 bg-white rounded-xl border border-blue-100 shadow-sm overflow-hidden">
+                    <div class="bg-blue-50 px-4 py-2.5 border-b border-blue-100 flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-blue-800 flex items-center">
+                            <i class="fas fa-fire-flame-curved mr-2 text-orange-500"></i> ${ui.hot_topics_title}
+                        </h3>
+                    </div>
+                    <div class="p-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+                        ${hotItems.map(item => `
+                            <button onclick="jumpToItem('${item.id}')" class="w-full text-left group flex items-start gap-2.5 p-2 rounded-lg hover:bg-blue-50 transition-colors border border-transparent hover:border-blue-100">
+                                <i class="fas fa-circle-dot text-[7px] mt-1.5 text-blue-300 group-hover:text-blue-500"></i>
+                                <span class="text-[13px] font-medium text-slate-600 group-hover:text-blue-700 leading-tight">${item.q}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderQAContent() {
+            const container = document.getElementById('qa-container');
+            const groupedTags = getGroupedData();
+
+            container.innerHTML = groupedTags.map((tag, tagIndex) => `
+                <section id="tag-${tagIndex}" class="qa-tag mb-12 scroll-mt-24">
+                    <div class="flex items-center mb-6">
+                        <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                        <h2 class="text-2xl font-bold text-slate-900 flex items-center">
+                            <i class="${tag.icon} text-blue-500 mr-3"></i>${tag.title}
+                        </h2>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden divide-y divide-slate-100">
+                        ${tag.items.map((item) => `
+                            <div class="qa-item group transition-all" id="${item.id}"
+                                 data-link-mode="${item.is_link_mode}"
+                                 data-orig-q="${escapeHtml(item.q)}"
+                                 data-orig-a="${escapeHtml(item.a)}">
+                                ${item.is_link_mode ? `
+                                    <button onclick="openIframe('${item.links[0] ? item.links[0].url : ''}')" class="w-full text-left px-6 py-5 focus:outline-none flex justify-between items-center hover:bg-slate-50 transition-colors">
+                                        <span class="font-bold text-slate-800 text-lg pr-4 flex-1 flex items-center gap-3">
+                                            <span class="q-text leading-snug">${item.q}</span>
+                                            <div onclick="copyLink(event, '${item.id}')" class="text-slate-300 hover:text-blue-600 hover:bg-blue-50 rounded p-1.5 transition-all opacity-0 group-hover:opacity-100 cursor-pointer flex-shrink-0" title="複製此問題連結">
+                                                <i class="fas fa-link text-sm"></i>
+                                            </div>
+                                        </span>
+                                        <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-100 transition-colors ml-4">
+                                            <i class="fas fa-external-link-alt text-slate-500 text-sm"></i>
+                                        </div>
+                                    </button>
+                                ` : `
+                                    <button onclick="toggleAccordion(this)" class="w-full text-left px-6 py-5 focus:outline-none flex justify-between items-center hover:bg-slate-50 transition-colors">
+                                        <span class="font-bold text-slate-800 text-lg pr-4 flex-1 flex items-center gap-3">
+                                            <span class="q-text leading-snug">${item.q}</span>
+                                            <div onclick="copyLink(event, '${item.id}')" class="text-slate-300 hover:text-blue-600 hover:bg-blue-50 rounded p-1.5 transition-all opacity-0 group-hover:opacity-100 cursor-pointer flex-shrink-0" title="複製此問題連結">
+                                                <i class="fas fa-link text-sm"></i>
+                                            </div>
+                                        </span>
+                                        <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-100 transition-colors ml-4 chevron-container">
+                                            <i class="fas fa-chevron-down text-slate-500 chevron-icon"></i>
+                                        </div>
+                                    </button>
+                                    <div class="accordion-content bg-slate-50">
+                                        <div class="accordion-inner">
+                                            <div class="px-6 py-5 border-t border-slate-100 text-slate-600 leading-relaxed a-text-content">
+                                                ${item.a}
+                                            </div>
+                                            ${item.links.length > 0 ? `
+                                            <div class="px-6 pb-5 flex flex-wrap gap-3">
+                                                ${item.links.map(link => `
+                                                    <a href="${link.url}" target="${link.target || '_blank'}" class="inline-flex items-center text-sm px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded transition-colors">
+                                                        <i class="fas fa-link mr-1.5 text-slate-500 text-xs"></i> ${link.name || link.url}
+                                                    </a>
+                                                `).join('')}
+                                            </div>
+                                            ` : ''}
+                                        </div>
+                                    </div>
+                                `}
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>
+            `).join('');
+        }
+
+        function jumpToItem(id) {
+            const targetEl = document.getElementById(id);
+            if (targetEl) {
+                const offset = 120;
+                const bodyRect = document.body.getBoundingClientRect().top;
+                const elementRect = targetEl.getBoundingClientRect().top;
+                window.scrollTo({ top: elementRect - bodyRect - offset, behavior: 'smooth' });
+
+                targetEl.classList.remove('target-highlight');
+                void targetEl.offsetWidth;
+                targetEl.classList.add('target-highlight');
+                setTimeout(() => targetEl.classList.remove('target-highlight'), 3000);
+
+                const isLinkMode = targetEl.getAttribute('data-link-mode') === 'true';
+                if (!isLinkMode) {
+                    toggleAccordion(targetEl.querySelector('button'), true);
+                }
+            }
+        }
+
+        function toggleAccordion(button, forceState) {
+            const content = button.nextElementSibling;
+            const container = button.parentElement;
+            const textSpan = button.querySelector('.q-text');
+            const isCurrentlyOpen = container.classList.contains('is-open');
+            const shouldOpen = forceState !== undefined ? forceState : !isCurrentlyOpen;
+
+            if (shouldOpen) {
+                content.classList.add('is-open');
+                container.classList.add('is-open');
+                textSpan.classList.add('text-blue-600');
+            } else {
+                content.classList.remove('is-open');
+                container.classList.remove('is-open');
+                textSpan.classList.remove('text-blue-600');
+            }
+        }
+
+        function openIframe(url) {
+            if (!url) return;
+            document.getElementById('main-content-wrapper').classList.add('hidden');
+            document.getElementById('iframe-wrapper').classList.remove('hidden');
+            document.getElementById('iframe-wrapper').classList.add('flex');
+            document.getElementById('content-iframe').src = url;
+            document.getElementById('iframe-external-link').href = url;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function closeIframe() {
+            document.getElementById('iframe-wrapper').classList.add('hidden');
+            document.getElementById('iframe-wrapper').classList.remove('flex');
+            document.getElementById('main-content-wrapper').classList.remove('hidden');
+            document.getElementById('content-iframe').src = '';
+            setTimeout(updateScrollSpy, 100);
+        }
+
+        function handleSearch() {
+            const ui = qaConfig[currentLang].ui;
+            const keyword = document.getElementById('searchInput').value.trim();
+            const lowerKeyword = keyword.toLowerCase();
+            const items = document.querySelectorAll('.qa-item');
+            const hotTopics = document.getElementById('hot-topics-container');
+            let hasVisible = false;
+
+            hotTopics.style.display = keyword ? 'none' : 'block';
+
+            items.forEach(item => {
+                const origQ = item.getAttribute('data-orig-q');
+                const origA = item.getAttribute('data-orig-a');
+                const qSpan = item.querySelector('.q-text');
+                const aContentDiv = item.querySelector('.a-text-content');
+                const isLinkMode = item.getAttribute('data-link-mode') === 'true';
+
+                if (!keyword) {
+                    qSpan.innerHTML = origQ;
+                    if (!isLinkMode && aContentDiv) aContentDiv.innerHTML = origA;
+                    item.style.display = 'block';
+                    hasVisible = true;
+                    return;
+                }
+
+                const hasMatchQ = origQ.toLowerCase().includes(lowerKeyword);
+                const hasMatchA = origA.toLowerCase().includes(lowerKeyword);
+
+                if (hasMatchQ || hasMatchA) {
+                    item.style.display = 'block';
+                    hasVisible = true;
+
+                    let newQHTML = origQ;
+                    if (hasMatchQ) {
+                        const regex = new RegExp(`(${escapeRegExp(keyword)})`, 'gi');
+                        newQHTML = origQ.replace(regex, `<mark class="bg-yellow-200 text-slate-900 rounded px-1 font-bold">$1</mark>`);
+                    }
+
+                    /* 手風琴項目的回答搜尋相關標籤 */
+                    if (!hasMatchQ && hasMatchA && isLinkMode) {
+                        newQHTML += ` <span class="ml-2 text-[12px] px-2 py-0.5 rounded border border-blue-200 text-blue-600 bg-blue-50 whitespace-nowrap font-bold"><i class="fas fa-tag mr-1"></i>${ui.lbl_related || '相關'}</span>`;
+                    }
+
+                    qSpan.innerHTML = newQHTML;
+
+                    if (!isLinkMode && aContentDiv) {
+                        let newAHTML = origA;
+                        if (hasMatchA) {
+                            const regex = new RegExp(`(${escapeRegExp(keyword)})`, 'gi');
+                            newAHTML = origA.replace(regex, `<mark class="bg-yellow-200 text-slate-900 rounded px-1 font-bold">$1</mark>`);
+                        }
+                        aContentDiv.innerHTML = newAHTML;
+                        if (hasMatchQ || hasMatchA) {
+                            const btn = item.querySelector('button');
+                            toggleAccordion(btn, true);
+                        }
+                    }
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            document.querySelectorAll('.qa-tag').forEach(tagEl => {
+                const visibleItems = tagEl.querySelectorAll('.qa-item[style="display: block;"], .qa-item:not([style*="display: none"])');
+                tagEl.style.display = visibleItems.length === 0 ? 'none' : 'block';
+            });
+
+            const emptyState = document.getElementById('empty-state-container');
+            if (hasVisible) {
+                emptyState.classList.add('hidden');
+            } else {
+                emptyState.classList.remove('hidden');
+                let desc = (qaConfig[currentLang].ui.search_empty_desc || '');
+                document.getElementById('empty-desc').innerHTML = desc.replace('{keyword}', `<span class="text-blue-600 font-bold">${keyword}</span>`);
+            }
+
+            updateScrollSpy();
+        }
+
+        function copyLink(event, id) {
+            event.stopPropagation();
+            const url = window.location.origin + window.location.pathname + window.location.search + '#' + id;
+            const temp = document.createElement('textarea');
+            temp.value = url;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            showToast(qaConfig[currentLang].ui.copied_msg || '連結已複製！');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 3000);
+        }
+
+        function checkHashAndScroll() {
+            if (window.location.hash && window.location.hash.startsWith('#qa-')) {
+                const id = window.location.hash.substring(1);
+                setTimeout(() => jumpToItem(id), 400);
+            }
+        }
+
+        function initLangDropdown() {
+            const select = document.getElementById('lang-select');
+            select.innerHTML = '';
+            Object.keys(qaConfig).forEach(langKey => {
+                const option = document.createElement('option');
+                option.value = langKey;
+                option.textContent = qaConfig[langKey].languageName || langKey;
+                if (langKey === currentLang) option.selected = true;
+                select.appendChild(option);
+            });
+        }
+
+        function changeLang(targetLang) {
+            if (!qaConfig[targetLang]) return;
+            currentLang = targetLang;
+            const url = new URL(window.location);
+            url.searchParams.set('lang', targetLang);
+            window.history.pushState({}, '', url);
+            closeIframe();
+            renderAll();
+            document.getElementById('searchInput').value = '';
+            handleSearch();
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        }
+
+        function updateScrollSpy() {
+            /* 點擊跳轉進行中時暫停，避免誤選中下一個項目 */
+            if (isClickScrolling) return;
+
+            const iframeWrapper = document.getElementById('iframe-wrapper');
+            if (iframeWrapper && !iframeWrapper.classList.contains('hidden')) return;
+
+            const sections = document.querySelectorAll('.qa-tag');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            if (sections.length === 0 || navLinks.length === 0) return;
+
+            let current = sections[0].getAttribute('id');
+
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            /* 捲到頁尾時強制選最後一個 */
+            const scrollPosition = Math.ceil(window.innerHeight + window.scrollY);
+            const scrollHeight = document.documentElement.scrollHeight;
+            if (window.scrollY > 50 && scrollPosition >= scrollHeight - 20) {
+                current = sections[sections.length - 1].getAttribute('id');
+            }
+
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('sidebar-active');
+                } else {
+                    link.classList.remove('sidebar-active');
+                }
+            });
+        }
+
+  window.onload = function () {
+    initLanguageFromURL();
+    initLangDropdown();
+    renderAll();
+    
+    // 全域搜尋傳遞參數處理：讀取 ?q= 參數並自動觸發搜尋與高亮
+    const urlParams = new URLSearchParams(window.location.search);
+    const q = urlParams.get('q');
+    if (q) {
+        document.getElementById('searchInput').value = q;
+        handleSearch(); // 強制觸發搜尋過濾畫面
+    }
+
+    // 處理 Hash 錨點跳轉 (確保在DOM渲染與搜尋過濾後執行)
+    checkHashAndScroll();
+    
+    window.addEventListener('scroll', updateScrollSpy);
+};
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', () => {
+            const topBtn = document.getElementById('scrollToTopBtn');
+            if (window.scrollY > 300) {
+                topBtn.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+                topBtn.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
+            } else {
+                topBtn.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
+                topBtn.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+            }
+        });
+    </script>
+
+    <!-- 行動版 Header -->
+    <header class="lg:hidden bg-white shadow-sm p-4 sticky top-0 z-50 flex justify-between items-center border-b border-slate-200">
+        <h1 class="text-lg font-bold text-blue-700 flex items-center">
+            <i class="fas fa-question-circle mr-2"></i> <span id="mobile-header-title"></span>
+        </h1>
+        <button onclick="toggleMobileMenu()" class="text-slate-600 focus:outline-none hover:text-blue-600 transition">
+            <i class="fas fa-bars text-2xl"></i>
+        </button>
+    </header>
+
+    <div class="flex min-h-screen relative">
+        <!-- 左側邊欄 -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 w-72 bg-white shadow-xl transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 border-r border-slate-200 flex flex-col">
+            <div class="p-6 border-b border-slate-100 bg-gradient-to-r from-blue-50 to-white shrink-0 relative">
+                <h2 class="text-2xl font-bold text-blue-700 tracking-tight" id="sidebar-brand"></h2>
+                <p class="text-sm text-slate-500 mt-1 font-medium"><span id="sidebar-subtitle"></span></p>
+                <div id="sidebar-last-updated" class="absolute bottom-3 right-4 text-[10px] text-slate-400 flex items-center"></div>
+            </div>
+
+            <div class="flex-1 overflow-y-auto scrollable-area">
+                <nav class="p-4 space-y-1">
+                    <div class="px-4 py-2 text-xs font-bold text-slate-400 uppercase tracking-wider" id="nav-group-title"></div>
+                    <div id="sidebar-nav-list" class="space-y-1"></div>
+                </nav>
+            </div>
+
+            <div class="p-4 border-t border-slate-200 bg-slate-50 shrink-0">
+                <div class="relative group w-full">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400"><i class="fas fa-globe"></i></div>
+                    <select id="lang-select" onchange="changeLang(this.value)" class="w-full appearance-none bg-white hover:bg-white text-slate-600 font-medium py-2.5 pl-10 pr-8 rounded-lg text-sm transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer border border-slate-300 shadow-sm"></select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500"><i class="fas fa-chevron-up text-xs"></i></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主內容區 -->
+        <main class="flex-1 lg:ml-72 p-4 lg:p-10 w-[95%] mx-auto max-w-[1920px]">
+
+            <!-- 問答列表模式 -->
+            <div id="main-content-wrapper">
+                <div class="mb-10 text-center lg:text-left flex flex-col lg:flex-row justify-between items-center lg:items-end gap-6">
+                    <div class="w-full lg:w-auto">
+                        <h1 class="text-4xl font-extrabold text-slate-900 tracking-tight mb-6" id="main-title"></h1>
+                        <div class="relative max-w-xl mx-auto lg:mx-0">
+                            <i class="fas fa-search absolute left-4 top-4 text-slate-400 text-lg"></i>
+                            <input type="text" id="searchInput" oninput="handleSearch()" class="w-full pl-12 p-4 border border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none text-slate-700 shadow-sm transition-all" placeholder="搜尋...">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="hot-topics-container"></div>
+
+                <div id="empty-state-container" class="hidden py-16 px-6 text-center bg-white rounded-2xl border border-slate-200 shadow-sm mb-12">
+                    <div class="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-search-minus text-4xl text-slate-300"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2" id="empty-title"></h3>
+                    <p class="text-slate-500 max-w-md mx-auto" id="empty-desc"></p>
+                </div>
+
+                <div id="qa-container"></div>
+            </div>
+
+            <!-- iframe 模式（連結模式項目點擊後顯示） -->
+            <div id="iframe-wrapper" class="hidden flex-col w-full bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden h-[calc(100vh-6rem)] lg:h-[calc(100vh-5rem)]">
+                <div class="flex justify-between items-center px-4 py-3 border-b border-slate-100 bg-slate-50 shrink-0">
+                    <button onclick="closeIframe()" class="text-slate-600 hover:text-blue-600 font-medium flex items-center gap-2 transition-colors px-2 py-1 rounded hover:bg-white">
+                        <i class="fas fa-arrow-left"></i> <span id="ui-btn-back"></span>
+                    </button>
+                    <a id="iframe-external-link" href="#" target="_blank" class="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1 px-2 py-1 rounded hover:bg-blue-50 transition-colors">
+                        <span id="ui-btn-new-window"></span> <i class="fas fa-external-link-alt text-[10px] ml-1"></i>
+                    </a>
+                </div>
+                <iframe id="content-iframe" class="w-full flex-1 border-0" src=""></iframe>
+            </div>
+
+        </main>
+    </div>
+
+    <div id="toast" class="fixed bottom-6 right-6 bg-slate-800 text-white px-5 py-3 rounded-lg shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center font-medium">
+        <i class="fas fa-check-circle text-green-400 mr-3 text-lg"></i>
+        <span id="toast-msg"></span>
+    </div>
+
+    <button id="scrollToTopBtn" onclick="scrollToTop()" class="fixed bottom-20 right-6 bg-blue-600 hover:bg-blue-700 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-xl opacity-0 pointer-events-none transition-all duration-300 z-50 focus:outline-none transform translate-y-4">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+</body>
+</html>
