@@ -82,7 +82,7 @@
 |:-----|:-----|
 | 端點 | `POST https://core.newebpay.com/API/CreditCard/withIdentity` |
 | 加密方式 | AES256 + SHA256 |
-| 請求欄位 | 28 個（必填 10 個）|
+| 請求欄位 | 4 個（必填 4 個）|
 | 回應欄位 | 3 個 |
 
 - [完整串接說明（欄位定義、加密規格、範例）](https://lingogo2025.github.io/NewebDoc/testAIbook/20260518001.md)
