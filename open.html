@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>開啟影片...</title>
+<style>
+  body { margin: 0; background: #0f0f0f; color: #f1f1f1; font-family: -apple-system, sans-serif;
+         display: flex; align-items: center; justify-content: center; min-height: 100vh; text-align: center; }
+  .wrap { padding: 32px; max-width: 320px; }
+  .icon { font-size: 48px; margin-bottom: 20px; }
+  .status { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+  .hint   { color: #aaa; font-size: 13px; line-height: 1.6; }
+  .btn    { display: inline-block; margin-top: 24px; padding: 12px 24px; background: #ff0000;
+            color: #fff; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 600; }
+  .yt-link { display: block; margin-top: 14px; color: #666; font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="icon" id="icon">⏳</div>
+  <div class="status" id="status">正在複製連結...</div>
+  <div class="hint"  id="hint"></div>
+  <a id="app-btn" style="display:none"></a>
+  <a id="yt-link" class="yt-link" style="display:none">改用 YouTube 開啟</a>
+</div>
+<script>
+  const params     = new URLSearchParams(location.search);
+  const videoId    = (params.get('v') || '').replace(/[^a-zA-Z0-9_-]/g, '');
+  const youtubeUrl = 'https://www.youtube.com/watch?v=' + videoId;
+  const appUrl     = 'tubepip://www.youtube.com/watch?v=' + videoId;
+
+  const iconEl   = document.getElementById('icon');
+  const statusEl = document.getElementById('status');
+  const hintEl   = document.getElementById('hint');
+  const appBtn   = document.getElementById('app-btn');
+  const ytLink   = document.getElementById('yt-link');
+
+  ytLink.href = youtubeUrl;
+
+  function showAppStep() {
+    iconEl.textContent  = '▶';
+    statusEl.textContent = '點下方按鈕開啟 Tube PiP';
+    hintEl.textContent  = '開啟後將連結貼到輸入框即可播放';
+    appBtn.href         = appUrl;
+    appBtn.textContent  = '開啟 Tube PiP';
+    appBtn.style.display = 'inline-block';
+    ytLink.style.display = 'block';
+  }
+
+  // 先複製 YouTube 網址到剪貼簿，再顯示開啟 App 的指示
+  if (!videoId) {
+    location.href = 'https://www.youtube.com';
+  } else if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(youtubeUrl)
+      .then(function () {
+        iconEl.textContent   = '✅';
+        statusEl.textContent = '已複製 YouTube 連結';
+        hintEl.textContent   = '開啟 App 後貼上即可播放';
+        setTimeout(showAppStep, 800);
+      })
+      .catch(function () {
+        // HTTPS 不可用時 fallback
+        iconEl.textContent   = '⚠️';
+        statusEl.textContent = '無法自動複製';
+        hintEl.innerHTML     = '請手動複製以下網址：<br><small style="color:#888;word-break:break-all">' + youtubeUrl + '</small>';
+        setTimeout(showAppStep, 1200);
+      });
+  } else {
+    // 舊版瀏覽器 fallback
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = youtubeUrl;
+      ta.style.position = 'fixed';
+      ta.style.opacity  = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      iconEl.textContent   = '✅';
+      statusEl.textContent = '已複製 YouTube 連結';
+      setTimeout(showAppStep, 800);
+    } catch (e) {
+      showAppStep();
+    }
+  }
+</script>
+</body>
+</html>
