@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>開啟影片...</title>
+<style>
+  body { margin: 0; background: #0f0f0f; color: #f1f1f1; font-family: -apple-system, sans-serif;
+         display: flex; align-items: center; justify-content: center; min-height: 100vh; text-align: center; }
+  .wrap   { padding: 32px; max-width: 320px; }
+  .icon   { font-size: 48px; margin-bottom: 20px; }
+  .status { font-size: 15px; font-weight: 600; margin-bottom: 8px; min-height: 24px; }
+  .hint   { color: #aaa; font-size: 13px; line-height: 1.6; }
+  .btn    { display: inline-block; margin-top: 24px; padding: 14px 28px; background: #ff0000;
+            color: #fff; border-radius: 8px; text-decoration: none; font-size: 15px; font-weight: 700;
+            cursor: pointer; border: none; width: 100%; box-sizing: border-box; }
+  .yt-link { display: block; margin-top: 16px; color: #555; font-size: 12px; text-decoration: none; }
+  .yt-link:hover { color: #888; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="icon">▶</div>
+  <div class="status" id="status">準備開啟影片</div>
+  <div class="hint" id="hint">點下方按鈕，將自動複製連結並開啟 App</div>
+  <button class="btn" id="app-btn" onclick="openApp()">開啟 Tube PiP</button>
+  <a id="yt-link" href="#" class="yt-link">改用 YouTube 開啟</a>
+</div>
+<script>
+  var params     = new URLSearchParams(location.search);
+  var videoId    = (params.get('v') || '').replace(/[^a-zA-Z0-9_-]/g, '');
+  var youtubeUrl = 'https://www.youtube.com/watch?v=' + videoId;
+  var appUrl     = 'videolite://www.youtube.com/watch?v=' + videoId;
+
+  if (!videoId) { location.href = 'https://www.youtube.com'; }
+
+  document.getElementById('yt-link').href = youtubeUrl;
+
+  function openApp() {
+    var statusEl = document.getElementById('status');
+    var hintEl   = document.getElementById('hint');
+
+    // 在使用者手勢內複製（iOS Safari 允許）
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(youtubeUrl).then(function () {
+        statusEl.textContent = '✅ 已複製 YouTube 連結';
+        hintEl.textContent   = '貼到 App 輸入框即可播放';
+      }).catch(function () {
+        statusEl.textContent = '⚠️ 複製失敗，請手動複製';
+        hintEl.innerHTML     = '<small style="color:#888;word-break:break-all">' + youtubeUrl + '</small>';
+      });
+    }
+
+    // 跳轉 App（同一手勢內執行，不受 popup blocker 限制）
+    location.href = appUrl;
+  }
+</script>
+</body>
+</html>
