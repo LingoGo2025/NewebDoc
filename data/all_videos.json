@@ -1,6 +1,6 @@
 {
-    "generated_at": "2026-05-21 22:56:29",
-    "total": 2874,
+    "generated_at": "2026-05-21 22:56:57",
+    "total": 2885,
     "videos": [
         {
             "id": "eQgkhLX4p44",
@@ -2403,6 +2403,28 @@
             "duration": 65,
             "channel_name": "Joeman",
             "channel_id": "UCPRWWKG0VkBA0Pqa4Jr5j0Q"
+        },
+        {
+            "id": "hV-UW_EctbE",
+            "title": "給我一分鐘，帶你認識 Manus 超實用的 4 個隱藏功能",
+            "link": "https://www.youtube.com/shorts/hV-UW_EctbE",
+            "thumbnail": "https://img.youtube.com/vi/hV-UW_EctbE/mqdefault.jpg",
+            "published": "2026-05-13 18:35:33",
+            "view_count": 1913,
+            "description": "❝讓 AI 把事情做完，跟讓 AI 把事情做好，其實是兩件事❞\n\n我認為 AI 時代，真正拉開差距的，不是誰先用了 AI，而是誰能把 AI 放進每天的工作流程裡。\n\n🎥 完整實戰教學影片\nhttps://youtu.be/P4dO-vsiE…",
+            "channel_name": "工程師下班有約",
+            "channel_id": "UCPLS1Hyv2vTXvMgjO4SMwDw"
+        },
+        {
+            "id": "P4dO-vsiE1Q",
+            "title": "【Manus 實戰教學】從研究、簡報到個人網站，帶你掌握普通人也能上手的 AI Agent",
+            "link": "https://www.youtube.com/watch?v=P4dO-vsiE1Q",
+            "thumbnail": "https://img.youtube.com/vi/P4dO-vsiE1Q/mqdefault.jpg",
+            "published": "2026-05-13 18:35:08",
+            "view_count": 3461,
+            "description": "❝讓 AI 把事情做完，跟讓 AI 把事情做好，其實是兩件事❞\n\n這幾年協助企業導入 AI 時，我發現大家判斷一款工具值不值得使用，最在意的不是功能有多強，而是「使用門檻高不高」。\n\n👉 如果要打開程式碼編輯器、終端機，那沒技術背景的人看到…",
+            "channel_name": "工程師下班有約",
+            "channel_id": "UCPLS1Hyv2vTXvMgjO4SMwDw"
         },
         {
             "id": "mWkmKqBAgMM",
@@ -9840,6 +9862,17 @@
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
+            "id": "0pZri5f_tfk",
+            "title": "【ChatGPT Codex 實戰】將 Vibe Coding 成果從「用完就丟」，變成「可持續優化」的 Agent Skills",
+            "link": "https://www.youtube.com/watch?v=0pZri5f_tfk",
+            "thumbnail": "https://img.youtube.com/vi/0pZri5f_tfk/mqdefault.jpg",
+            "published": "2026-04-11 12:32:57",
+            "view_count": 12632,
+            "description": "❝Vibe Coding 速度很快，但用完就丟的東西，永遠不會變成你的！❞\n\n這句話，是我用 Vibe Coding 做了幾十個網頁後的感悟。\n\n👉 AI 生成的網頁很漂亮，但細節與架構很難調整\n👉 每次生成結果都很隨機，風格、排版無法完全…",
+            "channel_name": "工程師下班有約",
+            "channel_id": "UCPLS1Hyv2vTXvMgjO4SMwDw"
+        },
+        {
             "id": "Jz2UJu8tv0Y",
             "title": "嘎哥活到41歲，不能叛逆一次嗎😡",
             "link": "https://www.youtube.com/shorts/Jz2UJu8tv0Y",
@@ -15763,6 +15796,17 @@
             "channel_id": "UCQd3V4gv_lcLX9SpIVW3wmw"
         },
         {
+            "id": "FeQv7mngg6Q",
+            "title": "【Claude Code 實戰】一次搞懂 OpenSpec，讓專案每次迭代都有依據",
+            "link": "https://www.youtube.com/watch?v=FeQv7mngg6Q",
+            "thumbnail": "https://img.youtube.com/vi/FeQv7mngg6Q/mqdefault.jpg",
+            "published": "2026-03-12 13:41:39",
+            "view_count": 40697,
+            "description": "❝開發系統的人不用系統，會用系統的人不會開發❞\n\n這句話，是客戶在需求訪談時親口說的。\n\n👉 不管前期規劃多完美，上線後還是收到一堆需求變更\n👉 AI 寫程式越來越快，但專案越改越亂，甚至越改越壞\n👉 關鍵人物缺席，沒有文件，系統知識直接斷…",
+            "channel_name": "工程師下班有約",
+            "channel_id": "UCPLS1Hyv2vTXvMgjO4SMwDw"
+        },
+        {
             "id": "cC-hKpbuqS0",
             "title": "為了蘋果，重回對岸！36小時上海快閃！【Joeman】",
             "link": "https://www.youtube.com/watch?v=cC-hKpbuqS0",
@@ -19258,6 +19302,17 @@
             "duration": 247,
             "channel_name": "火力就是正義（資訊頻道）",
             "channel_id": "UCaeVLOs0GY_fPoy8rfjnBcQ"
+        },
+        {
+            "id": "1VuLTQidbPM",
+            "title": "【Git Worktree 實戰】指揮 AI Agents 同時運作，搭配 Agent Skills 建立自動化協作體系",
+            "link": "https://www.youtube.com/watch?v=1VuLTQidbPM",
+            "thumbnail": "https://img.youtube.com/vi/1VuLTQidbPM/mqdefault.jpg",
+            "published": "2026-02-24 17:13:30",
+            "view_count": 19329,
+            "description": "❝AI 寫程式很快，但「人」才是瓶頸❞\n\n公司導入 AI 加速開發後，你的團隊是不是也遇到這些問題？\n\n👉 Code Review 數量暴增，根本看不完\n👉 一個 PR 塞了多個功能、上千行程式碼\n👉 Commit 訊息隨便寫，出事無法追溯…",
+            "channel_name": "工程師下班有約",
+            "channel_id": "UCPLS1Hyv2vTXvMgjO4SMwDw"
         },
         {
             "id": "ykwxvjoGRlo",
@@ -23324,6 +23379,17 @@
             "channel_id": "UC8LCkeaTXk8ONRTFJ8b6klw"
         },
         {
+            "id": "xe00zJEtuMo",
+            "title": "【Antigravity Agent Skills 教學】當別人還在複製貼上，你的 AI 已經自動搞定",
+            "link": "https://www.youtube.com/watch?v=xe00zJEtuMo",
+            "thumbnail": "https://img.youtube.com/vi/xe00zJEtuMo/mqdefault.jpg",
+            "published": "2026-02-02 13:36:15",
+            "view_count": 65690,
+            "description": "用 AI Agent 一段時間後，你一定遇過這些問題：\n\n👉 AI 回覆品質不穩定\n👉 存了一堆提示詞，結果要用時找不到\n👉 AI 工具的額度一下就燒完\n\n因此這隻影片將透過實戰，讓你了解 Agent Skills 如何解決以上痛點：\n\n①…",
+            "channel_name": "工程師下班有約",
+            "channel_id": "UCPLS1Hyv2vTXvMgjO4SMwDw"
+        },
+        {
             "id": "T-zEQfaRRYA",
             "title": "全新出國神器Airtag 2開箱！搜索範圍提升50%定位精度也有感升級，常出國的人可以直接衝了！#apple #蘋果 #旅遊 #防丟 #airtag2",
             "link": "https://www.youtube.com/watch?v=T-zEQfaRRYA",
@@ -25563,6 +25629,17 @@
             "description": "══════════════════════════════\n任何合作邀約請洽Email :\nalisasaofficial@gmail.com\n══════════════════════════════\n追蹤我 Follow Me \n★…",
             "channel_name": "愛莉莎莎 Alisasa",
             "channel_id": "UCAKJ0tmI_RMXqTgxL_OMfIg"
+        },
+        {
+            "id": "Rb0_LutRIaw",
+            "title": "【Antigravity Workflow 實戰】市場不會為爛產品買單！建立自動化測試，解決 Vibe Coding 痛點",
+            "link": "https://www.youtube.com/watch?v=Rb0_LutRIaw",
+            "thumbnail": "https://img.youtube.com/vi/Rb0_LutRIaw/mqdefault.jpg",
+            "published": "2026-01-19 12:04:05",
+            "view_count": 33716,
+            "description": "開始用 Vibe Coding 寫程式後，你一定遇過下面問題：\n\n👉 請 AI 修 bug，結果舊功能壞掉\n👉 隨著專案變大，測試流程耗費大量時間\n👉 遇到錯誤時，不知道如何定位問題\n\n如果這些痛點讓你感到共鳴，那這支影片就是為你設計的！\n…",
+            "channel_name": "工程師下班有約",
+            "channel_id": "UCPLS1Hyv2vTXvMgjO4SMwDw"
         },
         {
             "id": "IlPIfGojmcc",
@@ -27879,6 +27956,17 @@
             "channel_id": "UCZgfwLNk27K0PdE8EGYNcPA"
         },
         {
+            "id": "lkEJHLp2Ano",
+            "title": "【打破職涯框架 EP1】機會只給被信任的人，而個人品牌決定你會不會被選中 #自媒體 #ai #溝通",
+            "link": "https://www.youtube.com/watch?v=lkEJHLp2Ano",
+            "thumbnail": "https://img.youtube.com/vi/lkEJHLp2Ano/mqdefault.jpg",
+            "published": "2026-01-03 12:30:37",
+            "view_count": 2003,
+            "description": "你以為你缺的是機會？不！\n\n你缺的是：當機會出現時，別人腦中想不起你的名字。\n而想不起你＝輪不到你。\n\n這支影片我會用職場與自媒體的真實經驗，\n說明「被記住 → 被信任 → 被選上」的詳細步驟。\n\n一步步帶你了解做什麼、怎麼做、做了會改變什…",
+            "channel_name": "工程師下班有約",
+            "channel_id": "UCPLS1Hyv2vTXvMgjO4SMwDw"
+        },
+        {
             "id": "nq-TiAyCE-o",
             "title": "在海之京都「伊根舟屋」住一晚！日本三景天橋立 #京都#自駕 #日本旅遊",
             "link": "https://www.youtube.com/watch?v=nq-TiAyCE-o",
@@ -30110,6 +30198,17 @@
             "channel_id": "UC9YOQFPfEUXbulKDtxeqqBA"
         },
         {
+            "id": "2hbYCe_E5aU",
+            "title": "【Vibe Coding 學習地圖】用實戰帶你搞懂 Gemini、Google AI Studio、Antigravity 的使用情境",
+            "link": "https://www.youtube.com/watch?v=2hbYCe_E5aU",
+            "thumbnail": "https://img.youtube.com/vi/2hbYCe_E5aU/mqdefault.jpg",
+            "published": "2025-12-19 17:05:00",
+            "view_count": 319970,
+            "description": "❝Vibe Coding 工具越多，反而更不敢開始？❞\n\n你的痛點我懂！這隻影片直接給你一張「學習地圖」。\n\n用實戰 Demo 帶你搞懂：\nGemini（入門）→ Google AI Studio（進階）→ Antigravity（專業）\n…",
+            "channel_name": "工程師下班有約",
+            "channel_id": "UCPLS1Hyv2vTXvMgjO4SMwDw"
+        },
+        {
             "id": "yxjJW0ry_tQ",
             "title": "高分的桶仔雞好吃嗎？！耶誕節自肥大餐吃四隻【千千進食中】",
             "link": "https://www.youtube.com/watch?v=yxjJW0ry_tQ",
@@ -31814,6 +31913,17 @@
             "channel_id": "UCfcv1yf1JWU_Dftvsql31yg"
         },
         {
+            "id": "-FW5DgQEV0M",
+            "title": "【Google Antigravity 教學】把想法化為現實！用 Vibe Coding 完成輕量級全端專案",
+            "link": "https://www.youtube.com/watch?v=-FW5DgQEV0M",
+            "thumbnail": "https://img.youtube.com/vi/-FW5DgQEV0M/mqdefault.jpg",
+            "published": "2025-12-08 00:14:46",
+            "view_count": 135796,
+            "description": "❝如果市場上找不到工具，那就自己動手實現！❞\n\n這支影片會透過「實戰」，帶大家了解 Google Antigravity 這款 AI 程式碼編輯器的特色。\n\n並完成一個可以部署上線的「輕量級全端專案」：\n• 前端：React 框架\n• 後端…",
+            "channel_name": "工程師下班有約",
+            "channel_id": "UCPLS1Hyv2vTXvMgjO4SMwDw"
+        },
+        {
             "id": "0QVX8Z4xI1Q",
             "title": "曼谷Vlogmas EP.6.7🎄心情起伏超大的週末🎢... IG差點不見！推薦的海鮮餐廳、和台灣朋友見面😍Parin包包都裝什麼？",
             "link": "https://www.youtube.com/watch?v=0QVX8Z4xI1Q",
@@ -33192,6 +33302,17 @@
             "duration": 707,
             "channel_name": "馬克時空 Mark Space",
             "channel_id": "UCejNr6vMTCstFMb-UisJRaw"
+        },
+        {
+            "id": "sLGT6fA9kIA",
+            "title": "【AI 陷阱 EP2】Vibe Coding 實戰必看！10 個會讓你專案翻車的技術陷阱",
+            "link": "https://www.youtube.com/watch?v=sLGT6fA9kIA",
+            "thumbnail": "https://img.youtube.com/vi/sLGT6fA9kIA/mqdefault.jpg",
+            "published": "2025-11-29 14:51:22",
+            "view_count": 15111,
+            "description": "❝看起來能動的系統，才是最危險的！❞\n\n如果你正在 Vibe Coding，那這支影片一定要看完！\n\n它可以幫你有系統地建立安全意識。\n\n我會分成「前端、後端、資料庫、版本控制」四個面向，讓你了解風險與問題出在哪。\n\n林鼎淵的 FB: ht…",
+            "channel_name": "工程師下班有約",
+            "channel_id": "UCPLS1Hyv2vTXvMgjO4SMwDw"
         },
         {
             "id": "tRC-dglnpgA",
