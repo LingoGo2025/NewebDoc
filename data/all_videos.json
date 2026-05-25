@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-05-25 19:52:38",
+    "generated_at": "2026-05-25 19:52:47",
     "total": 4718,
     "videos": [
         {
@@ -10,7 +10,8 @@
             "published": "2026-05-25 19:09:51",
             "view_count": 1380,
             "description": "",
-            "duration": 0,
+            "duration": 103,
+            "is_short": false,
             "channel_name": "面白大丈夫",
             "channel_id": "UC6Unc9BmBvkWI_YPjGUyoIw"
         },
