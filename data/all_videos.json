@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-05-25 21:22:18",
+    "generated_at": "2026-05-25 21:22:30",
     "total": 4721,
     "videos": [
         {
@@ -46,7 +46,8 @@
             "published": "2026-05-25 20:00:13",
             "view_count": 4600,
             "description": "➤真料理兩鍋論S2 播出資訊\n每週四20:00 中華電信Hami Video 最新集數首播https://cbtv.tw/letsguo2\n每週六20:00 台視主頻\n隔週三20:00 木曜4超玩 YouTube頻道\n-----------…",
-            "duration": 0,
+            "duration": 99,
+            "is_short": false,
             "channel_name": "木曜4超玩",
             "channel_id": "UCLW_SzI9txZvtOFTPDswxqg"
         },
