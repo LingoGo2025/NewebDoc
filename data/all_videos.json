@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-05-25 19:52:47",
+    "generated_at": "2026-05-25 19:52:51",
     "total": 4718,
     "videos": [
         {
@@ -71,7 +71,8 @@
             "published": "2026-05-25 18:50:40",
             "view_count": 20379,
             "description": "",
-            "duration": 0,
+            "duration": 54,
+            "is_short": false,
             "channel_name": "Joeman",
             "channel_id": "UCPRWWKG0VkBA0Pqa4Jr5j0Q"
         },
