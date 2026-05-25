@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-05-25 13:00:15",
+    "generated_at": "2026-05-25 13:04:32",
     "total": 4697,
     "videos": [
         {
@@ -168,18 +168,6 @@
             "is_short": false,
             "channel_name": "零度解说",
             "channel_id": "UCvijahEyGtvMpmMHBu4FS2w"
-        },
-        {
-            "id": "IHit366M5S8",
-            "title": "🚂一起去曼谷百年鐵道市場🙌🏻狂吃7家傳統小吃🐷河邊早餐、銅板泰式甜點💰三個人花不到八百泰銖！",
-            "link": "https://www.youtube.com/watch?v=IHit366M5S8",
-            "thumbnail": "https://img.youtube.com/vi/IHit366M5S8/mqdefault.jpg",
-            "published": "2026-05-24 21:00:06",
-            "view_count": 7173,
-            "description": "真的是超超超超久～沒有介紹Talat Phlu美食了！！ \n這邊從早到晚都有很多的美食❤️也很有泰國很當地的風情\n所以我們私底下算是蠻常來的😆  \n\n希望你們喜歡這週的影片！\n喜歡記得按讚、訂閱，分享給你所有來曼谷玩的朋友囉\n\n-\n如果你想…",
-            "duration": 0,
-            "channel_name": "Amber Lee",
-            "channel_id": "UCyIeG42FdoVOZMfSvFx2ZAA"
         },
         {
             "id": "hz5Nc2DF0Wc",
@@ -559,6 +547,19 @@
             "channel_id": "UCgdwtyqBunlRb-i-7PnCssQ"
         },
         {
+            "id": "IHit366M5S8",
+            "title": "🚂一起去曼谷百年鐵道市場🙌🏻狂吃7家傳統小吃🐷河邊早餐、銅板泰式甜點💰三個人花不到八百泰銖！",
+            "link": "https://www.youtube.com/watch?v=IHit366M5S8",
+            "thumbnail": "https://img.youtube.com/vi/IHit366M5S8/mqdefault.jpg",
+            "published": "2026-05-24 00:00:00",
+            "view_count": 7450,
+            "description": "真的是超超超超久～沒有介紹Talat Phlu美食了！！ \n這邊從早到晚都有很多的美食❤️也很有泰國很當地的風情\n所以我們私底下算是蠻常來的😆  \n\n希望你們喜歡這週的影片！\n喜歡記得按讚、訂閱，分享給你所有來曼谷玩的朋友囉\n\n-\n如果你想…",
+            "duration": 1205,
+            "is_short": false,
+            "channel_name": "Amber Lee",
+            "channel_id": "UCyIeG42FdoVOZMfSvFx2ZAA"
+        },
+        {
             "id": "lekLD6mWckk",
             "title": "這個人完全不知道🤷",
             "link": "https://www.youtube.com/shorts/lekLD6mWckk",
@@ -936,19 +937,6 @@
             "channel_id": "UC9YOQFPfEUXbulKDtxeqqBA"
         },
         {
-            "id": "tU3bDWN7BR0",
-            "title": "【総額1900万】もはや業者…キャンピングカーを守るためだけに全長30mの巨大鉄骨カーポートを建てた男の半年間",
-            "link": "https://www.youtube.com/watch?v=tU3bDWN7BR0",
-            "thumbnail": "https://img.youtube.com/vi/tU3bDWN7BR0/mqdefault.jpg",
-            "published": "2026-05-23 16:57:17",
-            "view_count": 161314,
-            "description": "個人レベルではない前代未聞の「高さ3.7m全長30mの巨大な鉄骨カーポート」を建設した半年間のドキュメンタリーです。\n\n基礎工事から、巨大クレーンでの鉄骨組み上げ、そして男のロマンが詰まったDIYでの夜間照明設置まで、工事の全貌を公開します…",
-            "duration": 1771,
-            "is_short": false,
-            "channel_name": "クピ男の車中生活",
-            "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
-        },
-        {
             "id": "JNfJq2G9W08",
             "title": "【春夏秋冬代行者 春之舞】第09話預告｜Muse木棉花",
             "link": "https://www.youtube.com/watch?v=JNfJq2G9W08",
@@ -1144,6 +1132,19 @@
             "channel_id": "UCZgfwLNk27K0PdE8EGYNcPA"
         },
         {
+            "id": "tU3bDWN7BR0",
+            "title": "【総額1900万】もはや業者…キャンピングカーを守るためだけに全長30mの巨大鉄骨カーポートを建てた男の半年間",
+            "link": "https://www.youtube.com/watch?v=tU3bDWN7BR0",
+            "thumbnail": "https://img.youtube.com/vi/tU3bDWN7BR0/mqdefault.jpg",
+            "published": "2026-05-23 00:00:00",
+            "view_count": 162006,
+            "description": "個人レベルではない前代未聞の「高さ3.7m全長30mの巨大な鉄骨カーポート」を建設した半年間のドキュメンタリーです。\n\n基礎工事から、巨大クレーンでの鉄骨組み上げ、そして男のロマンが詰まったDIYでの夜間照明設置まで、工事の全貌を公開します…",
+            "duration": 1771,
+            "is_short": false,
+            "channel_name": "Kupio lives in his car",
+            "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
+        },
+        {
             "id": "rt9letMgrtg",
             "title": "凍結地球 第08話【三島村，啟動】｜Muse木棉花 動畫 線上看",
             "link": "https://www.youtube.com/watch?v=rt9letMgrtg",
@@ -1285,19 +1286,6 @@
             "is_short": false,
             "channel_name": "THE FIRST TAKE",
             "channel_id": "UC9zY_E8mcAo_Oq772LEZq8Q"
-        },
-        {
-            "id": "crt7WAQi-IM",
-            "title": "跟阿傑不合嗎？！",
-            "link": "https://www.youtube.com/shorts/crt7WAQi-IM",
-            "thumbnail": "https://img.youtube.com/vi/crt7WAQi-IM/mqdefault.jpg",
-            "published": "2026-05-22 20:54:46",
-            "view_count": 4605,
-            "description": "",
-            "duration": 47,
-            "is_short": false,
-            "channel_name": "蔡哥",
-            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
         },
         {
             "id": "VjMo01pQWgA",
@@ -1585,19 +1573,6 @@
             "channel_id": "UC34q4d8MxyrEn5Ez2CkrEtw"
         },
         {
-            "id": "2hxgMKcssJ4",
-            "title": "可以跟我說你的故事嗎？#髮型設計｜BinBin 彬導來了",
-            "link": "https://www.youtube.com/shorts/2hxgMKcssJ4",
-            "thumbnail": "https://img.youtube.com/vi/2hxgMKcssJ4/mqdefault.jpg",
-            "published": "2026-05-22 17:30:00",
-            "view_count": 3375,
-            "description": "※本集節目沒有任何贊助播出，可悲※\n\n請原諒我會發無聊的Reels，\n那是我主要的收入來源嗚嗚嗚😭😭😭\n可以略過但拜託不要退訂，謝謝你們😢\n\n希望你們喜歡這個影片！\n喜歡的話請幫我訂閱分享，也可以留言告訴我唷！\n　\n⭐️訂閱我的YouTub…",
-            "duration": 34,
-            "is_short": false,
-            "channel_name": "BinBin 彬導來了",
-            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
-        },
-        {
             "id": "X2ymhL-4Dsg",
             "title": "回不了本也要拍？日食记为什么能有千万粉丝？",
             "link": "https://www.youtube.com/watch?v=X2ymhL-4Dsg",
@@ -1674,6 +1649,32 @@
             "is_short": false,
             "channel_name": "緯來日本台",
             "channel_id": "UC-vOr9o8J42NXyxztOoE2xQ"
+        },
+        {
+            "id": "crt7WAQi-IM",
+            "title": "跟阿傑不合嗎？！",
+            "link": "https://www.youtube.com/watch?v=crt7WAQi-IM",
+            "thumbnail": "https://img.youtube.com/vi/crt7WAQi-IM/mqdefault.jpg",
+            "published": "2026-05-22 00:00:00",
+            "view_count": 4631,
+            "description": "",
+            "duration": 47,
+            "is_short": false,
+            "channel_name": "蔡哥",
+            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
+        },
+        {
+            "id": "2hxgMKcssJ4",
+            "title": "可以跟我說你的故事嗎？#髮型設計｜BinBin 彬導來了",
+            "link": "https://www.youtube.com/watch?v=2hxgMKcssJ4",
+            "thumbnail": "https://img.youtube.com/vi/2hxgMKcssJ4/mqdefault.jpg",
+            "published": "2026-05-22 00:00:00",
+            "view_count": 3375,
+            "description": "※本集節目沒有任何贊助播出，可悲※\n\n請原諒我會發無聊的Reels，\n那是我主要的收入來源嗚嗚嗚😭😭😭\n可以略過但拜託不要退訂，謝謝你們😢\n\n希望你們喜歡這個影片！\n喜歡的話請幫我訂閱分享，也可以留言告訴我唷！\n　\n⭐️訂閱我的YouTub…",
+            "duration": 34,
+            "is_short": false,
+            "channel_name": "BinBin 彬導來了",
+            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
         },
         {
             "id": "aivrifnmRGE",
@@ -1868,19 +1869,6 @@
             "is_short": false,
             "channel_name": "火力就是正義（資訊頻道）",
             "channel_id": "UCaeVLOs0GY_fPoy8rfjnBcQ"
-        },
-        {
-            "id": "-MhpFtKOB1w",
-            "title": "嘴角上上下下的一天",
-            "link": "https://www.youtube.com/shorts/-MhpFtKOB1w",
-            "thumbnail": "https://img.youtube.com/vi/-MhpFtKOB1w/mqdefault.jpg",
-            "published": "2026-05-21 19:54:22",
-            "view_count": 8581,
-            "description": "",
-            "duration": 122,
-            "is_short": false,
-            "channel_name": "蔡哥",
-            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
         },
         {
             "id": "UY0hNkXcK6A",
@@ -2091,6 +2079,19 @@
             "channel_id": "UCgdwtyqBunlRb-i-7PnCssQ"
         },
         {
+            "id": "-MhpFtKOB1w",
+            "title": "嘴角上上下下的一天",
+            "link": "https://www.youtube.com/watch?v=-MhpFtKOB1w",
+            "thumbnail": "https://img.youtube.com/vi/-MhpFtKOB1w/mqdefault.jpg",
+            "published": "2026-05-21 00:00:00",
+            "view_count": 8601,
+            "description": "",
+            "duration": 122,
+            "is_short": false,
+            "channel_name": "蔡哥",
+            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
+        },
+        {
             "id": "F4wRMMqAt18",
             "title": "打工吧！魔王大人S2 第20話【勇者，對故鄉感到困惑】｜Muse木棉花 動畫 線上看",
             "link": "https://www.youtube.com/watch?v=F4wRMMqAt18",
@@ -2167,19 +2168,6 @@
             "is_short": false,
             "channel_name": "Muse木棉花-TW",
             "channel_id": "UCgdwtyqBunlRb-i-7PnCssQ"
-        },
-        {
-            "id": "D5bKz9CY0bc",
-            "title": "〔蔡哥直播〕#321 愛妳愛你喔",
-            "link": "https://www.youtube.com/watch?v=D5bKz9CY0bc",
-            "thumbnail": "https://img.youtube.com/vi/D5bKz9CY0bc/mqdefault.jpg",
-            "published": "2026-05-20 23:54:42",
-            "view_count": 6136,
-            "description": "今天我很帥\n你也還不賴(單押X1)\nhttps://discord.gg/fjfxajceGA\nDC",
-            "duration": 4264,
-            "is_short": false,
-            "channel_name": "蔡哥",
-            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
         },
         {
             "id": "SryOWqyyi68",
@@ -2572,19 +2560,6 @@
             "channel_id": "UCckzc03-ycrpB1XIUfRhpnw"
         },
         {
-            "id": "6TWjRqjBVCo",
-            "title": "43インチの大画面！車内が映画館に！",
-            "link": "https://www.youtube.com/shorts/6TWjRqjBVCo",
-            "thumbnail": "https://img.youtube.com/vi/6TWjRqjBVCo/mqdefault.jpg",
-            "published": "2026-05-20 11:00:05",
-            "view_count": 43065,
-            "description": "続きはこちら\nhttps://youtu.be/x0P_v8Rlj0E?si=hMxOpHW9MwouMhsq\n\nチャンネル登録\n@kupiochannel",
-            "duration": 63,
-            "is_short": false,
-            "channel_name": "クピ男の車中生活",
-            "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
-        },
-        {
             "id": "4RdjwugEulo",
             "title": "地表最強無線麥克風👍 Insta360 Mic Pro正式登場！ 用留言處的連結有優惠啊🤟🏻 #攝影師 #麥克風 #自媒體 #無線麥克風",
             "link": "https://www.youtube.com/shorts/4RdjwugEulo",
@@ -2609,6 +2584,32 @@
             "is_short": false,
             "channel_name": "MrBeast",
             "channel_id": "UCX6OQ3DkcsbYNE6H8uQQuVA"
+        },
+        {
+            "id": "D5bKz9CY0bc",
+            "title": "〔蔡哥直播〕#321 愛妳愛你喔",
+            "link": "https://www.youtube.com/watch?v=D5bKz9CY0bc",
+            "thumbnail": "https://img.youtube.com/vi/D5bKz9CY0bc/mqdefault.jpg",
+            "published": "2026-05-20 00:00:00",
+            "view_count": 6145,
+            "description": "今天我很帥\n你也還不賴(單押X1)\nhttps://discord.gg/fjfxajceGA\nDC",
+            "duration": 4264,
+            "is_short": false,
+            "channel_name": "蔡哥",
+            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
+        },
+        {
+            "id": "6TWjRqjBVCo",
+            "title": "43インチの大画面！車内が映画館に！",
+            "link": "https://www.youtube.com/watch?v=6TWjRqjBVCo",
+            "thumbnail": "https://img.youtube.com/vi/6TWjRqjBVCo/mqdefault.jpg",
+            "published": "2026-05-20 00:00:00",
+            "view_count": 43065,
+            "description": "続きはこちら\nhttps://youtu.be/x0P_v8Rlj0E?si=hMxOpHW9MwouMhsq\n\nチャンネル登録\n@kupiochannel",
+            "duration": 63,
+            "is_short": false,
+            "channel_name": "Kupio lives in his car",
+            "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
             "id": "9CIFmCtob-o",
@@ -2700,19 +2701,6 @@
             "is_short": false,
             "channel_name": "THE FIRST TAKE",
             "channel_id": "UC9zY_E8mcAo_Oq772LEZq8Q"
-        },
-        {
-            "id": "r0-VJrAAa14",
-            "title": "Insta360 Mic Pro 最強麥克風 自訂LOGO 藍牙直連 有領夾麥 可當槍麥 可是太晚來了吧！｜BinBin 彬導來了",
-            "link": "https://www.youtube.com/watch?v=r0-VJrAAa14",
-            "thumbnail": "https://img.youtube.com/vi/r0-VJrAAa14/mqdefault.jpg",
-            "published": "2026-05-19 21:00:22",
-            "view_count": 5215,
-            "description": "5/19-6/30\n透過彬彬的連結買Mic Pro有95折！！！\n還有更多免費配件！超佛！優惠點下去 👇 \nhttps://portaly.cc/binjan \n\nInsta360 Mic Pro 重大發表\n💡 LOGO自己換！畫面不反光\n…",
-            "duration": 583,
-            "is_short": false,
-            "channel_name": "BinBin 彬導來了",
-            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
         },
         {
             "id": "hwjzUXfr7k4",
@@ -2882,6 +2870,19 @@
             "is_short": false,
             "channel_name": "緯來日本台",
             "channel_id": "UC-vOr9o8J42NXyxztOoE2xQ"
+        },
+        {
+            "id": "r0-VJrAAa14",
+            "title": "Insta360 Mic Pro 最強麥克風 自訂LOGO 藍牙直連 有領夾麥 可當槍麥 可是太晚來了吧！｜BinBin 彬導來了",
+            "link": "https://www.youtube.com/watch?v=r0-VJrAAa14",
+            "thumbnail": "https://img.youtube.com/vi/r0-VJrAAa14/mqdefault.jpg",
+            "published": "2026-05-19 00:00:00",
+            "view_count": 5215,
+            "description": "5/19-6/30\n透過彬彬的連結買Mic Pro有95折！！！\n還有更多免費配件！超佛！優惠點下去 👇 \nhttps://portaly.cc/binjan \n\nInsta360 Mic Pro 重大發表\n💡 LOGO自己換！畫面不反光\n…",
+            "duration": 583,
+            "is_short": false,
+            "channel_name": "BinBin 彬導來了",
+            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
         },
         {
             "id": "zHKL9n6U9ls",
@@ -3064,32 +3065,6 @@
             "is_short": false,
             "channel_name": "THE FIRST TAKE",
             "channel_id": "UC9zY_E8mcAo_Oq772LEZq8Q"
-        },
-        {
-            "id": "Tp1-V5NTHac",
-            "title": "🇻🇳越南峴港五天攻略🏝️推薦16家美食清單，玩遍所有知名景點～Omg!!這裡物價超便宜、好Chill的城市🩵 @outojourneys",
-            "link": "https://www.youtube.com/watch?v=Tp1-V5NTHac",
-            "thumbnail": "https://img.youtube.com/vi/Tp1-V5NTHac/mqdefault.jpg",
-            "published": "2026-05-18 21:00:06",
-            "view_count": 37935,
-            "description": "第三次來越南了！\n我們終於願意離開河內，來到峴港😆\n意外的覺得很不錯耶！！很像更舒服的泰國海邊\n然後，物價超超超便宜！！！這裡的店也可可愛愛的 ❤️\n從匆忙的大城市曼谷，來到步調緩慢的峴港，真的有好好放鬆的感覺～～\n\n這次感謝Outo奧拓帶…",
-            "duration": 3094,
-            "is_short": false,
-            "channel_name": "Amber Lee",
-            "channel_id": "UCyIeG42FdoVOZMfSvFx2ZAA"
-        },
-        {
-            "id": "lh6RjZbC52c",
-            "title": "蔡哥問七題:我的中部兄弟來了!!!心結整個解開(?)阿傑喜歡舊舊的原因是?",
-            "link": "https://www.youtube.com/watch?v=lh6RjZbC52c",
-            "thumbnail": "https://img.youtube.com/vi/lh6RjZbC52c/mqdefault.jpg",
-            "published": "2026-05-18 21:00:06",
-            "view_count": 231044,
-            "description": "好幾年的時光\n-\n用一天聊不完\n但是那天確實回憶了好多事情\n是美好的~~~\n-\n-\n-\n訪問帥傑\n開心耶耶(單押X1)\n\n\n\n\n\n\n\n#蔡哥問七題 #中部兄弟",
-            "duration": 1629,
-            "is_short": false,
-            "channel_name": "蔡哥",
-            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
         },
         {
             "id": "3a14xkW_acU",
@@ -3313,19 +3288,6 @@
             "channel_id": "UCfcv1yf1JWU_Dftvsql31yg"
         },
         {
-            "id": "nJk3oYl2LNU",
-            "title": "如果你的相機一起去停車場 #相機擬人系列 第13集｜BinBin 彬導來了",
-            "link": "https://www.youtube.com/shorts/nJk3oYl2LNU",
-            "thumbnail": "https://img.youtube.com/vi/nJk3oYl2LNU/mqdefault.jpg",
-            "published": "2026-05-18 17:30:22",
-            "view_count": 6407,
-            "description": "※本集節目沒有任何贊助播出，可悲※\n\n請原諒我會發無聊的Reels，\n那是我主要的收入來源嗚嗚嗚😭😭😭\n可以略過但拜託不要退訂，謝謝你們😢\n\n希望你們喜歡這個影片！\n喜歡的話請幫我訂閱分享，也可以留言告訴我唷！\n　\n⭐️訂閱我的YouTub…",
-            "duration": 36,
-            "is_short": false,
-            "channel_name": "BinBin 彬導來了",
-            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
-        },
-        {
             "id": "uu7isHdLP8I",
             "title": "【新品吃什麼#312】好市多最近很夯的美食開箱！爆買4500元我最推薦必吃的是..！？",
             "link": "https://www.youtube.com/watch?v=uu7isHdLP8I",
@@ -3404,6 +3366,19 @@
             "channel_id": "UC9i2Qgd5lizhVgJrdnxunKw"
         },
         {
+            "id": "Tp1-V5NTHac",
+            "title": "🇻🇳越南峴港五天攻略🏝️推薦16家美食清單，玩遍所有知名景點～Omg!!這裡物價超便宜、好Chill的城市🩵 @outojourneys",
+            "link": "https://www.youtube.com/watch?v=Tp1-V5NTHac",
+            "thumbnail": "https://img.youtube.com/vi/Tp1-V5NTHac/mqdefault.jpg",
+            "published": "2026-05-18 00:00:00",
+            "view_count": 37997,
+            "description": "第三次來越南了！\n我們終於願意離開河內，來到峴港😆\n意外的覺得很不錯耶！！很像更舒服的泰國海邊\n然後，物價超超超便宜！！！這裡的店也可可愛愛的 ❤️\n從匆忙的大城市曼谷，來到步調緩慢的峴港，真的有好好放鬆的感覺～～\n\n這次感謝Outo奧拓帶…",
+            "duration": 3094,
+            "is_short": false,
+            "channel_name": "Amber Lee",
+            "channel_id": "UCyIeG42FdoVOZMfSvFx2ZAA"
+        },
+        {
             "id": "dqpCvSU-ECE",
             "title": "If This Goes In You Have To Subscribe",
             "link": "https://www.youtube.com/shorts/dqpCvSU-ECE",
@@ -3415,6 +3390,32 @@
             "is_short": false,
             "channel_name": "MrBeast",
             "channel_id": "UCX6OQ3DkcsbYNE6H8uQQuVA"
+        },
+        {
+            "id": "lh6RjZbC52c",
+            "title": "蔡哥問七題:我的中部兄弟來了!!!心結整個解開(?)阿傑喜歡舊舊的原因是?",
+            "link": "https://www.youtube.com/watch?v=lh6RjZbC52c",
+            "thumbnail": "https://img.youtube.com/vi/lh6RjZbC52c/mqdefault.jpg",
+            "published": "2026-05-18 00:00:00",
+            "view_count": 231268,
+            "description": "好幾年的時光\n-\n用一天聊不完\n但是那天確實回憶了好多事情\n是美好的~~~\n-\n-\n-\n訪問帥傑\n開心耶耶(單押X1)\n\n\n\n\n\n\n\n#蔡哥問七題 #中部兄弟",
+            "duration": 1629,
+            "is_short": false,
+            "channel_name": "蔡哥",
+            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
+        },
+        {
+            "id": "nJk3oYl2LNU",
+            "title": "如果你的相機一起去停車場 #相機擬人系列 第13集｜BinBin 彬導來了",
+            "link": "https://www.youtube.com/watch?v=nJk3oYl2LNU",
+            "thumbnail": "https://img.youtube.com/vi/nJk3oYl2LNU/mqdefault.jpg",
+            "published": "2026-05-18 00:00:00",
+            "view_count": 6407,
+            "description": "※本集節目沒有任何贊助播出，可悲※\n\n請原諒我會發無聊的Reels，\n那是我主要的收入來源嗚嗚嗚😭😭😭\n可以略過但拜託不要退訂，謝謝你們😢\n\n希望你們喜歡這個影片！\n喜歡的話請幫我訂閱分享，也可以留言告訴我唷！\n　\n⭐️訂閱我的YouTub…",
+            "duration": 36,
+            "is_short": false,
+            "channel_name": "BinBin 彬導來了",
+            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
         },
         {
             "id": "viXtB6iUzI0",
@@ -4249,19 +4250,6 @@
             "channel_id": "UC9YOQFPfEUXbulKDtxeqqBA"
         },
         {
-            "id": "cqi9Q3AC3Vg",
-            "title": "はみ出て寝る…。世界最小の軽トラ荷台にテント張って半車中泊 | ミゼット2",
-            "link": "https://www.youtube.com/watch?v=cqi9Q3AC3Vg",
-            "thumbnail": "https://img.youtube.com/vi/cqi9Q3AC3Vg/mqdefault.jpg",
-            "published": "2026-05-16 17:00:20",
-            "view_count": 540717,
-            "description": "48歳、おっさんのアホな冒険です。\n世界最小の軽トラ「ミゼット2」の極小荷台に無理やりテントを張って、海辺で「半車中泊」をしてきました。\n\nテントははみ出てるし、背中も足も痛い。\nでも、波の音を聞きながら小さな焚き火台で肉を焼き、一人で飲む…",
-            "duration": 2366,
-            "is_short": false,
-            "channel_name": "クピ男の車中生活",
-            "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
-        },
-        {
             "id": "_vNz92rWSl4",
             "title": "打得很棒，下次別打了😎",
             "link": "https://www.youtube.com/shorts/_vNz92rWSl4",
@@ -4390,6 +4378,19 @@
             "is_short": false,
             "channel_name": "木曜4超玩",
             "channel_id": "UCLW_SzI9txZvtOFTPDswxqg"
+        },
+        {
+            "id": "cqi9Q3AC3Vg",
+            "title": "はみ出て寝る…。世界最小の軽トラ荷台にテント張って半車中泊 | ミゼット2",
+            "link": "https://www.youtube.com/watch?v=cqi9Q3AC3Vg",
+            "thumbnail": "https://img.youtube.com/vi/cqi9Q3AC3Vg/mqdefault.jpg",
+            "published": "2026-05-16 00:00:00",
+            "view_count": 540983,
+            "description": "48歳、おっさんのアホな冒険です。\n世界最小の軽トラ「ミゼット2」の極小荷台に無理やりテントを張って、海辺で「半車中泊」をしてきました。\n\nテントははみ出てるし、背中も足も痛い。\nでも、波の音を聞きながら小さな焚き火台で肉を焼き、一人で飲む…",
+            "duration": 2366,
+            "is_short": false,
+            "channel_name": "Kupio lives in his car",
+            "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
             "id": "5uXGlF6kdD0",
@@ -4769,19 +4770,6 @@
             "channel_id": "UC9i2Qgd5lizhVgJrdnxunKw"
         },
         {
-            "id": "mU8dgv4tjTE",
-            "title": "不要對我有錯誤的看法！！壞蔡！！",
-            "link": "https://www.youtube.com/shorts/mU8dgv4tjTE",
-            "thumbnail": "https://img.youtube.com/vi/mU8dgv4tjTE/mqdefault.jpg",
-            "published": "2026-05-15 19:34:38",
-            "view_count": 5693,
-            "description": "",
-            "duration": 48,
-            "is_short": false,
-            "channel_name": "蔡哥",
-            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
-        },
-        {
             "id": "KbFzI_b1NI0",
             "title": "餐廳床上同時都能說的話！ #面白大丈夫",
             "link": "https://www.youtube.com/shorts/KbFzI_b1NI0",
@@ -4962,6 +4950,19 @@
             "is_short": false,
             "channel_name": "木曜4超玩",
             "channel_id": "UCLW_SzI9txZvtOFTPDswxqg"
+        },
+        {
+            "id": "mU8dgv4tjTE",
+            "title": "不要對我有錯誤的看法！！壞蔡！！",
+            "link": "https://www.youtube.com/watch?v=mU8dgv4tjTE",
+            "thumbnail": "https://img.youtube.com/vi/mU8dgv4tjTE/mqdefault.jpg",
+            "published": "2026-05-15 00:00:00",
+            "view_count": 5695,
+            "description": "",
+            "duration": 48,
+            "is_short": false,
+            "channel_name": "蔡哥",
+            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
         },
         {
             "id": "FPpdxF80gJ4",
@@ -5406,19 +5407,6 @@
             "channel_id": "UCaeVLOs0GY_fPoy8rfjnBcQ"
         },
         {
-            "id": "EtizjKFn3ys",
-            "title": "〔蔡哥直播〕#320 找到焦慮來源然後呢?",
-            "link": "https://www.youtube.com/watch?v=EtizjKFn3ys",
-            "thumbnail": "https://img.youtube.com/vi/EtizjKFn3ys/mqdefault.jpg",
-            "published": "2026-05-14 00:36:49",
-            "view_count": 6024,
-            "description": "今天我很帥\n你也還不賴(單押X1)\nhttps://discord.gg/fjfxajceGA\nDC",
-            "duration": 4998,
-            "is_short": false,
-            "channel_name": "蔡哥",
-            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
-        },
-        {
             "id": "XvWe0MaA0qU",
             "title": "《下班去吃飯第二季第十三集》台北101董事長來吃飯🍽️ 竟然跟邰哥是舊相識?! ft.賈永婕",
             "link": "https://www.youtube.com/watch?v=XvWe0MaA0qU",
@@ -5562,19 +5550,6 @@
             "channel_id": "UCgo_-fjJxnLwwwq5dSY72rg"
         },
         {
-            "id": "CLEb8jWuKrs",
-            "title": "腳底幫3.0之印尼盾大貶值超爽峇里島！滿滿的誠意與笑聲再加上一點兄弟鬩牆！？絕對笑翻",
-            "link": "https://www.youtube.com/watch?v=CLEb8jWuKrs",
-            "thumbnail": "https://img.youtube.com/vi/CLEb8jWuKrs/mqdefault.jpg",
-            "published": "2026-05-13 21:00:06",
-            "view_count": 526059,
-            "description": "帶給大家歡笑！坤達、胡椒、蛇丸、尼克、百祥還有專業熱情的工作人員們，我們就是JDB腳底幫！\n\n威訊eSIM我推成這樣...每次都很滿意！你信我一次！囊擴星馬日韓中港台峇里島到處都有！完美的旅程你就差一張方便的eSIM！點擊網址並且記得輸入折…",
-            "duration": 10005,
-            "is_short": false,
-            "channel_name": "又離題了",
-            "channel_id": "UCmiax1Ya-pYNIXlKFfdrU4Q"
-        },
-        {
             "id": "q69Ts1Hq9k8",
             "title": "Windows 11 最完整备份与还原！重装系统后，软件数据一个不丢！别等后悔才想起！｜零度解说",
             "link": "https://www.youtube.com/watch?v=q69Ts1Hq9k8",
@@ -5691,19 +5666,6 @@
             "channel_id": "UC6Unc9BmBvkWI_YPjGUyoIw"
         },
         {
-            "id": "bL9q5XfkGKA",
-            "title": "哈佛樂團正式成軍啦😎🎵",
-            "link": "https://www.youtube.com/shorts/bL9q5XfkGKA",
-            "thumbnail": "https://img.youtube.com/vi/bL9q5XfkGKA/mqdefault.jpg",
-            "published": "2026-05-13 19:00:50",
-            "view_count": 11910,
-            "description": "",
-            "duration": 77,
-            "is_short": false,
-            "channel_name": "大頭佛工作室",
-            "channel_id": "UCOAdBjPqnxdDHVj88Uv5_2g"
-        },
-        {
             "id": "4Ve8jmi1sI8",
             "title": "帶長輩去韓國玩🔥媽媽會喜歡上首爾嗎？四天三夜自由行到底怎麼玩｜一隻阿圓",
             "link": "https://www.youtube.com/watch?v=4Ve8jmi1sI8",
@@ -5782,32 +5744,6 @@
             "channel_id": "UC-ujeda5rDgCe-910J5keTg"
         },
         {
-            "id": "mWkmKqBAgMM",
-            "title": "《大頭佛社團活動#16：音樂課》大頭佛樂團正式成軍啦！(feat.珊佑.飄飄.黛西.阿倫.巧筠)",
-            "link": "https://www.youtube.com/watch?v=mWkmKqBAgMM",
-            "thumbnail": "https://img.youtube.com/vi/mWkmKqBAgMM/mqdefault.jpg",
-            "published": "2026-05-13 18:00:06",
-            "view_count": 65236,
-            "description": "⚠️訂閱我們：https://url.linkgoods.com/DaTouFo2013\n📍追蹤IG：https://www.instagram.com/bigheadoffice2019\n📍合作信箱：withgalovetaiwan@gm…",
-            "duration": 1299,
-            "is_short": false,
-            "channel_name": "大頭佛工作室",
-            "channel_id": "UCOAdBjPqnxdDHVj88Uv5_2g"
-        },
-        {
-            "id": "xqD9XaqFvSQ",
-            "title": "髮型設計師的助理真的會一直掃｜BinBin 彬導來了",
-            "link": "https://www.youtube.com/shorts/xqD9XaqFvSQ",
-            "thumbnail": "https://img.youtube.com/vi/xqD9XaqFvSQ/mqdefault.jpg",
-            "published": "2026-05-13 17:30:33",
-            "view_count": 3544,
-            "description": "※本集節目沒有任何贊助播出，可悲※\n\n請原諒我會發無聊的Reels，\n那是我主要的收入來源嗚嗚嗚😭😭😭\n可以略過但拜託不要退訂，謝謝你們😢\n\n希望你們喜歡這個影片！\n喜歡的話請幫我訂閱分享，也可以留言告訴我唷！\n　\n⭐️訂閱我的YouTub…",
-            "duration": 22,
-            "is_short": false,
-            "channel_name": "BinBin 彬導來了",
-            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
-        },
-        {
             "id": "m1KmywzaPo8",
             "title": "【Kiki】吃爆石垣島海鮮市場！大嗑超便宜百元生魚片、最強石垣牛燒肉還有神級舒芙蕾鬆餅！？",
             "link": "https://www.youtube.com/watch?v=m1KmywzaPo8",
@@ -5845,19 +5781,6 @@
             "is_short": false,
             "channel_name": "一隻阿圓 I am CIRCLE",
             "channel_id": "UCRm_PQqRwiwA7g8bqCoPH9A"
-        },
-        {
-            "id": "Wl181j6jxmE",
-            "title": "謎のイカ爺ソング",
-            "link": "https://www.youtube.com/shorts/Wl181j6jxmE",
-            "thumbnail": "https://img.youtube.com/vi/Wl181j6jxmE/mqdefault.jpg",
-            "published": "2026-05-13 11:00:27",
-            "view_count": 37500,
-            "description": "続きはこちら！\nhttps://youtu.be/_hSESIi1bJI?si=KXq_iUHxt-YiiYfm\n\nチャンネル登録\n@kupiochannel",
-            "duration": 47,
-            "is_short": false,
-            "channel_name": "クピ男の車中生活",
-            "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
             "id": "tboE3v0NDfs",
@@ -5899,6 +5822,32 @@
             "channel_id": "UCX6OQ3DkcsbYNE6H8uQQuVA"
         },
         {
+            "id": "bL9q5XfkGKA",
+            "title": "哈佛樂團正式成軍啦😎🎵",
+            "link": "https://www.youtube.com/watch?v=bL9q5XfkGKA",
+            "thumbnail": "https://img.youtube.com/vi/bL9q5XfkGKA/mqdefault.jpg",
+            "published": "2026-05-13 00:00:00",
+            "view_count": 11910,
+            "description": "",
+            "duration": 77,
+            "is_short": false,
+            "channel_name": "大頭佛工作室",
+            "channel_id": "UCOAdBjPqnxdDHVj88Uv5_2g"
+        },
+        {
+            "id": "mWkmKqBAgMM",
+            "title": "《大頭佛社團活動#16：音樂課》大頭佛樂團正式成軍啦！(feat.珊佑.飄飄.黛西.阿倫.巧筠)",
+            "link": "https://www.youtube.com/watch?v=mWkmKqBAgMM",
+            "thumbnail": "https://img.youtube.com/vi/mWkmKqBAgMM/mqdefault.jpg",
+            "published": "2026-05-13 00:00:00",
+            "view_count": 65244,
+            "description": "⚠️訂閱我們：https://url.linkgoods.com/DaTouFo2013\n📍追蹤IG：https://www.instagram.com/bigheadoffice2019\n📍合作信箱：withgalovetaiwan@gm…",
+            "duration": 1299,
+            "is_short": false,
+            "channel_name": "大頭佛工作室",
+            "channel_id": "UCOAdBjPqnxdDHVj88Uv5_2g"
+        },
+        {
             "id": "ZGsWPSH8X8g",
             "title": "追星追到變親戚是什麼體驗？偶像親臨現場唱歌給你聽‼😳各種追星界的傳奇故事，一次幫你解鎖！追星路上的辛酸我們都懂🙌兩鍋論這集公開追星神器美食，讓你看演唱會能果腹又不會跑廁所！#真料理兩鍋論",
             "link": "https://www.youtube.com/watch?v=ZGsWPSH8X8g",
@@ -5925,6 +5874,45 @@
             "channel_id": "UCLW_SzI9txZvtOFTPDswxqg"
         },
         {
+            "id": "EtizjKFn3ys",
+            "title": "〔蔡哥直播〕#320 找到焦慮來源然後呢?",
+            "link": "https://www.youtube.com/watch?v=EtizjKFn3ys",
+            "thumbnail": "https://img.youtube.com/vi/EtizjKFn3ys/mqdefault.jpg",
+            "published": "2026-05-13 00:00:00",
+            "view_count": 6026,
+            "description": "今天我很帥\n你也還不賴(單押X1)\nhttps://discord.gg/fjfxajceGA\nDC",
+            "duration": 4998,
+            "is_short": false,
+            "channel_name": "蔡哥",
+            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
+        },
+        {
+            "id": "CLEb8jWuKrs",
+            "title": "腳底幫3.0之印尼盾大貶值超爽峇里島！滿滿的誠意與笑聲再加上一點兄弟鬩牆！？絕對笑翻",
+            "link": "https://www.youtube.com/watch?v=CLEb8jWuKrs",
+            "thumbnail": "https://img.youtube.com/vi/CLEb8jWuKrs/mqdefault.jpg",
+            "published": "2026-05-13 00:00:00",
+            "view_count": 526361,
+            "description": "帶給大家歡笑！坤達、胡椒、蛇丸、尼克、百祥還有專業熱情的工作人員們，我們就是JDB腳底幫！\n\n威訊eSIM我推成這樣...每次都很滿意！你信我一次！囊擴星馬日韓中港台峇里島到處都有！完美的旅程你就差一張方便的eSIM！點擊網址並且記得輸入折…",
+            "duration": 10005,
+            "is_short": false,
+            "channel_name": "又離題了",
+            "channel_id": "UCmiax1Ya-pYNIXlKFfdrU4Q"
+        },
+        {
+            "id": "Wl181j6jxmE",
+            "title": "謎のイカ爺ソング",
+            "link": "https://www.youtube.com/watch?v=Wl181j6jxmE",
+            "thumbnail": "https://img.youtube.com/vi/Wl181j6jxmE/mqdefault.jpg",
+            "published": "2026-05-13 00:00:00",
+            "view_count": 37510,
+            "description": "続きはこちら！\nhttps://youtu.be/_hSESIi1bJI?si=KXq_iUHxt-YiiYfm\n\nチャンネル登録\n@kupiochannel",
+            "duration": 47,
+            "is_short": false,
+            "channel_name": "Kupio lives in his car",
+            "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
+        },
+        {
             "id": "1X0QFe8pYNU",
             "title": "一次看懂台立院通過的國防採購特別條例 對美軍購多獲撥款 M109A7自走砲大縮水 台灣之盾遭衝擊大 #國防採購特別條例 #M109A7 #台灣之盾 #強弓飛彈 #不對稱戰力 | 05/13 馬克時空",
             "link": "https://www.youtube.com/watch?v=1X0QFe8pYNU",
@@ -5936,6 +5924,19 @@
             "is_short": false,
             "channel_name": "馬克時空 Mark Space",
             "channel_id": "UCejNr6vMTCstFMb-UisJRaw"
+        },
+        {
+            "id": "xqD9XaqFvSQ",
+            "title": "髮型設計師的助理真的會一直掃｜BinBin 彬導來了",
+            "link": "https://www.youtube.com/watch?v=xqD9XaqFvSQ",
+            "thumbnail": "https://img.youtube.com/vi/xqD9XaqFvSQ/mqdefault.jpg",
+            "published": "2026-05-13 00:00:00",
+            "view_count": 3542,
+            "description": "※本集節目沒有任何贊助播出，可悲※\n\n請原諒我會發無聊的Reels，\n那是我主要的收入來源嗚嗚嗚😭😭😭\n可以略過但拜託不要退訂，謝謝你們😢\n\n希望你們喜歡這個影片！\n喜歡的話請幫我訂閱分享，也可以留言告訴我唷！\n　\n⭐️訂閱我的YouTub…",
+            "duration": 22,
+            "is_short": false,
+            "channel_name": "BinBin 彬導來了",
+            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
         },
         {
             "id": "uZwK-Vwu7NI",
@@ -6211,19 +6212,6 @@
             "channel_id": "UCha1uK1_aR8hfiJr3EkEChA"
         },
         {
-            "id": "lnf1fAf-PUw",
-            "title": "原來是這種感覺",
-            "link": "https://www.youtube.com/shorts/lnf1fAf-PUw",
-            "thumbnail": "https://img.youtube.com/vi/lnf1fAf-PUw/mqdefault.jpg",
-            "published": "2026-05-12 20:20:29",
-            "view_count": 5338,
-            "description": "",
-            "duration": 19,
-            "is_short": false,
-            "channel_name": "蔡哥",
-            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
-        },
-        {
             "id": "sJ6Mx7-czFU",
             "title": "庫皮揚斯克俄軍全滅，克裏米亞多地成火海！勝利日紅場瀕危，澤連斯基批准俄羅斯閱兵！普京發出戰爭威脅，亞美尼亞將成第二個烏克蘭？| 烏俄戰爭 | 普京 | 火力君 |",
             "link": "https://www.youtube.com/watch?v=sJ6Mx7-czFU",
@@ -6261,19 +6249,6 @@
             "is_short": false,
             "channel_name": "牛排",
             "channel_id": "UCZJ6_ybUlrz2M-QrstqG4dg"
-        },
-        {
-            "id": "Y0ehgoO7nFg",
-            "title": "剪片產量翻倍！三個月實測 Logitech MX Creative Console 剪輯師必備的神裝 創作者主控台｜BinBin 彬導來了",
-            "link": "https://www.youtube.com/watch?v=Y0ehgoO7nFg",
-            "thumbnail": "https://img.youtube.com/vi/Y0ehgoO7nFg/mqdefault.jpg",
-            "published": "2026-05-12 19:00:48",
-            "view_count": 3332,
-            "description": "🎬 剪輯師效率黑科技？缺點一次說！\n近期Instagram上被詢問最多次的工具，\nLogitech MX Creative Console 到底好不好用？\n\n📍 影片重點\n比螢幕、滑鼠都更值得買的工具！\nLogi Options+ 不只是快…",
-            "duration": 528,
-            "is_short": false,
-            "channel_name": "BinBin 彬導來了",
-            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
         },
         {
             "id": "01wERCJKBgM",
@@ -6403,6 +6378,32 @@
             "is_short": false,
             "channel_name": "木曜4超玩",
             "channel_id": "UCLW_SzI9txZvtOFTPDswxqg"
+        },
+        {
+            "id": "lnf1fAf-PUw",
+            "title": "原來是這種感覺",
+            "link": "https://www.youtube.com/watch?v=lnf1fAf-PUw",
+            "thumbnail": "https://img.youtube.com/vi/lnf1fAf-PUw/mqdefault.jpg",
+            "published": "2026-05-12 00:00:00",
+            "view_count": 5341,
+            "description": "",
+            "duration": 19,
+            "is_short": false,
+            "channel_name": "蔡哥",
+            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
+        },
+        {
+            "id": "Y0ehgoO7nFg",
+            "title": "剪片產量翻倍！三個月實測 Logitech MX Creative Console 剪輯師必備的神裝 創作者主控台｜BinBin 彬導來了",
+            "link": "https://www.youtube.com/watch?v=Y0ehgoO7nFg",
+            "thumbnail": "https://img.youtube.com/vi/Y0ehgoO7nFg/mqdefault.jpg",
+            "published": "2026-05-12 00:00:00",
+            "view_count": 3333,
+            "description": "🎬 剪輯師效率黑科技？缺點一次說！\n近期Instagram上被詢問最多次的工具，\nLogitech MX Creative Console 到底好不好用？\n\n📍 影片重點\n比螢幕、滑鼠都更值得買的工具！\nLogi Options+ 不只是快…",
+            "duration": 528,
+            "is_short": false,
+            "channel_name": "BinBin 彬導來了",
+            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
         },
         {
             "id": "y_Rfj3YCnV4",
@@ -6574,19 +6575,6 @@
             "channel_id": "UC9zY_E8mcAo_Oq772LEZq8Q"
         },
         {
-            "id": "IGKQX7_ZCyw",
-            "title": "霧眉的小發現",
-            "link": "https://www.youtube.com/shorts/IGKQX7_ZCyw",
-            "thumbnail": "https://img.youtube.com/vi/IGKQX7_ZCyw/mqdefault.jpg",
-            "published": "2026-05-11 23:01:46",
-            "view_count": 10142,
-            "description": "",
-            "duration": 37,
-            "is_short": false,
-            "channel_name": "蔡哥",
-            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
-        },
-        {
             "id": "sOWwGjemBaQ",
             "title": "KID's Vlog#258 第一次一起採草莓！苗栗大湖賴翁翁的草莓約定！",
             "link": "https://www.youtube.com/watch?v=sOWwGjemBaQ",
@@ -6611,19 +6599,6 @@
             "is_short": false,
             "channel_name": "零度解说",
             "channel_id": "UCvijahEyGtvMpmMHBu4FS2w"
-        },
-        {
-            "id": "NN4to8-b3pg",
-            "title": "蔡哥-鬆餅專情哥!愛就是要吃爆 第一次號稱世界最好吃鬆餅!!!有愛嗎?",
-            "link": "https://www.youtube.com/watch?v=NN4to8-b3pg",
-            "thumbnail": "https://img.youtube.com/vi/NN4to8-b3pg/mqdefault.jpg",
-            "published": "2026-05-11 21:00:06",
-            "view_count": 31951,
-            "description": "大家快繼續推我鬆餅！！！\n\n五鬆打虎～\n有些在日本都有分店也可以去吃吃看\n\n🥞文明堂茶館\nhttps://maps.app.goo.gl/p913rSiCwruTkD6b8?g_st=ic\n第一家店\n真的是那種觀光街上\n結果很好吃\n誰受得了…",
-            "duration": 1532,
-            "is_short": false,
-            "channel_name": "蔡哥",
-            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
         },
         {
             "id": "NR9Ruzdn_NM",
@@ -6728,19 +6703,6 @@
             "is_short": false,
             "channel_name": "曾博恩",
             "channel_id": "UCfcv1yf1JWU_Dftvsql31yg"
-        },
-        {
-            "id": "C3ZLSm1WmM4",
-            "title": "如果你的手機一起賣雞翅 #相機擬人系列 第12集｜BinBin 彬導來了",
-            "link": "https://www.youtube.com/shorts/C3ZLSm1WmM4",
-            "thumbnail": "https://img.youtube.com/vi/C3ZLSm1WmM4/mqdefault.jpg",
-            "published": "2026-05-11 17:30:14",
-            "view_count": 291252,
-            "description": "※本集節目沒有任何贊助播出，可悲※\n\n請原諒我會發無聊的Reels，\n那是我主要的收入來源嗚嗚嗚😭😭😭\n可以略過但拜託不要退訂，謝謝你們😢\n\n希望你們喜歡這個影片！\n喜歡的話請幫我訂閱分享，也可以留言告訴我唷！\n　\n⭐️訂閱我的YouTub…",
-            "duration": 60,
-            "is_short": false,
-            "channel_name": "BinBin 彬導來了",
-            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
         },
         {
             "id": "XoE-zKOO_GM",
@@ -6860,6 +6822,32 @@
             "channel_id": "UCLW_SzI9txZvtOFTPDswxqg"
         },
         {
+            "id": "IGKQX7_ZCyw",
+            "title": "霧眉的小發現",
+            "link": "https://www.youtube.com/watch?v=IGKQX7_ZCyw",
+            "thumbnail": "https://img.youtube.com/vi/IGKQX7_ZCyw/mqdefault.jpg",
+            "published": "2026-05-11 00:00:00",
+            "view_count": 10144,
+            "description": "",
+            "duration": 37,
+            "is_short": false,
+            "channel_name": "蔡哥",
+            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
+        },
+        {
+            "id": "NN4to8-b3pg",
+            "title": "蔡哥-鬆餅專情哥!愛就是要吃爆 第一次號稱世界最好吃鬆餅!!!有愛嗎?",
+            "link": "https://www.youtube.com/watch?v=NN4to8-b3pg",
+            "thumbnail": "https://img.youtube.com/vi/NN4to8-b3pg/mqdefault.jpg",
+            "published": "2026-05-11 00:00:00",
+            "view_count": 31970,
+            "description": "大家快繼續推我鬆餅！！！\n\n五鬆打虎～\n有些在日本都有分店也可以去吃吃看\n\n🥞文明堂茶館\nhttps://maps.app.goo.gl/p913rSiCwruTkD6b8?g_st=ic\n第一家店\n真的是那種觀光街上\n結果很好吃\n誰受得了…",
+            "duration": 1532,
+            "is_short": false,
+            "channel_name": "蔡哥",
+            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
+        },
+        {
             "id": "SBbKarJFjtQ",
             "title": "普京強塞退役兵進議會，克宮內部吵翻，怕養出第二個普裏戈金！俄軍波羅的海陪練北約，非洲10天丟3城！後勤艦隊重返敘利亞，克宮5000架無人機支援伊朗！| 烏俄戰爭 | 俄羅斯 | 火力君 |",
             "link": "https://www.youtube.com/watch?v=SBbKarJFjtQ",
@@ -6884,6 +6872,19 @@
             "is_short": false,
             "channel_name": "火力就是正義（資訊頻道）",
             "channel_id": "UCaeVLOs0GY_fPoy8rfjnBcQ"
+        },
+        {
+            "id": "C3ZLSm1WmM4",
+            "title": "如果你的手機一起賣雞翅 #相機擬人系列 第12集｜BinBin 彬導來了",
+            "link": "https://www.youtube.com/watch?v=C3ZLSm1WmM4",
+            "thumbnail": "https://img.youtube.com/vi/C3ZLSm1WmM4/mqdefault.jpg",
+            "published": "2026-05-11 00:00:00",
+            "view_count": 291768,
+            "description": "※本集節目沒有任何贊助播出，可悲※\n\n請原諒我會發無聊的Reels，\n那是我主要的收入來源嗚嗚嗚😭😭😭\n可以略過但拜託不要退訂，謝謝你們😢\n\n希望你們喜歡這個影片！\n喜歡的話請幫我訂閱分享，也可以留言告訴我唷！\n　\n⭐️訂閱我的YouTub…",
+            "duration": 60,
+            "is_short": false,
+            "channel_name": "BinBin 彬導來了",
+            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
         },
         {
             "id": "IH-wMqZivVY",
@@ -7053,19 +7054,6 @@
             "is_short": false,
             "channel_name": "Matthias Lebo",
             "channel_id": "UCkzbAxfikgRLDf98pcyXeIQ"
-        },
-        {
-            "id": "oPm-6rSyUrc",
-            "title": "曼谷生活Vlog🏡第一次去象島旅行！我們最近的新興趣✨近期吃到最推薦的甜點❤️去泰國LOPIA逛逛～",
-            "link": "https://www.youtube.com/watch?v=oPm-6rSyUrc",
-            "thumbnail": "https://img.youtube.com/vi/oPm-6rSyUrc/mqdefault.jpg",
-            "published": "2026-05-10 21:00:06",
-            "view_count": 14965,
-            "description": "哈囉大家～～歡迎你們來看這週的影片🍿\n\n上週泰國勞工節連假，和Parin家人去了我一直很想去的象島🐘\n原本想說一天五小時直接開過去已經太操了..結果又塞車四五個小時\n真的是世紀大崩潰..但兩台車只有我一個人崩潰\n其他人都是安安靜靜，覺得很無…",
-            "duration": 1468,
-            "is_short": false,
-            "channel_name": "Amber Lee",
-            "channel_id": "UCyIeG42FdoVOZMfSvFx2ZAA"
         },
         {
             "id": "puNLHVO-kE8",
@@ -7249,19 +7237,6 @@
             "channel_id": "UC6Unc9BmBvkWI_YPjGUyoIw"
         },
         {
-            "id": "37WeO07gGkk",
-            "title": "週末給他嗨起來！",
-            "link": "https://www.youtube.com/watch?v=37WeO07gGkk",
-            "thumbnail": "https://img.youtube.com/vi/37WeO07gGkk/mqdefault.jpg",
-            "published": "2026-05-10 02:38:27",
-            "view_count": 7799,
-            "description": "主題曲上線了！怎麼可能！？：\nhttps://artists.landr.com/991043737100\n歌詞日後更新！\n\n贊助又離題了頻道！\nhttps://tinyurl.com/3c56v3nc\n歐付寶連結，手續費低！",
-            "duration": 8034,
-            "is_short": false,
-            "channel_name": "又離題了",
-            "channel_id": "UCmiax1Ya-pYNIXlKFfdrU4Q"
-        },
-        {
             "id": "YiDURQb39Dw",
             "title": "真正的東京人居然都吃這些？ #tokyotrip #tokyotravel #東京 #東京人 #東京自由行 #東京旅遊  @7makiato",
             "link": "https://www.youtube.com/shorts/YiDURQb39Dw",
@@ -7273,6 +7248,19 @@
             "is_short": false,
             "channel_name": "興趣使然的攝影師 Enzo",
             "channel_id": "UCDH799ijFMBv_j1RM86hozA"
+        },
+        {
+            "id": "oPm-6rSyUrc",
+            "title": "曼谷生活Vlog🏡第一次去象島旅行！我們最近的新興趣✨近期吃到最推薦的甜點❤️去泰國LOPIA逛逛～",
+            "link": "https://www.youtube.com/watch?v=oPm-6rSyUrc",
+            "thumbnail": "https://img.youtube.com/vi/oPm-6rSyUrc/mqdefault.jpg",
+            "published": "2026-05-10 00:00:00",
+            "view_count": 14961,
+            "description": "哈囉大家～～歡迎你們來看這週的影片🍿\n\n上週泰國勞工節連假，和Parin家人去了我一直很想去的象島🐘\n原本想說一天五小時直接開過去已經太操了..結果又塞車四五個小時\n真的是世紀大崩潰..但兩台車只有我一個人崩潰\n其他人都是安安靜靜，覺得很無…",
+            "duration": 1468,
+            "is_short": false,
+            "channel_name": "Amber Lee",
+            "channel_id": "UCyIeG42FdoVOZMfSvFx2ZAA"
         },
         {
             "id": "cbugXUQ4XUo",
@@ -7703,19 +7691,6 @@
             "channel_id": "UC9YOQFPfEUXbulKDtxeqqBA"
         },
         {
-            "id": "HCbPxYDH-z4",
-            "title": "無料駐車場で車中泊生活、100万中古をDIYすれば自分専用の高級キャンピングカーになる",
-            "link": "https://www.youtube.com/watch?v=HCbPxYDH-z4",
-            "thumbnail": "https://img.youtube.com/vi/HCbPxYDH-z4/mqdefault.jpg",
-            "published": "2026-05-09 16:59:47",
-            "view_count": 313927,
-            "description": "何千万もするキャンピングカーじゃなくても、おっさんの休日はこれで十分すぎる。 100万円の中古軽バンをDIYして、海辺の無料駐車場に引きこもってきました。 富山湾の絶品海鮮を焼き、波の音を聞きながらゲームと映画に没頭する。50歳手前、自分だ…",
-            "duration": 1931,
-            "is_short": false,
-            "channel_name": "クピ男の車中生活",
-            "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
-        },
-        {
             "id": "AzzeU02LRHU",
             "title": "我要成為黃大謙 更多退休規劃請看➡️ #滴scussion #Podcast精華",
             "link": "https://www.youtube.com/shorts/AzzeU02LRHU",
@@ -7768,19 +7743,6 @@
             "channel_id": "UCPwxSX0DYDMQxCvgfeVDv_g"
         },
         {
-            "id": "veo8eaKGTyw",
-            "title": "萊爾富行銷部/LOPIA行銷部/DJI行銷部，請進直播有事，謝謝",
-            "link": "https://www.youtube.com/watch?v=veo8eaKGTyw",
-            "thumbnail": "https://img.youtube.com/vi/veo8eaKGTyw/mqdefault.jpg",
-            "published": "2026-05-09 04:18:33",
-            "view_count": 6528,
-            "description": "主題曲上線了！怎麼可能！？：\nhttps://artists.landr.com/991043737100\n歌詞日後更新！\n\n贊助又離題了頻道！\nhttps://tinyurl.com/3c56v3nc\n歐付寶連結，手續費低！",
-            "duration": 5792,
-            "is_short": false,
-            "channel_name": "又離題了",
-            "channel_id": "UCmiax1Ya-pYNIXlKFfdrU4Q"
-        },
-        {
             "id": "obrezAHShKo",
             "title": "開氏、訾氏...特殊姓氏你聽過哪些？全台少於100人的姓氏大集合｜S2 EP6精華【真料理兩鍋論】 #特殊姓氏 #特殊名 #姓名學 #真料理兩鍋論",
             "link": "https://www.youtube.com/watch?v=obrezAHShKo",
@@ -7805,6 +7767,32 @@
             "is_short": false,
             "channel_name": "木曜4超玩",
             "channel_id": "UCLW_SzI9txZvtOFTPDswxqg"
+        },
+        {
+            "id": "37WeO07gGkk",
+            "title": "週末給他嗨起來！",
+            "link": "https://www.youtube.com/watch?v=37WeO07gGkk",
+            "thumbnail": "https://img.youtube.com/vi/37WeO07gGkk/mqdefault.jpg",
+            "published": "2026-05-09 00:00:00",
+            "view_count": 7803,
+            "description": "主題曲上線了！怎麼可能！？：\nhttps://artists.landr.com/991043737100\n歌詞日後更新！\n\n贊助又離題了頻道！\nhttps://tinyurl.com/3c56v3nc\n歐付寶連結，手續費低！",
+            "duration": 8034,
+            "is_short": false,
+            "channel_name": "又離題了",
+            "channel_id": "UCmiax1Ya-pYNIXlKFfdrU4Q"
+        },
+        {
+            "id": "HCbPxYDH-z4",
+            "title": "無料駐車場で車中泊生活、100万中古をDIYすれば自分専用の高級キャンピングカーになる",
+            "link": "https://www.youtube.com/watch?v=HCbPxYDH-z4",
+            "thumbnail": "https://img.youtube.com/vi/HCbPxYDH-z4/mqdefault.jpg",
+            "published": "2026-05-09 00:00:00",
+            "view_count": 313991,
+            "description": "何千万もするキャンピングカーじゃなくても、おっさんの休日はこれで十分すぎる。 100万円の中古軽バンをDIYして、海辺の無料駐車場に引きこもってきました。 富山湾の絶品海鮮を焼き、波の音を聞きながらゲームと映画に没頭する。50歳手前、自分だ…",
+            "duration": 1931,
+            "is_short": false,
+            "channel_name": "Kupio lives in his car",
+            "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
             "id": "OXhMlQMqpWk",
@@ -8080,19 +8068,6 @@
             "channel_id": "UCZgfwLNk27K0PdE8EGYNcPA"
         },
         {
-            "id": "CSHQ5LkDFEc",
-            "title": "JDB腳底幫同名日文單曲-JDB 已經全面上架",
-            "link": "https://www.youtube.com/watch?v=CSHQ5LkDFEc",
-            "thumbnail": "https://img.youtube.com/vi/CSHQ5LkDFEc/mqdefault.jpg",
-            "published": "2026-05-08 19:40:48",
-            "view_count": 48938,
-            "description": "敬請收聽！\nhttps://artists.landr.com/991043737100\n歌詞日後更新",
-            "duration": 129,
-            "is_short": false,
-            "channel_name": "又離題了",
-            "channel_id": "UCmiax1Ya-pYNIXlKFfdrU4Q"
-        },
-        {
             "id": "bgPWYXhQMiE",
             "title": "日本街賞大酒 錢噴到懷疑人生 #極樂越南 #日本街 #暗黑行程",
             "link": "https://www.youtube.com/shorts/bgPWYXhQMiE",
@@ -8233,6 +8208,32 @@
             "is_short": false,
             "channel_name": "MrBeast",
             "channel_id": "UCX6OQ3DkcsbYNE6H8uQQuVA"
+        },
+        {
+            "id": "veo8eaKGTyw",
+            "title": "萊爾富行銷部/LOPIA行銷部/DJI行銷部，請進直播有事，謝謝",
+            "link": "https://www.youtube.com/watch?v=veo8eaKGTyw",
+            "thumbnail": "https://img.youtube.com/vi/veo8eaKGTyw/mqdefault.jpg",
+            "published": "2026-05-08 00:00:00",
+            "view_count": 6527,
+            "description": "主題曲上線了！怎麼可能！？：\nhttps://artists.landr.com/991043737100\n歌詞日後更新！\n\n贊助又離題了頻道！\nhttps://tinyurl.com/3c56v3nc\n歐付寶連結，手續費低！",
+            "duration": 5792,
+            "is_short": false,
+            "channel_name": "又離題了",
+            "channel_id": "UCmiax1Ya-pYNIXlKFfdrU4Q"
+        },
+        {
+            "id": "CSHQ5LkDFEc",
+            "title": "JDB腳底幫同名日文單曲-JDB 已經全面上架",
+            "link": "https://www.youtube.com/watch?v=CSHQ5LkDFEc",
+            "thumbnail": "https://img.youtube.com/vi/CSHQ5LkDFEc/mqdefault.jpg",
+            "published": "2026-05-08 00:00:00",
+            "view_count": 48961,
+            "description": "敬請收聽！\nhttps://artists.landr.com/991043737100\n歌詞日後更新",
+            "duration": 129,
+            "is_short": false,
+            "channel_name": "又離題了",
+            "channel_id": "UCmiax1Ya-pYNIXlKFfdrU4Q"
         },
         {
             "id": "npybBgv7aeI",
@@ -8573,19 +8574,6 @@
             "channel_id": "UCIfiMAj8DovfeFZ_e0fDH_g"
         },
         {
-            "id": "GskGM9aFtGk",
-            "title": "不用手機只能一直諧音",
-            "link": "https://www.youtube.com/shorts/GskGM9aFtGk",
-            "thumbnail": "https://img.youtube.com/vi/GskGM9aFtGk/mqdefault.jpg",
-            "published": "2026-05-07 19:52:59",
-            "view_count": 17604,
-            "description": "",
-            "duration": 36,
-            "is_short": false,
-            "channel_name": "蔡哥",
-            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
-        },
-        {
             "id": "raJiXTNN9AI",
             "title": "彈性超好！hahababy胸墊背心S號實測😎",
             "link": "https://www.youtube.com/shorts/raJiXTNN9AI",
@@ -8597,19 +8585,6 @@
             "is_short": false,
             "channel_name": "蔡阿嘎",
             "channel_id": "UCPwxSX0DYDMQxCvgfeVDv_g"
-        },
-        {
-            "id": "wY243lTnf4I",
-            "title": "iPhone自拍升級！Snap 磁吸螢幕補光燈 用小錢打造Vlog神器 免充電，更廣更亮 #Insta360｜BinBin 彬導來了",
-            "link": "https://www.youtube.com/watch?v=wY243lTnf4I",
-            "thumbnail": "https://img.youtube.com/vi/wY243lTnf4I/mqdefault.jpg",
-            "published": "2026-05-07 19:01:40",
-            "view_count": 3208,
-            "description": "自拍鏡頭畫質爛，後置鏡頭又看不到自己？\n我們需要Insta360 Snap！……嗎？？？\n隨插即用、零延遲、自帶美妝補光燈。\n聽起來很香，但先不要刷卡，\n點開影片，我幫你省下這三千塊。\n\n透過彬彬的連結買相機最低7折起，\n還有送免費配件！超…",
-            "duration": 583,
-            "is_short": false,
-            "channel_name": "BinBin 彬導來了",
-            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
         },
         {
             "id": "lDhVULt85AQ",
@@ -8755,19 +8730,6 @@
             "channel_id": "UCvcZO0cvDT3rzKtfakL3R5Q"
         },
         {
-            "id": "KhSZkb5EFWg",
-            "title": "とうとう車内で洗濯する48歳",
-            "link": "https://www.youtube.com/shorts/KhSZkb5EFWg",
-            "thumbnail": "https://img.youtube.com/vi/KhSZkb5EFWg/mqdefault.jpg",
-            "published": "2026-05-07 11:00:31",
-            "view_count": 45990,
-            "description": "続きはこちら\nhttps://youtu.be/x0P_v8Rlj0E?si=hMxOpHW9MwouMhsq\n\nチャンネル登録\n​@kupiochannel",
-            "duration": 52,
-            "is_short": false,
-            "channel_name": "クピ男の車中生活",
-            "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
-        },
-        {
             "id": "dxcHlAGr33c",
             "title": "沒想到開箱到精緻的「熊窩」，這算是山景別墅等級了吧 ! ! #木曜4超玩 #一日系列 #泱泱 #短今 #尹到怡 #台灣黑熊 #森林護管員 #黑熊保育 #shorts",
             "link": "https://www.youtube.com/watch?v=dxcHlAGr33c",
@@ -8779,6 +8741,32 @@
             "is_short": false,
             "channel_name": "木曜4超玩",
             "channel_id": "UCLW_SzI9txZvtOFTPDswxqg"
+        },
+        {
+            "id": "GskGM9aFtGk",
+            "title": "不用手機只能一直諧音",
+            "link": "https://www.youtube.com/watch?v=GskGM9aFtGk",
+            "thumbnail": "https://img.youtube.com/vi/GskGM9aFtGk/mqdefault.jpg",
+            "published": "2026-05-07 00:00:00",
+            "view_count": 17597,
+            "description": "",
+            "duration": 36,
+            "is_short": false,
+            "channel_name": "蔡哥",
+            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
+        },
+        {
+            "id": "KhSZkb5EFWg",
+            "title": "とうとう車内で洗濯する48歳",
+            "link": "https://www.youtube.com/watch?v=KhSZkb5EFWg",
+            "thumbnail": "https://img.youtube.com/vi/KhSZkb5EFWg/mqdefault.jpg",
+            "published": "2026-05-07 00:00:00",
+            "view_count": 45991,
+            "description": "続きはこちら\nhttps://youtu.be/x0P_v8Rlj0E?si=hMxOpHW9MwouMhsq\n\nチャンネル登録\n​@kupiochannel",
+            "duration": 52,
+            "is_short": false,
+            "channel_name": "Kupio lives in his car",
+            "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
             "id": "9e0qtKk_6vo",
@@ -8805,6 +8793,19 @@
             "is_short": false,
             "channel_name": "火力就是正義（資訊頻道）",
             "channel_id": "UCaeVLOs0GY_fPoy8rfjnBcQ"
+        },
+        {
+            "id": "wY243lTnf4I",
+            "title": "iPhone自拍升級！Snap 磁吸螢幕補光燈 用小錢打造Vlog神器 免充電，更廣更亮 #Insta360｜BinBin 彬導來了",
+            "link": "https://www.youtube.com/watch?v=wY243lTnf4I",
+            "thumbnail": "https://img.youtube.com/vi/wY243lTnf4I/mqdefault.jpg",
+            "published": "2026-05-07 00:00:00",
+            "view_count": 3207,
+            "description": "自拍鏡頭畫質爛，後置鏡頭又看不到自己？\n我們需要Insta360 Snap！……嗎？？？\n隨插即用、零延遲、自帶美妝補光燈。\n聽起來很香，但先不要刷卡，\n點開影片，我幫你省下這三千塊。\n\n透過彬彬的連結買相機最低7折起，\n還有送免費配件！超…",
+            "duration": 583,
+            "is_short": false,
+            "channel_name": "BinBin 彬導來了",
+            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
         },
         {
             "id": "6MBFgnynw68",
@@ -8950,19 +8951,6 @@
             "channel_id": "UC9zY_E8mcAo_Oq772LEZq8Q"
         },
         {
-            "id": "y956NSYmSVI",
-            "title": "〔蔡哥直播〕#319 側臉風暴~~~",
-            "link": "https://www.youtube.com/watch?v=y956NSYmSVI",
-            "thumbnail": "https://img.youtube.com/vi/y956NSYmSVI/mqdefault.jpg",
-            "published": "2026-05-06 23:57:52",
-            "view_count": 5582,
-            "description": "今天我很帥\n你也還不賴(單押X1)\nhttps://discord.gg/fjfxajceGA\nDC",
-            "duration": 4525,
-            "is_short": false,
-            "channel_name": "蔡哥",
-            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
-        },
-        {
             "id": "vGWEF0OutOo",
             "title": "釣到一隻大鯊魚！快閃澎湖就是為了與阿銘哥船拋！【村長的釣魚系列 EP70】",
             "link": "https://www.youtube.com/watch?v=vGWEF0OutOo",
@@ -9106,19 +9094,6 @@
             "channel_id": "UCuggN8RzbtpxFSd6LHCeXew"
         },
         {
-            "id": "UUCTbcsUo2Y",
-            "title": "不該追問的嗎？不！！哈哈超好笑",
-            "link": "https://www.youtube.com/shorts/UUCTbcsUo2Y",
-            "thumbnail": "https://img.youtube.com/vi/UUCTbcsUo2Y/mqdefault.jpg",
-            "published": "2026-05-06 12:19:44",
-            "view_count": 59248,
-            "description": "",
-            "duration": 36,
-            "is_short": false,
-            "channel_name": "蔡哥",
-            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
-        },
-        {
             "id": "4JHgqaMSDds",
             "title": "這就是我在東京街頭找到模特的方式 #攝影師 #人像攝影 #搞笑 #photography #tokyo #tokyotrip #tokyotravel",
             "link": "https://www.youtube.com/shorts/4JHgqaMSDds",
@@ -9221,6 +9196,32 @@
             "is_short": false,
             "channel_name": "面白大丈夫",
             "channel_id": "UC6Unc9BmBvkWI_YPjGUyoIw"
+        },
+        {
+            "id": "y956NSYmSVI",
+            "title": "〔蔡哥直播〕#319 側臉風暴~~~",
+            "link": "https://www.youtube.com/watch?v=y956NSYmSVI",
+            "thumbnail": "https://img.youtube.com/vi/y956NSYmSVI/mqdefault.jpg",
+            "published": "2026-05-06 00:00:00",
+            "view_count": 5582,
+            "description": "今天我很帥\n你也還不賴(單押X1)\nhttps://discord.gg/fjfxajceGA\nDC",
+            "duration": 4525,
+            "is_short": false,
+            "channel_name": "蔡哥",
+            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
+        },
+        {
+            "id": "UUCTbcsUo2Y",
+            "title": "不該追問的嗎？不！！哈哈超好笑",
+            "link": "https://www.youtube.com/watch?v=UUCTbcsUo2Y",
+            "thumbnail": "https://img.youtube.com/vi/UUCTbcsUo2Y/mqdefault.jpg",
+            "published": "2026-05-06 00:00:00",
+            "view_count": 59288,
+            "description": "",
+            "duration": 36,
+            "is_short": false,
+            "channel_name": "蔡哥",
+            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
         },
         {
             "id": "KIyaP_cbYfU",
@@ -9522,19 +9523,6 @@
             "channel_id": "UCDH799ijFMBv_j1RM86hozA"
         },
         {
-            "id": "mFi6_5Nmh5Y",
-            "title": "老化防止に効く！？爆笑と涙のキャンカー飯",
-            "link": "https://www.youtube.com/shorts/mFi6_5Nmh5Y",
-            "thumbnail": "https://img.youtube.com/vi/mFi6_5Nmh5Y/mqdefault.jpg",
-            "published": "2026-05-05 21:53:52",
-            "view_count": 35628,
-            "description": "続きはこちら！\nhttps://youtu.be/_hSESIi1bJI?si=KXq_iUHxt-YiiYfm\n\nチャンネル登録\n@kupiochannel",
-            "duration": 46,
-            "is_short": false,
-            "channel_name": "クピ男の車中生活",
-            "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
-        },
-        {
             "id": "dloebpfMODk",
             "title": "立即卸载！Edge 浏览器爆密码”裸奔”，Chrome是否也中招？漏洞实测及2步紧急防护！| 零度解说",
             "link": "https://www.youtube.com/watch?v=dloebpfMODk",
@@ -9585,19 +9573,6 @@
             "is_short": false,
             "channel_name": "黃小潔Jerry",
             "channel_id": "UCEjplHocsRiH0HmJHxEaZoQ"
-        },
-        {
-            "id": "VX4xfj0JEcQ",
-            "title": "抓！同事們的IG搜尋內容都是什麼怪東西？",
-            "link": "https://www.youtube.com/shorts/VX4xfj0JEcQ",
-            "thumbnail": "https://img.youtube.com/vi/VX4xfj0JEcQ/mqdefault.jpg",
-            "published": "2026-05-05 19:00:51",
-            "view_count": 10243,
-            "description": "",
-            "duration": 76,
-            "is_short": false,
-            "channel_name": "大頭佛工作室",
-            "channel_id": "UCOAdBjPqnxdDHVj88Uv5_2g"
         },
         {
             "id": "HkAFDW0-Jjc",
@@ -9665,19 +9640,6 @@
             "channel_id": "UCnJEWsS5agXCkqIpyHC9Grg"
         },
         {
-            "id": "WRCvkcgWOYU",
-            "title": "《不想上班社畜日常#10》突擊檢查！同事們的IG搜尋內容是什麼怪東西？",
-            "link": "https://www.youtube.com/watch?v=WRCvkcgWOYU",
-            "thumbnail": "https://img.youtube.com/vi/WRCvkcgWOYU/mqdefault.jpg",
-            "published": "2026-05-05 18:00:06",
-            "view_count": 174333,
-            "description": "⚠️訂閱我們：https://url.linkgoods.com/DaTouFo2013\n📍追蹤IG：https://www.instagram.com/bigheadoffice2019\n📍合作信箱：withgalovetaiwan@gm…",
-            "duration": 902,
-            "is_short": false,
-            "channel_name": "大頭佛工作室",
-            "channel_id": "UCOAdBjPqnxdDHVj88Uv5_2g"
-        },
-        {
             "id": "Lh54UyiPr6s",
             "title": "一張票十幾萬！人生第一次看F1！日本鈴鹿賽道VIP包廂體驗，近距離看世界冠軍車手【Joeman】",
             "link": "https://www.youtube.com/watch?v=Lh54UyiPr6s",
@@ -9689,6 +9651,32 @@
             "is_short": false,
             "channel_name": "Joeman",
             "channel_id": "UCPRWWKG0VkBA0Pqa4Jr5j0Q"
+        },
+        {
+            "id": "VX4xfj0JEcQ",
+            "title": "抓！同事們的IG搜尋內容都是什麼怪東西？",
+            "link": "https://www.youtube.com/watch?v=VX4xfj0JEcQ",
+            "thumbnail": "https://img.youtube.com/vi/VX4xfj0JEcQ/mqdefault.jpg",
+            "published": "2026-05-05 00:00:00",
+            "view_count": 10244,
+            "description": "",
+            "duration": 76,
+            "is_short": false,
+            "channel_name": "大頭佛工作室",
+            "channel_id": "UCOAdBjPqnxdDHVj88Uv5_2g"
+        },
+        {
+            "id": "WRCvkcgWOYU",
+            "title": "《不想上班社畜日常#10》突擊檢查！同事們的IG搜尋內容是什麼怪東西？",
+            "link": "https://www.youtube.com/watch?v=WRCvkcgWOYU",
+            "thumbnail": "https://img.youtube.com/vi/WRCvkcgWOYU/mqdefault.jpg",
+            "published": "2026-05-05 00:00:00",
+            "view_count": 174361,
+            "description": "⚠️訂閱我們：https://url.linkgoods.com/DaTouFo2013\n📍追蹤IG：https://www.instagram.com/bigheadoffice2019\n📍合作信箱：withgalovetaiwan@gm…",
+            "duration": 902,
+            "is_short": false,
+            "channel_name": "大頭佛工作室",
+            "channel_id": "UCOAdBjPqnxdDHVj88Uv5_2g"
         },
         {
             "id": "3mBOxQcCMfM",
@@ -9754,6 +9742,19 @@
             "is_short": false,
             "channel_name": "一隻阿圓 I am CIRCLE",
             "channel_id": "UCRm_PQqRwiwA7g8bqCoPH9A"
+        },
+        {
+            "id": "mFi6_5Nmh5Y",
+            "title": "老化防止に効く！？爆笑と涙のキャンカー飯",
+            "link": "https://www.youtube.com/watch?v=mFi6_5Nmh5Y",
+            "thumbnail": "https://img.youtube.com/vi/mFi6_5Nmh5Y/mqdefault.jpg",
+            "published": "2026-05-05 00:00:00",
+            "view_count": 35630,
+            "description": "続きはこちら！\nhttps://youtu.be/_hSESIi1bJI?si=KXq_iUHxt-YiiYfm\n\nチャンネル登録\n@kupiochannel",
+            "duration": 46,
+            "is_short": false,
+            "channel_name": "Kupio lives in his car",
+            "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
             "id": "R4NGEbzKd30",
@@ -9951,19 +9952,6 @@
             "channel_id": "UC9zY_E8mcAo_Oq772LEZq8Q"
         },
         {
-            "id": "12pqvqCJ5Xw",
-            "title": "提姆一日遊:回到蔡哥20年前走跳的台中大爆吃 景物不依舊老常在的鴨血好好吃!!",
-            "link": "https://www.youtube.com/watch?v=12pqvqCJ5Xw",
-            "thumbnail": "https://img.youtube.com/vi/12pqvqCJ5Xw/mqdefault.jpg",
-            "published": "2026-05-04 21:00:06",
-            "view_count": 109021,
-            "description": "老闆帶我們去憶當年\n發現20年的記憶力真的不太靠譜\n但吃的是滿好吃的\n\n這次也有抽獎！！！\n抽到5/11 21:00！！\n\n蔡：能帶夥伴回學校感覺真奇妙...\n（沈牛等他看完我再跟大家說他的反應 嘻嘻）\n\n#提姆一日遊",
-            "duration": 2206,
-            "is_short": false,
-            "channel_name": "蔡哥",
-            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
-        },
-        {
             "id": "fjHhSKLaC5Q",
             "title": "超鼎！不只招牌排骨蛋炒飯，連絲瓜蝦仁湯包都有...這家只要半價，快來朝聖RRR",
             "link": "https://www.youtube.com/watch?v=fjHhSKLaC5Q",
@@ -10066,19 +10054,6 @@
             "is_short": false,
             "channel_name": "曾博恩",
             "channel_id": "UCfcv1yf1JWU_Dftvsql31yg"
-        },
-        {
-            "id": "Fqoh9elERRI",
-            "title": "如果你的相機一起去尬舞｜BinBin 彬導來了",
-            "link": "https://www.youtube.com/shorts/Fqoh9elERRI",
-            "thumbnail": "https://img.youtube.com/vi/Fqoh9elERRI/mqdefault.jpg",
-            "published": "2026-05-04 17:30:07",
-            "view_count": 6044,
-            "description": "If camera were people.\n#相機擬人系列 第11集\n\n※本集節目沒有任何贊助播出，可悲※\n\n請原諒我會發無聊的Reels，\n那是我主要的收入來源嗚嗚嗚😭😭😭\n可以略過但拜託不要退訂，謝謝你們😢\n\n希望你們喜歡這個影片！\n…",
-            "duration": 33,
-            "is_short": false,
-            "channel_name": "BinBin 彬導來了",
-            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
         },
         {
             "id": "zNmwvsNyS1I",
@@ -10198,6 +10173,19 @@
             "channel_id": "UC6Unc9BmBvkWI_YPjGUyoIw"
         },
         {
+            "id": "12pqvqCJ5Xw",
+            "title": "提姆一日遊:回到蔡哥20年前走跳的台中大爆吃 景物不依舊老常在的鴨血好好吃!!",
+            "link": "https://www.youtube.com/watch?v=12pqvqCJ5Xw",
+            "thumbnail": "https://img.youtube.com/vi/12pqvqCJ5Xw/mqdefault.jpg",
+            "published": "2026-05-04 00:00:00",
+            "view_count": 109021,
+            "description": "老闆帶我們去憶當年\n發現20年的記憶力真的不太靠譜\n但吃的是滿好吃的\n\n這次也有抽獎！！！\n抽到5/11 21:00！！\n\n蔡：能帶夥伴回學校感覺真奇妙...\n（沈牛等他看完我再跟大家說他的反應 嘻嘻）\n\n#提姆一日遊",
+            "duration": 2206,
+            "is_short": false,
+            "channel_name": "蔡哥",
+            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
+        },
+        {
             "id": "jaEhHXyrPZs",
             "title": "香港必吃我杯茶",
             "link": "https://www.youtube.com/watch?v=jaEhHXyrPZs",
@@ -10222,6 +10210,19 @@
             "is_short": false,
             "channel_name": "火力就是正義（資訊頻道）",
             "channel_id": "UCaeVLOs0GY_fPoy8rfjnBcQ"
+        },
+        {
+            "id": "Fqoh9elERRI",
+            "title": "如果你的相機一起去尬舞｜BinBin 彬導來了",
+            "link": "https://www.youtube.com/watch?v=Fqoh9elERRI",
+            "thumbnail": "https://img.youtube.com/vi/Fqoh9elERRI/mqdefault.jpg",
+            "published": "2026-05-04 00:00:00",
+            "view_count": 6043,
+            "description": "If camera were people.\n#相機擬人系列 第11集\n\n※本集節目沒有任何贊助播出，可悲※\n\n請原諒我會發無聊的Reels，\n那是我主要的收入來源嗚嗚嗚😭😭😭\n可以略過但拜託不要退訂，謝謝你們😢\n\n希望你們喜歡這個影片！\n…",
+            "duration": 33,
+            "is_short": false,
+            "channel_name": "BinBin 彬導來了",
+            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
         },
         {
             "id": "o4BN6OLYZxQ",
@@ -10419,19 +10420,6 @@
             "channel_id": "UCvijahEyGtvMpmMHBu4FS2w"
         },
         {
-            "id": "_O8Ruk2SI4I",
-            "title": "🇹🇭泰國7-11超誠實開箱！爆買20樣試吃🤩杜拜巧克力之亂、酸辣米漢堡、豬腳飯、好喝泰奶",
-            "link": "https://www.youtube.com/watch?v=_O8Ruk2SI4I",
-            "thumbnail": "https://img.youtube.com/vi/_O8Ruk2SI4I/mqdefault.jpg",
-            "published": "2026-05-03 21:00:06",
-            "view_count": 19145,
-            "description": "哈囉大家❤️\n本週新片來開箱🇹🇭最新的7-11新品！\n最近杜拜巧克力系列，產品多到一個不行...\n終於可以借拍片之名，全部買來吃吃看了😝\n\n來這裡找我玩❣️https://www.instagram.com/amberleeee35/\n-\n…",
-            "duration": 1110,
-            "is_short": false,
-            "channel_name": "Amber Lee",
-            "channel_id": "UCyIeG42FdoVOZMfSvFx2ZAA"
-        },
-        {
             "id": "FuARaT8E6F0",
             "title": "科學家算出宇宙\"死期\"：還剩200億年 | 雅桑了嗎",
             "link": "https://www.youtube.com/shorts/FuARaT8E6F0",
@@ -10560,6 +10548,19 @@
             "is_short": false,
             "channel_name": "网文课代表",
             "channel_id": "UC-M_esaypacqex3-_ivveuQ"
+        },
+        {
+            "id": "_O8Ruk2SI4I",
+            "title": "🇹🇭泰國7-11超誠實開箱！爆買20樣試吃🤩杜拜巧克力之亂、酸辣米漢堡、豬腳飯、好喝泰奶",
+            "link": "https://www.youtube.com/watch?v=_O8Ruk2SI4I",
+            "thumbnail": "https://img.youtube.com/vi/_O8Ruk2SI4I/mqdefault.jpg",
+            "published": "2026-05-03 00:00:00",
+            "view_count": 19148,
+            "description": "哈囉大家❤️\n本週新片來開箱🇹🇭最新的7-11新品！\n最近杜拜巧克力系列，產品多到一個不行...\n終於可以借拍片之名，全部買來吃吃看了😝\n\n來這裡找我玩❣️https://www.instagram.com/amberleeee35/\n-\n…",
+            "duration": 1110,
+            "is_short": false,
+            "channel_name": "Amber Lee",
+            "channel_id": "UCyIeG42FdoVOZMfSvFx2ZAA"
         },
         {
             "id": "UU_UVaQtqrU",
@@ -10887,19 +10888,6 @@
             "channel_id": "UCvcZO0cvDT3rzKtfakL3R5Q"
         },
         {
-            "id": "Zn4Gi8g4DaM",
-            "title": "優質蔡哥即將回歸",
-            "link": "https://www.youtube.com/shorts/Zn4Gi8g4DaM",
-            "thumbnail": "https://img.youtube.com/vi/Zn4Gi8g4DaM/mqdefault.jpg",
-            "published": "2026-05-02 19:32:23",
-            "view_count": 13002,
-            "description": "",
-            "duration": 64,
-            "is_short": false,
-            "channel_name": "蔡哥",
-            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
-        },
-        {
             "id": "P004UCMtQf0",
             "title": "這個潛點真的叫『皮卡丘洞』⭐️🫧📍在沖繩～超級可愛OMG #travel #ocean #memes #pokemon #cute",
             "link": "https://www.youtube.com/shorts/P004UCMtQf0",
@@ -10988,19 +10976,6 @@
             "is_short": false,
             "channel_name": "胡子Huzi",
             "channel_id": "UC9YOQFPfEUXbulKDtxeqqBA"
-        },
-        {
-            "id": "aIhm1jGYuoI",
-            "title": "【総集編】暴風雪30m、遭難危機。水漏れ故障。15年落ちキャンピングカー5日間雪中車中泊",
-            "link": "https://www.youtube.com/watch?v=aIhm1jGYuoI",
-            "thumbnail": "https://img.youtube.com/vi/aIhm1jGYuoI/mqdefault.jpg",
-            "published": "2026-05-02 16:57:00",
-            "view_count": 161021,
-            "description": "中古キャンピングカー冬の5長野新潟車中生活。無料の公園や駐車場を中心に回りました。\n4日目に最悪のトラブルが発生しました。\n\nこの動画は字幕ボタン・CCボタンを押すと横文字フルテロップでお楽しみいただけます。\nTap the CC butt…",
-            "duration": 10785,
-            "is_short": false,
-            "channel_name": "クピ男の車中生活",
-            "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
             "id": "JAWgeW4_1Zc",
@@ -11120,6 +11095,19 @@
             "channel_id": "UCLW_SzI9txZvtOFTPDswxqg"
         },
         {
+            "id": "Zn4Gi8g4DaM",
+            "title": "優質蔡哥即將回歸",
+            "link": "https://www.youtube.com/watch?v=Zn4Gi8g4DaM",
+            "thumbnail": "https://img.youtube.com/vi/Zn4Gi8g4DaM/mqdefault.jpg",
+            "published": "2026-05-02 00:00:00",
+            "view_count": 13002,
+            "description": "",
+            "duration": 64,
+            "is_short": false,
+            "channel_name": "蔡哥",
+            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
+        },
+        {
             "id": "ZJathZk7-1s",
             "title": "瑪利歐閒聊花花開箱",
             "link": "https://www.youtube.com/watch?v=ZJathZk7-1s",
@@ -11131,6 +11119,19 @@
             "is_short": false,
             "channel_name": "一隻阿圓 I am CIRCLE",
             "channel_id": "UCRm_PQqRwiwA7g8bqCoPH9A"
+        },
+        {
+            "id": "aIhm1jGYuoI",
+            "title": "【総集編】暴風雪30m、遭難危機。水漏れ故障。15年落ちキャンピングカー5日間雪中車中泊",
+            "link": "https://www.youtube.com/watch?v=aIhm1jGYuoI",
+            "thumbnail": "https://img.youtube.com/vi/aIhm1jGYuoI/mqdefault.jpg",
+            "published": "2026-05-02 00:00:00",
+            "view_count": 161023,
+            "description": "中古キャンピングカー冬の5長野新潟車中生活。無料の公園や駐車場を中心に回りました。\n4日目に最悪のトラブルが発生しました。\n\nこの動画は字幕ボタン・CCボタンを押すと横文字フルテロップでお楽しみいただけます。\nTap the CC butt…",
+            "duration": 10785,
+            "is_short": false,
+            "channel_name": "Kupio lives in his car",
+            "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
             "id": "5vpmFmaMu0E",
@@ -11601,19 +11602,6 @@
             "channel_id": "UCnJEWsS5agXCkqIpyHC9Grg"
         },
         {
-            "id": "5-4vEX_03Hg",
-            "title": "幫行李定位可以解決87%的煩惱。｜BinBin 彬導來了",
-            "link": "https://www.youtube.com/shorts/5-4vEX_03Hg",
-            "thumbnail": "https://img.youtube.com/vi/5-4vEX_03Hg/mqdefault.jpg",
-            "published": "2026-05-01 17:30:01",
-            "view_count": 3094,
-            "description": "※本集節目沒有任何贊助播出，可悲※\n\n希望全世界知道！幫行李定位可以解決87%的煩惱。\n（不保證找回來，但就是更有機會找回來！）\n#行李遺失 #行李掛失 #行李弄丟 #行李被偷 \n祝大家行李都不會掉🥹\n\n請原諒我會發無聊的Reels，\n那是…",
-            "duration": 47,
-            "is_short": false,
-            "channel_name": "BinBin 彬導來了",
-            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
-        },
-        {
             "id": "DIOeQJU8a7Q",
             "title": "【今天吃回本#181】挑戰日本料理吃到飽！一人859元生魚片、串燒、炸物、烤物、熱炒、火鍋、拉麵、甜點無限吃能吃多少！？",
             "link": "https://www.youtube.com/watch?v=DIOeQJU8a7Q",
@@ -11783,6 +11771,19 @@
             "channel_id": "UCaeVLOs0GY_fPoy8rfjnBcQ"
         },
         {
+            "id": "5-4vEX_03Hg",
+            "title": "幫行李定位可以解決87%的煩惱。｜BinBin 彬導來了",
+            "link": "https://www.youtube.com/watch?v=5-4vEX_03Hg",
+            "thumbnail": "https://img.youtube.com/vi/5-4vEX_03Hg/mqdefault.jpg",
+            "published": "2026-05-01 00:00:00",
+            "view_count": 3095,
+            "description": "※本集節目沒有任何贊助播出，可悲※\n\n希望全世界知道！幫行李定位可以解決87%的煩惱。\n（不保證找回來，但就是更有機會找回來！）\n#行李遺失 #行李掛失 #行李弄丟 #行李被偷 \n祝大家行李都不會掉🥹\n\n請原諒我會發無聊的Reels，\n那是…",
+            "duration": 47,
+            "is_short": false,
+            "channel_name": "BinBin 彬導來了",
+            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
+        },
+        {
             "id": "dDz0YzSsBd4",
             "title": "【上伊那牡丹，醉姿如百合】第04話預告｜Muse木棉花",
             "link": "https://www.youtube.com/watch?v=dDz0YzSsBd4",
@@ -11950,19 +11951,6 @@
             "is_short": false,
             "channel_name": "绵羊料理",
             "channel_id": "UCiAuybSv94YrdXhrGECtAxQ"
-        },
-        {
-            "id": "SFD3PGzYcBs",
-            "title": "我的側臉怎麼了",
-            "link": "https://www.youtube.com/shorts/SFD3PGzYcBs",
-            "thumbnail": "https://img.youtube.com/vi/SFD3PGzYcBs/mqdefault.jpg",
-            "published": "2026-04-30 18:33:03",
-            "view_count": 21033,
-            "description": "",
-            "duration": 64,
-            "is_short": false,
-            "channel_name": "蔡哥",
-            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
         },
         {
             "id": "V6KBCaB1grA",
@@ -12158,6 +12146,19 @@
             "is_short": false,
             "channel_name": "面白大丈夫",
             "channel_id": "UC6Unc9BmBvkWI_YPjGUyoIw"
+        },
+        {
+            "id": "SFD3PGzYcBs",
+            "title": "我的側臉怎麼了",
+            "link": "https://www.youtube.com/watch?v=SFD3PGzYcBs",
+            "thumbnail": "https://img.youtube.com/vi/SFD3PGzYcBs/mqdefault.jpg",
+            "published": "2026-04-30 00:00:00",
+            "view_count": 21033,
+            "description": "",
+            "duration": 64,
+            "is_short": false,
+            "channel_name": "蔡哥",
+            "channel_id": "UCCSZ1P-Gas8IIgzXAwV0YFA"
         },
         {
             "id": "R1K-ODth5RU",
@@ -12511,19 +12512,6 @@
             "channel_id": "UC8LCkeaTXk8ONRTFJ8b6klw"
         },
         {
-            "id": "97L1u-exep0",
-            "title": "為什麼要說憑什麼！？#趴case教父 #假Podcast系列  ｜BinBin 彬導來了",
-            "link": "https://www.youtube.com/shorts/97L1u-exep0",
-            "thumbnail": "https://img.youtube.com/vi/97L1u-exep0/mqdefault.jpg",
-            "published": "2026-04-29 17:30:06",
-            "view_count": 4437,
-            "description": "※本集節目沒有任何贊助播出，可悲※\n\n請原諒我會發無聊的Reels，\n那是我主要的收入來源嗚嗚嗚😭😭😭\n可以略過但拜託不要退訂，謝謝你們😢\n\n希望你們喜歡這個影片！\n喜歡的話請幫我訂閱分享，也可以留言告訴我唷！\n　\n⭐️訂閱我的YouTub…",
-            "duration": 18,
-            "is_short": false,
-            "channel_name": "BinBin 彬導來了",
-            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
-        },
-        {
             "id": "kjImYcvaYbc",
             "title": "【今天吃回本#180】挑戰鳥貴族吃到飽！一人899元串燒、炸物、牡蠣、釜飯、甜點無限吃能吃多少！？",
             "link": "https://www.youtube.com/watch?v=kjImYcvaYbc",
@@ -12659,7 +12647,7 @@
             "link": "https://www.youtube.com/watch?v=sDFlTeegBQk",
             "thumbnail": "https://img.youtube.com/vi/sDFlTeegBQk/mqdefault.jpg",
             "published": "2026-04-29 00:00:00",
-            "view_count": 5688,
+            "view_count": 5706,
             "description": "今天我很帥\n你也還不賴(單押X1)\nhttps://discord.gg/fjfxajceGA\nDC",
             "duration": 4392,
             "is_short": false,
@@ -12672,7 +12660,7 @@
             "link": "https://www.youtube.com/watch?v=oud6YyzDvpk",
             "thumbnail": "https://img.youtube.com/vi/oud6YyzDvpk/mqdefault.jpg",
             "published": "2026-04-29 00:00:00",
-            "view_count": 111931,
+            "view_count": 111941,
             "description": "",
             "duration": 23,
             "is_short": false,
@@ -12730,6 +12718,19 @@
             "is_short": false,
             "channel_name": "火力就是正義（資訊頻道）",
             "channel_id": "UCaeVLOs0GY_fPoy8rfjnBcQ"
+        },
+        {
+            "id": "97L1u-exep0",
+            "title": "為什麼要說憑什麼！？#趴case教父 #假Podcast系列  ｜BinBin 彬導來了",
+            "link": "https://www.youtube.com/watch?v=97L1u-exep0",
+            "thumbnail": "https://img.youtube.com/vi/97L1u-exep0/mqdefault.jpg",
+            "published": "2026-04-29 00:00:00",
+            "view_count": 4437,
+            "description": "※本集節目沒有任何贊助播出，可悲※\n\n請原諒我會發無聊的Reels，\n那是我主要的收入來源嗚嗚嗚😭😭😭\n可以略過但拜託不要退訂，謝謝你們😢\n\n希望你們喜歡這個影片！\n喜歡的話請幫我訂閱分享，也可以留言告訴我唷！\n　\n⭐️訂閱我的YouTub…",
+            "duration": 18,
+            "is_short": false,
+            "channel_name": "BinBin 彬導來了",
+            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
         },
         {
             "id": "Yt3cwOHikt4",
@@ -12992,19 +12993,6 @@
             "channel_id": "UCvcZO0cvDT3rzKtfakL3R5Q"
         },
         {
-            "id": "DnTZQKB8EkI",
-            "title": "矮袋鼠怎麼拍 跳傘超後悔？空拍必知的app #Perth #Quokka #珀斯 ｜BinBin 彬導來了",
-            "link": "https://www.youtube.com/watch?v=DnTZQKB8EkI",
-            "thumbnail": "https://img.youtube.com/vi/DnTZQKB8EkI/mqdefault.jpg",
-            "published": "2026-04-28 19:00:20",
-            "view_count": 1213,
-            "description": "※本集節目沒有任何贊助播出，可悲※\n\n－－－－－－\n主相機 Main Cam：iPhone 17 Pro (90%)\n空拍機 Drone：Antigravity A1 (10%)\n麥克風 Microphone：Hollyland Lark …",
-            "duration": 812,
-            "is_short": false,
-            "channel_name": "BinBin 彬導來了",
-            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
-        },
-        {
             "id": "UgbTyPJMPgE",
             "title": "大支旅遊勇闖越南日本街　250萬越南盾無限暢飲？！【超派人生】",
             "link": "https://www.youtube.com/watch?v=UgbTyPJMPgE",
@@ -13165,7 +13153,7 @@
             "link": "https://www.youtube.com/watch?v=MIVGuOwfcl0",
             "thumbnail": "https://img.youtube.com/vi/MIVGuOwfcl0/mqdefault.jpg",
             "published": "2026-04-28 00:00:00",
-            "view_count": 12944,
+            "view_count": 12948,
             "description": "",
             "duration": 92,
             "is_short": false,
@@ -13197,6 +13185,19 @@
             "is_short": false,
             "channel_name": "火力就是正義（資訊頻道）",
             "channel_id": "UCaeVLOs0GY_fPoy8rfjnBcQ"
+        },
+        {
+            "id": "DnTZQKB8EkI",
+            "title": "矮袋鼠怎麼拍 跳傘超後悔？空拍必知的app #Perth #Quokka #珀斯 ｜BinBin 彬導來了",
+            "link": "https://www.youtube.com/watch?v=DnTZQKB8EkI",
+            "thumbnail": "https://img.youtube.com/vi/DnTZQKB8EkI/mqdefault.jpg",
+            "published": "2026-04-28 00:00:00",
+            "view_count": 1213,
+            "description": "※本集節目沒有任何贊助播出，可悲※\n\n－－－－－－\n主相機 Main Cam：iPhone 17 Pro (90%)\n空拍機 Drone：Antigravity A1 (10%)\n麥克風 Microphone：Hollyland Lark …",
+            "duration": 812,
+            "is_short": false,
+            "channel_name": "BinBin 彬導來了",
+            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
         },
         {
             "id": "jYaoF3JVLgQ",
@@ -13459,19 +13460,6 @@
             "channel_id": "UCfcv1yf1JWU_Dftvsql31yg"
         },
         {
-            "id": "dpbyl33gVwA",
-            "title": "如果你的相機一起去健身 If camera were people. #相機擬人系列 第10集｜BinBin 彬導來了",
-            "link": "https://www.youtube.com/shorts/dpbyl33gVwA",
-            "thumbnail": "https://img.youtube.com/vi/dpbyl33gVwA/mqdefault.jpg",
-            "published": "2026-04-27 17:30:16",
-            "view_count": 5200,
-            "description": "※本集節目沒有任何贊助播出，可悲※\n\n請原諒我會發無聊的Reels，\n那是我主要的收入來源嗚嗚嗚😭😭😭\n可以略過但拜託不要退訂，謝謝你們😢\n\n希望你們喜歡這個影片！\n喜歡的話請幫我訂閱分享，也可以留言告訴我唷！\n　\n⭐️訂閱我的YouTub…",
-            "duration": 58,
-            "is_short": false,
-            "channel_name": "BinBin 彬導來了",
-            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
-        },
-        {
             "id": "GZYnZrfpQfY",
             "title": "【新品吃什麼#309】全家近期超夯的美食開箱！花了600元我最推薦必吃的是..！？",
             "link": "https://www.youtube.com/watch?v=GZYnZrfpQfY",
@@ -13581,7 +13569,7 @@
             "link": "https://www.youtube.com/watch?v=Duh2Uulp0H8",
             "thumbnail": "https://img.youtube.com/vi/Duh2Uulp0H8/mqdefault.jpg",
             "published": "2026-04-27 00:00:00",
-            "view_count": 51793,
+            "view_count": 51827,
             "description": "趁著東京新國立競技場三場的中間上一部片\n-\n哈哈哈哈哈\n一起隔空心在!!\n-\n這次影片有更大篇幅的街訪\n其實面對超大群的陌生人\n我是很緊張\n但好險\n真的好險有跟大家聊聊天\n發我的小卡\n-\n除了超好笑以外\n發現大家在分享自己本命\n那個人格切換…",
             "duration": 1268,
             "is_short": false,
@@ -13600,6 +13588,19 @@
             "is_short": false,
             "channel_name": "火力就是正義（資訊頻道）",
             "channel_id": "UCaeVLOs0GY_fPoy8rfjnBcQ"
+        },
+        {
+            "id": "dpbyl33gVwA",
+            "title": "如果你的相機一起去健身 If camera were people. #相機擬人系列 第10集｜BinBin 彬導來了",
+            "link": "https://www.youtube.com/watch?v=dpbyl33gVwA",
+            "thumbnail": "https://img.youtube.com/vi/dpbyl33gVwA/mqdefault.jpg",
+            "published": "2026-04-27 00:00:00",
+            "view_count": 5209,
+            "description": "※本集節目沒有任何贊助播出，可悲※\n\n請原諒我會發無聊的Reels，\n那是我主要的收入來源嗚嗚嗚😭😭😭\n可以略過但拜託不要退訂，謝謝你們😢\n\n希望你們喜歡這個影片！\n喜歡的話請幫我訂閱分享，也可以留言告訴我唷！\n　\n⭐️訂閱我的YouTub…",
+            "duration": 58,
+            "is_short": false,
+            "channel_name": "BinBin 彬導來了",
+            "channel_id": "UCcw-gog5uQO-M4gX64XIYQw"
         },
         {
             "id": "MP2HXvZe-GM",
@@ -13678,19 +13679,6 @@
             "is_short": false,
             "channel_name": "PAPAYA 電腦教室",
             "channel_id": "UCdEpz2A4DzV__4C1x2quKLw"
-        },
-        {
-            "id": "8OQOznzlAR8",
-            "title": "🏝️芭達雅Pattaya🌞全部都是新地方！米其林推薦海鮮🦀最新平價飯店、飽覽海景餐廳、當地人瘋搶的美食🍰",
-            "link": "https://www.youtube.com/watch?v=8OQOznzlAR8",
-            "thumbnail": "https://img.youtube.com/vi/8OQOznzlAR8/mqdefault.jpg",
-            "published": "2026-04-26 21:00:06",
-            "view_count": 22974,
-            "description": "來這裡找我玩❣️  / amberleeee35  \n\n📍所有店家地址\n\nDay1\n飯店 Samsara Hotel Pattaya\n576, 15 หมู่ที่ 10 Pattaya 3rd Rd, ตำบล หนองปรือ, Ban…",
-            "duration": 1275,
-            "is_short": false,
-            "channel_name": "Amber Lee",
-            "channel_id": "UCyIeG42FdoVOZMfSvFx2ZAA"
         },
         {
             "id": "mVcx52SF6bw",
@@ -13808,6 +13796,19 @@
             "is_short": false,
             "channel_name": "网文课代表",
             "channel_id": "UC-M_esaypacqex3-_ivveuQ"
+        },
+        {
+            "id": "8OQOznzlAR8",
+            "title": "🏝️芭達雅Pattaya🌞全部都是新地方！米其林推薦海鮮🦀最新平價飯店、飽覽海景餐廳、當地人瘋搶的美食🍰",
+            "link": "https://www.youtube.com/watch?v=8OQOznzlAR8",
+            "thumbnail": "https://img.youtube.com/vi/8OQOznzlAR8/mqdefault.jpg",
+            "published": "2026-04-26 00:00:00",
+            "view_count": 22974,
+            "description": "來這裡找我玩❣️  / amberleeee35  \n\n📍所有店家地址\n\nDay1\n飯店 Samsara Hotel Pattaya\n576, 15 หมู่ที่ 10 Pattaya 3rd Rd, ตำบล หนองปรือ, Ban…",
+            "duration": 1275,
+            "is_short": false,
+            "channel_name": "Amber Lee",
+            "channel_id": "UCyIeG42FdoVOZMfSvFx2ZAA"
         },
         {
             "id": "S6Aysf1iE8I",
@@ -14070,19 +14071,6 @@
             "channel_id": "UCd7fHegaYXVH62rCvgnEYKQ"
         },
         {
-            "id": "ScIU7bFdQEM",
-            "title": "【車中泊】雨の車内で引きこもってゲーム三昧する48歳",
-            "link": "https://www.youtube.com/watch?v=ScIU7bFdQEM",
-            "thumbnail": "https://img.youtube.com/vi/ScIU7bFdQEM/mqdefault.jpg",
-            "published": "2026-04-25 17:00:41",
-            "view_count": 401114,
-            "description": "何もかもうまくいかない、気分の晴れない日は海へ。\n絶景の海辺に来たのに、あえて一歩も外に出ない「48歳の現実逃避」の記録です。\n\n雨音と波の音をBGMに、極小の軽キャンピングカーを自分だけのゲーミング部屋にしてレトロゲーム三昧。富山湾の新鮮…",
-            "duration": 2322,
-            "is_short": false,
-            "channel_name": "クピ男の車中生活",
-            "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
-        },
-        {
             "id": "S9l0dGa9OLg",
             "title": "用陽光炒菜？這個太陽爐似乎有點意思🌞【胡買海開】",
             "link": "https://www.youtube.com/watch?v=S9l0dGa9OLg",
@@ -14224,6 +14212,19 @@
             "is_short": false,
             "channel_name": "一隻阿圓 I am CIRCLE",
             "channel_id": "UCRm_PQqRwiwA7g8bqCoPH9A"
+        },
+        {
+            "id": "ScIU7bFdQEM",
+            "title": "【車中泊】雨の車内で引きこもってゲーム三昧する48歳",
+            "link": "https://www.youtube.com/watch?v=ScIU7bFdQEM",
+            "thumbnail": "https://img.youtube.com/vi/ScIU7bFdQEM/mqdefault.jpg",
+            "published": "2026-04-25 00:00:00",
+            "view_count": 401114,
+            "description": "何もかもうまくいかない、気分の晴れない日は海へ。\n絶景の海辺に来たのに、あえて一歩も外に出ない「48歳の現実逃避」の記録です。\n\n雨音と波の音をBGMに、極小の軽キャンピングカーを自分だけのゲーミング部屋にしてレトロゲーム三昧。富山湾の新鮮…",
+            "duration": 2322,
+            "is_short": false,
+            "channel_name": "Kupio lives in his car",
+            "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
             "id": "y61mibTMF6w",
@@ -16440,7 +16441,7 @@
             "description": "15年落ちの古い車を大改良！\nホテルより快適な「動く家」にして、家族3人で大阪5日間の無料車中生活に行ってきました。\n\n■今回の見どころ＆リアルな実態🛠\n・キャンピングカーの天敵「雨漏り」完全修理！\n・念願の電動ファン＆大容量ソーラー650…",
             "duration": 3662,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -18643,7 +18644,7 @@
             "description": "GS customの新型キャンピングカー、税込930万円で納車まで1ヶ月半。しまなみ海道を車中泊旅しながら、料理・シャワー・高速走行まで全部ガチ検証。キャンピングカー購入を検討している方は必見です。\n\n前回の内外装紹介はこちら→https:…",
             "duration": 2847,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -20886,7 +20887,7 @@
             "description": "四国にあるGS custom【納期1.5ヶ月】2WD・4WDともに今なら在庫あり！\n 他社なら1300万超えの【800Ah超大容量バッテリー】を標準搭載して930万円。\nキャンピングカー界の常識をぶっ壊す、GSカスタムの新型キャブコンを忖度…",
             "duration": 2347,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -23506,7 +23507,7 @@
             "description": "今回は17日間、約400時間に及ぶ過酷な出張車中生活の全記録です。\n\n軽自動車をホテル代わりにして快適に過ごすはずが…まさかの39度の高熱でダウン。さらに良かれと思ってやった「電子レンジ撤去」の激しい後悔や、走行充電のトラブルなど、想定外の…",
             "duration": 3522,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -25934,7 +25935,7 @@
             "description": "今回はトイファクトリーさんから、約2000万円の高級キャンピングカー「デュカトベース ETRUSCO（エトルスコ）」をお借りしてリアルな車中生活をしてきました！\n全長約7mの巨大な車体での運転や、最新設備の使い勝手など、48歳のおっさんが忖…",
             "duration": 3066,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -28647,7 +28648,7 @@
             "description": "エムズアートさんの新型NV200キャンピングカー改良モデルで車中泊してきました。\n10点ほど改良された極小空間を体験し気になったデメリット7つメリット3つをお伝えします。\n\nエムズアートさん\nhttps://msart-net.jp/\n\nこ…",
             "duration": 2927,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -31075,7 +31076,7 @@
             "description": "中古キャンピングカーで冬の車中生活。\n無料駐車場を転々としながら5日間の車中泊旅をする48歳おっさんのリアル。\n車中泊の生活、冬の車中泊の過ごし方、キャンピングカー旅の様子を記録しています。\n\n今回の動画は未公開にしていた冬の動画になります…",
             "duration": 2105,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -33905,7 +33906,7 @@
             "description": "北海道での7日間にわたる極寒車中泊旅でキャンピングカに対する価値観がガラッと変わりました。その一部始終を記録しました。\n最終日の帰路、突然の吹雪に見舞われ、除雪が間に合わない中、車は一瞬で雪に埋もれていきました。\n今回の旅の費用も公開してお…",
             "duration": 4048,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -35231,7 +35232,7 @@
             "description": "ハッピー1ターボが進化しました。\n変更点を撮影してきました。\nこれはバカ売れ確定ですね！\nまた需要がありましたら車中泊動画も撮影してきます！\n\nJP STAR\nhttps://jpstar-aichi.com/\n\nこの動画は字幕ボタン・CC…",
             "duration": 538,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -36398,7 +36399,7 @@
             "description": "北海道・陸別で−27.5℃を記録。観測史上最低−38.2℃の町で、軽キャンピングカー車中泊に挑戦。暖房を切った車内は何度まで下がるのか？水やドアは凍るのか？極寒のリアルを記録します。\n\n「軽キャン北海道極寒車中生活#3」 https://y…",
             "duration": 3388,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -38318,7 +38319,7 @@
             "description": "無謀な挑戦が始まりました。軽キャンピングカーを-20℃極寒仕様にして真冬の北海道車中泊旅に挑みます。\nフェリーは大揺れ、いきなり通行止め、と波乱の予感。\n初日はキャンプ場で友達YouTuber、旅家さん、Dentanさんとそれぞれソロ車中泊…",
             "duration": 3194,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -40784,7 +40785,7 @@
             "description": "【動画あらすじ】 富山県の大雪警報下、軽キャンピングカー（インディ727）で雪中車中泊。 一晩で100cmの積雪。静寂の中で車が雪に埋没していく「静かな恐怖」を記録しました。\n\n外気温は氷点下6度。 FFヒーターの排気口が雪で埋まるリスクや…",
             "duration": 3257,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -42783,7 +42784,7 @@
             "description": "毎年家族恒例のスキー場車中泊。雷に大雪警報、暴風警報、と天気は大荒れ。\n14年落ちキャンピングカー　バンテックジル520から新たなトラブルも発生しました。\n\nこの動画は字幕ボタン・CCボタンを押すと横文字フルテロップでお楽しみいただけます。…",
             "duration": 3477,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -44740,7 +44741,7 @@
             "description": "【閲覧注意】まさか自分の誕生日が、このような形になるとは思いませんでした。 本州で一番寒い場所と言われる極寒の地で車中泊。 朝起きて仕事へ向かう途中、一瞬の出来事でした。\n\n今回の動画は、雪山での車中泊の様子と、その翌朝に起きた単独事故の一…",
             "duration": 2919,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -46739,7 +46740,7 @@
             "description": "真冬の北陸信越を巡る、4日間の車中泊旅に出ました。\nJPCZが突き刺さり、過去一レベルの重量級積雪に遭遇。\n\n水分を多く含んだ重たい雪で、一晩で車が埋没。\nワイパーが曲がるほどの雪でした。\n\n断熱塗装の効果検証、ガス暖房の実使用テスト、\n密…",
             "duration": 3483,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -48543,7 +48544,7 @@
             "description": "車検に困っていたインディ727に富山ダイハツさんが救いの手を差し伸べてくれました。\n走行出来るようになり早速雪山へ。\nしかしタイヤバルブトラブルや忘れ物もあり、一筋縄では行かない旅になってしまいました。\n\nこの動画は字幕ボタン・CCボタンを…",
             "duration": 3099,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -50230,7 +50231,7 @@
             "description": "insta今回の内容👇\n・軽キャンピングカーをラバーチッピング(ラプター)で全塗装\n・郵便局カラーになって公道走行してわかったこと\n・断熱性能は本当に上がるのか？\n・車検は問題なく通る？\n・寒冷地仕様（バッテリー／下回り／シェード）\n・ソー…",
             "duration": 1870,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -50243,7 +50244,7 @@
             "description": "70cm of snow in one night! 😱\nThis is the reality of living in Toyama, Japan. My car completely disappeared under the sno…",
             "duration": 73,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -52115,7 +52116,7 @@
             "description": "強力5層断熱、ソーラーパネル445w、600Ahリチウム、大容量収納、レンジフード付きキッチン、常設換気扇、ポータブルクーラー、(12Vクーラー)家具を一枚板にし理想を形にした軽キャンピングカーが完成しました！\n\n◆動画チャプター\n00:0…",
             "duration": 14701,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -54148,7 +54149,7 @@
             "description": "冬の長野新潟車中生活5日目。\n最悪のトラブルが発生しました。\n雪国足回り洗浄も最後に動画にしております。\n\n※動画内でマルチドグリルと言っていますが正しくはマルチグリドルです。\n\n前回の動画\n「-6℃暴風雪中泊 | 遭難危機。街の公園で孤立…",
             "duration": 3562,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -54731,7 +54732,7 @@
             "description": "Surviving -6°C Blizzard in a Japanese Camper Van ❄️🇯🇵\n\n#vanlife #japan #campervan #wintercamping #blizzard #survival #as…",
             "duration": 45,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -56053,7 +56054,7 @@
             "description": "氷点下の冷たい強風が吹きました。瞬間的な突風はもう30mクラスだったと思います。\n今年の雪は狂っています。\n\n◆続きの動画\nhttps://youtu.be/2e2HwXaobrU\n\nこの動画は字幕ボタン・CCボタンを押すと横文字フルテロッ…",
             "duration": 2820,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -57219,7 +57220,7 @@
             "description": "Outside -4°C Blizzard, but inside the camper van, it's cozy heaven with hot Japanese Oden! This is real winter van life …",
             "duration": 14,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -57903,7 +57904,7 @@
             "description": "今回は、冬の北陸・信越エリアの渓谷で車中泊。\n1週間ほどの車中生活予定です。\nキャンピングカージル520の冬支度、タイヤ交換なども撮影しました。\n\nこの動画は字幕ボタン・CCボタンを押すと横文字フルテロップでお楽しみいただけます。\nTap …",
             "duration": 2430,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
@@ -59937,7 +59938,7 @@
             "description": "キャンピングカーは14年落ちのバンテックジル520ディーゼルターボ4WDです。\n\nこの動画は字幕ボタン・CCボタンを押すと横文字フルテロップでお楽しみいただけます。\nTap the CC button.Translated subtitle…",
             "duration": 3074,
             "is_short": false,
-            "channel_name": "クピ男の車中生活",
+            "channel_name": "Kupio lives in his car",
             "channel_id": "UC9s5obQcNlZzuBTKqmRqHag"
         },
         {
