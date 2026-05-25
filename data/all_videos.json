@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-05-25 22:52:18",
+    "generated_at": "2026-05-25 22:52:30",
     "total": 4725,
     "videos": [
         {
@@ -10,7 +10,8 @@
             "published": "2026-05-25 22:27:29",
             "view_count": 260,
             "description": "",
-            "duration": 0,
+            "duration": 77,
+            "is_short": false,
             "channel_name": "一隻阿圓 I am CIRCLE",
             "channel_id": "UCRm_PQqRwiwA7g8bqCoPH9A"
         },
