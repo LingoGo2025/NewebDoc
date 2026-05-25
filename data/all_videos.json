@@ -1,5 +1,5 @@
 {
-    "generated_at": "2026-05-25 10:00:06",
+    "generated_at": "2026-05-25 10:00:10",
     "total": 4692,
     "videos": [
         {
@@ -10,7 +10,8 @@
             "published": "2026-05-25 08:16:24",
             "view_count": 773,
             "description": "【德國安全剪刀、工程筆、撥線器團購】\n📍 團購時間：5/21-6/4\n📍 下單連結：https://portaly.cc/imserious",
-            "duration": 0,
+            "duration": 2,
+            "is_short": false,
             "channel_name": "超認真少年Imserious",
             "channel_id": "UCckzc03-ycrpB1XIUfRhpnw"
         },
@@ -34,7 +35,8 @@
             "published": "2026-05-24 23:46:19",
             "view_count": 7798,
             "description": "",
-            "duration": 0,
+            "duration": 2194,
+            "is_short": false,
             "channel_name": "千千進食中",
             "channel_id": "UC9i2Qgd5lizhVgJrdnxunKw"
         },
@@ -46,7 +48,8 @@
             "published": "2026-05-24 23:05:17",
             "view_count": 15072,
             "description": "",
-            "duration": 0,
+            "duration": 3296,
+            "is_short": false,
             "channel_name": "千千進食中",
             "channel_id": "UC9i2Qgd5lizhVgJrdnxunKw"
         },
