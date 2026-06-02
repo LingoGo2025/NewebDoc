@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="head-title"></title>
+<script src="assets/vendor/tailwindcss/tailwindcss.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+<script src="assets/vendor/crypto-js/4.1.1/crypto-js.min.js"></script>
+<link rel="stylesheet" href="assets/vendor/highlight.js/11.7.0/styles/monokai-sublime.min.css">
+<script src="assets/vendor/highlight.js/11.7.0/highlight.min.js"></script>
+<script src="assets/vendor/highlightjs-line-numbers/2.8.0/highlightjs-line-numbers.min.js"></script>
+<style>
+    html { scroll-behavior: smooth; }
+    body { background-color: #f8fafc; overflow-x: hidden; }
+    .scrollable-area::-webkit-scrollbar { width: 6px; }
+    .scrollable-area::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+    .sidebar-active { background-color: #e0f2fe !important; color: #0284c7 !important; border-right: 4px solid #0284c7 !important; font-weight: 600 !important; }
+    .sidebar-active i { color: #0284c7 !important; }
+    .tab-btn { border-bottom: 2px solid transparent; transition: all 0.3s; }
+    .tab-btn:hover { color: #60a5fa; }
+    .tab-btn.active { border-bottom-color: #3b82f6; color: #3b82f6; font-weight: 600; background-color: rgba(59, 130, 246, 0.05); }
+    .params-table th { background-color: #f1f5f9; color: #475569; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; }
+    .params-table td { vertical-align: middle; color: #334155; }
+    .params-table tr:hover { background-color: #f8fafc; }
+    .tool-tab-btn { transition: all 0.2s; }
+    .tool-tab-btn.active { border-bottom-color: #9333ea; color: #9333ea; background-color: #faf5ff; }
+    #code-container-wrapper { background-color: #23241f; }
+    #code-container-wrapper pre { margin: 0; padding: 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    #code-container-wrapper code { font-size: 0.875rem; line-height: 1.5; padding: 1rem !important; }
+    .hljs-ln-numbers { -webkit-user-select: none; user-select: none; text-align: right; color: #5c6370; border-right: 1px solid #3e3e3e; vertical-align: top; padding-right: 10px !important; min-width: 40px; }
+    .hljs-ln-code { padding-left: 15px !important; }
+    .hljs-ln { width: 100%; }
+</style>
+</head>
+<body class="text-slate-800 font-sans">
+
+    <script>
+        const docConfig = {
+//繁體中文開始
+"zh-TW":{"languageName":"繁體中文","ui":{"head_title":"單筆查詢收據作廢資料API","system_name":"","copyright":"","sidebar_brand":"單筆查詢收據作廢資料API","nav_tool":"加密測試工具","nav_group_api":"API 規格詳解","nav_apis":"API 規格","nav_encryption":"加密規則詳解","nav_errors":"錯誤代碼表","nav_example":"範例程式碼","tool_title":"加密測試工具","tool_intro":"此工具可協助您產生加密字串，或解密回傳結果。","tool_security_warning":"安全警告：本工具僅供串接測試使用。為確保資訊安全，請勿在此輸入您正式環境的 Hash Key 與 Hash IV。","tool_tab_encrypt":"AES 加密","tool_tab_decrypt":"AES 解密","tool_tab_sha":"SHA256 加密","tool_ph_key":"例如: AAAAvw3YlqoEk6G4HqRKDAYpHKZWxBBB","tool_ph_iv":"例如: AAAACC1FplieBBBB","tool_lbl_key":"Hash Key (32 bytes)","tool_lbl_iv":"Hash IV (16 bytes)","tool_lbl_qs":"請求參數 (Query String)","tool_ph_qs":"例如: TimeStamp=1400137200&CardNo=4000...","tool_note_urlencode":"請確認字串已經過 http_build_query 或 urlencode 處理","tool_note_sha_sort":"程式會自動將下方欄位依英文名稱排序(A-Z)後組合，並前後串接 IV/Key","tool_btn_encrypt":"執行加密產生加密字串","tool_btn_sha":"執行 SHA256","tool_lbl_hex":"加密結果 (Hex String)","tool_lbl_enc_hex":"加密字串 (Hex String)","tool_lbl_sha_res":"SHA256 結果 (Uppercase)","tool_ph_enc_hex":"例如: 0ef82edabaf8964d09992d7ec8e575f1...","tool_btn_decrypt":"執行解密","tool_lbl_decrypt_res":"解密結果 (原始資料)","tool_alert_missing_key":"請輸入 Hash Key 與 Hash IV","tool_alert_missing_data":"請輸入原始字串","tool_alert_encrypt_fail":"加密失敗: ","tool_alert_missing_hex":"請輸入加密後的 Hex 字串","tool_alert_decrypt_fail":"解密失敗，請檢查 Key/IV 或加密字串格式","req_title":"請求參數 (Request)","req_api_info":"API 資訊","req_url_prod":"URL (正式環境)","req_url_test":"URL (測試環境)","th_param":"參數名稱","th_name":"中文名稱","th_required":"必填","th_must_return":"必回傳","th_type":"型別","th_note":"備註","enc_title":"加密規則詳解","enc_aes_title":"AES 加解密機制","enc_aes_desc":"使用廠商提供的 Hash Key 及 Hash IV，透過 AES 演算法對資料進行加密或解密處理。","enc_step1_title":"產生請求字串","enc_step1_desc":"將所有參數依照 <code>http_build_query<\/code> 格式組合 (key=value&key2=value2...)。","enc_step2_title":"AES 加加密","enc_step2_desc":"加密演算法：<span class=\"font-bold text-red-600\">AES-256-CBC<\/span><br>填充模式 (Padding)：<span class=\"font-bold text-red-600\">PKCS7 B32<\/span><br>輸出格式：<span class=\"font-bold text-red-600\">Hex 十六進位<\/span><br>Key / IV：請使用廠商所屬之 Hash Key 與 Hash IV。","enc_step3_title":"轉換十六進制 (Hex)","enc_step3_desc":"將加密後的二進位資料 (Raw Data) 轉換為 Hex String (小寫)，即為加密字串。","enc_sha_title":"SHA256 檢查碼機制 (CheckMacValue)","enc_sha_desc":"透過 SHA256 雜湊產生檢核碼，可用於驗證請求參數或回傳值的完整性。","enc_sha_step1_title":"參數排序與組合","enc_sha_step1_desc":"將指定參數依英文名稱 (A-Z) 排序，並組合成 Query String (key1=val1&key2=val2...)。","enc_sha_step2_title":"串接 IV 與 Key","enc_sha_step2_desc":"在排序後的字串前後分別串接 HashIV 與 HashKey。<br>格式：<code>HashIV=...&[SortedParams]&HashKey=...<\/code>","enc_sha_step3_title":"SHA256 加密與轉大寫","enc_sha_step3_desc":"將串接後的字串進行 SHA256 加密，並將結果轉換為<strong>大寫<\/strong>。","res_title":"回傳參數 (Response)","err_title":"錯誤代碼表","err_search_ph":"搜尋代碼...","th_err_code":"錯誤代碼","th_err_reason":"錯誤原因 / 備註","example_title":"範例程式碼","lbl_method":"Method","lbl_encrypted_tag":"AES-256-CBC Encrypted","lbl_api_index":"API","msg_no_params":"未定義參數","msg_code_unavailable":"// 尚無程式範例","nav_versions":"版本記錄","versions_title":"版本記錄","th_ver_version":"版號","th_ver_date":"修改日期","th_ver_desc":"變更內容","toc_title":"目錄","api_info_title":"API 基本資料","field_def_title":"API 欄位定義","doc_desc_title":"文件說明","doc_flowchart_title":"流程圖","lbl_launch_type":"發動形態","lbl_field_combo_format":"欄位組合格式","lbl_enum_values":"允許值","lbl_default_value":"預設值","lbl_is_nullable":"可為 Null","lbl_yes":"是","lbl_direction":"方向","lbl_group_type":"加密方式","lbl_location":"傳遞位置","lbl_belong_to":"隸屬","msg_req_info":"本請求需由商店端發動，請以 <span class=\\\"font-bold text-blue-700\\\">{method}<\/span> 方式，將參數打包並放置於 <span class=\\\"font-bold text-blue-700\\\">{location}<\/span> 進行傳輸。","msg_req_format_qs":"本區塊欄位需以 <span class=\\\"font-mono font-bold text-cyan-700\\\">&amp;<\/span> 符號組合為查詢字串 (Query String) 格式，例如 <span class=\\\"font-mono text-cyan-700\\\">key1=val1&amp;key2=val2<\/span>。","msg_req_format_json":"本區塊欄位需放置於 <span class=\\\"font-bold text-cyan-700\\\">JSON<\/span> 物件中傳遞。","msg_req_format_other":"本區塊欄位採用 <span class=\\\"font-bold text-cyan-700\\\">{format}<\/span> 格式組合。","msg_req_security":"資料安全：傳輸前需完成 <span class=\\\"font-bold\\\">{group_type}<\/span> 處理。","msg_res_info_webhook":"本結果將由系統以非同步形式，主動推播至商店指定的 <span class=\\\"font-bold text-green-700\\\">Webhook<\/span> 接收網址。","msg_res_info_sync":"本結果將由系統以 <span class=\\\"font-bold text-green-700\\\">{method}<\/span> 方式同步回傳於 <span class=\\\"font-bold text-green-700\\\">{location}<\/span>。","msg_res_format_qs":"回傳的欄位將以 <span class=\\\"font-mono font-bold text-cyan-700\\\">&amp;<\/span> 符號組合為查詢字串 (Query String) 格式，例如 <span class=\\\"font-mono text-cyan-700\\\">key1=val1&amp;key2=val2<\/span>。","msg_res_format_json":"回傳的欄位將放置於 <span class=\\\"font-bold text-cyan-700\\\">JSON<\/span> 物件中傳遞。","msg_res_format_other":"回傳的欄位採用 <span class=\\\"font-bold text-cyan-700\\\">{format}<\/span> 格式組合。","msg_res_security":"驗證解密：接收後需針對特定資料進行 <span class=\\\"font-bold\\\">{group_type}<\/span> 處理。","lbl_sha_pre_hash":"加密前組合字串 (String to Hash)","ph_sha_pre_hash":"按下壓碼按鈕後，這裡會顯示實際被加密的完整字串...","flowchart_0_url":"assets/flowcharts_query-single-voided-receipt-api/fc_0.png"},"meta":{"title":"單筆查詢收據作廢資料API","subtitle":"查詢收據作廢資料","version":"","sections":[{"id":"section-0","icon":"fas fa-info-circle","markerColor":"bg-blue-600","title":"串接目的","desc":"<p><span style=\"color: rgb(0, 0, 0);\">電子收據開立作廢資料後，可透過查詢收據作廢的參數及作廢進度或狀態。<\/span><\/p>","images":[]},{"id":"section-1","icon":"fas fa-info-circle","markerColor":"bg-orange-500","title":"資料交換方式","desc":"<p><span style=\"color: rgb(0, 0, 0);\">1. 旅行社以「HTTP POST」方式傳送收據資料至電子收據平台進行開立。 <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">2. Content-Type 為 application/x-www-form-urlencoded。 <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">3. 編碼格式為 UTF-8。 <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">4. 電子收據平台回應格式化的字串。 <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">5. 各欄位計算單位為字元。中、英、數字、符號都算一個字元。 <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">6. 各欄位間以「&amp;」作為連接符號，各欄位內不得含有此字元（U+0026）。<\/span><\/p>","images":[]},{"id":"section-2","icon":"fas fa-info-circle","markerColor":"bg-green-600","title":"串接前置作業","desc":"<p>（請先完成，否則程式必失敗）<\/p><p><br><\/p><p> 1. 取得 HashKey / HashIV<\/p><p>- 測試環境：登入測試區後台 → 基本資料 → API 串接設定 → 複製 HashKey 與 HashIV<\/p><p>- 正式環境：登入正式區後台 → 基本資料 → API 串接設定 → 複製 HashKey 與 HashIV<\/p><p><br><\/p><p>2. 申請 IP 白名單<\/p><p>- 申請窗口：於官網下載申請表單並填寫後，傳送後客服中心（傳真 / Email）<\/p><p>- 最多可設定 10 組 IP<\/p><p>- 需提供：伺服器對外 IP（非內網 IP，可至 https://ifconfig.me 查詢）<\/p><p>- 生效時間：通常 1-2 個工作天<\/p><p><br><\/p><p>3. 環境網址<\/p><p>-測試環境與正式環境是完全不同的設備，資料不共通，上線前務必要確認已經將串接網址切換至正式區網址<\/p><p><br><\/p><p>4. 常見「忘記做前置作業」的錯誤訊號<\/p><p>- `KEY10001 非旅行社 API 串接 IP` → IP 白名單未設定或設錯<\/p><p>- `KEY10002 資料解密錯誤` → HashKey / HashIV 不正確或仍是範例值<\/p><p>- `KEY10009 取不到旅行社統一編號的資料` → MerchantID 錯或未啟用<\/p><p><br><\/p>","images":[]}],"flowcharts":[{"id":"flowchart-0","title":"查詢作廢單流程"}]},"apis":[{"name":"單筆查詢收據作廢資料API","url_test":"https://capi.travelinvoice.com.tw/invoice_search","url_prod":"https://api.travelinvoice.com.tw/invoice_search","requests":[{"title":"Post 參數","direction":"send","group_type":"無加密","param_location":"body","field_combination_format":"String","method":"POST","params":[{"name":"MerchantID_","required":"V","type":"string(8)","label":"旅行社統一編號","example":"54352706","must_return":false,"note":"旅行社統一編號。","enum_values":"","default_value":"","nullable":false},{"name":"SearchType_","required":"V","type":"int(1)","label":"搜尋種類","example":"3","must_return":false,"note":"3","enum_values":"3","default_value":"","nullable":false},{"name":"PostData_","required":"V","type":"array","label":"加密資料","example":"","must_return":false,"note":"字串欄位組合後做AES256加密，欄位說明如下表","enum_values":"","default_value":"","nullable":false}],"children":[{"title":"PostData_內含欄位","group_type":"AES加密_字串","param_location":"body","from_field":"PostData_","params":[{"name":"Version","required":"V","type":"string(5)","label":"串接程式版本","example":"1.1","must_return":false,"note":"固定帶 1.1","enum_values":"1.1","default_value":"","nullable":false},{"name":"TimeStamp","required":"V","type":"string(30)","label":"時間戳記","example":"1400137200","must_return":false,"note":"自從 Unix 纪元（格林威治時間 1970 年1 月 1 日 00:00:00）到當前時間的秒數，若以 php 程式語言為例，即為呼叫time()函式所回傳的值。\n例：2014-05-15 15:00:00 這個時間的時間，戳記為 1400137200，建議帶入當前時間","enum_values":"","default_value":"","nullable":false},{"name":"InvoiceNumber","required":"V","type":"string(9)","label":"收據號碼","example":"T13671005","must_return":false,"note":"此次查詢的收據號碼。","enum_values":"","default_value":"","nullable":false},{"name":"InvalidNo","required":"V","type":"string(20)","label":"作廢單號","example":"85512","must_return":false,"note":"開立作廢單時，系統回傳的系統流水號","enum_values":"","default_value":"","nullable":false}]}]}],"responses":[{"title":"系統回應訊息","direction":"receive","group_type":"無加密","param_location":"body","field_combination_format":"String","method":"","params":[{"name":"Status","required":"","type":"string(10)","label":"回傳狀態","example":"SUCCESS","must_return":true,"note":"1.查詢成功，則回傳 SUCCESS\n2.查詢失敗，則回傳錯誤代碼","enum_values":"","default_value":"","nullable":false},{"name":"Message","required":"","type":"string(30)","label":"回傳訊息","example":"查詢開立收據成功","must_return":true,"note":"文字，此次回傳狀態說明","enum_values":"","default_value":"","nullable":false},{"name":"InvalidNo","required":"","type":"string(20)","label":"作廢單流水號","example":"85512","must_return":false,"note":"此次開立作廢或等待作廢的流水號","enum_values":"","default_value":"","nullable":false},{"name":"InvoiceNumber","required":"","type":"string(9)","label":"收據號碼","example":"T13671003","must_return":false,"note":"執行作廢之收據號碼","enum_values":"","default_value":"","nullable":false},{"name":"InvalidType","required":"","type":"int(1)","label":"作廢方式","example":"1","must_return":false,"note":"0=等待作廢。待買受人確認作廢後，再向平台發動確認作廢。\n1=立即作廢。","enum_values":"0,1","default_value":"","nullable":false},{"name":"InvalidStatus","required":"","type":"int(1)","label":"作廢狀態","example":"1","must_return":false,"note":"該張作廢讓單之狀態。\n0=未確認作廢單\n1=已確認作廢單\n2=取消作廢單","enum_values":"0,1,2","default_value":"","nullable":false},{"name":"invalidComment","required":"","type":"string(10)","label":"作廢原因","example":"訂單取消","must_return":false,"note":"作廢原因","enum_values":"","default_value":"","nullable":false},{"name":"InvalidCreateTime","required":"","type":"datetime","label":"作廢建立日期","example":"2014-09-25 12:12:12","must_return":false,"note":"該張作廢開立時間，例：2014-09-25 12:12:12","enum_values":"","default_value":"","nullable":false},{"name":"InvalidDate","required":"","type":"datetime","label":"確認作廢日期","example":"2014-09-25 12:12:12","must_return":false,"note":"該張作廢確立開立時間，例：2014-09-25 12:12:12。","enum_values":"","default_value":"","nullable":false},{"name":"SellerName","required":"","type":"string(50)","label":"經手人","example":"王小英","must_return":false,"note":"開立折讓單人員名稱","enum_values":"","default_value":"","nullable":false},{"name":"CheckCode","required":"","type":"string(150)","label":"檢查碼","example":"0C69DBB83FD36B6A2B2E9E614DAEA3D91D474C2D8A829870CA91511C55AF2AA","must_return":false,"note":"用來檢查此次資料回傳的合法性，串接時可以比對此參數資料，來檢核是否為平台所回傳，檢核方法請參考”SHA256加密說明”。如開立失敗則回傳空值。\n\nCheckCode = 將 InvoiceTransNo, MerchantID, MerchantOrderNo, RandomNum, TotalAmt 依 SHA256 簽章規格計算所得之雜湊值\n\nInvoiceTransNo , MerchantOrderNo,RandomNum, TotalAmt不含在此API回應欄位中，需讓程式 InvoiceNumber（收據號碼）於資料庫中來取得這4個欄位資料。","enum_values":"","default_value":"","nullable":false},{"name":"EndStr","required":"","type":"string(2)","label":"字串結尾","example":"##","must_return":true,"note":"固定回傳 ##，使用 String 方式接收資料的用戶，須多判斷 EndStr=##，確保資料傳遞完整。","enum_values":"##","default_value":"","nullable":false}],"children":[]}]}],"errors":[{"code":"KEY10001","reason":"非旅行社 API 串接 IP"},{"code":"KEY10002","reason":"資料解密錯誤"},{"code":"KEY10003","reason":"版本錯誤"},{"code":"KEY10004","reason":"資料不齊全"},{"code":"KEY10006","reason":"旅行社未申請啟用電子收據"},{"code":"KEY10007","reason":"頁面停留超過 30 分鐘"},{"code":"KEY10009","reason":"取不到旅行社統一編號的資料"},{"code":"KEY10010","reason":"旅行社統一編號空白"},{"code":"KEY10011","reason":"PostData_欄位空白"},{"code":"KEY10012","reason":"資料傳遞錯誤"},{"code":"KEY10013","reason":"資料空白"},{"code":"KEY10014","reason":"TimeOut。通常泛指 I/O 上的 time out"},{"code":"KEY10015","reason":"收據金額格式錯誤"},{"code":"KEY10016","reason":"旅行社無申請郵遞列印加值服務"},{"code":"KEY10017","reason":"郵遞列印加值服務可用數不足"},{"code":"KEY10018","reason":"開立人欄位未填寫"},{"code":"KEY10019","reason":"旅行社已被停權"},{"code":"NOR10001","reason":"網路連線異常"},{"code":"IS10001","reason":"收據號碼未填寫"},{"code":"IS10002","reason":"收據防偽隨機碼未填寫"},{"code":"IS10003","reason":"DisplayFlag 有誤"},{"code":"BS10015","reason":"折讓單號未填寫"},{"code":"BS10016","reason":"作廢單號未填寫"},{"code":"BS10017","reason":"查無折讓單資料"},{"code":"BS10018","reason":"查無作廢單資料"}],"versions":[]},
+//繁體中文結束
+
+//英文開始
+"en": {"languageName":"English","ui":{"head_title":"Single Receipt Void Data Query API","system_name":"","copyright":"","sidebar_brand":"Single Receipt Void Data Query API","nav_tool":"Encryption Test Tool","nav_group_api":"API Specification Details","nav_apis":"API Specifications","nav_encryption":"Encryption Rules Details","nav_errors":"Error Code Table","nav_example":"Example Code","tool_title":"Encryption Test Tool","tool_intro":"This tool helps you generate encrypted strings or decrypt return results.","tool_security_warning":"Security Warning: This tool is for integration testing only. To ensure information security, do not enter your production environment Hash Key and Hash IV here.","tool_tab_encrypt":"AES Encryption","tool_tab_decrypt":"AES Decryption","tool_tab_sha":"SHA256 Encryption","tool_ph_key":"Example: AAAAvw3YlqoEk6G4HqRKDAYpHKZWxBBB","tool_ph_iv":"Example: AAAACC1FplieBBBB","tool_lbl_key":"Hash Key (32 bytes)","tool_lbl_iv":"Hash IV (16 bytes)","tool_lbl_qs":"Request Parameters (Query String)","tool_ph_qs":"Example: TimeStamp=1400137200&CardNo=4000...","tool_note_urlencode":"Please ensure the string has been processed by http_build_query or urlencode","tool_note_sha_sort":"The program will automatically sort the fields below by English name (A-Z), combine them, and prepend/append IV/Key","tool_btn_encrypt":"Execute Encryption to Generate Encrypted String","tool_btn_sha":"Execute SHA256","tool_lbl_hex":"Encryption Result (Hex String)","tool_lbl_enc_hex":"Encrypted String (Hex String)","tool_lbl_sha_res":"SHA256 Result (Uppercase)","tool_ph_enc_hex":"Example: 0ef82edabaf8964d09992d7ec8e575f1...","tool_btn_decrypt":"Execute Decryption","tool_lbl_decrypt_res":"Decryption Result (Original Data)","tool_alert_missing_key":"Please enter Hash Key and Hash IV","tool_alert_missing_data":"Please enter the original string","tool_alert_encrypt_fail":"Encryption failed: ","tool_alert_missing_hex":"Please enter the encrypted Hex string","tool_alert_decrypt_fail":"Decryption failed, please check Key/IV or encrypted string format","req_title":"Request Parameters (Request)","req_api_info":"API Information","req_url_prod":"URL (Production)","req_url_test":"URL (Test)","th_param":"Parameter Name","th_name":"Name","th_required":"Required","th_must_return":"Must Return","th_type":"Type","th_note":"Note","enc_title":"Encryption Rules Details","enc_aes_title":"AES Encryption/Decryption Mechanism","enc_aes_desc":"Use the Hash Key and Hash IV provided by the vendor to encrypt or decrypt data through the AES algorithm.","enc_step1_title":"Generate Request String","enc_step1_desc":"Combine all parameters in <code>http_build_query<\/code> format (key=value&key2=value2...).","enc_step2_title":"AES Encryption","enc_step2_desc":"Encryption Algorithm: <span class=\"font-bold text-red-600\">AES-256-CBC<\/span><br>Padding Mode: <span class=\"font-bold text-red-600\">PKCS7 B32<\/span><br>Output Format: <span class=\"font-bold text-red-600\">Hexadecimal<\/span><br>Key / IV: Please use the Hash Key and Hash IV belonging to the vendor.","enc_step3_title":"Convert to Hexadecimal (Hex)","enc_step3_desc":"Convert the encrypted binary data (Raw Data) into a Hex String (lowercase), which is the encrypted string.","enc_sha_title":"SHA256 Checksum Mechanism (CheckMacValue)","enc_sha_desc":"Generate a checksum via SHA256 hash, which can be used to verify the integrity of request parameters or return values.","enc_sha_step1_title":"Parameter Sorting and Combination","enc_sha_step1_desc":"Sort designated parameters by English name (A-Z) and combine them into a Query String (key1=val1&key2=val2...).","enc_sha_step2_title":"Concatenate IV and Key","enc_sha_step2_desc":"Prepend HashIV and append HashKey to the sorted string.<br>Format: <code>HashIV=...&[SortedParams]&HashKey=...<\/code>","enc_sha_step3_title":"SHA256 Encryption and Uppercase Conversion","enc_sha_step3_desc":"Encrypt the concatenated string with SHA256 and convert the result to <strong>uppercase<\/strong>.","res_title":"Response Parameters (Response)","err_title":"Error Code Table","err_search_ph":"Search code...","th_err_code":"Error Code","th_err_reason":"Error Reason / Note","example_title":"Example Code","lbl_method":"Method","lbl_encrypted_tag":"AES-256-CBC Encrypted","lbl_api_index":"API","msg_no_params":"Undefined parameters","msg_code_unavailable":"// No code example available","nav_versions":"Version History","versions_title":"Version History","th_ver_version":"Version","th_ver_date":"Modified Date","th_ver_desc":"Changes","toc_title":"Table of Contents","api_info_title":"Basic API Information","field_def_title":"API Field Definitions","doc_desc_title":"Document Description","doc_flowchart_title":"Flowchart","lbl_launch_type":"Launch Type","lbl_field_combo_format":"Field Combination Format","lbl_enum_values":"Allowed Values","lbl_default_value":"Default Value","lbl_is_nullable":"Nullable","lbl_yes":"Yes","lbl_direction":"Direction","lbl_group_type":"Encryption Method","lbl_location":"Transmission Location","lbl_belong_to":"Belongs to","msg_req_info":"This request must be initiated by the store side. Please package the parameters and place them in <span class=\\\"font-bold text-blue-700\\\">{location}<\/span> via <span class=\\\"font-bold text-blue-700\\\">{method}<\/span> for transmission.","msg_req_format_qs":"Fields in this section must be combined in Query String format using the <span class=\\\"font-mono font-bold text-cyan-700\\\">&amp;<\/span> symbol, e.g., <span class=\\\"font-mono text-cyan-700\\\">key1=val1&amp;key2=val2<\/span>.","msg_req_format_json":"Fields in this section must be passed within a <span class=\\\"font-bold text-cyan-700\\\">JSON<\/span> object.","msg_req_format_other":"Fields in this section use the <span class=\\\"font-bold text-cyan-700\\\">{format}<\/span> format.","msg_req_security":"Data Security: <span class=\\\"font-bold\\\">{group_type}<\/span> processing is required before transmission.","msg_res_info_webhook":"This result will be actively pushed by the system in an asynchronous form to the <span class=\\\"font-bold text-green-700\\\">Webhook<\/span> receiving URL specified by the store.","msg_res_info_sync":"This result will be synchronously returned by the system in <span class=\\\"font-bold text-green-700\\\">{method}<\/span> format at <span class=\\\"font-bold text-green-700\\\">{location}<\/span>.","msg_res_format_qs":"Returned fields will be combined in Query String format using the <span class=\\\"font-mono font-bold text-cyan-700\\\">&amp;<\/span> symbol, e.g., <span class=\\\"font-mono text-cyan-700\\\">key1=val1&amp;key2=val2<\/span>.","msg_res_format_json":"Returned fields will be passed within a <span class=\\\"font-bold text-cyan-700\\\">JSON<\/span> object.","msg_res_format_other":"Returned fields use the <span class=\\\"font-bold text-cyan-700\\\">{format}<\/span> format.","msg_res_security":"Verification/Decryption: After reception, <span class=\\\"font-bold\\\">{group_type}<\/span> processing must be performed on specific data.","lbl_sha_pre_hash":"String to Hash","ph_sha_pre_hash":"After clicking the hash button, the actual full string being encrypted will be displayed here...","flowchart_0_url":"assets/flowcharts_query-single-voided-receipt-api/fc_1.png"},"meta":{"title":"Single Receipt Void Data Query API","subtitle":"Query Receipt Void Data","version":"","sections":[{"id":"section-0","title":"Integration Purpose","desc":"<p><span style=\"color: rgb(0, 0, 0);\">After the electronic receipt void data is created, the parameters and void progress or status can be queried.<\/span><\/p>"},{"id":"section-1","title":"Data Exchange Method","desc":"<p><span style=\"color: rgb(0, 0, 0);\">1. Travel agencies send receipt data to the e-receipt platform for creation via \"HTTP POST\". <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">2. Content-Type is application/x-www-form-urlencoded. <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">3. Encoding format is UTF-8. <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">4. The e-receipt platform responds with a formatted string. <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">5. Calculation unit for each field is characters. Chinese, English, numbers, and symbols each count as one character. <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">6. Each field is connected with \"&\", and fields must not contain this character (U+0026).<\/span><\/p>"},{"id":"section-2","title":"Pre-integration Tasks","desc":"<p>(Please complete first, otherwise the program will fail)<\/p><p><br><\/p><p> 1. Get HashKey / HashIV<\/p><p>- Test Environment: Log in to the test backend → Basic Info → API Integration Settings → Copy HashKey and HashIV<\/p><p>- Production Environment: Log in to the production backend → Basic Info → API Integration Settings → Copy HashKey and HashIV<\/p><p><br><\/p><p>2. Apply for IP Whitelist<\/p><p>- Application Window: Download the application form from the official website, fill it out, and send it to the customer service center (Fax / Email)<\/p><p>- Up to 10 IP addresses can be set<\/p><p>- Required: Server outbound IP (Not internal IP, check at https://ifconfig.me)<\/p><p>- Effective Time: Usually 1-2 working days<\/p><p><br><\/p><p>3. Environment URLs<\/p><p>- The test environment and production environment are completely different systems; data is not shared. Before going live, ensure the integration URL has been switched to the production URL.<\/p><p><br><\/p><p>4. Common \"Forgot Pre-integration Tasks\" Error Signals<\/p><p>- `KEY10001 Non-Travel Agency API integration IP` → IP whitelist not set or incorrect<\/p><p>- `KEY10002 Data decryption error` → HashKey / HashIV incorrect or still using example values<\/p><p>- `KEY10009 Unable to retrieve data for Travel Agency Tax ID` → MerchantID wrong or not enabled<\/p><p><br><\/p>"}],"flowcharts":[{"id":"flowchart-0","title":"Query Void Receipt Flow"}]},"apis":[{"name":"Single Receipt Void Data Query API","url_test":"https://capi.travelinvoice.com.tw/invoice_search","url_prod":"https://api.travelinvoice.com.tw/invoice_search","requests":[{"title":"Post Parameters","direction":"send","group_type":"No Encryption","param_location":"body","field_combination_format":"String","method":"POST","params":[{"name":"MerchantID_","required":"V","type":"string(8)","label":"Travel Agency Tax ID","example":"54352706","must_return":false,"note":"Travel agency tax ID.","enum_values":"","default_value":"","nullable":false},{"name":"SearchType_","required":"V","type":"int(1)","label":"Search Type","example":"3","must_return":false,"note":"3","enum_values":"3","default_value":"","nullable":false},{"name":"PostData_","required":"V","type":"array","label":"Encrypted Data","example":"","must_return":false,"note":"String fields combined and AES256 encrypted, field descriptions below","enum_values":"","default_value":"","nullable":false}],"children":[{"title":"PostData_ Internal Fields","group_type":"AES Encryption_String","param_location":"body","from_field":"PostData_","params":[{"name":"Version","required":"V","type":"string(5)","label":"Integration Version","example":"1.1","must_return":false,"note":"Fixed as 1.1","enum_values":"1.1","default_value":"","nullable":false},{"name":"TimeStamp","required":"V","type":"string(30)","label":"Timestamp","example":"1400137200","must_return":false,"note":"Seconds since the Unix epoch (January 1, 1970, 00:00:00 GMT) to the current time. For example, in PHP, this is the value returned by the time() function.\nExample: The timestamp for 2014-05-15 15:00:00 is 1400137200. It is recommended to use the current time","enum_values":"","default_value":"","nullable":false},{"name":"InvoiceNumber","required":"V","type":"string(9)","label":"Receipt Number","example":"T13671005","must_return":false,"note":"The receipt number for this query.","enum_values":"","default_value":"","nullable":false},{"name":"InvalidNo","required":"V","type":"string(20)","label":"Void Number","example":"85512","must_return":false,"note":"The system serial number returned when creating a void receipt","enum_values":"","default_value":"","nullable":false}]}]}],"responses":[{"title":"System Response Message","direction":"receive","group_type":"No Encryption","param_location":"body","field_combination_format":"String","method":"","params":[{"name":"Status","required":"","type":"string(10)","label":"Return Status","example":"SUCCESS","must_return":true,"note":"1. SUCCESS if query is successful\n2. Error code if query fails","enum_values":"","default_value":"","nullable":false},{"name":"Message","required":"","type":"string(30)","label":"Return Message","example":"Query void receipt successful","must_return":true,"note":"Text, explanation of the return status","enum_values":"","default_value":"","nullable":false},{"name":"InvalidNo","required":"","type":"string(20)","label":"Void Receipt Serial Number","example":"85512","must_return":false,"note":"Serial number of the current void or pending void receipt","enum_values":"","default_value":"","nullable":false},{"name":"InvoiceNumber","required":"","type":"string(9)","label":"Receipt Number","example":"T13671003","must_return":false,"note":"Receipt number being voided","enum_values":"","default_value":"","nullable":false},{"name":"InvalidType","required":"","type":"int(1)","label":"Void Method","example":"1","must_return":false,"note":"0=Pending void. Initiate confirmation via platform after buyer confirms void.\n1=Immediate void.","enum_values":"0,1","default_value":"","nullable":false},{"name":"InvalidStatus","required":"","type":"int(1)","label":"Void Status","example":"1","must_return":false,"note":"Status of the void allowance.\n0=Unconfirmed void receipt\n1=Confirmed void receipt\n2=Cancelled void receipt","enum_values":"0,1,2","default_value":"","nullable":false},{"name":"invalidComment","required":"","type":"string(10)","label":"Void Reason","example":"Order cancelled","must_return":false,"note":"Void reason","enum_values":"","default_value":"","nullable":false},{"name":"InvalidCreateTime","required":"","type":"datetime","label":"Void Creation Date","example":"2014-09-25 12:12:12","must_return":false,"note":"Time the void receipt was created, e.g., 2014-09-25 12:12:12","enum_values":"","default_value":"","nullable":false},{"name":"InvalidDate","required":"","type":"datetime","label":"Void Confirmation Date","example":"2014-09-25 12:12:12","must_return":false,"note":"Time the void receipt was confirmed, e.g., 2014-09-25 12:12:12.","enum_values":"","default_value":"","nullable":false},{"name":"SellerName","required":"","type":"string(50)","label":"Handler","example":"Jane Doe","must_return":false,"note":"Name of the person who created the allowance receipt","enum_values":"","default_value":"","nullable":false},{"name":"CheckCode","required":"","type":"string(150)","label":"Checksum","example":"0C69DBB83FD36B6A2B2E9E614DAEA3D91D474C2D8A829870CA91511C55AF2AA","must_return":false,"note":"Used to verify the validity of the data returned. Compare this value to check if it was returned by the platform. For verification methods, refer to \"SHA256 Encryption Description\". Returns empty if creation fails.\n\nCheckCode = Hash value calculated using SHA256 signature specs based on InvoiceTransNo, MerchantID, MerchantOrderNo, RandomNum, TotalAmt.\n\nInvoiceTransNo, MerchantOrderNo, RandomNum, TotalAmt are not included in this API response. Use InvoiceNumber to retrieve these 4 fields from the database.","enum_values":"","default_value":"","nullable":false},{"name":"EndStr","required":"","type":"string(2)","label":"String End","example":"##","must_return":true,"note":"Fixed return ##. Users receiving data via String must check for EndStr=## to ensure complete transmission.","enum_values":"##","default_value":"","nullable":false}],"children":[]}]}],"errors":[{"code":"KEY10001","reason":"Non-Travel Agency API integration IP"},{"code":"KEY10002","reason":"Data decryption error"},{"code":"KEY10003","reason":"Version error"},{"code":"KEY10004","reason":"Incomplete data"},{"code":"KEY10006","reason":"Travel agency has not applied for e-receipt enablement"},{"code":"KEY10007","reason":"Page stayed over 30 minutes"},{"code":"KEY10009","reason":"Unable to retrieve data for Travel Agency Tax ID"},{"code":"KEY10010","reason":"Travel Agency Tax ID is blank"},{"code":"KEY10011","reason":"PostData_ field is blank"},{"code":"KEY10012","reason":"Data transmission error"},{"code":"KEY10013","reason":"Data is blank"},{"code":"KEY10014","reason":"TimeOut. Usually refers to I/O timeout"},{"code":"KEY10015","reason":"Receipt amount format error"},{"code":"KEY10016","reason":"Travel agency has not applied for mail printing value-added service"},{"code":"KEY10017","reason":"Insufficient available count for mail printing value-added service"},{"code":"KEY10018","reason":"Issuer field not filled"},{"code":"KEY10019","reason":"Travel agency has been suspended"},{"code":"NOR10001","reason":"Abnormal network connection"},{"code":"IS10001","reason":"Receipt number not filled"},{"code":"IS10002","reason":"Receipt anti-counterfeiting random code not filled"},{"code":"IS10003","reason":"DisplayFlag error"},{"code":"BS10015","reason":"Allowance number not filled"},{"code":"BS10016","reason":"Void number not filled"},{"code":"BS10017","reason":"Allowance receipt data not found"},{"code":"BS10018","reason":"Void receipt data not found"}],"versions":[]},
+//英文結束
+};
+        const globalToolsConfig = {"sha":{"enabled":true,"params":{"key_label":"HashKey","iv_label":"HashIV","columns":"InvoiceTransNo,MerchantID,MerchantOrderNo,RandomNum,TotalAmt","encrypt_order":"前IV後KEY"}},"aes_encrypt":{"enabled":true},"aes_decrypt":{"enabled":true}};
+        const globalCodeExamples = {"PHP":"<?php\n/**\n * IMPORTANT: Key and IV values differ between production and test environments — confirm you have obtained the correct credentials for the target environment before use\n * Replace all placeholder constants (e.g. YOUR_HASH_KEY_HERE) with real values before running this code — the code will block and display an error if placeholders are detected\n */\n\n// 32 bytes — used for both AES-256 encryption and SHA256 signature (HashKey)\ndefine('API_KEY', 'YOUR_API_KEY_HERE');\n\n// 16 bytes — used for both AES-256 encryption and SHA256 signature (HashIV)\n// Note: IV is 16 bytes because the underlying block size of AES is fixed at 16 bytes (128 bits), regardless of key length (256 bits)\ndefine('API_IV', 'YOUR_API_IV_HERE');\n\ndefine('MERCHANT_ID', 'YOUR_MERCHANT_ID_HERE');\ndefine('API_URL', 'https://capi.travelinvoice.com.tw/invoice_search'); // Defaulting to the testing endpoint\n\n// Safety guard to prevent execution with default placeholder credentials\nif (API_KEY === 'YOUR_API_KEY_HERE' || API_IV === 'YOUR_API_IV_HERE' || MERCHANT_ID === 'YOUR_MERCHANT_ID_HERE') {\n    header('Content-Type: text/html; charset=utf-8');\n    echo '<div style=\"padding: 20px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px; font-family: sans-serif; margin: 20px;\">';\n    echo '<strong>Configuration Error:<\/strong> Placeholders detected. You must replace the API_KEY, API_IV, and MERCHANT_ID constant values with your actual credentials before running this script.';\n    echo '<\/div>';\n    exit;\n}\n\n/**\n * Verification (Verification of response signature)\n * Matches the generated CheckCode against the code provided by the API response to verify integrity.\n * Since the parameters (InvoiceTransNo, MerchantOrderNo, RandomNum, TotalAmt) are not in the response payload,\n * they must be loaded from your local database utilizing the response's InvoiceNumber.\n *\n * @param string $invoiceTransNo\n * @param string $merchantId\n * @param string $merchantOrderNo\n * @param string $randomNum\n * @param string $totalAmt\n * @param string $receivedCheckCode\n * @return bool\n */\nfunction verifyResponseSignature($invoiceTransNo, $merchantId, $merchantOrderNo, $randomNum, $totalAmt, $receivedCheckCode) {\n    $fields = array(\n        'InvoiceTransNo'  => $invoiceTransNo,\n        'MerchantID'      => $merchantId,\n        'MerchantOrderNo' => $merchantOrderNo,\n        'RandomNum'       => $randomNum,\n        'TotalAmt'        => $totalAmt\n    );\n\n    // Sort parameters alphabetically from A to Z\n    ksort($fields);\n\n    // Construct the verification string manually without URL encoding\n    $rawString = 'HashIV=' . API_IV;\n    foreach ($fields as $key => $value) {\n        $rawString .= '&' . $key . '=' . $value;\n    }\n    $rawString .= '&HashKey=' . API_KEY;\n\n    $calculatedHash = strtoupper(hash('sha256', $rawString));\n\n    return hash_equals($calculatedHash, $receivedCheckCode);\n}\n\n/**\n * Parses the raw API query string response.\n *\n * @param string $responseStr\n * @return array\n */\nfunction parseApiResponse($responseStr) {\n    $result = array();\n    $pairs = explode('&', $responseStr);\n    foreach ($pairs as $pair) {\n        $parts = explode('=', $pair, 2);\n        if (count($parts) === 2) {\n            $result[$parts[0]] = urldecode($parts[1]);\n        }\n    }\n    return $result;\n}\n\n$apiResult = null;\n$errorMsg = null;\n$validationResult = null;\n\nif ($_SERVER['REQUEST_METHOD'] === 'POST') {\n    try {\n        $invoiceNumber = isset($_POST['InvoiceNumber']) ? trim($_POST['InvoiceNumber']) : '';\n        $invalidNo = isset($_POST['InvalidNo']) ? trim($_POST['InvalidNo']) : '';\n\n        if ($invoiceNumber === '' || $invalidNo === '') {\n            throw new Exception('Both Receipt Number (InvoiceNumber) and Invalid Document Number (InvalidNo) are required.');\n        }\n\n        // Construct PostData raw query string parameters\n        $postDataParams = array(\n            'Version'       => '1.1',\n            'TimeStamp'     => (string)time(),\n            'InvoiceNumber' => $invoiceNumber,\n            'InvalidNo'     => $invalidNo\n        );\n\n        $plaintext = 'Version=' . $postDataParams['Version'] .\n                     '&TimeStamp=' . $postDataParams['TimeStamp'] .\n                     '&InvoiceNumber=' . $postDataParams['InvoiceNumber'] .\n                     '&InvalidNo=' . $postDataParams['InvalidNo'];\n\n        /* NON-STANDARD AES PADDING: PKCS7 with Block Size 32\n         * Standard AES uses PKCS7 padding aligned to a 16-byte block size (AES native block size).\n         * This API uses a non-standard variant where PKCS7 padding is aligned to 32 bytes.\n         * paddingLen = 32 - (plaintext.length % 32), result is always in range 1–32.\n         * Each padding byte value equals paddingLen.\n         * Apply this padding manually; use the cipher's ZERO_PADDING / no-padding flag\n         * to prevent the library from applying its own PKCS7 padding. */\n        $blockSize = 32;\n        $padSize = $blockSize - (strlen($plaintext) % $blockSize);\n        $paddedPlaintext = $plaintext . str_repeat(chr($padSize), $padSize);\n\n        // Encrypt with raw output enabled and auto-padding disabled\n        $encryptedRaw = openssl_encrypt(\n            $paddedPlaintext,\n            'AES-256-CBC',\n            API_KEY,\n            OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING,\n            API_IV\n        );\n\n        if ($encryptedRaw === false) {\n            throw new Exception('AES Encryption process failed.');\n        }\n\n        $postDataHex = bin2hex($encryptedRaw);\n\n        // Define API payload parameters\n        $payload = array(\n            'MerchantID_' => MERCHANT_ID,\n            'SearchType_' => '3',\n            'PostData_'   => $postDataHex\n        );\n\n        // Initiate raw standard cURL request\n        $ch = curl_init();\n        curl_setopt($ch, CURLOPT_URL, API_URL);\n        curl_setopt($ch, CURLOPT_POST, true);\n        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($payload));\n        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n        curl_setopt($ch, CURLOPT_HTTPHEADER, array(\n            'Content-Type: application/x-www-form-urlencoded'\n        ));\n\n        $rawResponse = curl_exec($ch);\n\n        if ($rawResponse === false) {\n            $curlError = curl_error($ch);\n            throw new Exception('Connection to API Endpoint failed: ' . $curlError);\n        }\n\n        $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);\n        if ($httpStatusCode !== 200) {\n            throw new Exception('API Endpoint returned anomalous HTTP status code: ' . $httpStatusCode);\n        }\n\n        // Verify transfer completeness ending with the configured string sentinel '##'\n        if (substr($rawResponse, -2) !== '##') {\n            throw new Exception('Incomplete API response transmission. End sequence sentinel \"##\" missing.');\n        }\n\n        $apiResult = parseApiResponse($rawResponse);\n\n        // Implement validation verification logic if a CheckCode is supplied and local mock db fields are filled\n        $mockTransNo = isset($_POST['MockTransNo']) ? trim($_POST['MockTransNo']) : '';\n        $mockOrderNo = isset($_POST['MockOrderNo']) ? trim($_POST['MockOrderNo']) : '';\n        $mockRandomNum = isset($_POST['MockRandomNum']) ? trim($_POST['MockRandomNum']) : '';\n        $mockTotalAmt = isset($_POST['MockTotalAmt']) ? trim($_POST['MockTotalAmt']) : '';\n        $receivedCheckCode = isset($apiResult['CheckCode']) ? $apiResult['CheckCode'] : '';\n\n        if ($receivedCheckCode !== '' && $mockTransNo !== '' && $mockOrderNo !== '' && $mockRandomNum !== '' && $mockTotalAmt !== '') {\n            $isSignatureValid = verifyResponseSignature(\n                $mockTransNo,\n                MERCHANT_ID,\n                $mockOrderNo,\n                $mockRandomNum,\n                $mockTotalAmt,\n                $receivedCheckCode\n            );\n            $validationResult = $isSignatureValid ? 'VALID' : 'INVALID';\n        }\n\n    } catch (Exception $e) {\n        $errorMsg = $e->getMessage();\n    }\n}\n?>\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Single Receipt Void Query Interface<\/title>\n    <style>\n        body { font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f6f9; color: #333; margin: 0; padding: 20px; }\n        .container { max-width: 900px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }\n        h1 { font-size: 24px; border-bottom: 2px solid #eaeaea; padding-bottom: 10px; margin-top: 0; color: #1e293b; }\n        h2 { font-size: 18px; color: #475569; margin-top: 25px; }\n        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }\n        .form-group { margin-bottom: 15px; }\n        label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 5px; color: #475569; }\n        input[type=\"text\"] { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px; box-sizing: border-box; font-size: 14px; }\n        input[type=\"text\"]:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }\n        .btn { display: inline-block; background-color: #2563eb; color: #fff; padding: 12px 24px; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; font-size: 14px; transition: background-color 0.2s; }\n        .btn:hover { background-color: #1d4ed8; }\n        .alert { padding: 15px; border-radius: 4px; margin-bottom: 20px; font-size: 14px; }\n        .alert-danger { background-color: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; }\n        .alert-success { background-color: #dcfce7; border: 1px solid #86efac; color: #166534; }\n        .alert-warning { background-color: #fef9c3; border: 1px solid #fde047; color: #854d0e; }\n        .response-table { width: 100%; border-collapse: collapse; margin-top: 15px; }\n        .response-table th, .response-table td { border: 1px solid #e2e8f0; padding: 12px; text-align: left; font-size: 14px; }\n        .response-table th { background-color: #f8fafc; font-weight: 600; color: #475569; }\n        .badge { display: inline-block; padding: 4px 8px; font-size: 12px; font-weight: 600; border-radius: 4px; }\n        .badge-success { background-color: #dcfce7; color: #166534; }\n        .badge-danger { background-color: #fee2e2; color: #991b1b; }\n        .section-desc { font-size: 13px; color: #64748b; margin-bottom: 15px; line-height: 1.4; }\n    <\/style>\n<\/head>\n<body>\n\n<div class=\"container\">\n    <h1>Single Receipt Void Query Interface<\/h1>\n\n    <?php if ($errorMsg): ?>\n        <div class=\"alert alert-danger\">\n            <strong>Execution Error:<\/strong> <?php echo htmlspecialchars($errorMsg); ?>\n        <\/div>\n    <?php endif; ?>\n\n    <form method=\"POST\" action=\"\">\n        <div class=\"form-grid\">\n            <div>\n                <h2>1. API Request Parameters<\/h2>\n                <div class=\"form-group\">\n                    <label for=\"InvoiceNumber\">Receipt Number (InvoiceNumber) <span style=\"color:red\">*<\/span><\/label>\n                    <input type=\"text\" id=\"InvoiceNumber\" name=\"InvoiceNumber\" value=\"<?php echo isset($_POST['InvoiceNumber']) ? htmlspecialchars($_POST['InvoiceNumber']) : 'T13671005'; ?>\" required>\n                <\/div>\n                <div class=\"form-group\">\n                    <label for=\"InvalidNo\">Void Document Number (InvalidNo) <span style=\"color:red\">*<\/span><\/label>\n                    <input type=\"text\" id=\"InvalidNo\" name=\"InvalidNo\" value=\"<?php echo isset($_POST['InvalidNo']) ? htmlspecialchars($_POST['InvalidNo']) : '85512'; ?>\" required>\n                <\/div>\n            <\/div>\n\n            <div>\n                <h2>2. Verification Parameters (From Local Database)<\/h2>\n                <div class=\"section-desc\">\n                    These optional fields mimic parameters fetched from your internal data systems using the query’s receipt number to perform cryptographic validation of the response integrity.\n                <\/div>\n                <div class=\"form-group\">\n                    <label for=\"MockTransNo\">Transaction No. (InvoiceTransNo)<\/label>\n                    <input type=\"text\" id=\"MockTransNo\" name=\"MockTransNo\" value=\"<?php echo isset($_POST['MockTransNo']) ? htmlspecialchars($_POST['MockTransNo']) : ''; ?>\" placeholder=\"e.g. TX12345678\">\n                <\/div>\n                <div class=\"form-group\">\n                    <label for=\"MockOrderNo\">Merchant Order No. (MerchantOrderNo)<\/label>\n                    <input type=\"text\" id=\"MockOrderNo\" name=\"MockOrderNo\" value=\"<?php echo isset($_POST['MockOrderNo']) ? htmlspecialchars($_POST['MockOrderNo']) : ''; ?>\" placeholder=\"e.g. ORD20240925\">\n                <\/div>\n                <div class=\"form-group\">\n                    <label for=\"MockRandomNum\">Random Verification Number (RandomNum)<\/label>\n                    <input type=\"text\" id=\"MockRandomNum\" name=\"MockRandomNum\" value=\"<?php echo isset($_POST['MockRandomNum']) ? htmlspecialchars($_POST['MockRandomNum']) : ''; ?>\" placeholder=\"e.g. 9876\">\n                <\/div>\n                <div class=\"form-group\">\n                    <label for=\"MockTotalAmt\">Total Amount (TotalAmt)<\/label>\n                    <input type=\"text\" id=\"MockTotalAmt\" name=\"MockTotalAmt\" value=\"<?php echo isset($_POST['MockTotalAmt']) ? htmlspecialchars($_POST['MockTotalAmt']) : ''; ?>\" placeholder=\"e.g. 5000\">\n                <\/div>\n            <\/div>\n        <\/div>\n\n        <div style=\"text-align: right; margin-top: 20px;\">\n            <button type=\"submit\" class=\"btn\">Execute Query<\/button>\n        <\/div>\n    <\/form>\n\n    <?php if ($apiResult): ?>\n        <h2>Query Results<\/h2>\n        <table class=\"response-table\">\n            <thead>\n                <tr>\n                    <th style=\"width: 30%;\">Field Name<\/th>\n                    <th>Value<\/th>\n                <\/tr>\n            <\/thead>\n            <tbody>\n                <tr>\n                    <td>Status (Status)<\/td>\n                    <td>\n                        <?php if (($apiResult['Status'] ?? '') === 'SUCCESS'): ?>\n                            <span class=\"badge badge-success\"><?php echo htmlspecialchars($apiResult['Status']); ?><\/span>\n                        <?php else: ?>\n                            <span class=\"badge badge-danger\"><?php echo htmlspecialchars($apiResult['Status'] ?? 'UNKNOWN'); ?><\/span>\n                        <?php endif; ?>\n                    <\/td>\n                <\/tr>\n                <tr>\n                    <td>Return Message (Message)<\/td>\n                    <td><?php echo htmlspecialchars($apiResult['Message'] ?? 'N/A'); ?><\/td>\n                <\/tr>\n                <tr>\n                    <td>Void Document Number (InvalidNo)<\/td>\n                    <td><?php echo htmlspecialchars($apiResult['InvalidNo'] ?? 'N/A'); ?><\/td>\n                <\/tr>\n                <tr>\n                    <td>Receipt Number (InvoiceNumber)<\/td>\n                    <td><?php echo htmlspecialchars($apiResult['InvoiceNumber'] ?? 'N/A'); ?><\/td>\n                <\/tr>\n                <tr>\n                    <td>Void Type (InvalidType)<\/td>\n                    <td>\n                        <?php \n                        $type = $apiResult['InvalidType'] ?? null;\n                        if ($type === '0') echo '0 (Waiting for Customer Confirmation)';\n                        elseif ($type === '1') echo '1 (Instant Void)';\n                        else echo htmlspecialchars($type ?? 'N/A');\n                        ?>\n                    <\/td>\n                <\/tr>\n                <tr>\n                    <td>Void Status (InvalidStatus)<\/td>\n                    <td>\n                        <?php \n                        $status = $apiResult['InvalidStatus'] ?? null;\n                        if ($status === '0') echo '0 (Pending Confirmation)';\n                        elseif ($status === '1') echo '1 (Void Confirmed)';\n                        elseif ($status === '2') echo '2 (Void Cancelled)';\n                        else echo htmlspecialchars($status ?? 'N/A');\n                        ?>\n                    <\/td>\n                <\/tr>\n                <tr>\n                    <td>Void Reason (invalidComment)<\/td>\n                    <td><?php echo htmlspecialchars($apiResult['invalidComment'] ?? 'N/A'); ?><\/td>\n                <\/tr>\n                <tr>\n                    <td>Void Creation Timestamp (InvalidCreateTime)<\/td>\n                    <td><?php echo htmlspecialchars($apiResult['InvalidCreateTime'] ?? 'N/A'); ?><\/td>\n                <\/tr>\n                <tr>\n                    <td>Void Execution Date (InvalidDate)<\/td>\n                    <td><?php echo htmlspecialchars($apiResult['InvalidDate'] ?? 'N/A'); ?><\/td>\n                <\/tr>\n                <tr>\n                    <td>Processor (SellerName)<\/td>\n                    <td><?php echo htmlspecialchars($apiResult['SellerName'] ?? 'N/A'); ?><\/td>\n                <\/tr>\n                <tr>\n                    <td>Cryptographic Signature (CheckCode)<\/td>\n                    <td style=\"word-break: break-all; font-family: monospace; font-size: 13px;\">\n                        <?php echo htmlspecialchars($apiResult['CheckCode'] ?? 'N/A'); ?>\n                    <\/td>\n                <\/tr>\n                <tr>\n                    <td>Transmission Sentinel (EndStr)<\/td>\n                    <td><code><?php echo htmlspecialchars($apiResult['EndStr'] ?? 'N/A'); ?><\/code><\/td>\n                <\/tr>\n            <\/tbody>\n        <\/table>\n\n        <?php if ($validationResult): ?>\n            <div style=\"margin-top: 20px;\">\n                <?php if ($validationResult === 'VALID'): ?>\n                    <div class=\"alert alert-success\">\n                        <strong>Integrity Match:<\/strong> Cryptographic verification succeeded. The response signature is genuine and verified against internal metadata.\n                    <\/div>\n                <?php else: ?>\n                    <div class=\"alert alert-danger\">\n                        <strong>Security Alert:<\/strong> Cryptographic validation check failed. The calculated signature does not match the received CheckCode. Ensure the supplied validation fields match the backend record state.\n                    <\/div>\n                <?php endif; ?>\n            <\/div>\n        <?php else: ?>\n            <div class=\"alert alert-warning\" style=\"margin-top: 20px;\">\n                <strong>Signature Validation Bypassed:<\/strong> Optional verification parameters were left empty. Perform these checks to guarantee the end-to-end reliability of transaction states.\n            <\/div>\n        <?php endif; ?>\n    <?php endif; ?>\n<\/div>\n\n<\/body>\n<\/html>"};
+
+        let currentLang = Object.keys(docConfig)[0];
+        let currentCodeTab = 'php';
+
+        function getMsg(ui, key, defaultMsg, replacements) {
+            var msg = ui[key] || defaultMsg;
+            if (replacements) {
+                for (var k in replacements) {
+                    msg = msg.replace(new RegExp('\\{' + k + '\\}', 'g'), replacements[k]);
+                }
+            }
+            return msg;
+        }
+
+        function renderAll() {
+            renderMetaInfo();
+            renderCustomSections();
+            renderFlowcharts();
+            renderToolTabs();
+            renderEncryptionRules();
+            renderSidebarAPIs(docConfig[currentLang].apis);
+            renderAPIs(docConfig[currentLang].apis);
+            renderErrorTable(docConfig[currentLang].errors, 'error-table-body');
+            renderCodeTabs();
+            loadCode(currentCodeTab);
+            renderVersions();
+            initScrollSpy();
+        }
+
+        function initScrollSpy() {
+            var navLinks = document.querySelectorAll('.nav-link');
+            var sections = Array.from(document.querySelectorAll('section[id], div.api-section[id]'));
+            function onScroll() {
+                var currentId = '';
+                var scrollPos = window.scrollY || document.documentElement.scrollTop;
+                for (var i = 0; i < sections.length; i++) {
+                    if (scrollPos >= sections[i].offsetTop - 100) { currentId = sections[i].getAttribute('id'); }
+                }
+                navLinks.forEach(function(link) {
+                    link.classList.remove('sidebar-active');
+                    if (link.getAttribute('href') === '#' + currentId) { link.classList.add('sidebar-active'); }
+                });
+            }
+            window.removeEventListener('scroll', onScroll);
+            window.addEventListener('scroll', onScroll);
+            setTimeout(onScroll, 100);
+        }
+
+        function initSearch() {
+            var searchInput = document.getElementById('errorSearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', function(e) {
+                    var term = e.target.value.toLowerCase().trim();
+                    var allErrors = docConfig[currentLang].errors || [];
+                    var filtered = allErrors.filter(function(err) {
+                        return err.code.toLowerCase().includes(term) || err.reason.toLowerCase().includes(term);
+                    });
+                    renderErrorTable(filtered, 'error-table-body');
+                });
+            }
+        }
+
+        function renderCustomSections() {
+            var navContainer = document.getElementById('dynamic-sidebar-links');
+            var contentContainer = document.getElementById('dynamic-content-sections');
+            var sections = docConfig[currentLang].meta.sections || [];
+            var navHtml = '', contentHtml = '';
+            
+            // 清空容器，確保重新渲染時不會重複疊加
+            if (navContainer) navContainer.innerHTML = '';
+            if (contentContainer) contentContainer.innerHTML = '';
+
+            sections.forEach(function(sec, index) {
+                var sectionId = sec.id || ('custom-section-' + index);
+                var iconClass = sec.icon || 'fas fa-bookmark';
+                var markerColor = sec.markerColor || 'bg-blue-600';
+                navHtml += '<a href="#' + sectionId + '" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group"><i class="' + iconClass + ' w-6 group-hover:text-blue-500 transition-colors"></i> <span>' + sec.title + '</span></a>';
+                var sectionBody = '';
+                if (sec.desc && sec.desc.trim() !== '') {
+                    sectionBody += '<div class="text-slate-700 leading-relaxed text-base whitespace-pre-line mb-6 last:mb-0">' + sec.desc + '</div>';
+                }
+                if (sec.images && sec.images.length > 0) {
+                    sectionBody += '<div class="space-y-8">' + sec.images.map(function(url) {
+                        return '<div class="border rounded-lg overflow-hidden cursor-pointer" onclick="openLightbox(\'' + url + '\')"><img src="' + url + '" class="w-full h-auto hover:opacity-90 transition-opacity"></div>';
+                    }).join('') + '</div>';
+                }
+                contentHtml += '<section id="' + sectionId + '" class="mb-12 scroll-mt-24"><div class="flex items-center mb-6"><div class="w-2 h-8 ' + markerColor + ' mr-4 rounded-sm"></div><h2 class="text-2xl font-bold text-slate-900">' + sec.title + '</h2></div><div class="bg-white p-6 lg:p-8 rounded-xl shadow-sm border border-slate-200">' + sectionBody + '</div></section>';
+            });
+
+            if (navContainer) navContainer.innerHTML = navHtml;
+            if (contentContainer) {
+                contentContainer.innerHTML = contentHtml;
+                
+                var descImages = contentContainer.querySelectorAll('img');
+                descImages.forEach(function(img) {
+                    img.classList.add('cursor-pointer', 'hover:opacity-90', 'transition-opacity');
+                    img.onclick = function() {
+                        openLightbox(this.src);
+                    };
+                });
+            }
+        }
+
+        function renderFlowcharts() {
+            var meta = docConfig[currentLang].meta;
+            var ui = docConfig[currentLang].ui;
+            var flowcharts = meta.flowcharts || [];
+            
+            if (flowcharts.length === 0) return;
+
+            var navContainer = document.getElementById('dynamic-sidebar-links');
+            var contentContainer = document.getElementById('dynamic-content-sections');
+            
+            var navHtml = '';
+            var contentHtml = '';
+
+            flowcharts.forEach(function(fc) {
+                var sectionId = fc.id; 
+                if (!sectionId) return;
+                var title = fc.title || '流程圖';
+                
+                // 將 id 的中線轉換為底線，對應 ui 的 key (例如 flowchart-0 -> flowchart_0_url)
+                var urlKey = sectionId.replace(/-/g, '_') + '_url'; 
+                var imgUrl = ui[urlKey];
+
+                if (!imgUrl) return; // 如果 ui 中沒有此網址則跳過
+
+                navHtml += '<a href="#' + sectionId + '" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group"><i class="fas fa-project-diagram w-6 group-hover:text-blue-500 transition-colors"></i> <span>' + title + '</span></a>';
+
+                contentHtml += '<section id="' + sectionId + '" class="mb-12 scroll-mt-24"><div class="flex items-center mb-6"><div class="w-2 h-8 bg-indigo-500 mr-4 rounded-sm"></div><h2 class="text-2xl font-bold text-slate-900">' + title + '</h2></div><div class="bg-white p-6 lg:p-8 rounded-xl shadow-sm border border-slate-200 overflow-x-auto text-center"><img src="' + imgUrl + '" alt="' + title + '" class="inline-block max-w-full h-auto cursor-pointer hover:opacity-90 transition-opacity" onclick="openLightbox(\'' + imgUrl + '\')"></div></section>';
+            });
+
+            // 以附加方式將流程圖區域加入現有容器，保留 renderCustomSections 所建立的內容
+            if (navContainer && navHtml) navContainer.insertAdjacentHTML('beforeend', navHtml);
+            if (contentContainer && contentHtml) contentContainer.insertAdjacentHTML('beforeend', contentHtml);
+        }
+
+        function renderToolTabs() {
+            var container = document.getElementById('tool-tabs-container');
+            var ui = docConfig[currentLang].ui;
+            var config = globalToolsConfig;
+            var html = '';
+            if (config.aes_encrypt && config.aes_encrypt.enabled) {
+                html += '<button onclick="switchToolTab(\'tool-aes-encrypt\', event)" class="tool-tab-btn flex-1 py-4 text-sm font-bold text-center hover:bg-slate-50 transition border-b-2 border-transparent text-slate-500"><i class="fas fa-lock mr-2"></i> <span>' + ui.tool_tab_encrypt + '</span></button>';
+            }
+            if (config.aes_decrypt && config.aes_decrypt.enabled) {
+                html += '<button onclick="switchToolTab(\'tool-aes-decrypt\', event)" class="tool-tab-btn flex-1 py-4 text-sm font-bold text-center hover:bg-slate-50 transition border-b-2 border-transparent text-slate-500"><i class="fas fa-unlock mr-2"></i> <span>' + ui.tool_tab_decrypt + '</span></button>';
+            }
+            if (config.sha && config.sha.enabled) {
+                html += '<button onclick="switchToolTab(\'tool-sha\', event)" class="tool-tab-btn flex-1 py-4 text-sm font-bold text-center hover:bg-slate-50 transition border-b-2 border-transparent text-slate-500"><i class="fas fa-fingerprint mr-2"></i> <span>' + ui.tool_tab_sha + '</span></button>';
+            }
+            if (container) container.innerHTML = html;
+            if (config.sha && config.sha.enabled) { renderSHAInputs(); }
+            var firstBtn = container ? container.querySelector('.tool-tab-btn') : null;
+            if (firstBtn) firstBtn.click();
+            var toolSection = document.getElementById('tool');
+            if (toolSection) {
+                if (html !== '') toolSection.classList.remove('hidden');
+                else toolSection.classList.add('hidden');
+            }
+        }
+
+        function renderSHAInputs() {
+            var container = document.getElementById('sha-inputs-area');
+            if (!container) return;
+            var config = globalToolsConfig.sha.params;
+            var columns = config.columns ? config.columns.split(',').map(function(s) { return s.trim(); }) : [];
+            var html = '';
+            columns.forEach(function(col) {
+                html += '<div><label class="block text-xs font-bold text-slate-500 uppercase mb-1">' + col + '</label><input type="text" id="sha_param_' + col + '" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm text-slate-600 bg-white shadow-sm"></div>';
+            });
+            container.innerHTML = html;
+        }
+
+        function renderEncryptionRules() {
+            var config = globalToolsConfig;
+            var ui = docConfig[currentLang].ui;
+            var section = document.getElementById('encryption');
+            var aesBlock = document.getElementById('enc-rule-aes');
+            var shaBlock = document.getElementById('enc-rule-sha');
+            var navLink = document.getElementById('nav-encryption-link');
+            
+            if (!section || !aesBlock || !shaBlock) return;
+            
+            var hasContent = false;
+
+            if (config.aes_encrypt && config.aes_encrypt.enabled) { 
+                aesBlock.classList.remove('hidden'); 
+                hasContent = true; 
+                let stepHtml = '';
+                let i = 1;
+                while (ui['enc_step' + i + '_title']) {
+                    stepHtml += '<div class="flex"><div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">' + i + '</div><div class="ml-4"><h4 class="font-bold text-slate-800">' + ui['enc_step' + i + '_title'] + '</h4><p class="text-sm text-slate-600 mt-1">' + (ui['enc_step' + i + '_desc'] || '') + '</p></div></div>';
+                    i++;
+                }
+                let stepsContainer = document.getElementById('enc-rule-aes-steps');
+                if (stepsContainer) stepsContainer.innerHTML = stepHtml;
+            } else { 
+                aesBlock.classList.add('hidden'); 
+            }
+
+            if (config.sha && config.sha.enabled) { 
+                shaBlock.classList.remove('hidden'); 
+                hasContent = true; 
+                let stepHtml = '';
+                let i = 1;
+                while (ui['enc_sha_step' + i + '_title']) {
+                    let desc = ui['enc_sha_step' + i + '_desc'] || '';
+                    
+                    if (config.sha.params) {
+                        let shaConfig = config.sha.params;
+                        let columns = shaConfig.columns ? shaConfig.columns.split(',').map(function(s) { return s.trim(); }) : [];
+                        let keyLabel = shaConfig.key_label || 'HashKey';
+                        let ivLabel = shaConfig.iv_label || 'HashIV';
+
+                        if (columns.length > 0) {
+                            if (i === 1) {
+                                let actualCols = columns.join(', ');
+                                let colsHtml = '<span class="font-mono text-purple-700 font-bold bg-purple-100 px-1.5 py-0.5 rounded border border-purple-200 mx-1">' + actualCols + '</span>';
+                                
+                                if (desc.includes('指定參數') && !desc.includes(colsHtml)) {
+                                    desc = desc.replace('指定參數', '指定參數 ' + colsHtml);
+                                } else if (desc.includes('specified parameters') && !desc.includes(colsHtml)) {
+                                    desc = desc.replace('specified parameters', 'specified parameters ' + colsHtml);
+                                } else if (!desc.includes(colsHtml) && !desc.includes('PostData_')) {
+                                    desc += ' ' + colsHtml;
+                                }
+                            }
+
+                            let sortedCols = columns.slice().sort();
+                            let mockQueryString = sortedCols.map(function(col, idx) { return col + '=val' + (idx + 1); }).join('&');
+
+                            if (desc.includes('(key1=val1&key2=val2...)')) {
+                                let replaceStr = '<span class="font-mono text-blue-700 font-bold bg-blue-50 px-1 rounded">(' + mockQueryString + ')</span>';
+                                desc = desc.replace('(key1=val1&key2=val2...)', replaceStr);
+                            }
+
+                            if (desc.includes('HashKey=...&[SortedParams]&HashIV=...')) {
+                                let fullMockString = keyLabel + '=[keyval]&' + mockQueryString + '&' + ivLabel + '=[ivval]';
+                                let replaceStr = '<span class="font-mono text-blue-700 font-bold bg-blue-50 px-1 rounded break-all">' + fullMockString + '</span>';
+                                desc = desc.replace('HashKey=...&[SortedParams]&HashIV=...', replaceStr);
+                            }
+                        }
+                    }
+                    
+                    stepHtml += '<div class="flex"><div class="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">' + i + '</div><div class="ml-4"><h4 class="font-bold text-slate-800">' + ui['enc_sha_step' + i + '_title'] + '</h4><p class="text-sm text-slate-600 mt-1">' + desc + '</p></div></div>';
+                    i++;
+                }
+                let stepsContainer = document.getElementById('enc-rule-sha-steps');
+                if (stepsContainer) stepsContainer.innerHTML = stepHtml;
+            } else { 
+                shaBlock.classList.add('hidden'); 
+            }
+
+            if (hasContent) { 
+                section.classList.remove('hidden'); 
+                if (navLink) navLink.classList.remove('hidden'); 
+            } else { 
+                section.classList.add('hidden'); 
+                if (navLink) navLink.classList.add('hidden'); 
+            }
+        }
+
+        function switchToolTab(tabId, event) {
+            document.querySelectorAll('.tool-content').forEach(function(el) { el.classList.add('hidden'); });
+            document.querySelectorAll('.tool-tab-btn').forEach(function(el) {
+                el.classList.remove('active', 'border-purple-600', 'text-purple-600');
+                el.classList.add('border-transparent', 'text-slate-500');
+            });
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.remove('border-transparent', 'text-slate-500');
+                event.currentTarget.classList.add('active', 'border-purple-600', 'text-purple-600');
+            }
+            var targetContent = document.getElementById(tabId);
+            if (targetContent) targetContent.classList.remove('hidden');
+
+            var ui = docConfig[currentLang].ui;
+            var lblKey = document.getElementById('lbl-tool-key');
+            var lblIv = document.getElementById('lbl-tool-iv');
+            if (lblKey && lblIv) {
+                if (tabId === 'tool-sha') {
+                    var shaConfig = (globalToolsConfig.sha && globalToolsConfig.sha.params) ? globalToolsConfig.sha.params : {};
+                    var kLabel = shaConfig.key_label !== undefined ? shaConfig.key_label : 'HashKey';
+                    var iLabel = shaConfig.iv_label !== undefined ? shaConfig.iv_label : 'HashIV';
+                    lblKey.innerHTML = kLabel + ' <span class="text-[10px] text-slate-400 font-normal ml-1">(Key)</span>';
+                    lblIv.innerHTML = iLabel + ' <span class="text-[10px] text-slate-400 font-normal ml-1">(IV)</span>';
+                } else {
+                    lblKey.innerHTML = ui.tool_lbl_key || 'KEY';
+                    lblIv.innerHTML = ui.tool_lbl_iv || 'IV';
+                }
+            }
+        }
+
+        function getKeys() {
+            var ui = docConfig[currentLang].ui;
+            var key = document.getElementById('toolKey').value.trim();
+            var iv = document.getElementById('toolIv').value.trim();
+            if (!key || !iv) { alert(ui.tool_alert_missing_key); return null; }
+            return { key: key, iv: iv };
+        }
+
+        function runEncrypt() {
+            var ui = docConfig[currentLang].ui;
+            var keys = getKeys(); if (!keys) return;
+            var data = document.getElementById('encryptInput').value.trim();
+            if (!data) return alert(ui.tool_alert_missing_data);
+            try {
+                var keyHex = CryptoJS.enc.Utf8.parse(keys.key);
+                var ivHex = CryptoJS.enc.Utf8.parse(keys.iv);
+                var encrypted = CryptoJS.AES.encrypt(data, keyHex, { iv: ivHex, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+                document.getElementById('encryptOutput').value = encrypted.ciphertext.toString(CryptoJS.enc.Hex);
+            } catch (e) { alert(ui.tool_alert_encrypt_fail + e.message); }
+        }
+
+        function runDecrypt() {
+            var ui = docConfig[currentLang].ui;
+            var keys = getKeys(); if (!keys) return;
+            var hexStr = document.getElementById('decryptInput').value.trim();
+            if (!hexStr) return alert(ui.tool_alert_missing_hex);
+            try {
+                var keyHex = CryptoJS.enc.Utf8.parse(keys.key);
+                var ivHex = CryptoJS.enc.Utf8.parse(keys.iv);
+                var encryptedHex = CryptoJS.enc.Hex.parse(hexStr);
+                var encryptedBase64 = CryptoJS.enc.Base64.stringify(encryptedHex);
+                var decrypted = CryptoJS.AES.decrypt(encryptedBase64, keyHex, { iv: ivHex, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+                document.getElementById('decryptOutput').value = decrypted.toString(CryptoJS.enc.Utf8);
+            } catch (e) { alert(ui.tool_alert_decrypt_fail); }
+        }
+
+        function runSHA() {
+            var ui = docConfig[currentLang].ui;
+            var keys = getKeys(); if (!keys) return;
+            var config = (globalToolsConfig.sha && globalToolsConfig.sha.params) ? globalToolsConfig.sha.params : {};
+            var columns = config.columns ? config.columns.split(',').map(function(s) { return s.trim(); }) : [];
+            try {
+                var params = {};
+                columns.forEach(function(col) {
+                    var input = document.getElementById('sha_param_' + col);
+                    if (input) params[col] = input.value.trim();
+                });
+                var sortedKeys = Object.keys(params).sort();
+                var sortedString = sortedKeys.map(function(key) { return key + '=' + params[key]; }).join('&');
+                
+                var keyLabel = config.key_label !== undefined ? config.key_label : 'HashKey';
+                var ivLabel = config.iv_label !== undefined ? config.iv_label : 'HashIV';
+                
+                var finalStringParts = [];
+                if (keyLabel && keys.key) finalStringParts.push(keyLabel + '=' + keys.key);
+                if (sortedString) finalStringParts.push(sortedString);
+                if (ivLabel && keys.iv) finalStringParts.push(ivLabel + '=' + keys.iv);
+                
+                var finalString = finalStringParts.join('&');
+                
+                var preHashEl = document.getElementById('shaPreHashOutput');
+                if (preHashEl) preHashEl.value = finalString;
+
+                document.getElementById('shaOutput').value = CryptoJS.SHA256(finalString).toString(CryptoJS.enc.Hex).toUpperCase();
+            } catch (e) { alert('SHA calculation failed: ' + e.message); }
+        }
+
+        function renderMetaInfo() {
+            var meta = docConfig[currentLang].meta;
+            var ui = docConfig[currentLang].ui;
+            
+            document.getElementById('head-title').textContent = ui.head_title || meta.title || 'API Document';
+            document.getElementById('mobile-header-title').textContent = meta.title;
+            document.getElementById('sidebar-subtitle').textContent = meta.subtitle;
+            document.getElementById('sidebar-version').textContent = meta.version;
+            
+            var sysNameEl = document.getElementById('meta-system-name');
+            var copyEl = document.getElementById('meta-copyright');
+            if(sysNameEl) sysNameEl.textContent = ui.system_name || '';
+            if(copyEl) copyEl.textContent = ui.copyright || '';
+        }
+
+        function renderSidebarAPIs(apis) {
+            var container = document.getElementById('sidebar-api-list');
+            container.innerHTML = apis.map(function(api, index) {
+                return '<a href="#api-' + index + '" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg group pl-6"><i class="fas fa-angle-right w-4 text-slate-400 group-hover:text-blue-500 mr-2"></i> <span>' + api.name + '</span></a>';
+            }).join('');
+        }
+
+        function renderAPIs(apis) {
+            var container = document.getElementById('api-groups-container');
+            container.innerHTML = '';
+            var ui = docConfig[currentLang].ui;
+            var thExample = ui.th_example || (currentLang === 'zh-TW' ? '範例' : 'Example');
+            
+            var lblDirection = ui.lbl_direction || "方向 (Direction)";
+            var lblGroupType = ui.lbl_group_type || "加密方式 (Group Type)";
+            var lblLocation = ui.lbl_location || "傳遞位置 (Location)";
+            var lblBelongTo = ui.lbl_belong_to || "隸屬";
+            var lblFieldComboFormat = ui.lbl_field_combo_format || "欄位組合格式";
+
+            apis.forEach(function(api, index) {
+                var groupDiv = document.createElement('div');
+                groupDiv.id = 'api-' + index;
+                groupDiv.className = 'api-section mb-16 border-b-2 border-slate-100 pb-12 last:border-0';
+                var headerHtml = '<div class="flex items-center mb-6"><div class="bg-blue-600 text-white font-bold px-3 py-1 rounded text-sm mr-3">' + ui.lbl_api_index + ' ' + (index + 1) + '</div><h3 class="text-2xl font-bold text-slate-800">' + api.name + '</h3></div>' +
+                    '<div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8"><div class="grid grid-cols-1 gap-4 text-sm">' +
+                    '<div class="bg-slate-50 p-3 rounded border border-slate-100"><div><div class="text-xs text-slate-500 uppercase mb-1">' + ui.req_url_prod + '</div><div class="font-mono text-blue-600 select-all font-medium break-all">' + api.url_prod + '</div></div>' +
+                    '<div class="border-t border-slate-200 pt-2 mt-2"><div class="text-xs text-slate-500 uppercase mb-1">' + ui.req_url_test + '</div><div class="font-mono text-slate-500 select-all break-all">' + api.url_test + '</div></div></div></div></div>';
+                
+                var requestHtml = '';
+                if (api.requests && api.requests.length > 0) {
+                    requestHtml += '<div class="mb-6"><h4 class="text-lg font-bold text-slate-700 mb-3 border-l-4 border-blue-500 pl-3">' + ui.req_title + '</h4>';
+                    api.requests.forEach(function(reqTable) {
+                        var badges = [];
+                        if (reqTable.method) badges.push('<span class="font-mono font-bold text-green-700 text-xs bg-green-100 border border-green-200 px-2 py-0.5 rounded ml-2" title="Method">' + reqTable.method + '</span>');
+                        if (reqTable.direction) badges.push('<span class="font-mono font-bold text-blue-700 text-xs bg-blue-100 border border-blue-200 px-2 py-0.5 rounded ml-2" title="' + lblDirection + '"><i class="fas fa-exchange-alt mr-1"></i>' + reqTable.direction + '</span>');
+                        if (reqTable.group_type) badges.push('<span class="font-mono font-bold text-purple-700 text-xs bg-purple-100 border border-purple-200 px-2 py-0.5 rounded ml-2" title="' + lblGroupType + '"><i class="fas fa-shield-alt mr-1"></i>' + reqTable.group_type + '</span>');
+                        if (reqTable.param_location) badges.push('<span class="font-mono font-bold text-orange-700 text-xs bg-orange-100 border border-orange-200 px-2 py-0.5 rounded ml-2" title="' + lblLocation + '"><i class="fas fa-map-marker-alt mr-1"></i>' + reqTable.param_location + '</span>');
+                        if (reqTable.field_combination_format) {
+                            var reqFcfIcon = reqTable.field_combination_format.toUpperCase() === 'JSON' ? 'fa-brackets-curly' : 'fa-link';
+                            badges.push('<span class="font-mono font-bold text-cyan-700 text-xs bg-cyan-100 border border-cyan-200 px-2 py-0.5 rounded ml-2" title="' + lblFieldComboFormat + '"><i class="fas ' + reqFcfIcon + ' mr-1"></i>' + reqTable.field_combination_format + '</span>');
+                        }
+                        
+                        var badgesHtml = badges.join('');
+                        
+                        var methodText = reqTable.method || 'POST';
+                        var locText = reqTable.param_location || 'body';
+                        var infoText = getMsg(ui, 'msg_req_info', '本請求需由商店端發動，請以 <span class="font-bold text-blue-700">{method}</span> 方式，將參數打包並放置於 <span class="font-bold text-blue-700">{location}</span> 進行傳輸。', {method: methodText, location: locText});
+
+                        if (reqTable.field_combination_format) {
+                            var reqFcf = reqTable.field_combination_format;
+                            var reqFcfText = '';
+                            if (reqFcf.toUpperCase() === 'STRING') {
+                                reqFcfText = getMsg(ui, 'msg_req_format_qs', '本表格中的欄位需以 <span class="font-mono font-bold text-cyan-700">&amp;</span> 符號組合為查詢字串 (Query String) 格式，例如 <span class="font-mono text-cyan-700">key1=val1&amp;key2=val2</span>。');
+                            } else if (reqFcf.toUpperCase() === 'JSON') {
+                                reqFcfText = getMsg(ui, 'msg_req_format_json', '本表格中的欄位需放置於 <span class="font-bold text-cyan-700">JSON</span> 物件中傳遞。');
+                            } else {
+                                reqFcfText = getMsg(ui, 'msg_req_format_other', '本表格中的欄位採用 <span class="font-bold text-cyan-700">{format}</span> 格式組合。', {format: reqFcf});
+                            }
+                            infoText += '<div class="mt-1.5 text-cyan-700"><i class="fas fa-puzzle-piece mr-1 opacity-80"></i> ' + lblFieldComboFormat + '：' + reqFcfText + '</div>';
+                        }
+                        if (reqTable.group_type && reqTable.group_type !== '無加密') {
+                            infoText += '<div class="mt-1.5 text-purple-700"><i class="fas fa-shield-alt mr-1 opacity-80"></i> ' + getMsg(ui, 'msg_req_security', '資料安全：傳輸前需完成 <span class="font-bold">{group_type}</span> 處理。', {group_type: reqTable.group_type}) + '</div>';
+                        }
+                        var infoCardHtml = '<div class="px-4 py-3 bg-blue-50/50 border-b border-blue-100 flex items-start gap-3"><i class="fas fa-info-circle text-blue-500 mt-0.5"></i><div class="text-sm text-slate-700 leading-relaxed">' + infoText + '</div></div>';
+
+                        var hasChildren = (reqTable.children && reqTable.children.length > 0);
+                        var reqMarginClass = hasChildren ? 'mb-2' : 'mb-6';
+
+                        requestHtml += '<div class="bg-white rounded-xl border border-slate-200 overflow-hidden relative z-10 ' + reqMarginClass + '"><div class="p-3 bg-slate-50 border-b flex items-center flex-wrap gap-2"><span class="text-sm font-bold text-slate-600">' + reqTable.title + '</span>' + badgesHtml + '</div>' +
+                            infoCardHtml +
+                            '<div class="overflow-x-auto"><table class="w-full min-w-[800px] text-sm params-table"><thead class="bg-slate-50 border-b"><tr>' +
+                            '<th class="px-6 py-4 text-left w-[20%]">' + ui.th_param + '</th><th class="px-6 py-4 text-left w-[15%]">' + ui.th_name + '</th>' +
+                            '<th class="px-6 py-4 text-center w-[8%]">' + ui.th_required + '</th><th class="px-6 py-4 text-left w-[12%]">' + ui.th_type + '</th>' +
+                            '<th class="px-6 py-4 text-left w-[15%]">' + thExample + '</th><th class="px-6 py-4 text-left w-[30%]">' + ui.th_note + '</th></tr></thead>' +
+                            '<tbody class="divide-y divide-slate-200">' + generateTableRows(reqTable.params, ui) + '</tbody></table></div></div>';
+
+                        if (hasChildren) {
+                            reqTable.children.forEach(function(childTable) {
+                                var childBadges = [];
+                                if (childTable.group_type) childBadges.push('<span class="font-mono font-bold text-purple-700 text-xs bg-purple-100 border border-purple-200 px-2 py-0.5 rounded ml-2" title="' + lblGroupType + '"><i class="fas fa-shield-alt mr-1"></i>' + childTable.group_type + '</span>');
+                                if (childTable.param_location) childBadges.push('<span class="font-mono font-bold text-orange-700 text-xs bg-orange-100 border border-orange-200 px-2 py-0.5 rounded ml-2" title="' + lblLocation + '"><i class="fas fa-map-marker-alt mr-1"></i>' + childTable.param_location + '</span>');
+                                if (childTable.from_field) childBadges.push('<span class="font-mono font-bold text-teal-700 text-xs bg-teal-100 border border-teal-200 px-2 py-0.5 rounded ml-2" title="' + lblBelongTo + '"><i class="fas fa-level-down-alt mr-1"></i>' + lblBelongTo + ': ' + childTable.from_field + '</span>');
+                                if (childTable.field_combination_format) {
+                                    var reqChildFcfIcon = childTable.field_combination_format.toUpperCase() === 'JSON' ? 'fa-brackets-curly' : 'fa-link';
+                                    childBadges.push('<span class="font-mono font-bold text-cyan-700 text-xs bg-cyan-100 border border-cyan-200 px-2 py-0.5 rounded ml-2" title="' + lblFieldComboFormat + '"><i class="fas ' + reqChildFcfIcon + ' mr-1"></i>' + childTable.field_combination_format + '</span>');
+                                }
+                                
+                                var childBadgesHtml = childBadges.join('');
+                                var childInfoText = '';
+                                var reqChildInfoParts = [];
+                                if (childTable.field_combination_format) {
+                                    var reqCFcf = childTable.field_combination_format;
+                                    var reqCFcfText = '';
+                                    if (reqCFcf.toUpperCase() === 'STRING') {
+                                        reqCFcfText = getMsg(ui, 'msg_req_format_qs', '本區塊欄位需以 <span class="font-mono font-bold text-cyan-700">&amp;</span> 符號組合為查詢字串 (Query String) 格式，例如 <span class="font-mono text-cyan-700">key1=val1&amp;key2=val2</span>。');
+                                    } else if (reqCFcf.toUpperCase() === 'JSON') {
+                                        reqCFcfText = getMsg(ui, 'msg_req_format_json', '本區塊欄位需放置於 <span class="font-bold text-cyan-700">JSON</span> 物件中傳遞。');
+                                    } else {
+                                        reqCFcfText = getMsg(ui, 'msg_req_format_other', '本區塊欄位採用 <span class="font-bold text-cyan-700">{format}</span> 格式組合。', {format: reqCFcf});
+                                    }
+                                    reqChildInfoParts.push('<div class="flex items-start gap-3"><i class="fas fa-puzzle-piece text-cyan-500 mt-0.5"></i><div class="text-xs text-slate-600 leading-relaxed">' + lblFieldComboFormat + '：' + reqCFcfText + '</div></div>');
+                                }
+                                if (childTable.group_type && childTable.group_type !== '無加密') {
+                                    reqChildInfoParts.push('<div class="flex items-start gap-3"><i class="fas fa-shield-alt text-purple-500 mt-0.5"></i><div class="text-xs text-slate-600 leading-relaxed">' + getMsg(ui, 'msg_req_security', '資料安全：本區塊欄位需完成 <span class="font-bold text-purple-700">{group_type}</span> 處理。', {group_type: childTable.group_type}) + '</div></div>');
+                                }
+                                if (reqChildInfoParts.length > 0) {
+                                    childInfoText = '<div class="px-4 py-2 bg-slate-50 border-b border-slate-200 space-y-1.5">' + reqChildInfoParts.join('') + '</div>';
+                                }
+
+                                requestHtml += '<div class="ml-6 md:ml-12 mb-6 relative">';
+                                requestHtml += '<div class="absolute -left-4 md:-left-8 top-[-8px] w-4 md:w-8 h-10 border-b-2 border-l-2 border-slate-300 rounded-bl-xl z-0"></div>';
+                                requestHtml += '<div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm relative z-10">';
+                                requestHtml += '<div class="p-3 bg-slate-100 border-b flex items-center flex-wrap gap-2"><span class="text-sm font-bold text-slate-700"><i class="fas fa-stream text-slate-400 mr-2"></i>' + childTable.title + '</span>' + childBadgesHtml + '</div>';
+                                requestHtml += childInfoText;
+                                requestHtml += '<div class="overflow-x-auto"><table class="w-full min-w-[800px] text-sm params-table"><thead class="bg-slate-50 border-b"><tr>' +
+                                            '<th class="px-6 py-4 text-left w-[20%]">' + ui.th_param + '</th><th class="px-6 py-4 text-left w-[15%]">' + ui.th_name + '</th>' +
+                                            '<th class="px-6 py-4 text-center w-[8%]">' + ui.th_required + '</th><th class="px-6 py-4 text-left w-[12%]">' + ui.th_type + '</th>' +
+                                            '<th class="px-6 py-4 text-left w-[15%]">' + thExample + '</th><th class="px-6 py-4 text-left w-[30%]">' + ui.th_note + '</th></tr></thead>' +
+                                            '<tbody class="divide-y divide-slate-200">' + generateTableRows(childTable.params, ui) + '</tbody></table></div></div></div>';
+                            });
+                        }
+                    });
+                    requestHtml += '</div>';
+                }
+
+                var responseHtml = '';
+                if (api.responses && api.responses.length > 0) {
+                    responseHtml += '<div class="mb-4"><h4 class="text-lg font-bold text-slate-700 mb-3 border-l-4 border-green-500 pl-3">' + ui.res_title + '</h4>';
+                    api.responses.forEach(function(resTable) {
+                        var badges = [];
+                        if (resTable.method) badges.push('<span class="font-mono font-bold text-green-700 text-xs bg-green-100 border border-green-200 px-2 py-0.5 rounded ml-2" title="Method">' + resTable.method + '</span>');
+                        if (resTable.direction) badges.push('<span class="font-mono font-bold text-blue-700 text-xs bg-blue-100 border border-blue-200 px-2 py-0.5 rounded ml-2" title="' + lblDirection + '"><i class="fas fa-exchange-alt mr-1"></i>' + resTable.direction + '</span>');
+                        if (resTable.group_type) badges.push('<span class="font-mono font-bold text-purple-700 text-xs bg-purple-100 border border-purple-200 px-2 py-0.5 rounded ml-2" title="' + lblGroupType + '"><i class="fas fa-shield-alt mr-1"></i>' + resTable.group_type + '</span>');
+                        if (resTable.param_location) badges.push('<span class="font-mono font-bold text-orange-700 text-xs bg-orange-100 border border-orange-200 px-2 py-0.5 rounded ml-2" title="' + lblLocation + '"><i class="fas fa-map-marker-alt mr-1"></i>' + resTable.param_location + '</span>');
+                        if (resTable.field_combination_format) {
+                            var resFcfIcon = resTable.field_combination_format.toUpperCase() === 'JSON' ? 'fa-brackets-curly' : 'fa-link';
+                            badges.push('<span class="font-mono font-bold text-cyan-700 text-xs bg-cyan-100 border border-cyan-200 px-2 py-0.5 rounded ml-2" title="' + lblFieldComboFormat + '"><i class="fas ' + resFcfIcon + ' mr-1"></i>' + resTable.field_combination_format + '</span>');
+                        }
+                        
+                        var badgesHtml = badges.join('');
+                        
+                        var methodRes = resTable.method || 'POST';
+                        var locRes = resTable.param_location || 'body';
+                        var infoTextRes = '';
+                        if (locRes.toLowerCase() === 'webhook') {
+                            infoTextRes = getMsg(ui, 'msg_res_info_webhook', '本結果將由系統以非同步形式，主動推播至商店指定的 <span class="font-bold text-green-700">Webhook</span> 接收網址。');
+                        } else {
+                            infoTextRes = getMsg(ui, 'msg_res_info_sync', '本結果將由系統以 <span class="font-bold text-green-700">{method}</span> 方式同步回傳於 <span class="font-bold text-green-700">{location}</span>。', {method: methodRes, location: locRes});
+                        }
+                        
+                        if (resTable.field_combination_format) {
+                            var resFcf = resTable.field_combination_format;
+                            var resFcfText = '';
+                            if (resFcf.toUpperCase() === 'STRING') {
+                                resFcfText = getMsg(ui, 'msg_res_format_qs', '回傳的欄位將以 <span class="font-mono font-bold text-cyan-700">&amp;</span> 符號組合為查詢字串 (Query String) 格式，例如 <span class="font-mono text-cyan-700">key1=val1&amp;key2=val2</span>。');
+                            } else if (resFcf.toUpperCase() === 'JSON') {
+                                resFcfText = getMsg(ui, 'msg_res_format_json', '回傳的欄位將放置於 <span class="font-bold text-cyan-700">JSON</span> 物件中傳遞。');
+                            } else {
+                                resFcfText = getMsg(ui, 'msg_res_format_other', '回傳的欄位採用 <span class="font-bold text-cyan-700">{format}</span> 格式組合。', {format: resFcf});
+                            }
+                            infoTextRes += '<div class="mt-1.5 text-cyan-700"><i class="fas fa-puzzle-piece mr-1 opacity-80"></i> ' + lblFieldComboFormat + '：' + resFcfText + '</div>';
+                        }
+                        if (resTable.group_type && resTable.group_type !== '無加密') {
+                            infoTextRes += '<div class="mt-1.5 text-purple-700"><i class="fas fa-shield-alt mr-1 opacity-80"></i> ' + getMsg(ui, 'msg_res_security', '驗證解密：接收後需針對特定資料進行 <span class="font-bold">{group_type}</span> 處理。', {group_type: resTable.group_type}) + '</div>';
+                        }
+                        var infoCardResHtml = '<div class="px-4 py-3 bg-green-50/50 border-b border-green-100 flex items-start gap-3"><i class="fas fa-info-circle text-green-600 mt-0.5"></i><div class="text-sm text-slate-700 leading-relaxed">' + infoTextRes + '</div></div>';
+
+                        var hasChildren = (resTable.children && resTable.children.length > 0);
+                        var resMarginClass = hasChildren ? 'mb-2' : 'mb-6';
+
+                        responseHtml += '<div class="bg-white rounded-xl border border-slate-200 overflow-hidden relative z-10 ' + resMarginClass + '"><div class="p-3 bg-slate-50 border-b flex items-center flex-wrap gap-2"><span class="text-sm font-bold text-slate-600">' + resTable.title + '</span>' + badgesHtml + '</div>' +
+                            infoCardResHtml +
+                            '<div class="overflow-x-auto"><table class="w-full min-w-[800px] text-sm params-table"><thead class="bg-slate-50 border-b"><tr>' +
+                            '<th class="px-6 py-4 text-left w-[20%]">' + ui.th_param + '</th><th class="px-6 py-4 text-left w-[15%]">' + ui.th_name + '</th>' +
+                            '<th class="px-6 py-4 text-center w-[8%]">' + (ui.th_must_return || '必回傳') + '</th><th class="px-6 py-4 text-left w-[12%]">' + ui.th_type + '</th>' +
+                            '<th class="px-6 py-4 text-left w-[15%]">' + thExample + '</th><th class="px-6 py-4 text-left w-[30%]">' + ui.th_note + '</th>' +
+                            '</tr></thead><tbody class="divide-y divide-slate-100">' + generateResponseRows(resTable.params, ui) + '</tbody></table></div></div>';
+
+                        if (hasChildren) {
+                            resTable.children.forEach(function(childTable) {
+                                var childBadges = [];
+                                if (childTable.group_type) childBadges.push('<span class="font-mono font-bold text-purple-700 text-xs bg-purple-100 border border-purple-200 px-2 py-0.5 rounded ml-2" title="' + lblGroupType + '"><i class="fas fa-shield-alt mr-1"></i>' + childTable.group_type + '</span>');
+                                if (childTable.param_location) childBadges.push('<span class="font-mono font-bold text-orange-700 text-xs bg-orange-100 border border-orange-200 px-2 py-0.5 rounded ml-2" title="' + lblLocation + '"><i class="fas fa-map-marker-alt mr-1"></i>' + childTable.param_location + '</span>');
+                                if (childTable.from_field) childBadges.push('<span class="font-mono font-bold text-teal-700 text-xs bg-teal-100 border border-teal-200 px-2 py-0.5 rounded ml-2" title="' + lblBelongTo + '"><i class="fas fa-level-down-alt mr-1"></i>' + lblBelongTo + ': ' + childTable.from_field + '</span>');
+                                if (childTable.field_combination_format) {
+                                    var resChildFcfIcon = childTable.field_combination_format.toUpperCase() === 'JSON' ? 'fa-brackets-curly' : 'fa-link';
+                                    childBadges.push('<span class="font-mono font-bold text-cyan-700 text-xs bg-cyan-100 border border-cyan-200 px-2 py-0.5 rounded ml-2" title="' + lblFieldComboFormat + '"><i class="fas ' + resChildFcfIcon + ' mr-1"></i>' + childTable.field_combination_format + '</span>');
+                                }
+                                
+                                var childBadgesHtml = childBadges.join('');
+                                var childInfoText = '';
+                                var resChildInfoParts = [];
+                                if (childTable.field_combination_format) {
+                                    var resCFcf = childTable.field_combination_format;
+                                    var resCFcfText = '';
+                                    if (resCFcf.toUpperCase() === 'STRING') {
+                                        resCFcfText = getMsg(ui, 'msg_res_format_qs', '本區塊欄位將以 <span class="font-mono font-bold text-cyan-700">&amp;</span> 符號組合為查詢字串 (Query String) 格式，例如 <span class="font-mono text-cyan-700">key1=val1&amp;key2=val2</span>。');
+                                    } else if (resCFcf.toUpperCase() === 'JSON') {
+                                        resCFcfText = getMsg(ui, 'msg_res_format_json', '本區塊欄位將放置於 <span class="font-bold text-cyan-700">JSON</span> 物件中傳遞。');
+                                    } else {
+                                        resCFcfText = getMsg(ui, 'msg_res_format_other', '本區塊欄位採用 <span class="font-bold text-cyan-700">{format}</span> 格式組合。', {format: resCFcf});
+                                    }
+                                    resChildInfoParts.push('<div class="flex items-start gap-3"><i class="fas fa-puzzle-piece text-cyan-500 mt-0.5"></i><div class="text-xs text-slate-600 leading-relaxed">' + lblFieldComboFormat + '：' + resCFcfText + '</div></div>');
+                                }
+                                if (childTable.group_type && childTable.group_type !== '無加密') {
+                                    resChildInfoParts.push('<div class="flex items-start gap-3"><i class="fas fa-shield-alt text-purple-500 mt-0.5"></i><div class="text-xs text-slate-600 leading-relaxed">' + getMsg(ui, 'msg_res_security', '驗證解密：本區塊接收後需進行 <span class="font-bold text-purple-700">{group_type}</span> 處理。', {group_type: childTable.group_type}) + '</div></div>');
+                                }
+                                if (resChildInfoParts.length > 0) {
+                                    childInfoText = '<div class="px-4 py-2 bg-slate-50 border-b border-slate-200 space-y-1.5">' + resChildInfoParts.join('') + '</div>';
+                                }
+
+                                responseHtml += '<div class="ml-6 md:ml-12 mb-6 relative">';
+                                responseHtml += '<div class="absolute -left-4 md:-left-8 top-[-8px] w-4 md:w-8 h-10 border-b-2 border-l-2 border-slate-300 rounded-bl-xl z-0"></div>';
+                                responseHtml += '<div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm relative z-10">';
+                                responseHtml += '<div class="p-3 bg-slate-100 border-b flex items-center flex-wrap gap-2"><span class="text-sm font-bold text-slate-700"><i class="fas fa-stream text-slate-400 mr-2"></i>' + childTable.title + '</span>' + childBadgesHtml + '</div>';
+                                responseHtml += childInfoText;
+                                responseHtml += '<div class="overflow-x-auto"><table class="w-full min-w-[800px] text-sm params-table"><thead class="bg-slate-50 border-b"><tr>' +
+                                            '<th class="px-6 py-4 text-left w-[20%]">' + ui.th_param + '</th><th class="px-6 py-4 text-left w-[15%]">' + ui.th_name + '</th>' +
+                                            '<th class="px-6 py-4 text-center w-[8%]">' + (ui.th_must_return || '必回傳') + '</th><th class="px-6 py-4 text-left w-[12%]">' + ui.th_type + '</th>' +
+                                            '<th class="px-6 py-4 text-left w-[15%]">' + thExample + '</th><th class="px-6 py-4 text-left w-[30%]">' + ui.th_note + '</th>' +
+                                            '</tr></thead><tbody class="divide-y divide-slate-100">' + generateResponseRows(childTable.params, ui) + '</tbody></table></div></div></div>';
+                            });
+                        }
+                    });
+                    responseHtml += '</div>';
+                }
+                groupDiv.innerHTML = headerHtml + requestHtml + responseHtml;
+                container.appendChild(groupDiv);
+            });
+        }
+
+        function generateTableRows(dataArray, ui) {
+            var lblEnum = ui.lbl_enum_values || '允許值';
+            var lblDef = ui.lbl_default_value || '預設值';
+            var lblNull = ui.lbl_is_nullable || '可為 Null';
+            var lblYes = ui.lbl_yes || '是';
+
+            return dataArray.map(function(item) {
+                var extraInfo = [];
+                if (item.enum_values) extraInfo.push(lblEnum + ': <span class="font-mono text-blue-600">' + item.enum_values + '</span>');
+                if (item.default_value) extraInfo.push(lblDef + ': <span class="font-mono text-slate-700">' + item.default_value + '</span>');
+                if (item.nullable === true || String(item.nullable).toLowerCase() === 'true' || item.nullable === '1' || item.nullable === '是') {
+                    extraInfo.push(lblNull + ': <span class="font-bold">' + lblYes + '</span>');
+                }
+                
+                var extraHtml = '';
+                if (extraInfo.length > 0) {
+                    extraHtml = '<div class="mt-2 text-xs text-slate-600 bg-slate-50 p-2 rounded border border-slate-200 block w-fit shadow-sm">' + extraInfo.join(' <span class="text-slate-300 mx-2">|</span> ') + '</div>';
+                }
+
+                var noteContent = (item.note || '').replace(/\n/g, '<br>');
+
+                return '<tr class="align-middle">' +
+                    '<td class="px-6 py-4 font-mono font-bold text-blue-600 text-left break-all">' + item.name + '</td>' +
+                    '<td class="px-6 py-4 text-left">' + item.label + '</td>' +
+                    '<td class="px-6 py-4 text-center">' + ((item.required === 'V' || item.required === true) ? '<span class="text-green-600 font-bold text-lg">✓</span>' : (item.required === '+' ? '<span class="text-blue-500 font-bold text-base">+</span>' : '<span class="text-slate-300">-</span>')) + '</td>' +
+                    '<td class="px-6 py-4 font-mono text-xs text-left">' + item.type + '</td>' +
+                    '<td class="px-6 py-4 font-mono text-xs text-slate-500 text-left break-all">' + (item.example || '') + '</td>' +
+                    '<td class="px-6 py-4 text-sm text-slate-600 text-left break-words leading-relaxed">' + noteContent + extraHtml + '</td></tr>';
+            }).join('');
+        }
+
+        function generateResponseRows(dataArray, ui) {
+            var lblEnum = ui.lbl_enum_values || '允許值';
+            var lblDef = ui.lbl_default_value || '預設值';
+            var lblNull = ui.lbl_is_nullable || '可為 Null';
+            var lblYes = ui.lbl_yes || '是';
+
+            return dataArray.map(function(item) {
+                var extraInfo = [];
+                if (item.enum_values) extraInfo.push(lblEnum + ': <span class="font-mono text-blue-600">' + item.enum_values + '</span>');
+                if (item.default_value) extraInfo.push(lblDef + ': <span class="font-mono text-slate-700">' + item.default_value + '</span>');
+                if (item.nullable === true || String(item.nullable).toLowerCase() === 'true' || item.nullable === '1' || item.nullable === '是') {
+                    extraInfo.push(lblNull + ': <span class="font-bold">' + lblYes + '</span>');
+                }
+                
+                var extraHtml = '';
+                if (extraInfo.length > 0) {
+                    extraHtml = '<div class="mt-2 text-xs text-slate-600 bg-slate-50 p-2 rounded border border-slate-200 block w-fit shadow-sm">' + extraInfo.join(' <span class="text-slate-300 mx-2">|</span> ') + '</div>';
+                }
+
+                var noteContent = (item.note || '').replace(/\n/g, '<br>');
+                
+                var mustReturnHtml = (item.must_return === 'V' || item.must_return === true || item.must_return === 'true' || item.must_return === '是' || item.must_return === '1') ? '<span class="text-green-600 font-bold text-lg">✓</span>' : '<span class="text-slate-300">-</span>';
+
+                return '<tr class="align-middle">' +
+                    '<td class="px-6 py-4 font-mono font-bold text-blue-600 text-left break-all">' + item.name + '</td>' +
+                    '<td class="px-6 py-4 text-slate-700 text-left">' + item.label + '</td>' +
+                    '<td class="px-6 py-4 text-center">' + mustReturnHtml + '</td>' +
+                    '<td class="px-6 py-4 font-mono text-xs text-slate-500 text-left">' + item.type + '</td>' +
+                    '<td class="px-6 py-4 font-mono text-xs text-slate-500 text-left break-all">' + (item.example || '') + '</td>' +
+                    '<td class="px-6 py-4 text-sm text-slate-600 text-left break-words leading-relaxed">' + noteContent + extraHtml + '</td></tr>';
+            }).join('');
+        }
+
+        function renderErrorTable(dataArray, targetId) {
+            document.getElementById(targetId).innerHTML = dataArray.map(function(item) {
+                return '<tr class="align-middle"><td class="px-6 py-2 font-bold text-red-600 font-mono text-left">' + item.code + '</td><td class="px-6 py-2 text-sm text-slate-700 text-left">' + item.reason + '</td></tr>';
+            }).join('');
+        }
+
+        function renderVersions() {
+            var versionsSection = document.getElementById('versions');
+            var navLink = document.getElementById('nav-versions-link');
+            var tbody = document.getElementById('versions-table-body');
+            var ui = docConfig[currentLang].ui;
+            var versions = docConfig[currentLang].versions || [];
+            if (!versionsSection || !tbody) return;
+
+            var thEls = versionsSection.querySelectorAll('[data-i18n]');
+            thEls.forEach(function(el) { el.innerHTML = ui[el.getAttribute('data-i18n')] || ''; });
+
+            if (versions.length === 0) {
+                versionsSection.classList.add('hidden');
+                if (navLink) navLink.classList.add('hidden');
+                return;
+            }
+            versionsSection.classList.remove('hidden');
+            if (navLink) navLink.classList.remove('hidden');
+
+            tbody.innerHTML = versions.map(function(v) {
+                return '<tr class="align-middle">' +
+                    '<td class="px-6 py-3 font-mono font-bold text-blue-600 text-left whitespace-nowrap">' + (v.version || '') + '</td>' +
+                    '<td class="px-6 py-3 text-sm text-slate-600 text-left whitespace-nowrap">' + (v.date || '') + '</td>' +
+                    '<td class="px-6 py-3 text-sm text-slate-700 text-left">' + (v.desc || '') + '</td>' +
+                    '</tr>';
+            }).join('');
+        }
+
+        function applyTranslations(lang) {
+            var data = docConfig[lang] ? docConfig[lang].ui : null;
+            if (!data) return;
+            document.querySelectorAll('[data-i18n]').forEach(function(el) { el.innerHTML = data[el.getAttribute('data-i18n')] || ''; });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) { el.setAttribute('placeholder', data[el.getAttribute('data-i18n-placeholder')] || ''); });
+        }
+
+        function initLangDropdown() {
+            var select = document.getElementById('lang-select');
+            select.innerHTML = '';
+            Object.keys(docConfig).forEach(function(langKey) {
+                var option = document.createElement('option');
+                option.value = langKey;
+                option.textContent = docConfig[langKey].languageName;
+                if (langKey === currentLang) option.selected = true;
+                select.appendChild(option);
+            });
+        }
+
+        function changeLang(targetLang) {
+            if (!docConfig[targetLang]) return;
+            currentLang = targetLang;
+            applyTranslations(targetLang);
+            var searchInput = document.getElementById('errorSearch');
+            if (searchInput) searchInput.value = '';
+            renderAll();
+        }
+
+        window.onload = function() {
+            initLangDropdown();
+            applyTranslations(currentLang);
+            renderAll();
+            initSearch();
+        };
+
+        function openLightbox(url) { 
+            document.getElementById('lightbox-image').src = url; 
+            document.getElementById('lightbox-modal').classList.remove('hidden'); 
+            document.body.style.overflow = 'hidden'; 
+        }
+        function closeLightbox() { 
+            document.getElementById('lightbox-modal').classList.add('hidden'); 
+            document.body.style.overflow = ''; 
+        }
+
+        function renderCodeTabs() {
+            var container = document.getElementById('code-tabs-container');
+            var exampleSection = document.getElementById('example');
+            if (!container || !exampleSection) return;
+            var availableLangs = Object.keys(globalCodeExamples);
+            if (availableLangs.length === 0) { exampleSection.classList.add('hidden'); return; }
+            else { exampleSection.classList.remove('hidden'); }
+            if (availableLangs.indexOf(currentCodeTab) === -1) { currentCodeTab = availableLangs[0]; }
+            var html = '';
+            availableLangs.forEach(function(lang) {
+                var activeClass = (lang === currentCodeTab) ? 'active' : '';
+                html += '<button onclick="switchTab(\'' + lang + '\', event)" class="tab-btn ' + activeClass + ' px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors whitespace-nowrap">' + lang + '</button>';
+            });
+            container.innerHTML = html;
+        }
+
+        function switchTab(lang, event) {
+            currentCodeTab = lang;
+            renderCodeTabs();
+            loadCode(lang);
+        }
+
+        function loadCode(lang) {
+            var container = document.getElementById('code-container');
+            if (!lang) lang = Object.keys(globalCodeExamples)[0] || 'plaintext';
+            var langMap = { 'PHP': 'php', 'Node.js': 'javascript', 'Python': 'python', 'C#(.NET)': 'csharp', 'Java': 'java', 'Go': 'go', 'ASP': 'vbscript', 'ASP.NET': 'csharp' };
+            var codeContent = globalCodeExamples[lang] || '// 尚無程式範例';
+            container.innerHTML = '<code id="code-display" class="h-full language-' + (langMap[lang] || 'plaintext') + '"></code>';
+            var display = document.getElementById('code-display');
+            display.textContent = codeContent;
+            if (typeof hljs !== 'undefined') {
+                hljs.highlightElement(display);
+                if (typeof hljs.lineNumbersBlock === 'function') { hljs.lineNumbersBlock(display); }
+            }
+        }
+    </script>
+
+    <!-- Mobile Header -->
+    <header class="lg:hidden bg-white shadow-sm p-4 sticky top-0 z-50 flex justify-between items-center border-b border-slate-200">
+        <h1 class="text-lg font-bold text-blue-700 flex items-center">
+            <i class="fas fa-book mr-2"></i> <span id="mobile-header-title"></span>
+        </h1>
+        <button id="menu-btn" class="text-slate-600 focus:outline-none hover:text-blue-600 transition" onclick="document.getElementById('sidebar').classList.toggle('-translate-x-full')">
+            <i class="fas fa-bars text-2xl"></i>
+        </button>
+    </header>
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 w-72 bg-white shadow-xl transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 border-r border-slate-200 flex flex-col">
+            <div class="p-6 border-b border-slate-100 bg-gradient-to-r from-blue-50 to-white shrink-0">
+                <h2 class="text-2xl font-bold text-blue-700" data-i18n="sidebar_brand" style="letter-spacing:-0.025em;"></h2>
+                <p class="text-sm text-slate-500 mt-1 font-medium"><span id="sidebar-subtitle"></span><br><span class="text-xs text-slate-400" id="sidebar-version"></span></p>
+            </div>
+            <div class="flex-1 overflow-y-auto scrollable-area">
+                <nav class="p-4 space-y-1">
+                    <div id="dynamic-sidebar-links"></div>
+                    <a href="#tool" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group mb-1 mt-2">
+                        <i class="fas fa-wrench w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_tool"></span>
+                    </a>
+                    <a href="#encryption" id="nav-encryption-link" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group mb-4">
+                        <i class="fas fa-lock w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_encryption"></span>
+                    </a>
+                    <div class="px-4 py-2 text-xs font-bold text-slate-400 uppercase mt-4" data-i18n="nav_group_api" style="letter-spacing:0.05em;"></div>
+                    <div id="sidebar-api-list"></div>
+                    <a href="#errors" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group mt-4">
+                        <i class="fas fa-exclamation-triangle w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_errors"></span>
+                    </a>
+                    <a href="#example" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-code w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_example"></span>
+                    </a>
+                    <a href="#versions" id="nav-versions-link" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group hidden">
+                        <i class="fas fa-history w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_versions"></span>
+                    </a>
+                </nav>
+            </div>
+            <div class="p-4 border-t border-slate-200 bg-slate-50 shrink-0 flex flex-col gap-3">
+                <div class="relative group w-full">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400"><i class="fas fa-globe"></i></div>
+                    <select id="lang-select" onchange="changeLang(this.value)" class="w-full appearance-none bg-white text-slate-600 font-medium py-2.5 pl-10 pr-8 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer border border-slate-300 shadow-sm"></select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500"><i class="fas fa-chevron-up text-xs"></i></div>
+                </div>
+                <div class="text-center text-xs text-slate-500 mt-2">
+                    <div id="meta-system-name" class="font-bold text-slate-600"></div>
+                    <div id="meta-copyright" class="mt-1"></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-72 p-4 lg:p-8 min-w-0 w-full max-w-[1920px] mx-auto">
+            <div id="dynamic-content-sections"></div>
+
+            <!-- Tools Section -->
+            <section id="tool" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-purple-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="tool_title"></h2>
+                </div>
+                <div class="bg-white rounded-xl shadow-md border border-purple-100 overflow-hidden">
+                    <div class="bg-purple-50 p-4 border-b border-purple-100 flex flex-col gap-2">
+                        <p class="text-purple-800 text-sm" data-i18n="tool_intro"></p>
+                        <div class="bg-red-50 border border-red-200 rounded p-3 flex items-start shadow-sm">
+                            <i class="fas fa-shield-alt text-red-500 mt-0.5 mr-2 text-base"></i>
+                            <p class="text-red-700 text-sm font-semibold leading-relaxed" data-i18n="tool_security_warning"></p>
+                        </div>
+                    </div>
+                    <div class="flex border-b border-slate-200" id="tool-tabs-container"></div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 pb-6 border-b border-slate-100">
+                            <div>
+                                <label id="lbl-tool-key" class="block text-xs font-bold text-slate-500 uppercase mb-1"></label>
+                                <input type="text" id="toolKey" data-i18n-placeholder="tool_ph_key" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm bg-slate-50">
+                            </div>
+                            <div>
+                                <label id="lbl-tool-iv" class="block text-xs font-bold text-slate-500 uppercase mb-1"></label>
+                                <input type="text" id="toolIv" data-i18n-placeholder="tool_ph_iv" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm bg-slate-50">
+                            </div>
+                        </div>
+                        <!-- SHA Tool -->
+                        <div id="tool-sha" class="tool-content hidden">
+                            <div class="mb-4">
+                                <label class="block text-sm font-bold text-slate-700 mb-3" data-i18n="tool_lbl_qs"></label>
+                                <div id="sha-inputs-area" class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-200"></div>
+                                <p class="text-xs text-slate-400 mt-2 text-right" data-i18n="tool_note_sha_sort"></p>
+                            </div>
+                            <button onclick="runSHA()" class="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700 transition shadow-sm font-bold text-sm w-full md:w-auto">
+                                <i class="fas fa-fingerprint mr-1"></i> <span data-i18n="tool_btn_sha"></span>
+                            </button>
+                            <div class="mt-4">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="lbl_sha_pre_hash"></label>
+                                <textarea id="shaPreHashOutput" readonly rows="2" class="w-full p-3 bg-slate-100 text-slate-600 rounded font-mono text-sm border border-slate-200 shadow-inner focus:ring-0 mb-3" data-i18n-placeholder="ph_sha_pre_hash"></textarea>
+
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="tool_lbl_sha_res"></label>
+                                <textarea id="shaOutput" readonly rows="2" class="w-full p-3 bg-slate-800 text-green-400 rounded font-mono text-sm border-none focus:ring-0"></textarea>
+                            </div>
+                        </div>
+                        <!-- AES Encrypt -->
+                        <div id="tool-aes-encrypt" class="tool-content hidden">
+                            <div class="mb-4">
+                                <label class="block text-sm font-bold text-slate-700 mb-2" data-i18n="tool_lbl_qs"></label>
+                                <textarea id="encryptInput" rows="5" data-i18n-placeholder="tool_ph_qs" class="w-full p-3 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm text-slate-600"></textarea>
+                                <p class="text-xs text-slate-400 mt-1 text-right" data-i18n="tool_note_urlencode"></p>
+                            </div>
+                            <button onclick="runEncrypt()" class="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700 transition shadow-sm font-bold text-sm w-full md:w-auto">
+                                <i class="fas fa-lock mr-1"></i> <span data-i18n="tool_btn_encrypt"></span>
+                            </button>
+                            <div class="mt-4">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="tool_lbl_hex"></label>
+                                <textarea id="encryptOutput" readonly rows="3" class="w-full p-3 bg-slate-800 text-green-400 rounded font-mono text-sm border-none focus:ring-0"></textarea>
+                            </div>
+                        </div>
+                        <!-- AES Decrypt -->
+                        <div id="tool-aes-decrypt" class="tool-content hidden">
+                            <div class="mb-4">
+                                <label class="block text-sm font-bold text-slate-700 mb-2" data-i18n="tool_lbl_enc_hex"></label>
+                                <textarea id="decryptInput" rows="4" data-i18n-placeholder="tool_ph_enc_hex" class="w-full p-3 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm text-slate-600"></textarea>
+                            </div>
+                            <button onclick="runDecrypt()" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition shadow-sm font-bold text-sm w-full md:w-auto">
+                                <i class="fas fa-unlock mr-1"></i> <span data-i18n="tool_btn_decrypt"></span>
+                            </button>
+                            <div class="mt-4">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="tool_lbl_decrypt_res"></label>
+                                <textarea id="decryptOutput" readonly rows="3" class="w-full p-3 bg-slate-800 text-green-400 rounded font-mono text-sm border-none focus:ring-0"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Encryption Rules Section -->
+            <section id="encryption" class="mb-12 scroll-mt-24 hidden">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="enc_title"></h2>
+                </div>
+                <div id="enc-rule-aes" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8 hidden">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                        <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded flex items-center justify-center text-xs mr-2"><i class="fas fa-lock"></i></span>
+                        <span data-i18n="enc_aes_title"></span>
+                    </h3>
+                    <p class="text-slate-600 mb-4" data-i18n="enc_aes_desc"></p>
+                    <div id="enc-rule-aes-steps" class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-4">
+                        <!-- Javascript 將在這裡動態產生步驟 -->
+                    </div>
+                </div>
+                <div id="enc-rule-sha" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8 hidden">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                        <span class="w-6 h-6 bg-purple-100 text-purple-600 rounded flex items-center justify-center text-xs mr-2"><i class="fas fa-fingerprint"></i></span>
+                        <span data-i18n="enc_sha_title"></span>
+                    </h3>
+                    <p class="text-slate-600 mb-4" data-i18n="enc_sha_desc"></p>
+                    <div id="enc-rule-sha-steps" class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-4">
+                        <!-- Javascript 將在這裡動態產生步驟 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- APIs -->
+            <section id="apis" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="nav_apis"></h2>
+                </div>
+                <div id="api-groups-container"></div>
+            </section>
+
+            <!-- Errors -->
+            <section id="errors" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="err_title"></h2>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 mb-4">
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-4 top-3.5 text-slate-400"></i>
+                        <input type="text" id="errorSearch" data-i18n-placeholder="err_search_ph" class="w-full pl-10 p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                </div>
+                <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-slate-200 max-h-[600px] overflow-y-auto">
+                    <table class="w-full text-sm params-table" id="errorTable">
+                        <thead class="bg-slate-50 text-slate-600 uppercase font-bold sticky top-0 border-b border-slate-200 shadow-sm z-10">
+                            <tr>
+                                <th class="px-6 py-4 w-1/4 text-left" data-i18n="th_err_code"></th>
+                                <th class="px-6 py-4 text-left" data-i18n="th_err_reason"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="error-table-body" class="divide-y divide-slate-200 font-mono text-slate-700"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Example -->
+            <section id="example" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="example_title"></h2>
+                </div>
+                <div class="bg-slate-800 rounded-lg shadow-lg overflow-hidden relative">
+                    <div class="flex border-b border-slate-600 bg-slate-900 px-2 overflow-x-auto" id="code-tabs-container"></div>
+                    <div id="code-container-wrapper" class="h-[600px] overflow-auto scrollable-area">
+                        <pre id="code-container"><code id="code-display" class="h-full"></code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Versions -->
+            <section id="versions" class="mb-12 scroll-mt-24 hidden">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-slate-500 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="versions_title"></h2>
+                </div>
+                <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-slate-200">
+                    <table class="w-full text-sm params-table">
+                        <thead class="bg-slate-50 text-slate-600 uppercase font-bold border-b border-slate-200">
+                            <tr>
+                                <th class="px-6 py-4 text-left w-[15%]" data-i18n="th_ver_version"></th>
+                                <th class="px-6 py-4 text-left w-[20%]" data-i18n="th_ver_date"></th>
+                                <th class="px-6 py-4 text-left" data-i18n="th_ver_desc"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="versions-table-body" class="divide-y divide-slate-100 text-slate-700"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox-modal" class="fixed inset-0 z-[100] hidden bg-black/80 overflow-auto" onclick="closeLightbox()">
+        <button class="fixed top-6 right-8 text-white text-4xl z-[101] drop-shadow-md hover:text-gray-300" onclick="closeLightbox()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="min-w-full min-h-full flex p-8" style="align-items: center; justify-content: center;">
+            <img id="lightbox-image" src="" alt="" class="block rounded shadow-2xl" style="max-width: none; margin: auto;" onclick="event.stopPropagation()">
+        </div>
+    </div>
+
+</body>
+</html>
