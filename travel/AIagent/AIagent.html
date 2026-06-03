@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 輔助 API 串接</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --blue: #1565c0; --blue-light: #e8f0fe; --blue-mid: #b5cef9;
+  --accent: #64ffda; --accent-text: #0d8050;
+  --bg: #f4f7fb; --bg-card: #fff; --bg-row: #f9fafb; --bg-th: #f0f4f8;
+  --text: #1e293b; --text-muted: #475569; --text-hint: #64748b;
+  --border: #cbd5e1; --border-hover: #94a3b8;
+  --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px;
+  --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-weight: 400;
+  line-height: 1.7;
+  min-height: 100vh;
+  font-size: 16px;
+}
+/* topbar */
+.topbar {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brand { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+.brand-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
+.brand-name { font-size: 15px; font-weight: 600; color: var(--blue); }
+.sep { color: #cbd5e1; font-size: 14px; }
+.crumb { font-size: 14px; color: var(--text-muted); }
+.crumb strong { color: var(--text); font-weight: 600; }
+.lang-switch {
+  display: flex;
+  gap: 4px;
+  background: var(--bg-th);
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.lang-btn {
+  background: transparent;
+  border: none;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+.lang-btn.active {
+  background: var(--bg-card);
+  color: var(--blue);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+/* hero */
+.hero-wrap { padding: 32px 32px 0; }
+.hero {
+  background: var(--blue);
+  border-radius: var(--radius-lg);
+  padding: 48px 48px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  pointer-events: none;
+}
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 24px;
+  padding: 6px 16px;
+  font-size: 13px;
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+  font-family: var(--mono);
+}
+.badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: blink 2.2s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.25;} }
+.hero h1 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+  margin-bottom: 12px;
+}
+.hero h1 em { font-style: normal; color: var(--accent); }
+.hero-desc {
+  font-size: 16px;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.8;
+  max-width: 600px;
+}
+.url-block {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+.url-text {
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--accent);
+  flex: 1;
+  word-break: break-all;
+  min-width: 200px;
+}
+.copy-btn {
+  background: #fff;
+  color: var(--blue);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+  font-family: var(--font);
+}
+.copy-btn:hover { background: #e8f0fe; transform: translateY(-1px); }
+.copy-btn:active { transform: translateY(1px); }
+.copy-btn.ok { background: var(--accent); color: #065f46; }
+/* layout */
+.layout {
+  padding: 24px 32px 48px;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+  align-items: start;
+}
+.sec-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-hint);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 16px;
+  font-family: var(--mono);
+}
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+/* prompt */
+.prompt-hint {
+  font-size: 15px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  line-height: 1.7;
+}
+.code-box {
+  background: var(--bg-th);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 56px 24px 24px; /* 將頂部內距加大，避免與按鈕重疊 */
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.9;
+  position: relative;
+}
+.code-box .hi  { color: var(--accent-text); word-break: break-all; font-weight: 600; }
+.code-box .fill { background: #fff3cd; padding: 2px 6px; border-radius: 4px; color: #7a5c00; }
+.ccbtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.ccbtn:hover { border-color: var(--border-hover); color: var(--blue); }
+.ccbtn.ok { color: var(--accent-text); border-color: #9be3c8; background: #f0faf6; }
+
+/* sidebar */
+.sc {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+.sc:last-child { margin-bottom: 0; }
+.sc-title { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 16px; }
+.step-list { padding-left: 20px; display: flex; flex-direction: column; gap: 12px; }
+.step-list li { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+.step-list strong { color: var(--text); }
+.hl { background: #fff3cd; padding: 2px 6px; border-radius: 4px; font-size: 13px; color: #7a5c00; font-family: var(--mono); }
+.tool-row { display: flex; align-items: center; gap: 12px; font-size: 15px; color: var(--text-muted); padding: 6px 0; }
+.tool-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  font-family: var(--mono);
+}
+.notice {
+  background: var(--blue-light);
+  border: 1px solid var(--blue-mid);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #0c3c8a;
+  line-height: 1.6;
+  margin-top: 16px;
+}
+.about-desc {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+.about-desc code {
+  background: var(--bg-th);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--blue);
+}
+
+@media(max-width: 900px) {
+  .layout { grid-template-columns: 1fr; padding: 16px 20px 32px; }
+  .hero-wrap { padding: 16px 20px 0; }
+  .hero { padding: 32px 24px 28px; }
+  .hero h1 { font-size: 28px; }
+  .topbar { padding: 12px 20px; flex-direction: column; gap: 16px; align-items: stretch; }
+  .lang-switch { align-self: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand-group">
+    <a href="#" class="brand"><div class="brand-dot"></div><span class="brand-name" data-i18n="brand">API 開發者中心</span></a>
+    <span class="sep">/</span>
+    <span class="crumb" data-i18n="crumb">開發者文件 / <strong>AI 輔助串接</strong></span>
+  </div>
+  <div class="lang-switch">
+    <button class="lang-btn active" id="btn-TW" onclick="renderLang('TW')">繁體中文</button>
+    <button class="lang-btn" id="btn-EN" onclick="renderLang('EN')">English</button>
+  </div>
+</div>
+
+<div class="hero-wrap">
+  <div class="hero">
+    <div class="badge"><div class="badge-dot"></div><span data-i18n="badge">llms.txt &middot; AI-ready docs</span></div>
+    <h1 data-i18n="heroTitle">讓 <em>AI 工具</em> 幫你<br>完成 API 串接</h1>
+    <p class="hero-desc" data-i18n="heroDesc">將下方 llms.txt 網址貼入 Claude、Cursor、Copilot 等 AI 工具。<strong>此檔案已包含前面所有的 API 規格</strong>，AI 將自動讀取並協助你產出串接程式碼。</p>
+    <div class="url-block">
+      <span class="url-text" id="theUrl"></span>
+      <button class="copy-btn" id="copyBtn" onclick="doCopy()" data-i18n="copyUrlBtn">複製網址</button>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+  <div>
+    <div class="card">
+      <div class="sec-label" data-i18n="secLabelPrompt">快速提示詞</div>
+      <p class="prompt-hint" data-i18n="promptHint">複製下方提示詞，將 <span class="hl">【】</span> 替換為你的實際需求後，貼入 AI 工具即可開始串接。</p>
+      <div class="code-box">
+        <button class="ccbtn" id="promptCopyBtn" onclick="copyPrompt()" data-i18n="copyPromptBtn">複製提示詞</button>
+        <div id="promptBoxText"></div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="sc">
+      <div class="sc-title" data-i18n="stepTitle">使用步驟</div>
+      <ol class="step-list">
+        <li data-i18n="step1">複製上方 <strong>llms.txt 網址</strong></li>
+        <li data-i18n="step2">在 AI 工具中貼入提示詞與網址</li>
+        <li data-i18n="step3">將 <span class="hl">【】</span> 替換為你的實際需求</li>
+        <li data-i18n="step4">AI 讀取文件後產出串接程式碼</li>
+      </ol>
+    </div>
+
+    <div class="sc">
+      <div class="sc-title" data-i18n="toolsTitle">支援的 AI 工具</div>
+      <div class="tool-row"><span class="tool-dot" style="background:#fff3e0;color:#b84400;">CC</span>Claude Code</div>
+      <div class="tool-row"><span class="tool-dot" style="background:#e8eaf6;color:#3949ab;">Cu</span>Cursor</div>
+      <div class="tool-row"><span class="tool-dot" style="background:#e8f5e9;color:#2e7d32;">Co</span>GitHub Copilot</div>
+      <div class="tool-row"><span class="tool-dot" style="background:#e3f2fd;color:#1565c0;">Ge</span>Gemini</div>
+      <div class="tool-row"><span class="tool-dot" style="background:#fce4ec;color:#880e4f;">Wi</span>Windsurf</div>
+      <div class="notice" data-i18n="toolsNotice">支援讀取 URL 文件的 AI 工具皆適用。</div>
+    </div>
+
+    <div class="sc">
+      <div class="sc-title" data-i18n="aboutTitle">關於本服務</div>
+      <div class="about-desc" data-i18n="aboutDesc">
+        <p>透過提供標準化的 <code>llms.txt</code>，我們可以讓 AI 更精準地理解 API 規格。</p>
+        <ul style="padding-left:20px;margin-top:8px;display:flex;flex-direction:column;gap:6px;">
+          <li>集中包含前面所有的 API 規格說明</li>
+          <li>減少幻覺與錯誤推測</li>
+          <li>確保使用最新的 API 欄位與規格</li>
+          <li>自動處理複雜的加解密或驗證邏輯</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// 設定您的 llms.txt 通用網址 (可由後端動態替換)
+const THE_API_URL = "https://lingogo2025.github.io/NewebDoc/travel/AIagent/llms.txt";
+
+const i18nData = {
+  TW: {
+    pageTitle: "AI 輔助 API 串接",
+    brand: "API 開發者中心",
+    crumb: "開發者文件 / <strong>AI 輔助串接</strong>",
+    badge: "llms.txt &middot; AI-ready docs",
+    heroTitle: "讓 <em>AI 工具</em> 幫你<br>完成 API 串接",
+    heroDesc: "將下方 llms.txt 網址貼入 Claude、Cursor、Copilot 等 AI 工具。<strong>此檔案已包含前面所有的 API 規格</strong>，AI 將自動讀取並協助你產出串接程式碼。",
+    copyUrlBtn: "複製網址",
+    secLabelPrompt: "快速提示詞",
+    promptHint: "複製下方提示詞，將 <span class=\"hl\">【】</span> 替換為你的實際需求後，貼入 AI 工具即可開始串接。",
+    copyPromptBtn: "複製提示詞",
+    promptTemplate: "請先讀取 {{URL}}，並閱讀其中的文件說明與索引。請依照下方的需求，自行判斷並讀取相關的參考文件。\n\n⚠️ 注意事項：\n1. 此 llms.txt 及其相關文件主要以「繁體中文」撰寫，但在提供協助時，請將你的回覆、程式碼與註解等，轉換為我所慣用的語言。\n2. 若在文件中找不到對應功能的說明，請立即告知並停止，切勿自行推測或虛構程式碼。\n3. 請確認你已完整理解 API 的欄位定義、驗證流程與錯誤代碼後，再開始產出程式碼。\n\n我的需求：【請在此描述你的串接需求，例如：將特定 API 整合至結帳頁面】\n\n開發環境：\n- 語言：【例如 PHP / Node.js / Python】\n- 框架/環境：【例如 Laravel / React / 測試環境】",
+    promptHtmlTemplate: "請先讀取 <span class=\"hi\">{{URL}}</span>，並閱讀其中的文件說明與索引。請依照下方的需求，自行判斷並讀取相關的參考文件。<br><br>⚠️ 注意事項：<br>1. 此 llms.txt 及其相關文件主要以「繁體中文」撰寫，但在提供協助時，請將你的回覆、程式碼與註解等，轉換為我所慣用的語言。<br>2. 若在文件中找不到對應功能的說明，請立即告知並停止，切勿自行推測或虛構程式碼。<br>3. 請確認你已完整理解 API 的欄位定義、驗證流程與錯誤代碼後，再開始產出程式碼。<br><br>我的需求：<span class=\"fill\">【請在此描述你的串接需求，例如：將特定 API 整合至結帳頁面】</span><br><br>開發環境：<br>- 語言：<span class=\"fill\">【例如 PHP / Node.js / Python】</span><br>- 框架/環境：<span class=\"fill\">【例如 Laravel / React / 測試環境】</span>",
+    stepTitle: "使用步驟",
+    step1: "複製上方 <strong>llms.txt 網址</strong>",
+    step2: "在 AI 工具中貼入提示詞與網址",
+    step3: "將 <span class=\"hl\">【】</span> 替換為你的實際需求",
+    step4: "AI 讀取文件後產出串接程式碼",
+    toolsTitle: "支援的 AI 工具",
+    toolsNotice: "支援讀取 URL 文件的 AI 工具皆適用。",
+    aboutTitle: "關於本服務",
+    aboutDesc: "<p>透過提供標準化的 <code>llms.txt</code>，我們可以讓 AI 更精準地理解 API 規格。</p><ul style=\"padding-left:20px;margin-top:8px;display:flex;flex-direction:column;gap:6px;\"><li>集中包含前面所有的 API 規格說明</li><li>減少幻覺與錯誤推測</li><li>確保使用最新的 API 欄位與規格</li><li>自動處理複雜的加解密或驗證邏輯</li></ul>",
+    copied: "已複製 ✓"
+  },
+  EN: {
+    pageTitle: "AI-Assisted API Integration",
+    brand: "API Developer Hub",
+    crumb: "Developer Docs / <strong>AI Integration</strong>",
+    badge: "llms.txt &middot; AI-ready docs",
+    heroTitle: "Let <em>AI Tools</em> Handle<br>Your API Integration",
+    heroDesc: "Paste the llms.txt URL below into AI tools like Claude, Cursor, or Copilot. <strong>This file already contains all previous API specifications</strong>, and the AI will automatically read it to assist you in generating integration code.",
+    copyUrlBtn: "Copy URL",
+    secLabelPrompt: "Quick Prompt",
+    promptHint: "Copy the prompt below, replace <span class=\"hl\">【】</span> with your actual requirements, and paste it into your AI tool to get started.",
+    copyPromptBtn: "Copy Prompt",
+    promptTemplate: "Please first read {{URL}}, and review the document descriptions and index within. Based on my requirements below, dynamically determine and read the relevant reference documents.\n\n⚠️ Important Notes:\n1. The llms.txt and its related documents are primarily written in \"Traditional Chinese\". However, when assisting me, please translate your responses, code comments, etc., into my preferred language.\n2. If you cannot find the corresponding feature description in the documents, please inform me immediately and stop. Do not guess or fabricate code.\n3. Please ensure you fully understand the API field definitions, validation processes, and error codes before generating any code.\n\nMy Requirements: 【Describe your integration needs here, e.g., Integrate the API into the checkout page】\n\nDevelopment Environment:\n- Language: 【e.g., PHP / Node.js / Python】\n- Framework/Env: 【e.g., Laravel / React / Test Environment】",
+    promptHtmlTemplate: "Please first read <span class=\"hi\">{{URL}}</span>, and review the document descriptions and index within. Based on my requirements below, dynamically determine and read the relevant reference documents.<br><br>⚠️ Important Notes:<br>1. The llms.txt and its related documents are primarily written in \"Traditional Chinese\". However, when assisting me, please translate your responses, code comments, etc., into my preferred language.<br>2. If you cannot find the corresponding feature description in the documents, please inform me immediately and stop. Do not guess or fabricate code.<br>3. Please ensure you fully understand the API field definitions, validation processes, and error codes before generating any code.<br><br>My Requirements: <span class=\"fill\">【Describe your integration needs here, e.g., Integrate the API into the checkout page】</span><br><br>Development Environment:<br>- Language: <span class=\"fill\">【e.g., PHP / Node.js / Python】</span><br>- Framework/Env: <span class=\"fill\">【e.g., Laravel / React / Test Environment】</span>",
+    stepTitle: "How it works",
+    step1: "Copy the <strong>llms.txt URL</strong> above",
+    step2: "Paste the URL and prompt into your AI tool",
+    step3: "Replace <span class=\"hl\">【】</span> with your specific needs",
+    step4: "AI reads the docs and generates your code",
+    toolsTitle: "Supported AI Tools",
+    toolsNotice: "Any AI tool that supports reading URL documents will work.",
+    aboutTitle: "About this service",
+    aboutDesc: "<p>By providing a standardized <code>llms.txt</code>, we enable AI to accurately understand API specifications.</p><ul style=\"padding-left:20px;margin-top:8px;display:flex;flex-direction:column;gap:6px;\"><li>Centrally includes all previous API specifications</li><li>Reduces AI hallucinations and incorrect guesses</li><li>Ensures the use of the latest API fields and specs</li><li>Automatically handles complex encryption or validation logic</li></ul>",
+    copied: "Copied ✓"
+  }
+};
+
+let currentLang = 'TW';
+
+function initApp() {
+  document.getElementById('theUrl').textContent = THE_API_URL;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlLang = urlParams.get('lang');
+
+  if (urlLang) {
+    if (urlLang.toUpperCase() === 'EN') {
+      renderLang('EN');
+    } else {
+      renderLang('TW');
+    }
+  } else {
+    // 若無帶入 URL 參數，自動偵測瀏覽器語系
+    const browserLang = navigator.language || navigator.userLanguage;
+    if (browserLang && browserLang.toLowerCase().startsWith('zh')) {
+      renderLang('TW');
+    } else {
+      renderLang('EN'); // 非中文語系預設切換至英文
+    }
+  }
+}
+
+function renderLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang === 'EN' ? 'en' : 'zh-TW';
+
+  // 更新按鈕狀態
+  document.getElementById('btn-TW').classList.toggle('active', lang === 'TW');
+  document.getElementById('btn-EN').classList.toggle('active', lang === 'EN');
+
+  // 無重整更新網址列參數
+  const newUrl = new URL(window.location);
+  newUrl.searchParams.set('lang', lang);
+  window.history.replaceState({}, '', newUrl);
+
+  const t = i18nData[lang];
+  document.title = t.pageTitle;
+
+  // 替換所有具備 data-i18n 屬性的文字
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key]) {
+      el.innerHTML = t[key];
+    }
+  });
+
+  // 動態替換提示詞內的 URL 變數
+  const promptHtml = t.promptHtmlTemplate.replace(/\{\{URL\}\}/g, THE_API_URL);
+  document.getElementById('promptBoxText').innerHTML = promptHtml;
+}
+
+function doCopy() {
+  const url = THE_API_URL;
+  const btn = document.getElementById('copyBtn');
+  const t = i18nData[currentLang];
+  const originalText = t.copyUrlBtn;
+  const copiedText = t.copied;
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(function() {
+      btn.textContent = copiedText; btn.classList.add('ok');
+      setTimeout(function(){ btn.textContent = originalText; btn.classList.remove('ok'); }, 2000);
+    });
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    btn.textContent = copiedText; btn.classList.add('ok');
+    setTimeout(function(){ btn.textContent = originalText; btn.classList.remove('ok'); }, 2000);
+  }
+}
+
+function copyPrompt() {
+  const t = i18nData[currentLang];
+  const textToCopy = t.promptTemplate.replace(/\{\{URL\}\}/g, THE_API_URL);
+  const btn = document.getElementById('promptCopyBtn');
+  const originalText = t.copyPromptBtn;
+  const copiedText = t.copied;
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(textToCopy).then(function() {
+      btn.textContent = copiedText; btn.classList.add('ok');
+      setTimeout(function(){ btn.textContent = originalText; btn.classList.remove('ok'); }, 2000);
+    });
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = textToCopy; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    btn.textContent = copiedText; btn.classList.add('ok');
+    setTimeout(function(){ btn.textContent = originalText; btn.classList.remove('ok'); }, 2000);
+  }
+}
+
+// 初始化
+initApp();
+</script>
+</body>
+</html>
