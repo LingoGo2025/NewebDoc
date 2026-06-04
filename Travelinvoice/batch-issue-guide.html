@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="https://www.travelinvoice.com.tw/images/image/travelInvoice.ico" type="image/x-icon" />
+<title id="head-title"></title>
+<script src="assets/vendor/tailwindcss/tailwindcss.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+<style>
+    html { scroll-behavior: smooth; }
+    body { background-color: #f8fafc; overflow-x: hidden; }
+    .scrollable-area::-webkit-scrollbar { width: 6px; }
+    .scrollable-area::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+    .sidebar-active { background-color: #e0f2fe !important; color: #0284c7 !important; border-right: 4px solid #0284c7 !important; font-weight: 600 !important; }
+    .sidebar-active i { color: #0284c7 !important; }
+
+    /* 表格樣式 */
+    .manual-table th { background-color: #f8fafc; color: #334155; font-weight: bold; text-align: left; padding: 0.75rem 1rem; border-bottom: 2px solid #e2e8f0; }
+    .manual-table td { padding: 0.75rem 1rem; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+    .manual-table tr:nth-child(even) { background-color: #f8fafc; }
+    .manual-table tr:hover { background-color: #f1f5f9; }
+    
+    /* 圖片互動樣式 */
+    .slide-img { width: 100%; max-width: 800px; height: auto; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); cursor: zoom-in; transition: transform 0.2s ease, opacity 0.2s ease; border: 1px solid #e2e8f0; margin: 1rem 0; }
+    .slide-img:hover { opacity: 0.95; transform: scale(1.01); }
+
+    /* 燈箱樣式 */
+    #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.9); justify-content: center; align-items: center; flex-direction: column; padding: 20px; }
+    #lightbox.active { display: flex; animation: fadeIn 0.3s ease; }
+    #lightbox img { max-width: 95%; max-height: 85vh; border-radius: 8px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); object-fit: contain; }
+    #lightbox-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; cursor: pointer; transition: color 0.3s; }
+    #lightbox-close:hover { color: #94a3b8; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+</style>
+</head>
+<body class="text-slate-800 font-sans">
+
+    <script>
+        const docConfig = {
+// 繁體中文開始
+"zh-TW": {
+    "languageName": "繁體中文",
+    "ui": {
+        "head_title": "旅行業代收轉付電子收據 - 批次開立說明手冊",
+        "sidebar_brand": "旅行業電子收據平台",
+        "system_name": "",
+        "copyright": "版權所有 © 藍新科技股份有限公司"
+    },
+    "meta": {
+        "title": "批次開立說明手冊",
+        "subtitle": "旅行業代收轉付電子收據加值服務平台",
+        "version": "",
+        "sections": [
+            {
+                "id": "section_rules",
+                "icon": "fas fa-exclamation-triangle",
+                "markerColor": "bg-red-500",
+                "title": "批次開立限制與說明",
+                "desc": "<p class='mb-6 text-slate-700 text-lg'>為便利旅行業多筆代收轉付電子收據開立，使用者可利用 .txt 檔批次開立功能執行旅行業代收轉付電子收據開立，上傳檔案格式之限制與格式說明如下：</p><ol class='list-decimal pl-5 space-y-3 text-slate-700 text-lg'><li>上傳檔案格式限制為 <strong>.txt 檔</strong>。</li><li>檔案大小限制為 <strong>2M bytes</strong>。</li><li>檔案編碼格式為 <strong>unicode</strong>。</li><li>每張旅行業代收轉付電子收據最多以<strong>七個品項</strong>為限。</li><li>資料內容均不得含有『<strong>&amp;</strong>』此字元(U+0026)。</li></ol>"
+            },
+            {
+                "id": "section_methods",
+                "icon": "fas fa-download",
+                "markerColor": "bg-blue-500",
+                "title": "電子收據批次開立方式",
+                "desc": "<p class='text-lg text-slate-700 mb-8'>會員可登入本加值服務平台於【官網網址：www.travelinvoice.com.tw】，執行電子收據開立、查詢、作廢、折讓、列印等功能，於左列項目電子收據管理，開立電子收據分頁中可找到批次開立功能，依本操作說明建立上傳 .txt 檔案，並完成檔案上傳即可。</p><div class='bg-blue-50 border border-blue-200 p-6 rounded-xl mb-6 flex flex-col sm:flex-row items-center justify-between shadow-sm'><div class='mb-4 sm:mb-0'><h3 class='font-bold text-slate-800 text-lg mb-1'>下載批次開立範例檔</h3><p class='text-slate-600 text-sm'>請點擊右方按鈕下載包含範例格式的壓縮檔，解壓縮後即可依格式進行編輯。</p></div><a href='pic/Example.zip' class='flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors shadow-md flex-shrink-0'><i class='fas fa-download mr-2'></i> 下載範例檔 (.zip)</a></div>"
+            },
+            {
+                "id": "step1",
+                "icon": "fas fa-file-alt",
+                "markerColor": "bg-emerald-500",
+                "title": "1. 建立 .txt 檔說明",
+                "desc": "<p class='text-slate-700 mb-6 leading-relaxed'>上傳 .txt 檔包含欄位有「收據種類」、「買受人名稱」、「買受人統一編號」...等共19項欄位，使用者可下載範例檔依其格式修改內容，並儲存為檔案編碼格式為 unicode 的 .txt 檔即可，欄位格式說明可參以下【.txt檔欄位說明】。</p><div class='text-center mb-8'><img src='pic/sp1.png' alt='平台批次開立畫面' class='slide-img' onclick='openLightbox(this.src)'></div><h4 class='font-bold text-lg mb-4 text-blue-600 border-l-4 border-blue-600 pl-3'>【.txt 檔欄位說明】</h4><div class='overflow-x-auto'><table class='w-full text-sm text-left manual-table border border-slate-200 rounded-lg overflow-hidden'><thead><tr><th class='w-1/4'>欄位名稱</th><th class='w-1/12 text-center'>限制(字)</th><th class='w-1/12 text-center'>必填</th><th class='w-7/12'>備註</th></tr></thead><tbody><tr><td>收據種類</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. B2B=買受人為營利事業單位(有統編)<br>2. B2C=買受人為個人</td></tr><tr><td>買受人名稱</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>買受人名稱，個人姓名或營利事業單位名稱。此欄位為必填</td></tr><tr><td>買受人統一編號</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. 買受人(營利事業單位)統編，純數字。<br>2. 買受人為個人時，則不須填寫。<br>3. 當收據種類為B2B，則此欄位為必填。</td></tr><tr><td>買受人地址</td><td class='text-center'>100</td><td class='text-center'></td><td>買受人的聯絡地址</td></tr><tr><td>買受人電子信箱</td><td class='text-center'>100</td><td class='text-center font-bold text-red-500'>V</td><td>買受人的電子信箱。當收據開立時，寄送收據相關查詢資訊。此欄位為必填。</td></tr><tr><td>買受人手機</td><td class='text-center'>20</td><td class='text-center'></td><td>買受人的手機號碼</td></tr><tr><td>經辦人名稱</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>開立收據人員名稱。純記錄，系統不檢核。此欄位為必填。</td></tr><tr><td>收據總金額</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>純數字，為收據總金額</td></tr><tr><td>自訂編號</td><td class='text-center'>30</td><td class='text-center font-bold text-red-500'>V</td><td>旅行社於開立收據時提供的自訂編號。</td></tr><tr><td>備註</td><td class='text-center'>50</td><td class='text-center'></td><td>收據備註。</td></tr><tr><td>團名</td><td class='text-center'>50</td><td class='text-center'></td><td>1. 該張收據的團名<br>2. 全型/半型中文、英數、符號與空格，都算一個字<br>3. 不接受斷行與下列特殊符號:雙引號\"|單引號'|連結符號&amp;與 &lt; &gt;</td></tr><tr><td>團號</td><td class='text-center'>20</td><td class='text-center'></td><td>1. 該張收據的團號<br>2. 全型/半型中文、英數、符號與空格，都算一個字<br>3. 不接受斷行與下列特殊符號:雙引號\"|單引號'|連結符號&amp;與 &lt; &gt;</td></tr><tr><td>預計出團日</td><td class='text-center'>date</td><td class='text-center'></td><td>1. 格式為YYYY-MM-DD. 例:2014-10-05<br>2. 預計出團日不得晚於該收據實際開立日期的兩年後。<br>3. 出團日當天會寄發出團申報提醒通知至指定信箱</td></tr><tr><td>申報註記</td><td class='text-center'>1</td><td class='text-center'></td><td>0=未申報, 1=已申報<br>留空或無傳送此參數表示未申報</td></tr><tr><td>商品名稱</td><td class='text-center'>40</td><td class='text-center font-bold text-red-500'>V</td><td>1. 每樣商品名稱最多40個字。<br>2. 每個商品名稱以40字內為宜，若超過40個字將會無法完整印出於收據。</td></tr><tr><td>商品數量</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. 純數字。<br>2. 每個商品數量最多為5位數。</td></tr><tr><td>商品單位</td><td class='text-center'>2</td><td class='text-center font-bold text-red-500'>V</td><td>1. 內容如:個、件、本、張...<br>2. 每個商品單位最多兩個字。</td></tr><tr><td>商品單價</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. 純數字。<br>2. 每個商品單價不能超過8位數。</td></tr><tr><td>商品價格小計</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. 純數字。<br>2. 計算方式為:數量 *單價 = 小計。平台將會檢查計算結果。<br>3. 每個商品小計金額計算後不能超過8位數</td></tr></tbody></table><p class='text-sm text-slate-500 mt-2'>※備註：中、英、數字符號均算1個字。</p></div>"
+            },
+            {
+                "id": "step2",
+                "icon": "fas fa-file-import",
+                "markerColor": "bg-indigo-500",
+                "title": "2. 匯入範例 .txt 檔",
+                "desc": "<div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>1</span><p class='text-slate-700 text-lg pt-1'>開啟 EXCEL，並新增一空白活頁簿。然後請尋找功能表單選擇【資料】，從【從文字檔】匯入範例 .txt 檔。</p></div><div class='pl-11'><img src='pic/sp2.png' alt='Excel 匯入資料畫面' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>2</span><p class='text-slate-700 text-lg pt-1'>選擇【範例.txt檔】後點擊【匯入(M)】，匯入範例資料。</p></div><div class='pl-11'><img src='pic/sp3.png' alt='選擇檔案畫面' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>3</span><p class='text-slate-700 text-lg pt-1'>匯入步驟 3 之 1，選擇分隔符號後點擊【下一步(N)】。</p></div><div class='pl-11'><img src='pic/sp4.png' alt='匯入字串精靈步驟1' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>4</span><p class='text-slate-700 text-lg pt-1'>匯入步驟 3 之 2，分隔符號勾選【Tab鍵】後點擊【下一步(N)】。</p></div><div class='pl-11'><img src='pic/sp5.png' alt='匯入字串精靈步驟2' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>5</span><p class='text-slate-700 text-lg pt-1'>匯入步驟 3 之 3，依欄位內容將欄位的資料格式改為文字，後點擊【完成(F)】。</p></div><div class='pl-11'><img src='pic/sp6.png' alt='匯入字串精靈步驟3' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>6</span><p class='text-slate-700 text-lg pt-1'>匯入資料，選擇儲存格後點擊【確定】。</p></div><div class='pl-11'><img src='pic/sp7.png' alt='匯入資料確認' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-4'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>7</span><p class='text-slate-700 text-lg pt-1'>完成範例檔案匯入。</p></div><div class='pl-11'><img src='pic/sp8.png' alt='完成匯入畫面' class='slide-img' onclick='openLightbox(this.src)'></div></div>"
+            },
+            {
+                "id": "step3",
+                "icon": "fas fa-edit",
+                "markerColor": "bg-amber-500",
+                "title": "3. 編輯",
+                "desc": "<p class='text-slate-700 text-lg mb-6 leading-relaxed'>每張收據的第一列皆應詳填寫各欄位的資訊，除收據種類【B2C】不需填寫買受人統一編號，當有多項商品可再下一列開始填寫商品名稱...等資訊，依序完成資料的填寫。</p><div class='text-center'><img src='pic/sp9.png' alt='Excel 編輯畫面' class='slide-img' onclick='openLightbox(this.src)'></div>"
+            },
+            {
+                "id": "step4",
+                "icon": "fas fa-save",
+                "markerColor": "bg-teal-500",
+                "title": "4. 建立 .txt 檔",
+                "desc": "<div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>1</span><p class='text-slate-700 text-lg pt-1'>依範例格式完成編輯後點擊【檔案】。</p></div><div class='pl-11'><img src='pic/sp10.png' alt='Excel 儲存檔案' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>2</span><p class='text-slate-700 text-lg pt-1'>選擇另存新檔，指定儲存檔案的位置。</p></div><div class='pl-11'><img src='pic/sp11.png' alt='選擇另存新檔位置' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-4'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>3</span><p class='text-slate-700 text-lg pt-1'>選擇【Unicode 文字】儲存，並輸入檔案名稱【限英數混合組合】請輸後點擊【儲存】即可完成 .txt 檔。</p></div><div class='pl-11'><img src='pic/sp12.png' alt='存為 Unicode 文字' class='slide-img' onclick='openLightbox(this.src)'></div></div>"
+            },
+            {
+                "id": "step5",
+                "icon": "fas fa-cloud-upload-alt",
+                "markerColor": "bg-purple-500",
+                "title": "5. 批次開立",
+                "desc": "<div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>1</span><p class='text-slate-700 text-lg pt-1'>登入後點擊開立電子收據，即可進行單筆電子收據開立。</p></div><div class='pl-11'><img src='pic/sp13.png' alt='單筆開立畫面' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>2</span><p class='text-slate-700 text-lg pt-1'>點擊批次開立後，點擊【選擇檔案】選擇已完成編輯的 .txt 檔，後點擊【上傳】即可進行批次開立電子收據。</p></div><div class='pl-11'><img src='pic/sp14.png' alt='批次上傳畫面' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-4'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>3</span><p class='text-slate-700 text-lg pt-1'>確認檔案完成上傳後，可至【查詢電子收據】確認開立狀況。</p></div><div class='pl-11'><img src='pic/sp15.png' alt='查詢開立狀況' class='slide-img' onclick='openLightbox(this.src)'></div></div>"
+            }
+        ]
+    }
+},
+// 繁體中文結束
+// 英文開始
+"en": {
+    "languageName": "English",
+    "ui": {
+        "head_title": "Electronic Receipt - Batch Issuance Manual",
+        "sidebar_brand": "Electronic Receipt Platform",
+        "system_name": "",
+        "copyright": "Copyright © Neweb Technologies Co., Ltd."
+    },
+    "meta": {
+        "title": "Batch Issuance Manual",
+        "subtitle": "Travel Industry Electronic Receipt Value-Added Service Platform",
+        "version": "",
+        "sections": [
+            {
+                "id": "section_rules",
+                "icon": "fas fa-exclamation-triangle",
+                "markerColor": "bg-red-500",
+                "title": "Batch Issuance Restrictions and Instructions",
+                "desc": "<p class='mb-6 text-slate-700 text-lg'>To facilitate the issuance of multiple electronic receipts, users can utilize the .txt file batch issuance function. The uploaded file format restrictions and instructions are as follows:</p><ol class='list-decimal pl-5 space-y-3 text-slate-700 text-lg'><li>The uploaded file format is limited to <strong>.txt file</strong>.</li><li>The file size limit is <strong>2M bytes</strong>.</li><li>The file encoding format must be <strong>unicode</strong>.</li><li>Each electronic receipt is limited to a maximum of <strong>seven items</strong>.</li><li>The data content must not contain the '<strong>&amp;</strong>' character (U+0026).</li></ol>"
+            },
+            {
+                "id": "section_methods",
+                "icon": "fas fa-download",
+                "markerColor": "bg-blue-500",
+                "title": "Electronic Receipt Batch Issuance Method",
+                "desc": "<p class='text-lg text-slate-700 mb-8'>Members can log into this platform at [Official Website: www.travelinvoice.com.tw] to execute functions such as issuing, querying, voiding, allowing, and printing electronic receipts. You can find the batch issuance function in the 'Issue Electronic Receipt' tab. Follow these instructions to create and upload a .txt file.</p><div class='bg-blue-50 border border-blue-200 p-6 rounded-xl mb-6 flex flex-col sm:flex-row items-center justify-between shadow-sm'><div class='mb-4 sm:mb-0'><h3 class='font-bold text-slate-800 text-lg mb-1'>Download Batch Issuance Sample File</h3><p class='text-slate-600 text-sm'>Please click the button on the right to download the compressed file containing the sample format. After unzipping, you can edit it.</p></div><a href='pic/Example.zip' class='flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors shadow-md flex-shrink-0'><i class='fas fa-download mr-2'></i> Download Sample File (.zip)</a></div>"
+            },
+            {
+                "id": "step1",
+                "icon": "fas fa-file-alt",
+                "markerColor": "bg-emerald-500",
+                "title": "1. Creating a .txt File Instructions",
+                "desc": "<p class='text-slate-700 mb-6 leading-relaxed'>The uploaded .txt file contains a total of 19 fields. Users can download the sample file, modify the content according to its format, and save it as a .txt file with Unicode encoding. For field format instructions, please refer to the [.txt File Field Instructions] below.</p><div class='text-center mb-8'><img src='pic/sp1.png' alt='Platform Batch Issuance Screen' class='slide-img' onclick='openLightbox(this.src)'></div><h4 class='font-bold text-lg mb-4 text-blue-600 border-l-4 border-blue-600 pl-3'>[.txt File Field Instructions]</h4><div class='overflow-x-auto'><table class='w-full text-sm text-left manual-table border border-slate-200 rounded-lg overflow-hidden'><thead><tr><th class='w-1/4'>Field Name</th><th class='w-1/12 text-center'>Limit (Chars)</th><th class='w-1/12 text-center'>Required</th><th class='w-7/12'>Remarks</th></tr></thead><tbody><tr><td>Receipt Type</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. B2B=Buyer is a business entity<br>2. B2C=Buyer is an individual</td></tr><tr><td>Buyer Name</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>Buyer name, individual name, or business entity name.</td></tr><tr><td>Buyer Tax ID</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. Buyer Tax ID, numbers only.<br>2. Required when the receipt type is B2B.</td></tr><tr><td>Buyer Address</td><td class='text-center'>100</td><td class='text-center'></td><td>Buyer's contact address</td></tr><tr><td>Buyer Email</td><td class='text-center'>100</td><td class='text-center font-bold text-red-500'>V</td><td>Buyer's email. Used to send receipt-related query information.</td></tr><tr><td>Buyer Mobile</td><td class='text-center'>20</td><td class='text-center'></td><td>Buyer's mobile number</td></tr><tr><td>Handler Name</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>Name of the person issuing the receipt.</td></tr><tr><td>Total Receipt Amount</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>Numbers only, the total amount of the receipt</td></tr><tr><td>Custom Number</td><td class='text-center'>30</td><td class='text-center font-bold text-red-500'>V</td><td>Custom number provided by the travel agency.</td></tr><tr><td>Remarks</td><td class='text-center'>50</td><td class='text-center'></td><td>Receipt remarks.</td></tr><tr><td>Group Name</td><td class='text-center'>50</td><td class='text-center'></td><td>1. Group name for this receipt</td></tr><tr><td>Group Number</td><td class='text-center'>20</td><td class='text-center'></td><td>1. Group number for this receipt</td></tr><tr><td>Expected Departure Date</td><td class='text-center'>date</td><td class='text-center'></td><td>1. Format is YYYY-MM-DD. Ex: 2014-10-05</td></tr><tr><td>Declaration Mark</td><td class='text-center'>1</td><td class='text-center'></td><td>0=Undeclared, 1=Declared</td></tr><tr><td>Product Name</td><td class='text-center'>40</td><td class='text-center font-bold text-red-500'>V</td><td>1. Each product name has a maximum of 40 characters.</td></tr><tr><td>Product Quantity</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. Numbers only. Up to 5 digits.</td></tr><tr><td>Product Unit</td><td class='text-center'>2</td><td class='text-center font-bold text-red-500'>V</td><td>1. Content such as: piece, item...</td></tr><tr><td>Product Unit Price</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. Numbers only. Up to 8 digits.</td></tr><tr><td>Product Subtotal</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. Numbers only.</td></tr></tbody></table><p class='text-sm text-slate-500 mt-2'>※Note: Chinese, English, numbers, and symbols each count as 1 character.</p></div>"
+            },
+            {
+                "id": "step2",
+                "icon": "fas fa-file-import",
+                "markerColor": "bg-indigo-500",
+                "title": "2. Import Sample .txt File",
+                "desc": "<div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>1</span><p class='text-slate-700 text-lg pt-1'>Open EXCEL and create a new blank workbook. Then go to the menu and select [Data], and import the sample .txt file from [From Text].</p></div><div class='pl-11'><img src='pic/sp2.png' alt='Excel Import Data Screen' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>2</span><p class='text-slate-700 text-lg pt-1'>Select the [Sample .txt file] and click [Import (M)] to import the sample data.</p></div><div class='pl-11'><img src='pic/sp3.png' alt='Select File Screen' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>3</span><p class='text-slate-700 text-lg pt-1'>Import step 1 of 3, select Delimited and click [Next (N)].</p></div><div class='pl-11'><img src='pic/sp4.png' alt='Text Import Wizard Step 1' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>4</span><p class='text-slate-700 text-lg pt-1'>Import step 2 of 3, check [Tab] as the delimiter and click [Next (N)].</p></div><div class='pl-11'><img src='pic/sp5.png' alt='Text Import Wizard Step 2' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>5</span><p class='text-slate-700 text-lg pt-1'>Import step 3 of 3, change the column data format to Text according to the field content, and click [Finish (F)].</p></div><div class='pl-11'><img src='pic/sp6.png' alt='Text Import Wizard Step 3' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>6</span><p class='text-slate-700 text-lg pt-1'>Import Data, select the cell and click [OK].</p></div><div class='pl-11'><img src='pic/sp7.png' alt='Import Data Confirmation' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-4'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>7</span><p class='text-slate-700 text-lg pt-1'>Completed sample file import.</p></div><div class='pl-11'><img src='pic/sp8.png' alt='Import Completed Screen' class='slide-img' onclick='openLightbox(this.src)'></div></div>"
+            },
+            {
+                "id": "step3",
+                "icon": "fas fa-edit",
+                "markerColor": "bg-amber-500",
+                "title": "3. Edit",
+                "desc": "<p class='text-slate-700 text-lg mb-6 leading-relaxed'>The first row of each receipt must be filled with the information for all fields. Except for receipt type [B2C], which does not require the Buyer Tax ID. If there are multiple products, you can start filling in the product name and other information on the next row, completing the data entry sequentially.</p><div class='text-center'><img src='pic/sp9.png' alt='Excel Edit Screen' class='slide-img' onclick='openLightbox(this.src)'></div>"
+            },
+            {
+                "id": "step4",
+                "icon": "fas fa-save",
+                "markerColor": "bg-teal-500",
+                "title": "4. Create .txt File",
+                "desc": "<div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>1</span><p class='text-slate-700 text-lg pt-1'>After completing the editing according to the sample format, click [File].</p></div><div class='pl-11'><img src='pic/sp10.png' alt='Excel Save File' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>2</span><p class='text-slate-700 text-lg pt-1'>Select Save As and specify the location to save the file.</p></div><div class='pl-11'><img src='pic/sp11.png' alt='Select Save As Location' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-4'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>3</span><p class='text-slate-700 text-lg pt-1'>Select [Unicode Text] to save, input the file name [limited to alphanumeric combinations], and click [Save] to complete the .txt file.</p></div><div class='pl-11'><img src='pic/sp12.png' alt='Save as Unicode Text' class='slide-img' onclick='openLightbox(this.src)'></div></div>"
+            },
+            {
+                "id": "step5",
+                "icon": "fas fa-cloud-upload-alt",
+                "markerColor": "bg-purple-500",
+                "title": "5. Batch Issuance",
+                "desc": "<div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>1</span><p class='text-slate-700 text-lg pt-1'>After logging in, click Issue Electronic Receipt to issue a single electronic receipt.</p></div><div class='pl-11'><img src='pic/sp13.png' alt='Single Issuance Screen' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>2</span><p class='text-slate-700 text-lg pt-1'>After clicking Batch Issuance, click [Choose File] to select the edited .txt file, then click [Upload] to perform the batch issuance of electronic receipts.</p></div><div class='pl-11'><img src='pic/sp14.png' alt='Batch Upload Screen' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-4'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>3</span><p class='text-slate-700 text-lg pt-1'>After confirming the file upload is complete, you can go to [Query Electronic Receipts] to check the issuance status.</p></div><div class='pl-11'><img src='pic/sp15.png' alt='Query Issuance Status' class='slide-img' onclick='openLightbox(this.src)'></div></div>"
+            }
+        ]
+    }
+},
+// 英文結束
+// 日文開始
+"ja": {
+    "languageName": "日本語",
+    "ui": {
+        "head_title": "電子領収書 - 一括発行マニュアル",
+        "sidebar_brand": "電子領収書プラットフォーム",
+        "system_name": "",
+        "copyright": "Copyright © Neweb Technologies Co., Ltd."
+    },
+    "meta": {
+        "title": "一括発行マニュアル",
+        "subtitle": "旅行業代行収納電子領収書付加価値サービスプラットフォーム",
+        "version": "",
+        "sections": [
+            {
+                "id": "section_rules",
+                "icon": "fas fa-exclamation-triangle",
+                "markerColor": "bg-red-500",
+                "title": "一括発行の制限と説明",
+                "desc": "<p class='mb-6 text-slate-700 text-lg'>旅行業における複数の代行収納電子領収書の発行を容易にするため、ユーザーは.txtファイルの一括発行機能を利用できます。アップロードするファイルのフォーマット制限と説明は以下の通りです：</p><ol class='list-decimal pl-5 space-y-3 text-slate-700 text-lg'><li>アップロードするファイルのフォーマットは<strong>.txtファイル</strong>に限定されます。</li><li>ファイルサイズの制限は<strong>2Mバイト</strong>です。</li><li>ファイルのエンコード形式は<strong>unicode</strong>である必要があります。</li><li>各領収書の品目は最大<strong>7項目</strong>までです。</li><li>データ内容に「<strong>&amp;</strong>」文字（U+0026）を含めることはできません。</li></ol>"
+            },
+            {
+                "id": "section_methods",
+                "icon": "fas fa-download",
+                "markerColor": "bg-blue-500",
+                "title": "電子領収書の一括発行方法",
+                "desc": "<p class='text-lg text-slate-700 mb-8'>会員はこのプラットフォーム【公式サイト：www.travelinvoice.com.tw】にログインし、一括発行機能を実行できます。この操作説明に従って.txtファイルを作成し、アップロードを完了してください。</p><div class='bg-blue-50 border border-blue-200 p-6 rounded-xl mb-6 flex flex-col sm:flex-row items-center justify-between shadow-sm'><div class='mb-4 sm:mb-0'><h3 class='font-bold text-slate-800 text-lg mb-1'>一括発行サンプルファイルのダウンロード</h3><p class='text-slate-600 text-sm'>右側のボタンをクリックして、サンプルフォーマットを含む圧縮ファイルをダウンロードしてください。</p></div><a href='pic/Example.zip' class='flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors shadow-md flex-shrink-0'><i class='fas fa-download mr-2'></i> サンプルファイルのダウンロード (.zip)</a></div>"
+            },
+            {
+                "id": "step1",
+                "icon": "fas fa-file-alt",
+                "markerColor": "bg-emerald-500",
+                "title": "1. .txtファイルの作成説明",
+                "desc": "<p class='text-slate-700 mb-6 leading-relaxed'>アップロードする.txtファイルには、合計19のフィールドが含まれます。ユーザーはサンプルファイルをダウンロードし、そのフォーマットに従って内容を変更し、エンコード形式がunicodeの.txtファイルとして保存してください。</p><div class='text-center mb-8'><img src='pic/sp1.png' alt='プラットフォーム一括発行画面' class='slide-img' onclick='openLightbox(this.src)'></div><h4 class='font-bold text-lg mb-4 text-blue-600 border-l-4 border-blue-600 pl-3'>【.txtファイルフィールド説明】</h4><div class='overflow-x-auto'><table class='w-full text-sm text-left manual-table border border-slate-200 rounded-lg overflow-hidden'><thead><tr><th class='w-1/4'>フィールド名</th><th class='w-1/12 text-center'>制限(文字)</th><th class='w-1/12 text-center'>必須</th><th class='w-7/12'>備考</th></tr></thead><tbody><tr><td>領収書の種類</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. B2B=購入者が営利事業単位<br>2. B2C=購入者が個人</td></tr><tr><td>購入者名</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>購入者名、個人名または営利事業単位名。</td></tr><tr><td>購入者統一番号</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. 購入者の統一番号、数字のみ。<br>2. 領収書の種類がB2Bの場合、必須です。</td></tr><tr><td>購入者住所</td><td class='text-center'>100</td><td class='text-center'></td><td>購入者の連絡先住所</td></tr><tr><td>購入者メール</td><td class='text-center'>100</td><td class='text-center font-bold text-red-500'>V</td><td>購入者のメールアドレス。</td></tr><tr><td>担当者名</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>領収書発行担当者名。</td></tr><tr><td>領収書合計金額</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>数字のみ、領収書の合計金額</td></tr><tr><td>カスタム番号</td><td class='text-center'>30</td><td class='text-center font-bold text-red-500'>V</td><td>旅行会社が領収書発行時に提供するカスタム番号。</td></tr><tr><td>備考</td><td class='text-center'>50</td><td class='text-center'></td><td>領収書の備考。</td></tr><tr><td>商品名</td><td class='text-center'>40</td><td class='text-center font-bold text-red-500'>V</td><td>1. 各商品名は最大40文字です。</td></tr><tr><td>商品数量</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. 数字のみ。各商品数量は最大5桁です。</td></tr><tr><td>商品単位</td><td class='text-center'>2</td><td class='text-center font-bold text-red-500'>V</td><td>1. 内容例：個、件...</td></tr><tr><td>商品単価</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. 数字のみ。各商品単価は8桁を超えてはなりません。</td></tr><tr><td>商品小計</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. 数字のみ。</td></tr></tbody></table><p class='text-sm text-slate-500 mt-2'>※備考：中国語、英語、数字、記号はすべて1文字としてカウントされます。</p></div>"
+            },
+            {
+                "id": "step2",
+                "icon": "fas fa-file-import",
+                "markerColor": "bg-indigo-500",
+                "title": "2. サンプル.txtのインポート",
+                "desc": "<div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>1</span><p class='text-slate-700 text-lg pt-1'>EXCELを開き、新しい空のブックを作成します。次に、メニューから「データ」を選択し、「テキストファイルから」を選択してサンプル.txtファイルをインポートします。</p></div><div class='pl-11'><img src='pic/sp2.png' alt='Excelデータインポート画面' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>2</span><p class='text-slate-700 text-lg pt-1'>【サンプル.txtファイル】を選択し、【インポート(M)】をクリックしてサンプルデータをインポートします。</p></div><div class='pl-11'><img src='pic/sp3.png' alt='ファイル選択画面' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>3</span><p class='text-slate-700 text-lg pt-1'>インポート手順 1 / 3。区切り文字を選択し、【次へ(N)】をクリックします。</p></div><div class='pl-11'><img src='pic/sp4.png' alt='テキストファイルウィザードステップ1' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>4</span><p class='text-slate-700 text-lg pt-1'>インポート手順 2 / 3。区切り文字として【タブ】にチェックを入れ、【次へ(N)】をクリックします。</p></div><div class='pl-11'><img src='pic/sp5.png' alt='テキストファイルウィザードステップ2' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>5</span><p class='text-slate-700 text-lg pt-1'>インポート手順 3 / 3。フィールドの内容に応じてデータ形式を文字列に変更し、【完了(F)】をクリックします。</p></div><div class='pl-11'><img src='pic/sp6.png' alt='テキストファイルウィザードステップ3' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>6</span><p class='text-slate-700 text-lg pt-1'>データのインポート。セルを選択し、【OK】をクリックします。</p></div><div class='pl-11'><img src='pic/sp7.png' alt='データインポート確認' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-4'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>7</span><p class='text-slate-700 text-lg pt-1'>サンプルファイルのインポートが完了しました。</p></div><div class='pl-11'><img src='pic/sp8.png' alt='インポート完了画面' class='slide-img' onclick='openLightbox(this.src)'></div></div>"
+            },
+            {
+                "id": "step3",
+                "icon": "fas fa-edit",
+                "markerColor": "bg-amber-500",
+                "title": "3. 編集",
+                "desc": "<p class='text-slate-700 text-lg mb-6 leading-relaxed'>各領収書の最初の行には、すべてのフィールドの情報を記入する必要があります。ただし、領収書の種類が【B2C】の場合は、購入者統一番号の記入は不要です。複数の商品がある場合は、次の行から商品名などの情報を順次記入してデータ入力を完了させます。</p><div class='text-center'><img src='pic/sp9.png' alt='Excel編集画面' class='slide-img' onclick='openLightbox(this.src)'></div>"
+            },
+            {
+                "id": "step4",
+                "icon": "fas fa-save",
+                "markerColor": "bg-teal-500",
+                "title": "4. .txtファイルとして保存",
+                "desc": "<div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>1</span><p class='text-slate-700 text-lg pt-1'>サンプルフォーマットに従って編集を完了した後、【ファイル】をクリックします。</p></div><div class='pl-11'><img src='pic/sp10.png' alt='Excelファイル保存' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>2</span><p class='text-slate-700 text-lg pt-1'>名前を付けて保存を選択し、ファイルの保存場所を指定します。</p></div><div class='pl-11'><img src='pic/sp11.png' alt='保存場所の指定' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-4'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>3</span><p class='text-slate-700 text-lg pt-1'>【Unicodeテキスト】を選択して保存します。ファイル名【英数字の組み合わせに限定】を入力し、【保存】をクリックすると.txtファイルが完成します。</p></div><div class='pl-11'><img src='pic/sp12.png' alt='Unicodeテキストとして保存' class='slide-img' onclick='openLightbox(this.src)'></div></div>"
+            },
+            {
+                "id": "step5",
+                "icon": "fas fa-cloud-upload-alt",
+                "markerColor": "bg-purple-500",
+                "title": "5. 一括発行",
+                "desc": "<div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>1</span><p class='text-slate-700 text-lg pt-1'>ログイン後、「電子領収書の発行」をクリックすると、単一の電子領収書を発行できます。</p></div><div class='pl-11'><img src='pic/sp13.png' alt='単一発行画面' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>2</span><p class='text-slate-700 text-lg pt-1'>「一括発行」をクリックした後、【ファイルの選択】をクリックして編集済みの.txtファイルを選択し、【アップロード】をクリックすると電子領収書の一括発行が行われます。</p></div><div class='pl-11'><img src='pic/sp14.png' alt='一括アップロード画面' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-4'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>3</span><p class='text-slate-700 text-lg pt-1'>ファイルのアップロードが完了したことを確認した後、「電子領収書の照会」で発行状況を確認できます。</p></div><div class='pl-11'><img src='pic/sp15.png' alt='発行状況の照会' class='slide-img' onclick='openLightbox(this.src)'></div></div>"
+            }
+        ]
+    }
+},
+// 日文結束
+// 韓文開始
+"ko": {
+    "languageName": "한국어",
+    "ui": {
+        "head_title": "전자영수증 - 일괄 발행 매뉴얼",
+        "sidebar_brand": "전자영수증 플랫폼",
+        "system_name": "",
+        "copyright": "Copyright © Neweb Technologies Co., Ltd."
+    },
+    "meta": {
+        "title": "일괄 발행 매뉴얼",
+        "subtitle": "여행업 대행수납 전자영수증 부가 서비스 플랫폼",
+        "version": "",
+        "sections": [
+            {
+                "id": "section_rules",
+                "icon": "fas fa-exclamation-triangle",
+                "markerColor": "bg-red-500",
+                "title": "일괄 발행 제한 및 설명",
+                "desc": "<p class='mb-6 text-slate-700 text-lg'>여행업의 다중 대행수납 전자영수증 발행을 용이하게 하기 위해, 사용자는 .txt 파일 일괄 발행 기능을 이용하여 전자영수증을 발행할 수 있습니다. 업로드할 파일의 형식 제한 및 설명은 다음과 같습니다:</p><ol class='list-decimal pl-5 space-y-3 text-slate-700 text-lg'><li>업로드 파일 형식은 <strong>.txt 파일</strong>로 제한됩니다.</li><li>파일 크기 제한은 <strong>2M bytes</strong>입니다.</li><li>파일 인코딩 형식은 <strong>unicode</strong>여야 합니다.</li><li>각 여행업 대행수납 전자영수증의 품목은 최대 <strong>7개 항목</strong>으로 제한됩니다.</li><li>데이터 내용에 『<strong>&amp;</strong>』 문자(U+0026)가 포함되어서는 안 됩니다.</li></ol>"
+            },
+            {
+                "id": "section_methods",
+                "icon": "fas fa-download",
+                "markerColor": "bg-blue-500",
+                "title": "전자영수증 일괄 발행 방법",
+                "desc": "<p class='text-lg text-slate-700 mb-8'>회원은 본 부가 서비스 플랫폼【공식 웹사이트: www.travelinvoice.com.tw】에 로그인하여 전자영수증 발행, 조회 등의 기능을 실행할 수 있습니다. 본 조작 설명에 따라 .txt 파일을 생성하고 파일 업로드를 완료해 주십시오.</p><div class='bg-blue-50 border border-blue-200 p-6 rounded-xl mb-6 flex flex-col sm:flex-row items-center justify-between shadow-sm'><div class='mb-4 sm:mb-0'><h3 class='font-bold text-slate-800 text-lg mb-1'>일괄 발행 샘플 파일 다운로드</h3><p class='text-slate-600 text-sm'>오른쪽 버튼을 클릭하여 샘플 형식이 포함된 압축 파일을 다운로드해 주십시오. 압축 해제 후 형식에 맞게 편집할 수 있습니다.</p></div><a href='pic/Example.zip' class='flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors shadow-md flex-shrink-0'><i class='fas fa-download mr-2'></i> 샘플 파일 다운로드 (.zip)</a></div>"
+            },
+            {
+                "id": "step1",
+                "icon": "fas fa-file-alt",
+                "markerColor": "bg-emerald-500",
+                "title": "1. .txt 파일 생성 설명",
+                "desc": "<p class='text-slate-700 mb-6 leading-relaxed'>업로드하는 .txt 파일에는 총 19개 필드가 포함됩니다. 사용자는 샘플 파일을 다운로드하여 해당 형식에 따라 내용을 수정하고 인코딩 형식이 unicode인 .txt 파일로 저장하면 됩니다. 필드 형식 설명은 아래의 【.txt 파일 필드 설명】을 참조하십시오.</p><div class='text-center mb-8'><img src='pic/sp1.png' alt='플랫폼 일괄 발행 화면' class='slide-img' onclick='openLightbox(this.src)'></div><h4 class='font-bold text-lg mb-4 text-blue-600 border-l-4 border-blue-600 pl-3'>【.txt 파일 필드 설명】</h4><div class='overflow-x-auto'><table class='w-full text-sm text-left manual-table border border-slate-200 rounded-lg overflow-hidden'><thead><tr><th class='w-1/4'>필드명</th><th class='w-1/12 text-center'>제한(자)</th><th class='w-1/12 text-center'>필수</th><th class='w-7/12'>비고</th></tr></thead><tbody><tr><td>영수증 종류</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. B2B=구매자가 영리사업 단위(사업자번호 있음)<br>2. B2C=구매자가 개인</td></tr><tr><td>구매자명</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>구매자명, 개인 성명 또는 영리사업 단위명. 이 필드는 필수입니다</td></tr><tr><td>구매자 사업자등록번호</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. 구매자(영리사업 단위) 사업자번호, 숫자만.<br>2. 영수증 종류가 B2B일 경우, 이 필드는 필수입니다.</td></tr><tr><td>구매자 이메일</td><td class='text-center'>100</td><td class='text-center font-bold text-red-500'>V</td><td>구매자의 이메일. 이 필드는 필수입니다.</td></tr><tr><td>담당자명</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>영수증 발행 담당자명.</td></tr><tr><td>영수증 총 금액</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>숫자만, 영수증의 총 금액</td></tr><tr><td>사용자 지정 번호</td><td class='text-center'>30</td><td class='text-center font-bold text-red-500'>V</td><td>여행사가 영수증 발행 시 제공하는 사용자 지정 번호.</td></tr><tr><td>상품명</td><td class='text-center'>40</td><td class='text-center font-bold text-red-500'>V</td><td>1. 각 상품명은 최대 40자입니다.</td></tr><tr><td>상품 수량</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. 숫자만.</td></tr><tr><td>상품 단위</td><td class='text-center'>2</td><td class='text-center font-bold text-red-500'>V</td><td>1. 내용 예: 개, 건, 권, 장...</td></tr><tr><td>상품 단가</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. 숫자만.</td></tr><tr><td>상품 소계</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. 숫자만.</td></tr></tbody></table><p class='text-sm text-slate-500 mt-2'>※비고: 중국어, 영어, 한국어, 숫자, 기호는 모두 1자로 계산됩니다.</p></div>"
+            },
+            {
+                "id": "step2",
+                "icon": "fas fa-file-import",
+                "markerColor": "bg-indigo-500",
+                "title": "2. 샘플 .txt 가져오기",
+                "desc": "<div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>1</span><p class='text-slate-700 text-lg pt-1'>EXCEL을 열고 새 빈 통합 문서를 만듭니다. 그런 다음 메뉴에서 【데이터】를 선택하고 【텍스트/CSV】(또는 텍스트 파일에서)에서 샘플 .txt 파일을 가져옵니다.</p></div><div class='pl-11'><img src='pic/sp2.png' alt='Excel 데이터 가져오기 화면' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>2</span><p class='text-slate-700 text-lg pt-1'>【샘플.txt 파일】을 선택하고 【가져오기(M)】를 클릭하여 샘플 데이터를 가져옵니다.</p></div><div class='pl-11'><img src='pic/sp3.png' alt='파일 선택 화면' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>3</span><p class='text-slate-700 text-lg pt-1'>텍스트 마법사 3단계 중 1단계, 구분 기호를 선택한 후 【다음(N)】을 클릭합니다.</p></div><div class='pl-11'><img src='pic/sp4.png' alt='텍스트 마법사 1단계' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>4</span><p class='text-slate-700 text-lg pt-1'>텍스트 마법사 3단계 중 2단계, 구분 기호로 【탭】을 체크한 후 【다음(N)】을 클릭합니다.</p></div><div class='pl-11'><img src='pic/sp5.png' alt='텍스트 마법사 2단계' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>5</span><p class='text-slate-700 text-lg pt-1'>텍스트 마법사 3단계 중 3단계, 필드 내용에 따라 데이터 서식을 텍스트로 변경한 후 【마침(F)】을 클릭합니다.</p></div><div class='pl-11'><img src='pic/sp6.png' alt='텍스트 마법사 3단계' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>6</span><p class='text-slate-700 text-lg pt-1'>데이터 가져오기, 셀을 선택한 후 【확인】을 클릭합니다.</p></div><div class='pl-11'><img src='pic/sp7.png' alt='데이터 가져오기 확인' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-4'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>7</span><p class='text-slate-700 text-lg pt-1'>샘플 파일 가져오기를 완료했습니다.</p></div><div class='pl-11'><img src='pic/sp8.png' alt='가져오기 완료 화면' class='slide-img' onclick='openLightbox(this.src)'></div></div>"
+            },
+            {
+                "id": "step3",
+                "icon": "fas fa-edit",
+                "markerColor": "bg-amber-500",
+                "title": "3. 편집",
+                "desc": "<p class='text-slate-700 text-lg mb-6 leading-relaxed'>각 영수증의 첫 번째 행에는 모든 필드 정보를 빠짐없이 작성해야 합니다. 단, 영수증 종류가 【B2C】인 경우 구매자 사업자등록번호는 작성하지 않아도 됩니다. 여러 상품이 있는 경우 다음 행부터 상품명 등 정보를 순차적으로 작성하여 데이터 입력을 완료합니다.</p><div class='text-center'><img src='pic/sp9.png' alt='Excel 편집 화면' class='slide-img' onclick='openLightbox(this.src)'></div>"
+            },
+            {
+                "id": "step4",
+                "icon": "fas fa-save",
+                "markerColor": "bg-teal-500",
+                "title": "4. .txt 파일로 저장",
+                "desc": "<div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>1</span><p class='text-slate-700 text-lg pt-1'>샘플 형식에 따라 편집을 완료한 후 【파일】을 클릭합니다.</p></div><div class='pl-11'><img src='pic/sp10.png' alt='Excel 파일 저장' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>2</span><p class='text-slate-700 text-lg pt-1'>다른 이름으로 저장을 선택하고 파일 저장 위치를 지정합니다.</p></div><div class='pl-11'><img src='pic/sp11.png' alt='다른 이름으로 저장 위치 지정' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-4'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>3</span><p class='text-slate-700 text-lg pt-1'>【Unicode 텍스트】를 선택하여 저장합니다. 파일명【영숫자 혼합 조합 한정】을 입력한 후 【저장】을 클릭하면 .txt 파일이 완성됩니다.</p></div><div class='pl-11'><img src='pic/sp12.png' alt='Unicode 텍스트로 저장' class='slide-img' onclick='openLightbox(this.src)'></div></div>"
+            },
+            {
+                "id": "step5",
+                "icon": "fas fa-cloud-upload-alt",
+                "markerColor": "bg-purple-500",
+                "title": "5. 일괄 발행",
+                "desc": "<div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>1</span><p class='text-slate-700 text-lg pt-1'>로그인 후 '전자영수증 발행'을 클릭하면, 단일 전자영수증을 발행할 수 있습니다.</p></div><div class='pl-11'><img src='pic/sp13.png' alt='단일 발행 화면' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>2</span><p class='text-slate-700 text-lg pt-1'>'일괄 발행'을 클릭한 후, 【파일 선택】을 클릭하여 편집 완료된 .txt 파일을 선택하고 【업로드】를 클릭하면 전자영수증 일괄 발행이 진행됩니다.</p></div><div class='pl-11'><img src='pic/sp14.png' alt='일괄 업로드 화면' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-4'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>3</span><p class='text-slate-700 text-lg pt-1'>파일 업로드가 완료되었는지 확인한 후, 【전자영수증 조회】에서 발행 상태를 확인할 수 있습니다.</p></div><div class='pl-11'><img src='pic/sp15.png' alt='발행 상태 조회' class='slide-img' onclick='openLightbox(this.src)'></div></div>"
+            }
+        ]
+    }
+},
+// 韓文結束
+// 瑞典文開始
+"sv": {
+    "languageName": "Svenska",
+    "ui": {
+        "head_title": "Elektroniskt kvitto - Manual för massutfärdande",
+        "sidebar_brand": "Elektroniska kvitton",
+        "system_name": "",
+        "copyright": "Copyright © Neweb Technologies Co., Ltd."
+    },
+    "meta": {
+        "title": "Manual för massutfärdande",
+        "subtitle": "Plattform för mervärdestjänster för elektroniska kvitton för resebyråer",
+        "version": "",
+        "sections": [
+            {
+                "id": "section_rules",
+                "icon": "fas fa-exclamation-triangle",
+                "markerColor": "bg-red-500",
+                "title": "Restriktioner och instruktioner för massutfärdande",
+                "desc": "<p class='mb-6 text-slate-700 text-lg'>För att underlätta utfärdandet av flera elektroniska kvitton för resebranschen kan användare använda .txt-filens funktion för massutfärdande. Restriktioner och instruktioner för det uppladdade filformatet är enligt följande:</p><ol class='list-decimal pl-5 space-y-3 text-slate-700 text-lg'><li>Det uppladdade filformatet är begränsat till <strong>.txt-fil</strong>.</li><li>Filstorleken är begränsad till <strong>2M bytes</strong>.</li><li>Filens kodningsformat måste vara <strong>unicode</strong>.</li><li>Varje elektroniskt kvitto är begränsat till maximalt <strong>sju artiklar</strong>.</li><li>Datainnehållet får inte innehålla tecknet '<strong>&amp;</strong>' (U+0026).</li></ol>"
+            },
+            {
+                "id": "section_methods",
+                "icon": "fas fa-download",
+                "markerColor": "bg-blue-500",
+                "title": "Metod för massutfärdande av elektroniska kvitton",
+                "desc": "<p class='text-lg text-slate-700 mb-8'>Medlemmar kan logga in på denna plattform [Officiell webbplats: www.travelinvoice.com.tw] för att utföra funktioner som att utfärda elektroniska kvitton. Följ dessa instruktioner för att skapa en .txt-fil och slutföra uppladdningen.</p><div class='bg-blue-50 border border-blue-200 p-6 rounded-xl mb-6 flex flex-col sm:flex-row items-center justify-between shadow-sm'><div class='mb-4 sm:mb-0'><h3 class='font-bold text-slate-800 text-lg mb-1'>Ladda ner exempelfil för massutfärdande</h3><p class='text-slate-600 text-sm'>Klicka på knappen till höger för att ladda ner den komprimerade filen som innehåller exempelformatet.</p></div><a href='pic/Example.zip' class='flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors shadow-md flex-shrink-0'><i class='fas fa-download mr-2'></i> Ladda ner exempelfil (.zip)</a></div>"
+            },
+            {
+                "id": "step1",
+                "icon": "fas fa-file-alt",
+                "markerColor": "bg-emerald-500",
+                "title": "1. Instruktioner för att skapa .txt-fil",
+                "desc": "<p class='text-slate-700 mb-6 leading-relaxed'>Den uppladdade .txt-filen innehåller totalt 19 fält. Användare kan ladda ner exempelfilen, ändra innehållet enligt dess format och spara den som en .txt-fil med Unicode-kodning.</p><div class='text-center mb-8'><img src='pic/sp1.png' alt='Plattformens skärm för massutfärdande' class='slide-img' onclick='openLightbox(this.src)'></div><h4 class='font-bold text-lg mb-4 text-blue-600 border-l-4 border-blue-600 pl-3'>【.txt-filens fältinstruktioner】</h4><div class='overflow-x-auto'><table class='w-full text-sm text-left manual-table border border-slate-200 rounded-lg overflow-hidden'><thead><tr><th class='w-1/4'>Fältnamn</th><th class='w-1/12 text-center'>Gräns (Tecken)</th><th class='w-1/12 text-center'>Krav</th><th class='w-7/12'>Anmärkning</th></tr></thead><tbody><tr><td>Kvittotyp</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. B2B=Köparen är ett företag<br>2. B2C=Köparen är en privatperson</td></tr><tr><td>Köparens namn</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>Köparens namn, privatpersonens namn eller företagets namn.</td></tr><tr><td>Köparens org.nr</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. Köparens org.nr, endast siffror.<br>2. Obligatoriskt när kvittotypen är B2B.</td></tr><tr><td>Köparens e-post</td><td class='text-center'>100</td><td class='text-center font-bold text-red-500'>V</td><td>Köparens e-postadress. Detta fält är obligatoriskt.</td></tr><tr><td>Handläggarens namn</td><td class='text-center'>50</td><td class='text-center font-bold text-red-500'>V</td><td>Namn på personen som utfärdar kvittot.</td></tr><tr><td>Totalt kvittobelopp</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>Endast siffror, kvittots totala belopp</td></tr><tr><td>Anpassat nummer</td><td class='text-center'>30</td><td class='text-center font-bold text-red-500'>V</td><td>Anpassat nummer som tillhandahålls av resebyrån.</td></tr><tr><td>Produktnamn</td><td class='text-center'>40</td><td class='text-center font-bold text-red-500'>V</td><td>1. Varje produktnamn har högst 40 tecken.</td></tr><tr><td>Produktkvantitet</td><td class='text-center'>5</td><td class='text-center font-bold text-red-500'>V</td><td>1. Endast siffror.</td></tr><tr><td>Produktsenhet</td><td class='text-center'>2</td><td class='text-center font-bold text-red-500'>V</td><td>1. Innehåll som: st, kolli...</td></tr><tr><td>Enhetspris</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. Endast siffror.</td></tr><tr><td>Produktdelsumma</td><td class='text-center'>8</td><td class='text-center font-bold text-red-500'>V</td><td>1. Endast siffror.</td></tr></tbody></table><p class='text-sm text-slate-500 mt-2'>※Obs: Kinesiska, engelska, koreanska, siffror och symboler räknas alla som 1 tecken.</p></div>"
+            },
+            {
+                "id": "step2",
+                "icon": "fas fa-file-import",
+                "markerColor": "bg-indigo-500",
+                "title": "2. Importera exempel-.txt",
+                "desc": "<div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>1</span><p class='text-slate-700 text-lg pt-1'>Öppna EXCEL och skapa en ny tom arbetsbok. Välj sedan [Data] i menyn och importera exempel-.txt-filen från [Från text/CSV] (eller Från text).</p></div><div class='pl-11'><img src='pic/sp2.png' alt='Excel dataimportskärm' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>2</span><p class='text-slate-700 text-lg pt-1'>Välj [Exempel .txt-fil] och klicka på [Importera (M)] för att importera exempeldatan.</p></div><div class='pl-11'><img src='pic/sp3.png' alt='Välj fil-skärm' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>3</span><p class='text-slate-700 text-lg pt-1'>Importsteg 1 av 3, välj Avgränsade och klicka på [Nästa (N)].</p></div><div class='pl-11'><img src='pic/sp4.png' alt='Textimportguiden steg 1' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>4</span><p class='text-slate-700 text-lg pt-1'>Importsteg 2 av 3, markera [Tabb] som avgränsare och klicka på [Nästa (N)].</p></div><div class='pl-11'><img src='pic/sp5.png' alt='Textimportguiden steg 2' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>5</span><p class='text-slate-700 text-lg pt-1'>Importsteg 3 av 3, ändra kolumnens dataformat till Text enligt fältinnehållet och klicka på [Slutför (F)].</p></div><div class='pl-11'><img src='pic/sp6.png' alt='Textimportguiden steg 3' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>6</span><p class='text-slate-700 text-lg pt-1'>Importera data, markera cellen och klicka på [OK].</p></div><div class='pl-11'><img src='pic/sp7.png' alt='Bekräftelse för dataimport' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-4'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>7</span><p class='text-slate-700 text-lg pt-1'>Import av exempelfil slutförd.</p></div><div class='pl-11'><img src='pic/sp8.png' alt='Skärm för slutförd import' class='slide-img' onclick='openLightbox(this.src)'></div></div>"
+            },
+            {
+                "id": "step3",
+                "icon": "fas fa-edit",
+                "markerColor": "bg-amber-500",
+                "title": "3. Redigera",
+                "desc": "<p class='text-slate-700 text-lg mb-6 leading-relaxed'>Den första raden för varje kvitto måste fyllas i med all fältinformation. Förutom kvittotyp [B2C], som inte kräver köparens org.nr. Om det finns flera produkter kan du fortsätta att fylla i produktnamn och annan information på nästa rad i ordningsföljd för att slutföra datainmatningen.</p><div class='text-center'><img src='pic/sp9.png' alt='Excel-redigeringsskärm' class='slide-img' onclick='openLightbox(this.src)'></div>"
+            },
+            {
+                "id": "step4",
+                "icon": "fas fa-save",
+                "markerColor": "bg-teal-500",
+                "title": "4. Spara som .txt-fil",
+                "desc": "<div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>1</span><p class='text-slate-700 text-lg pt-1'>När redigeringen är klar enligt exempelformatet, klicka på [Arkiv].</p></div><div class='pl-11'><img src='pic/sp10.png' alt='Spara Excel-fil' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>2</span><p class='text-slate-700 text-lg pt-1'>Välj Spara som och ange var filen ska sparas.</p></div><div class='pl-11'><img src='pic/sp11.png' alt='Välj plats för Spara som' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-4'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>3</span><p class='text-slate-700 text-lg pt-1'>Välj att spara som [Unicode-text], ange filnamnet [endast alfanumeriska kombinationer] och klicka på [Spara] för att färdigställa .txt-filen.</p></div><div class='pl-11'><img src='pic/sp12.png' alt='Spara som Unicode-text' class='slide-img' onclick='openLightbox(this.src)'></div></div>"
+            },
+            {
+                "id": "step5",
+                "icon": "fas fa-cloud-upload-alt",
+                "markerColor": "bg-purple-500",
+                "title": "5. Massutfärdande",
+                "desc": "<div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>1</span><p class='text-slate-700 text-lg pt-1'>Efter inloggning klickar du på 'Utfärda elektroniskt kvitto' för att utfärda ett enskilt elektroniskt kvitto.</p></div><div class='pl-11'><img src='pic/sp13.png' alt='Skärm för enskilt utfärdande' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-10'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>2</span><p class='text-slate-700 text-lg pt-1'>Klicka på 'Massutfärdande', sedan på [Välj fil] för att välja den redigerade .txt-filen och klicka på [Ladda upp] för att utföra massutfärdandet av elektroniska kvitton.</p></div><div class='pl-11'><img src='pic/sp14.png' alt='Skärm för massuppladdning' class='slide-img' onclick='openLightbox(this.src)'></div></div><div class='mb-4'><div class='flex items-start mb-4'><span class='w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold mr-3 shrink-0'>3</span><p class='text-slate-700 text-lg pt-1'>När du har bekräftat att filen har laddats upp kan du gå till [Sök elektroniska kvitton] för att kontrollera utfärdandestatusen.</p></div><div class='pl-11'><img src='pic/sp15.png' alt='Sök utfärdandestatus' class='slide-img' onclick='openLightbox(this.src)'></div></div>"
+            }
+        ]
+    }
+}
+// 瑞典文結束
+        };
+
+        let currentLang = Object.keys(docConfig)[0];
+        let searchMarks = [];
+        let currentMarkIndex = -1;
+        
+        // 從網址讀取並切換語系
+        const initialUrlParams = new URLSearchParams(window.location.search);
+        if (initialUrlParams.has('lang') && docConfig[initialUrlParams.get('lang')]) {
+            currentLang = initialUrlParams.get('lang');
+        }
+
+        function renderAll() {
+            renderMetaInfo();
+            renderCustomSections();
+            initScrollSpy();
+            
+            const langMap = { 'zh-TW': 'zh-TW', 'en': 'en', 'ja': 'ja', 'ko': 'ko', 'sv': 'sv' };
+            document.documentElement.lang = langMap[currentLang] || 'zh-TW';
+        }
+
+        function initScrollSpy() {
+            var navLinks = document.querySelectorAll('.nav-link');
+            var sections = Array.from(document.querySelectorAll('section[id]'));
+            function onScroll() {
+                var currentId = '';
+                var scrollPos = window.scrollY || document.documentElement.scrollTop;
+                for (var i = 0; i < sections.length; i++) {
+                    if (scrollPos >= sections[i].offsetTop - 100) { currentId = sections[i].getAttribute('id'); }
+                }
+                navLinks.forEach(function(link) {
+                    link.classList.remove('sidebar-active');
+                    if (link.getAttribute('href') === '#' + currentId) { link.classList.add('sidebar-active'); }
+                });
+            }
+            window.removeEventListener('scroll', onScroll);
+            window.addEventListener('scroll', onScroll);
+            setTimeout(onScroll, 100);
+        }
+
+        function renderMetaInfo() {
+            var meta = docConfig[currentLang].meta;
+            var ui = docConfig[currentLang].ui;
+            
+            document.getElementById('head-title').textContent = ui.head_title || meta.title;
+            document.getElementById('mobile-header-title').textContent = ui.head_title || meta.title;
+            document.getElementById('sidebar-brand-title').textContent = ui.sidebar_brand || meta.title;
+            document.getElementById('sidebar-subtitle').textContent = meta.title;
+            document.getElementById('sidebar-version').textContent = meta.version;
+            
+            var sysNameEl = document.getElementById('meta-system-name');
+            var copyEl = document.getElementById('meta-copyright');
+            if(sysNameEl) sysNameEl.textContent = ui.system_name || '';
+            if(copyEl) copyEl.textContent = ui.copyright || '';
+        }
+
+        function renderCustomSections() {
+            var navContainer = document.getElementById('dynamic-sidebar-links');
+            var contentContainer = document.getElementById('dynamic-content-sections');
+            var sections = docConfig[currentLang].meta.sections || [];
+            var navHtml = '', contentHtml = '';
+            
+            if (navContainer) navContainer.innerHTML = '';
+            if (contentContainer) contentContainer.innerHTML = '';
+
+            sections.forEach(function(sec, index) {
+                var sectionId = sec.id || ('custom-section-' + index);
+                var iconClass = sec.icon || 'fas fa-bookmark';
+                var markerColor = sec.markerColor || 'bg-blue-600';
+                
+                navHtml += '<a href="#' + sectionId + '" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group"><i class="' + iconClass + ' w-6 group-hover:text-blue-500 transition-colors"></i> <span>' + sec.title + '</span></a>';
+                
+                var sectionBody = '';
+                if (sec.desc && sec.desc.trim() !== '') {
+                    sectionBody += '<div class="text-slate-700 leading-relaxed text-base">' + sec.desc + '</div>';
+                }
+                
+                contentHtml += '<section id="' + sectionId + '" class="mb-12 scroll-mt-24"><div class="flex items-center mb-6"><div class="w-2 h-8 ' + markerColor + ' mr-4 rounded-sm"></div><h2 class="text-2xl font-bold text-slate-900">' + sec.title + '</h2></div><div class="bg-white p-6 lg:p-8 rounded-xl shadow-sm border border-slate-200">' + sectionBody + '</div></section>';
+            });
+
+            if (navContainer) navContainer.innerHTML = navHtml;
+            if (contentContainer) {
+                var meta = docConfig[currentLang].meta;
+                var introHtml = '<section class="mb-12"><div class="bg-gradient-to-r from-teal-600 to-emerald-700 rounded-xl p-8 shadow-lg text-white relative overflow-hidden"><i class="fas fa-book-open absolute -right-10 -bottom-10 text-9xl text-white opacity-10"></i><h2 class="text-3xl font-extrabold mb-4 relative z-10">' + meta.title + '</h2><p class="text-teal-50 text-lg leading-relaxed max-w-3xl relative z-10">' + meta.subtitle + '</p></div></section>';
+                contentContainer.innerHTML = introHtml + contentHtml;
+            }
+        }
+
+        function initLangDropdown() {
+            var select = document.getElementById('lang-select');
+            select.innerHTML = '';
+            Object.keys(docConfig).forEach(function(langKey) {
+                var option = document.createElement('option');
+                option.value = langKey;
+                option.textContent = docConfig[langKey].languageName;
+                if (langKey === currentLang) option.selected = true;
+                select.appendChild(option);
+            });
+        }
+
+        function changeLang(targetLang) {
+            if (!docConfig[targetLang]) return;
+            currentLang = targetLang;
+            
+            var url = new URL(window.location);
+            url.searchParams.set('lang', targetLang);
+            window.history.replaceState({}, document.title, url);
+
+            renderAll();
+        }
+
+        // ==========================================
+        // 搜尋高亮與導覽相關功能
+        // ==========================================
+        function clearAllHighlights() {
+            searchMarks.forEach(function(m) {
+                var textNode = document.createTextNode(m.textContent);
+                m.parentNode.replaceChild(textNode, m);
+            });
+            searchMarks = [];
+            currentMarkIndex = -1;
+        }
+
+        function highlightKeywordInElement(element, keyword) {
+            if (!keyword || !element) return;
+            var escapeRegExp = function(string) { return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); };
+            var regex = new RegExp('(' + escapeRegExp(keyword) + ')', 'gi');
+
+            var walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+            var textNodes = [];
+            var node;
+            while ((node = walker.nextNode())) {
+                var parent = node.parentNode;
+                if (parent && typeof parent.closest === 'function') {
+                    var isExcluded = parent.closest('script, style, mark, code, pre, textarea') !== null;
+                    var isHidden = (parent.getClientRects().length === 0);
+                    if (!isExcluded && !isHidden) {
+                        if (node.nodeValue.match(regex)) {
+                            textNodes.push(node);
+                        }
+                    }
+                }
+            }
+
+            textNodes.forEach(function(node) {
+                var fragment = document.createDocumentFragment();
+                var parts = node.nodeValue.split(regex);
+                var lowerKeyword = keyword.toLowerCase();
+                
+                parts.forEach(function(part) {
+                    if (part.toLowerCase() === lowerKeyword) {
+                        var mark = document.createElement('mark');
+                        mark.className = 'search-highlight bg-yellow-200 text-slate-900 rounded px-1 font-bold shadow-sm transition-colors';
+                        mark.textContent = part;
+                        fragment.appendChild(mark);
+                    } else if (part) {
+                        fragment.appendChild(document.createTextNode(part));
+                    }
+                });
+                node.parentNode.replaceChild(fragment, node);
+            });
+        }
+
+        function injectSearchNavigator() {
+            var navHtml = `
+            <div id="search-navigator" class="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[110] bg-white text-slate-700 shadow-2xl border border-slate-200 rounded-full flex items-center transition-all duration-300 overflow-hidden">
+                <button id="search-nav-collapsed-btn" onclick="expandSearch()" class="w-14 h-14 flex items-center justify-center text-blue-600 hover:bg-blue-50 transition-colors cursor-pointer" title="開啟頁面內搜尋">
+                    <i class="fas fa-search text-xl"></i>
+                </button>
+                <div id="search-nav-expanded" class="hidden items-center px-4 py-2 gap-3">
+                    <div class="flex items-center gap-2 bg-blue-50 text-blue-700 pl-3 pr-3 py-1.5 rounded-full">
+                        <i class="fas fa-search text-blue-500 text-sm"></i>
+                        <input type="text" id="search-nav-input" class="bg-transparent border-none outline-none w-20 sm:w-28 text-sm font-bold text-blue-700 placeholder-blue-300" placeholder="搜尋關鍵字..." onkeydown="if(event.key === 'Enter') executeInlineSearch(this.value)">
+                        <div class="h-4 w-[1px] bg-blue-200 mx-1"></div>
+                        <span id="search-nav-text" class="min-w-[40px] text-center tracking-wide text-sm font-bold">0 / 0</span>
+                    </div>
+                    <div class="flex items-center border-l border-r border-slate-200 px-2 gap-1 h-8">
+                        <button onclick="navigateSearch(-1)" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-500 hover:text-blue-600 transition" title="上一個"><i class="fas fa-arrow-up"></i></button>
+                        <button onclick="navigateSearch(1)" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-500 hover:text-blue-600 transition" title="下一個"><i class="fas fa-arrow-down"></i></button>
+                    </div>
+                    <button onclick="collapseSearch()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-50 text-slate-400 hover:text-red-500 transition" title="結束並關閉搜尋"><i class="fas fa-times text-lg"></i></button>
+                </div>
+            </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', navHtml);
+        }
+
+        function expandSearch() {
+            document.getElementById('search-nav-collapsed-btn').classList.add('hidden');
+            var expandedContent = document.getElementById('search-nav-expanded');
+            expandedContent.classList.remove('hidden');
+            expandedContent.classList.add('flex');
+            document.getElementById('search-nav-input').focus();
+        }
+
+        function collapseSearch() {
+            var expandedContent = document.getElementById('search-nav-expanded');
+            expandedContent.classList.add('hidden');
+            expandedContent.classList.remove('flex');
+            document.getElementById('search-nav-collapsed-btn').classList.remove('hidden');
+            
+            clearAllHighlights();
+
+            document.getElementById('search-nav-input').value = '';
+            document.getElementById('search-nav-text').innerText = '0 / 0';
+            var url = new URL(window.location);
+            url.searchParams.delete('q');
+            window.history.replaceState({}, document.title, url);
+        }
+
+        function executeInlineSearch(newKeyword) {
+            newKeyword = newKeyword.trim();
+            clearAllHighlights();
+
+            var url = new URL(window.location);
+            if (!newKeyword) {
+                url.searchParams.delete('q');
+                window.history.replaceState({}, document.title, url);
+                document.getElementById('search-nav-text').innerText = '0 / 0';
+                return;
+            }
+
+            url.searchParams.set('q', newKeyword);
+            window.history.replaceState({}, document.title, url);
+
+            var mainContent = document.querySelector('main');
+            if (mainContent) highlightKeywordInElement(mainContent, newKeyword);
+            
+            searchMarks = Array.from(document.querySelectorAll('mark.search-highlight'));
+            
+            if (searchMarks.length > 0) {
+                document.getElementById('search-nav-text').innerText = '1 / ' + searchMarks.length;
+                goToSearchMark(0);
+            } else {
+                document.getElementById('search-nav-text').innerText = '0 / 0';
+            }
+        }
+
+        function navigateSearch(direction) {
+            if (searchMarks.length === 0) return;
+            let nextIndex = currentMarkIndex + direction;
+            if (nextIndex >= searchMarks.length) nextIndex = 0;
+            if (nextIndex < 0) nextIndex = searchMarks.length - 1;
+            goToSearchMark(nextIndex);
+        }
+
+        function goToSearchMark(index) {
+            if (searchMarks.length === 0) return;
+            if (currentMarkIndex >= 0 && currentMarkIndex < searchMarks.length) {
+                let oldMark = searchMarks[currentMarkIndex];
+                oldMark.className = 'search-highlight bg-yellow-200 text-slate-900 rounded px-1 font-bold shadow-sm transition-colors';
+            }
+            currentMarkIndex = index;
+            let newMark = searchMarks[currentMarkIndex];
+            
+            newMark.className = 'search-highlight bg-orange-500 text-white rounded px-1 font-bold shadow-md ring-4 ring-orange-300 transition-colors';
+            newMark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            document.getElementById('search-nav-text').innerText = (currentMarkIndex + 1) + ' / ' + searchMarks.length;
+        }
+
+        // ==========================================
+        // 燈箱相關功能
+        // ==========================================
+        function openLightbox(src) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.src = src;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        window.onload = function() {
+            initLangDropdown();
+            renderAll();
+            injectSearchNavigator();
+
+            var urlParams = new URLSearchParams(window.location.search);
+            var keyword = urlParams.get('q');
+            var hashId = window.location.hash ? window.location.hash.substring(1) : null;
+            var targetElement = hashId ? document.getElementById(hashId) : null;
+
+            if (keyword) {
+                var mainContent = document.querySelector('main');
+                if (mainContent) {
+                    highlightKeywordInElement(mainContent, keyword);
+                }
+                searchMarks = Array.from(document.querySelectorAll('mark.search-highlight'));
+                
+                document.getElementById('search-nav-input').value = keyword;
+                expandSearch();
+            }
+
+            setTimeout(function() {
+                if (searchMarks.length > 0) {
+                    let startIndex = 0;
+                    if (targetElement) {
+                        let firstMarkInTarget = targetElement.querySelector('mark.search-highlight');
+                        if (firstMarkInTarget) {
+                            startIndex = searchMarks.indexOf(firstMarkInTarget);
+                        }
+                    }
+                    goToSearchMark(startIndex);
+                } else if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    targetElement.classList.add('ring-4', 'ring-teal-300', 'ring-opacity-50', 'transition-all', 'duration-1000', 'rounded-xl');
+                    setTimeout(function() {
+                        targetElement.classList.remove('ring-4', 'ring-teal-300', 'ring-opacity-50');
+                    }, 2000);
+                }
+            }, 300);
+        };
+    </script>
+
+    <!-- Mobile Header -->
+    <header class="lg:hidden bg-white shadow-sm p-4 sticky top-0 z-50 flex justify-between items-center border-b border-slate-200">
+        <h1 class="text-lg font-bold text-teal-700 flex items-center">
+            <i class="fas fa-book mr-2"></i> <span id="mobile-header-title"></span>
+        </h1>
+        <button id="menu-btn" class="text-slate-600 focus:outline-none hover:text-teal-600 transition" onclick="document.getElementById('sidebar').classList.toggle('-translate-x-full')">
+            <i class="fas fa-bars text-2xl"></i>
+        </button>
+    </header>
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 w-72 bg-white shadow-xl transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 border-r border-slate-200 flex flex-col">
+            <div class="p-6 border-b border-slate-100 bg-gradient-to-r from-teal-50 to-white shrink-0">
+                <h2 class="text-2xl font-bold text-teal-700" id="sidebar-brand-title" style="letter-spacing:-0.025em;"></h2>
+                <p class="text-sm text-slate-500 mt-1 font-medium"><span id="sidebar-subtitle"></span><br><span class="text-xs text-slate-400" id="sidebar-version"></span></p>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto scrollable-area">
+                <nav class="p-4 space-y-1">
+                    <div id="dynamic-sidebar-links"></div>
+                </nav>
+            </div>
+            
+            <div class="p-4 border-t border-slate-200 bg-slate-50 shrink-0 flex flex-col gap-3">
+                <div class="relative group w-full">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400"><i class="fas fa-globe"></i></div>
+                    <select id="lang-select" onchange="changeLang(this.value)" class="w-full appearance-none bg-white text-slate-600 font-medium py-2.5 pl-10 pr-8 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 cursor-pointer border border-slate-300 shadow-sm"></select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500"><i class="fas fa-chevron-up text-xs"></i></div>
+                </div>
+                <div class="text-center text-xs text-slate-500 mt-2">
+                    <div id="meta-system-name" class="font-bold text-slate-600"></div>
+                    <div id="meta-copyright" class="mt-1"></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-72 p-4 lg:p-8 min-w-0 w-full max-w-[1920px] mx-auto">
+            <div id="dynamic-content-sections"></div>
+        </main>
+    </div>
+
+    <!-- 圖片燈箱 -->
+    <div id="lightbox" onclick="closeLightbox()">
+        <span id="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img id="lightbox-img" src="" alt="view image">
+    </div>
+
+</body>
+</html>
