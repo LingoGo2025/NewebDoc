@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="head-title"></title>
+<script src="assets/vendor/tailwindcss/tailwindcss.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+<script src="assets/vendor/crypto-js/4.1.1/crypto-js.min.js"></script>
+<link rel="stylesheet" href="assets/vendor/highlight.js/11.7.0/styles/monokai-sublime.min.css">
+<script src="assets/vendor/highlight.js/11.7.0/highlight.min.js"></script>
+<script src="assets/vendor/highlightjs-line-numbers/2.8.0/highlightjs-line-numbers.min.js"></script>
+<style>
+    html { scroll-behavior: smooth; }
+    body { background-color: #f8fafc; overflow-x: hidden; }
+    .scrollable-area::-webkit-scrollbar { width: 6px; }
+    .scrollable-area::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 3px; }
+    .sidebar-active { background-color: #e0f2fe !important; color: #0284c7 !important; border-right: 4px solid #0284c7 !important; font-weight: 600 !important; }
+    .sidebar-active i { color: #0284c7 !important; }
+    .tab-btn { border-bottom: 2px solid transparent; transition: all 0.3s; }
+    .tab-btn:hover { color: #60a5fa; }
+    .tab-btn.active { border-bottom-color: #3b82f6; color: #3b82f6; font-weight: 600; background-color: rgba(59, 130, 246, 0.05); }
+    .params-table th { background-color: #f1f5f9; color: #475569; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; }
+    .params-table td { vertical-align: middle; color: #334155; }
+    .params-table tr:hover { background-color: #f8fafc; }
+    .tool-tab-btn { transition: all 0.2s; }
+    .tool-tab-btn.active { border-bottom-color: #9333ea; color: #9333ea; background-color: #faf5ff; }
+    #code-container-wrapper { background-color: #23241f; }
+    #code-container-wrapper pre { margin: 0; padding: 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    #code-container-wrapper code { font-size: 0.875rem; line-height: 1.5; padding: 1rem !important; }
+    .hljs-ln-numbers { -webkit-user-select: none; user-select: none; text-align: right; color: #5c6370; border-right: 1px solid #3e3e3e; vertical-align: top; padding-right: 10px !important; min-width: 40px; }
+    .hljs-ln-code { padding-left: 15px !important; }
+    .hljs-ln { width: 100%; }
+</style>
+</head>
+<body class="text-slate-800 font-sans">
+
+    <script>
+        const docConfig = {
+//繁體中文開始
+"zh-TW":{"languageName":"繁體中文","ui":{"head_title":"作廢電子收據API","system_name":"","copyright":"","sidebar_brand":"作廢電子收據API","nav_tool":"加密測試工具","nav_group_api":"API 規格詳解","nav_apis":"API 規格","nav_encryption":"加密規則詳解","nav_errors":"錯誤代碼表","nav_example":"範例程式碼","tool_title":"加密測試工具","tool_intro":"此工具可協助您產生加密字串，或解密回傳結果。","tool_security_warning":"安全警告：本工具僅供串接測試使用。為確保資訊安全，請勿在此輸入您正式環境的 Hash Key 與 Hash IV。","tool_tab_encrypt":"AES 加密","tool_tab_decrypt":"AES 解密","tool_tab_sha":"SHA256 加密","tool_ph_key":"例如: AAAAvw3YlqoEk6G4HqRKDAYpHKZWxBBB","tool_ph_iv":"例如: AAAACC1FplieBBBB","tool_lbl_key":"Hash Key (32 bytes)","tool_lbl_iv":"Hash IV (16 bytes)","tool_lbl_qs":"請求參數 (Query String)","tool_ph_qs":"例如: TimeStamp=1400137200&CardNo=4000...","tool_note_urlencode":"請確認字串已經過 http_build_query 或 urlencode 處理","tool_note_sha_sort":"程式會自動將下方欄位依英文名稱排序(A-Z)後組合，並前後串接 IV/Key","tool_btn_encrypt":"執行加密產生加密字串","tool_btn_sha":"執行 SHA256","tool_lbl_hex":"加密結果 (Hex String)","tool_lbl_enc_hex":"加密字串 (Hex String)","tool_lbl_sha_res":"SHA256 結果 (Uppercase)","tool_ph_enc_hex":"例如: 0ef82edabaf8964d09992d7ec8e575f1...","tool_btn_decrypt":"執行解密","tool_lbl_decrypt_res":"解密結果 (原始資料)","tool_alert_missing_key":"請輸入 Hash Key 與 Hash IV","tool_alert_missing_data":"請輸入原始字串","tool_alert_encrypt_fail":"加密失敗: ","tool_alert_missing_hex":"請輸入加密後的 Hex 字串","tool_alert_decrypt_fail":"解密失敗，請檢查 Key/IV 或加密字串格式","req_title":"請求參數 (Request)","req_api_info":"API 資訊","req_url_prod":"URL (正式環境)","req_url_test":"URL (測試環境)","th_param":"參數名稱","th_name":"中文名稱","th_required":"必填","th_must_return":"必回傳","th_type":"型別","th_note":"備註","enc_title":"加密規則詳解","enc_aes_title":"AES 加解密機制","enc_aes_desc":"使用廠商提供的 Hash Key 及 Hash IV，透過 AES 演算法對資料進行加密或解密處理。","enc_step1_title":"產生請求字串","enc_step1_desc":"將所有參數依照 <code>http_build_query<\/code> 格式組合 (key=value&key2=value2...)。","enc_step2_title":"AES 加加密","enc_step2_desc":"加密演算法：<span class=\"font-bold text-red-600\">AES-256-CBC<\/span><br>填充模式 (Padding)：<span class=\"font-bold text-red-600\">PKCS7 B32<\/span><br>輸出格式：<span class=\"font-bold text-red-600\">Hex 十六進位<\/span><br>Key / IV：請使用廠商所屬之 Hash Key 與 Hash IV。","enc_step3_title":"轉換十六進制 (Hex)","enc_step3_desc":"將加密後的二進位資料 (Raw Data) 轉換為 Hex String (小寫)，即為加密字串。","enc_sha_title":"SHA256 檢查碼機制 (CheckMacValue)","enc_sha_desc":"透過 SHA256 雜湊產生檢核碼，可用於驗證請求參數或回傳值的完整性。","enc_sha_step1_title":"參數排序與組合","enc_sha_step1_desc":"將指定參數依英文名稱 (A-Z) 排序，並組合成 Query String (key1=val1&key2=val2...)。","enc_sha_step2_title":"串接 IV 與 Key","enc_sha_step2_desc":"在排序後的字串前後分別串接 HashIV 與 HashKey。<br>格式：<code>HashIV=...&[SortedParams]&HashKey=...<\/code>","enc_sha_step3_title":"SHA256 加密與轉大寫","enc_sha_step3_desc":"將串接後的字串進行 SHA256 加密，並將結果轉換為<strong>大寫<\/strong>。","res_title":"回傳參數 (Response)","err_title":"錯誤代碼表","err_search_ph":"搜尋代碼...","th_err_code":"錯誤代碼","th_err_reason":"錯誤原因 / 備註","example_title":"範例程式碼","lbl_method":"Method","lbl_encrypted_tag":"AES-256-CBC Encrypted","lbl_api_index":"API","msg_no_params":"未定義參數","msg_code_unavailable":"// 尚無程式範例","nav_versions":"版本記錄","versions_title":"版本記錄","th_ver_version":"版號","th_ver_date":"修改日期","th_ver_desc":"變更內容","toc_title":"目錄","api_info_title":"API 基本資料","field_def_title":"API 欄位定義","doc_desc_title":"文件說明","doc_flowchart_title":"流程圖","lbl_launch_type":"發動形態","lbl_field_combo_format":"欄位組合格式","lbl_enum_values":"允許值","lbl_default_value":"預設值","lbl_is_nullable":"可為 Null","lbl_yes":"是","lbl_direction":"方向","lbl_group_type":"加密方式","lbl_location":"傳遞位置","lbl_belong_to":"隸屬","msg_req_info":"本請求需由商店端發動，請以 <span class=\\\"font-bold text-blue-700\\\">{method}<\/span> 方式，將參數打包並放置於 <span class=\\\"font-bold text-blue-700\\\">{location}<\/span> 進行傳輸。","msg_req_format_qs":"本區塊欄位需以 <span class=\\\"font-mono font-bold text-cyan-700\\\">&amp;<\/span> 符號組合為查詢字串 (Query String) 格式，例如 <span class=\\\"font-mono text-cyan-700\\\">key1=val1&amp;key2=val2<\/span>。","msg_req_format_json":"本區塊欄位需放置於 <span class=\\\"font-bold text-cyan-700\\\">JSON<\/span> 物件中傳遞。","msg_req_format_other":"本區塊欄位採用 <span class=\\\"font-bold text-cyan-700\\\">{format}<\/span> 格式組合。","msg_req_security":"資料安全：傳輸前需完成 <span class=\\\"font-bold\\\">{group_type}<\/span> 處理。","msg_res_info_webhook":"本結果將由系統以非同步形式，主動推播至商店指定的 <span class=\\\"font-bold text-green-700\\\">Webhook<\/span> 接收網址。","msg_res_info_sync":"本結果將由系統以 <span class=\\\"font-bold text-green-700\\\">{method}<\/span> 方式同步回傳於 <span class=\\\"font-bold text-green-700\\\">{location}<\/span>。","msg_res_format_qs":"回傳的欄位將以 <span class=\\\"font-mono font-bold text-cyan-700\\\">&amp;<\/span> 符號組合為查詢字串 (Query String) 格式，例如 <span class=\\\"font-mono text-cyan-700\\\">key1=val1&amp;key2=val2<\/span>。","msg_res_format_json":"回傳的欄位將放置於 <span class=\\\"font-bold text-cyan-700\\\">JSON<\/span> 物件中傳遞。","msg_res_format_other":"回傳的欄位採用 <span class=\\\"font-bold text-cyan-700\\\">{format}<\/span> 格式組合。","msg_res_security":"驗證解密：接收後需針對特定資料進行 <span class=\\\"font-bold\\\">{group_type}<\/span> 處理。","lbl_sha_pre_hash":"加密前組合字串 (String to Hash)","ph_sha_pre_hash":"按下壓碼按鈕後，這裡會顯示實際被加密的完整字串...","flowchart_0_url":"assets/flowcharts_void-e-receipt-api/fc_0.png"},"meta":{"title":"作廢電子收據API","subtitle":"作廢已開立電子收據","version":"","sections":[{"id":"section-0","icon":"fas fa-info-circle","markerColor":"bg-blue-600","title":"串接目的","desc":"<p><span style=\"color: rgb(0, 0, 0);\">1.串接前請先與客服中心聯繫申請 IP 設定，可設定之 IP 組數為： 10 組。<\/span><\/p><p>2.可將狀態為已開立之電子收據進行作廢<\/p>","images":[]},{"id":"section-1","icon":"fas fa-info-circle","markerColor":"bg-orange-500","title":"資料交換方式","desc":"<p><span style=\"color: rgb(0, 0, 0);\">1. 旅行社以「HTTP POST」方式傳送收據資料至電子收據平台進行開立。 <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">2. Content-Type 為 application/x-www-form-urlencoded。 <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">3. 編碼格式為 UTF-8。 <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">4. 電子收據平台回應格式化的字串。 <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">5. 各欄位計算單位為字元。中、英、數字、符號都算一個字元。 <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">6. 各欄位間以「&amp;」作為連接符號，各欄位內不得含有此字元（U+0026）。<\/span><\/p>","images":[]},{"id":"section-2","icon":"fas fa-info-circle","markerColor":"bg-green-600","title":"作廢收據規範","desc":"<p>1.<span style=\"color: rgb(0, 0, 0);\">收據於開立折讓並經確認後，『不』可執行作廢。<\/span><\/p><p>2.預約收據無法作廢，只能發動取消<\/p><p>3.<span style=\"color: rgb(0, 0, 0);\">作廢收據後，屆當期上傳排程日(每單月一日)，平台將會把作廢資料上傳至 「財政部電子發票整合服務平台」。<\/span><\/p><p>4.<span style=\"color: rgb(0, 0, 0);\">收據跨期別後，『不』可執行作廢。（每兩個月為一期別：【1-2】月為一個期別，【3-4】月為一個期別）<\/span><\/p><p>\t<span style=\"color: rgb(0, 0, 0);\">例如： <\/span><\/p><p>\t<span style=\"color: rgb(0, 0, 0);\">(1) 【1-2】月此期別開出的收據，需於 3/14(含)前進行作廢，3/15 後將無法 進行作廢。<\/span><\/p><p>\t<span style=\"color: rgb(0, 0, 0);\">(2) 【3-4】月此期別開出的收據，需於 5/14(含)前進行作廢，5/15 後將無法 進行作廢。<\/span><\/p>","images":[]},{"id":"section-3","icon":"fas fa-info-circle","markerColor":"bg-purple-600","title":"名詞定義","desc":"<p>作廢單：每一次作廢收據，都會有一筆獨立的作廢記錄，稱之為作廢單或是作廢資料<\/p><p>等待作廢：等待消費者同意作廢前，收據仍是有效狀態，此時的作廢單稱為等待作廢<\/p>","images":[]},{"id":"section-4","icon":"fas fa-info-circle","markerColor":"bg-rose-600","title":"串接前置作業","desc":"<p>（請先完成，否則程式必失敗）<\/p><p><br><\/p><p> 1. 取得 HashKey / HashIV<\/p><p>- 測試環境：登入測試區後台 → 基本資料 → API 串接設定 → 複製 HashKey 與 HashIV<\/p><p>- 正式環境：登入正式區後台 → 基本資料 → API 串接設定 → 複製 HashKey 與 HashIV<\/p><p><br><\/p><p>2. 申請 IP 白名單<\/p><p>- 申請窗口：於官網下載申請表單並填寫後，傳送後客服中心（傳真 / Email）<\/p><p>- 最多可設定 10 組 IP<\/p><p>- 需提供：伺服器對外 IP（非內網 IP，可至 https://ifconfig.me 查詢）<\/p><p>- 生效時間：通常 1-2 個工作天<\/p><p><br><\/p><p>3. 環境網址<\/p><p>-測試環境與正式環境是完全不同的設備，資料不共通，上線前務必要確認已經將串接網址切換至正式區網址<\/p><p><br><\/p><p>4. 常見「忘記做前置作業」的錯誤訊號<\/p><p>- `KEY10001 非旅行社 API 串接 IP` → IP 白名單未設定或設錯<\/p><p>- `KEY10002 資料解密錯誤` → HashKey / HashIV 不正確或仍是範例值<\/p><p>- `KEY10009 取不到旅行社統一編號的資料` → MerchantID 錯或未啟用<\/p>","images":[]}],"flowcharts":[{"id":"flowchart-0","title":"收據立即作廢流程"}]},"apis":[{"name":"作廢電子收據API","url_test":"https://capi.travelinvoice.com.tw/invoice_invalid","url_prod":"https://api.travelinvoice.com.tw/invoice_invalid","requests":[{"title":"Post 參數","direction":"send","group_type":"無加密","param_location":"body","field_combination_format":"String","method":"POST","params":[{"name":"MerchantID_","required":"V","type":"string(8)","label":"旅行社統一編號","example":"54352706","must_return":false,"note":"旅行社統一編號。","enum_values":"","default_value":"","nullable":false},{"name":"PostData_","required":"V","type":"array","label":"加密資料","example":"","must_return":false,"note":"字串欄位組合後做AES256加密，欄位說明如下表","enum_values":"","default_value":"","nullable":false}],"children":[{"title":"PostData_內含欄位","group_type":"AES加密_字串","param_location":"body","from_field":"PostData_","params":[{"name":"Version","required":"V","type":"string(5)","label":"串接程式版本","example":"1.0","must_return":false,"note":"固定帶 1.0","enum_values":"1.0","default_value":"","nullable":false},{"name":"TimeStamp","required":"V","type":"string(30)","label":"時間戳記","example":"1400137200","must_return":false,"note":"Unix 時間戳記（秒），即自 1970-01-01 00:00:00 UTC 至今的秒數\n例：2014-05-15 15:00:00 這個時間的時間，戳記為 1400137200，建議帶入當前時間","enum_values":"","default_value":"","nullable":false},{"name":"InvoiceNumber","required":"V","type":"string(9)","label":"收據號碼","example":"T13671009","must_return":false,"note":"欲執行作廢之收據號碼。","enum_values":"","default_value":"","nullable":false},{"name":"InvalidReason","required":"V","type":"string(10)","label":"作廢原因","example":"消費者取消訂單","must_return":false,"note":"作廢原因","enum_values":"","default_value":"","nullable":false},{"name":"SellerName","required":"V","type":"string(50)","label":"經辦人名稱","example":"業務窗口001","must_return":false,"note":"開立作廢收據人員名稱。純記錄，系統不檢核。如未填寫則無法開立成功，系統回覆錯誤代碼。","enum_values":"","default_value":"","nullable":false},{"name":"Status","required":"V","type":"int(1)","label":"確認作廢方式","example":"1","must_return":false,"note":"0=等待作廢（取消或觸發方式請參考『管理等待作廢收據API』相關說明）\n1=立即作廢","enum_values":"0,1","default_value":"","nullable":false},{"name":"BuyerEmail","required":"","type":"string(100)","label":"作廢通知信收件信箱","example":"abc@gmail.com","must_return":false,"note":"1.作廢通知信，平台預設會寄送給買受人\n2.若需帶入多個買受人信箱，請以逗號分隔。\n3.此欄位用於新增更多收件人，若帶入重複信箱，平台會進行過濾避免重複發送。","enum_values":"","default_value":"","nullable":false}]}]}],"responses":[{"title":"系統回應訊息","direction":"receive","group_type":"無加密","param_location":"body","field_combination_format":"String","method":"","params":[{"name":"Status","required":"","type":"string(10)","label":"回傳狀態","example":"SUCCESS","must_return":true,"note":"1.作廢單開立成功，則回傳 SUCCESS\n2.作廢單開立失敗，則回傳錯誤代碼","enum_values":"","default_value":"","nullable":false},{"name":"Message","required":"","type":"string(30)","label":"回傳訊息","example":"成功","must_return":true,"note":"文字，此次回傳狀態說明","enum_values":"","default_value":"","nullable":false},{"name":"MerchantID","required":"","type":"string(8)","label":"旅行社代號","example":"54352706","must_return":false,"note":"旅行社統一編號","enum_values":"","default_value":"","nullable":false},{"name":"InvalidNo","required":"","type":"string(20)","label":"作廢單流水號","example":"193060","must_return":false,"note":"此次開立作廢或等待作廢的流水號","enum_values":"","default_value":"","nullable":false},{"name":"InvoiceNumber","required":"","type":"string(9)","label":"收據號碼","example":"T13671008","must_return":false,"note":"此次作廢收據或等待作廢的收據號碼。","enum_values":"","default_value":"","nullable":false},{"name":"CreateTime","required":"","type":"datetime","label":"開立收據時間","example":"2015-07-16 17:00:33","must_return":false,"note":"此次作廢收據的時間，例：2015-07-16 17:00:33。","enum_values":"","default_value":"","nullable":false},{"name":"CheckCode","required":"","type":"string(150)","label":"檢查碼","example":"0C69DBB83FD36B6A2B2E9E614DAEA3D91D474C2D8A829870CA91511C55AF2AA","must_return":false,"note":"用來檢查此次資料回傳的合法性，串接時可以比對此參數資料，來檢核是否為平台所回傳，檢核方法請參考”SHA256加密說明”。如開立失敗則回傳空值。\n\nCheckCode = 將 InvoiceTransNo, MerchantID, MerchantOrderNo, RandomNum, TotalAmt 依 SHA256 簽章規格計算所得之雜湊值\n\nInvoiceTransNo、RandomNum、TotalAmt、MerchantOrderNo不含在此API回應欄位中，需程式自行保存開立收據時回傳的InvoiceTransNo、RandomNum、TotalAmt、MerchantOrderNo，供日後 CheckCode 驗證使用。","enum_values":"","default_value":"","nullable":false},{"name":"EndStr","required":"","type":"string(2)","label":"字串結尾","example":"##","must_return":true,"note":"固定回傳 ##，使用 String 方式接收資料的用戶，須多判斷 EndStr=##，確保資料傳遞完整。","enum_values":"##","default_value":"##","nullable":false}],"children":[]}]}],"errors":[{"code":"KEY10001","reason":"非旅行社 API 串接 IP"},{"code":"KEY10002","reason":"資料解密錯誤"},{"code":"KEY10003","reason":"版本錯誤"},{"code":"KEY10004","reason":"資料不齊全"},{"code":"KEY10006","reason":"旅行社未申請啟用電子收據"},{"code":"KEY10007","reason":"頁面停留超過 30 分鐘"},{"code":"KEY10009","reason":"取不到旅行社統一編號的資料"},{"code":"KEY10010","reason":"旅行社統一編號空白"},{"code":"KEY10011","reason":"PostData_欄位空白"},{"code":"KEY10012","reason":"資料傳遞錯誤"},{"code":"KEY10013","reason":"資料空白"},{"code":"KEY10014","reason":"TimeOut。通常泛指 I/O 上的 time out"},{"code":"KEY10015","reason":"收據金額格式錯誤"},{"code":"KEY10019","reason":"旅行社已被停權"},{"code":"NOR10001","reason":"網路連線異常"},{"code":"INV10015","reason":"欄位資料長度有誤"},{"code":"LIB10001","reason":"該收據非開立成功的收據"},{"code":"LIB10002","reason":"經辨名稱未填寫"},{"code":"LIB10004","reason":"確認作廢方式有誤"},{"code":"LIB10005","reason":"收據已作廢過"},{"code":"LIB10006","reason":"觸發作廢狀態有誤"},{"code":"LIB10007","reason":"該張收據已執行過收據折讓，無法作廢"},{"code":"LIB10008","reason":"超過可作廢期限"},{"code":"LIB10009","reason":"無此作廢資料"},{"code":"LIB10010","reason":"該作廢資料已被取消作廢"},{"code":"LIB10011","reason":"該作廢資料狀態為作廢失敗，不可再作廢"}],"versions":[]},
+//繁體中文結束
+
+//英文開始
+"en": {"languageName":"English","ui":{"head_title":"Void Electronic Receipt API","system_name":"","copyright":"","sidebar_brand":"Void Electronic Receipt API","nav_tool":"Encryption Test Tool","nav_group_api":"API Specification Details","nav_apis":"API Specifications","nav_encryption":"Encryption Rule Details","nav_errors":"Error Code Table","nav_example":"Sample Code","tool_title":"Encryption Test Tool","tool_intro":"This tool helps you generate encrypted strings or decrypt return results.","tool_security_warning":"Security Warning: This tool is for integration testing only. To ensure information security, do not enter your production environment Hash Key and Hash IV here.","tool_tab_encrypt":"AES Encryption","tool_tab_decrypt":"AES Decryption","tool_tab_sha":"SHA256 Encryption","tool_ph_key":"Example: AAAAvw3YlqoEk6G4HqRKDAYpHKZWxBBB","tool_ph_iv":"Example: AAAACC1FplieBBBB","tool_lbl_key":"Hash Key (32 bytes)","tool_lbl_iv":"Hash IV (16 bytes)","tool_lbl_qs":"Request Parameters (Query String)","tool_ph_qs":"Example: TimeStamp=1400137200&CardNo=4000...","tool_note_urlencode":"Please ensure the string has been processed by http_build_query or urlencode","tool_note_sha_sort":"The program will automatically sort the fields below by English name (A-Z) and concatenate them, with the IV/Key appended before and after.","tool_btn_encrypt":"Execute Encryption to Generate Encrypted String","tool_btn_sha":"Execute SHA256","tool_lbl_hex":"Encryption Result (Hex String)","tool_lbl_enc_hex":"Encrypted String (Hex String)","tool_lbl_sha_res":"SHA256 Result (Uppercase)","tool_ph_enc_hex":"Example: 0ef82edabaf8964d09992d7ec8e575f1...","tool_btn_decrypt":"Execute Decryption","tool_lbl_decrypt_res":"Decryption Result (Original Data)","tool_alert_missing_key":"Please enter Hash Key and Hash IV","tool_alert_missing_data":"Please enter the original string","tool_alert_encrypt_fail":"Encryption failed: ","tool_alert_missing_hex":"Please enter the encrypted Hex string","tool_alert_decrypt_fail":"Decryption failed, please check the Key/IV or encrypted string format","req_title":"Request Parameters (Request)","req_api_info":"API Information","req_url_prod":"URL (Production)","req_url_test":"URL (Test)","th_param":"Parameter Name","th_name":"Name","th_required":"Required","th_must_return":"Must Return","th_type":"Type","th_note":"Note","enc_title":"Encryption Rule Details","enc_aes_title":"AES Encryption/Decryption Mechanism","enc_aes_desc":"Use the Hash Key and Hash IV provided by the merchant to encrypt or decrypt data through the AES algorithm.","enc_step1_title":"Generate Request String","enc_step1_desc":"Combine all parameters according to the <code>http_build_query<\/code> format (key=value&key2=value2...).","enc_step2_title":"AES Encryption","enc_step2_desc":"Encryption Algorithm: <span class=\"font-bold text-red-600\">AES-256-CBC<\/span><br>Padding: <span class=\"font-bold text-red-600\">PKCS7 B32<\/span><br>Output Format: <span class=\"font-bold text-red-600\">Hexadecimal (Hex)<\/span><br>Key / IV: Please use the Hash Key and Hash IV belonging to the merchant.","enc_step3_title":"Convert to Hexadecimal (Hex)","enc_step3_desc":"Convert the encrypted binary data (Raw Data) to a Hex String (lowercase), which is the encrypted string.","enc_sha_title":"SHA256 Checksum Mechanism (CheckMacValue)","enc_sha_desc":"Generate a checksum through SHA256 hashing, which can be used to verify the integrity of request parameters or return values.","enc_sha_step1_title":"Parameter Sorting and Combination","enc_sha_step1_desc":"Sort specified parameters alphabetically by name (A-Z) and combine them into a Query String (key1=val1&key2=val2...).","enc_sha_step2_title":"Concatenate IV and Key","enc_sha_step2_desc":"Concatenate HashIV and HashKey before and after the sorted string respectively.<br>Format: <code>HashIV=...&[SortedParams]&HashKey=...<\/code>","enc_sha_step3_title":"SHA256 Encryption and Uppercase Conversion","enc_sha_step3_desc":"Perform SHA256 encryption on the concatenated string and convert the result to <strong>uppercase<\/strong>.","res_title":"Response Parameters (Response)","err_title":"Error Code Table","err_search_ph":"Search code...","th_err_code":"Error Code","th_err_reason":"Error Reason / Note","example_title":"Sample Code","lbl_method":"Method","lbl_encrypted_tag":"AES-256-CBC Encrypted","lbl_api_index":"API","msg_no_params":"No parameters defined","msg_code_unavailable":"// No code sample available","nav_versions":"Version History","versions_title":"Version History","th_ver_version":"Version","th_ver_date":"Revision Date","th_ver_desc":"Description of Changes","toc_title":"Table of Contents","api_info_title":"API Basic Information","field_def_title":"API Field Definitions","doc_desc_title":"Documentation Description","doc_flowchart_title":"Flowchart","lbl_launch_type":"Trigger Type","lbl_field_combo_format":"Field Combination Format","lbl_enum_values":"Allowed Values","lbl_default_value":"Default Value","lbl_is_nullable":"Nullable","lbl_yes":"Yes","lbl_direction":"Direction","lbl_group_type":"Encryption Type","lbl_location":"Transmission Location","lbl_belong_to":"Belongs To","msg_req_info":"This request must be initiated by the merchant. Please use the <span class=\\\"font-bold text-blue-700\\\">{method}<\/span> method, pack the parameters, and place them in <span class=\\\"font-bold text-blue-700\\\">{location}<\/span> for transmission.","msg_req_format_qs":"The fields in this section must be combined with the <span class=\\\"font-mono font-bold text-cyan-700\\\">&amp;<\/span> symbol into a Query String format, e.g., <span class=\\\"font-mono text-cyan-700\\\">key1=val1&amp;key2=val2<\/span>.","msg_req_format_json":"The fields in this section must be placed in a <span class=\\\"font-bold text-cyan-700\\\">JSON<\/span> object for transmission.","msg_req_format_other":"The fields in this section use the <span class=\\\"font-bold text-cyan-700\\\">{format}<\/span> format for combination.","msg_req_security":"Data Security: <span class=\\\"font-bold\\\">{group_type}<\/span> processing must be completed before transmission.","msg_res_info_webhook":"This result will be actively pushed by the system in an asynchronous format to the <span class=\\\"font-bold text-green-700\\\">Webhook<\/span> receiving URL specified by the merchant.","msg_res_info_sync":"This result will be synchronously returned by the system using the <span class=\\\"font-bold text-green-700\\\">{method}<\/span> method in <span class=\\\"font-bold text-green-700\\\">{location}<\/span>.","msg_res_format_qs":"The returned fields will be combined with the <span class=\\\"font-mono font-bold text-cyan-700\\\">&amp;<\/span> symbol into a Query String format, e.g., <span class=\\\"font-mono text-cyan-700\\\">key1=val1&amp;key2=val2<\/span>.","msg_res_format_json":"The returned fields will be placed in a <span class=\\\"font-bold text-cyan-700\\\">JSON<\/span> object for transmission.","msg_res_format_other":"The returned fields use the <span class=\\\"font-bold text-cyan-700\\\">{format}<\/span> format for combination.","msg_res_security":"Verification & Decryption: After receipt, <span class=\\\"font-bold\\\">{group_type}<\/span> processing must be performed on specific data.","lbl_sha_pre_hash":"Concatenated String before Encryption (String to Hash)","ph_sha_pre_hash":"After clicking the sign button, the full string that is actually encrypted will be displayed here...","flowchart_0_url":"assets/flowcharts_void-e-receipt-api/fc_1.png"},"meta":{"title":"Void Electronic Receipt API","subtitle":"Void an issued electronic receipt","version":"","sections":[{"id":"section-0","title":"Integration Purpose","desc":"<p><span style=\"color: rgb(0, 0, 0);\">1. Please contact the Customer Service Center to apply for IP settings before integration. Up to 10 IP addresses can be configured.<\/span><\/p><p>2. Electronic receipts with an 'Issued' status can be voided.<\/p>"},{"id":"section-1","title":"Data Exchange Method","desc":"<p><span style=\"color: rgb(0, 0, 0);\">1. Travel agencies transmit receipt data to the Electronic Receipt Platform via \"HTTP POST\" for issuance. <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">2. Content-Type is application/x-www-form-urlencoded. <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">3. Encoding format is UTF-8. <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">4. The Electronic Receipt Platform responds with a formatted string. <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">5. The calculation unit for each field is character. Chinese, English, numbers, and symbols each count as one character. <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">6. Fields are connected with \"&amp;\", and this character (U+0026) must not be contained within any field value.<\/span><\/p>"},{"id":"section-2","title":"Void Receipt Regulations","desc":"<p>1.<span style=\"color: rgb(0, 0, 0);\">Receipts CANNOT be voided after an allowance has been issued and confirmed.<\/span><\/p><p>2. Reservation receipts cannot be voided; only cancellation can be initiated.<\/p><p>3.<span style=\"color: rgb(0, 0, 0);\">After voiding a receipt, the platform will upload voided data to the \"Ministry of Finance E-Invoice Integration Service Platform\" on the scheduled upload day of the current period (the 1st day of every odd month).<\/span><\/p><p>4.<span style=\"color: rgb(0, 0, 0);\">Receipts CANNOT be voided across periods. (Every two months is a period: [Jan-Feb] is one period, [Mar-Apr] is one period)<\/span><\/p><p>\t<span style=\"color: rgb(0, 0, 0);\">For example: <\/span><\/p><p>\t<span style=\"color: rgb(0, 0, 0);\">(1) Receipts issued in the [Jan-Feb] period must be voided by 3/14 (inclusive). They cannot be voided after 3/15.<\/span><\/p><p>\t<span style=\"color: rgb(0, 0, 0);\">(2) Receipts issued in the [Mar-Apr] period must be voided by 5/14 (inclusive). They cannot be voided after 5/15.<\/span><\/p>"},{"id":"section-3","title":"Definition of Terms","desc":"<p>Void Document: Each time a receipt is voided, there will be an independent void record, referred to as a void document or void data.<\/p><p>Awaiting Void: Before the consumer agrees to the void, the receipt remains in a valid state; at this time, the void document is called Awaiting Void.<\/p>"},{"id":"section-4","title":"Pre-integration Steps","desc":"<p>(Please complete these first, otherwise the program will fail)<\/p><p><br><\/p><p> 1. Obtain HashKey / HashIV<\/p><p>- Test Environment: Log in to the Test Area Backend → Basic Information → API Integration Settings → Copy HashKey and HashIV<\/p><p>- Production Environment: Log in to the Production Area Backend → Basic Information → API Integration Settings → Copy HashKey and HashIV<\/p><p><br><\/p><p>2. Apply for IP Whitelist<\/p><p>- Application Window: Download the application form from the official website, fill it out, and send it to the Customer Service Center (Fax / Email)<\/p><p>- Up to 10 IP addresses can be configured<\/p><p>- Required: Server outbound IP (not internal IP, can be checked at https://ifconfig.me)<\/p><p>- Effective Time: Usually 1-2 working days<\/p><p><br><\/p><p>3. Environment URLs<\/p><p>- Test and Production environments are completely different; data is not shared. Before going live, ensure the integration URL has been switched to the Production URL.<\/p><p><br><\/p><p>4. Common \"Forgot Pre-integration Steps\" Error Signals<\/p><p>- `KEY10001 Not a travel agency API integration IP` → IP whitelist not set or incorrect<\/p><p>- `KEY10002 Data decryption error` → HashKey / HashIV incorrect or still sample values<\/p><p>- `KEY10009 Unable to retrieve data for the travel agency Tax ID` → MerchantID wrong or not enabled<\/p>"}],"flowcharts":[{"id":"flowchart-0","title":"Immediate Void Receipt Flow"}]},"apis":[{"name":"Void Electronic Receipt API","url_test":"https://capi.travelinvoice.com.tw/invoice_invalid","url_prod":"https://api.travelinvoice.com.tw/invoice_invalid","requests":[{"title":"Post Parameters","direction":"send","group_type":"No Encryption","param_location":"body","field_combination_format":"String","method":"POST","params":[{"name":"MerchantID_","required":"V","type":"string(8)","label":"Travel Agency Tax ID","example":"54352706","must_return":false,"note":"Travel agency Tax ID (Uniform Invoice Number).","enum_values":"","default_value":"","nullable":false},{"name":"PostData_","required":"V","type":"array","label":"Encrypted Data","example":"","must_return":false,"note":"AES256 encrypted string formed by combining fields; field details are shown below.","enum_values":"","default_value":"","nullable":false}],"children":[{"title":"PostData_ Internal Fields","group_type":"AES Encryption_String","param_location":"body","from_field":"PostData_","params":[{"name":"Version","required":"V","type":"string(5)","label":"Integration Version","example":"1.0","must_return":false,"note":"Fixed at 1.0","enum_values":"1.0","default_value":"","nullable":false},{"name":"TimeStamp","required":"V","type":"string(30)","label":"Timestamp","example":"1400137200","must_return":false,"note":"Unix timestamp (seconds), the number of seconds since 1970-01-01 00:00:00 UTC.\nExample: The timestamp for 2014-05-15 15:00:00 is 1400137200. Recommended to use the current time.","enum_values":"","default_value":"","nullable":false},{"name":"InvoiceNumber","required":"V","type":"string(9)","label":"Receipt Number","example":"T13671009","must_return":false,"note":"The receipt number to be voided.","enum_values":"","default_value":"","nullable":false},{"name":"InvalidReason","required":"V","type":"string(10)","label":"Void Reason","example":"Consumer cancelled order","must_return":false,"note":"Void reason","enum_values":"","default_value":"","nullable":false},{"name":"SellerName","required":"V","type":"string(50)","label":"Handler Name","example":"Sales Window 001","must_return":false,"note":"Name of the person voiding the receipt. For record only; the system does not validate it. If not filled, issuance will fail and the system will return an error code.","enum_values":"","default_value":"","nullable":false},{"name":"Status","required":"V","type":"int(1)","label":"Void Confirmation Method","example":"1","must_return":false,"note":"0=Awaiting Void (refer to 'Manage Awaiting Void Receipt API' for cancellation/trigger details)\n1=Immediate Void","enum_values":"0,1","default_value":"","nullable":false},{"name":"BuyerEmail","required":"","type":"string(100)","label":"Void Notification Email","example":"abc@gmail.com","must_return":false,"note":"1. Void notification emails are sent to the buyer by default.\n2. To include multiple buyer emails, please separate them with commas.\n3. This field is for adding more recipients; duplicate emails will be filtered by the platform to avoid duplicate sending.","enum_values":"","default_value":"","nullable":false}]}]}],"responses":[{"title":"System Response Message","direction":"receive","group_type":"No Encryption","param_location":"body","field_combination_format":"String","method":"","params":[{"name":"Status","required":"","type":"string(10)","label":"Return Status","example":"SUCCESS","must_return":true,"note":"1. If the void document is successfully issued, SUCCESS is returned.\n2. If the issuance fails, an error code is returned.","enum_values":"","default_value":"","nullable":false},{"name":"Message","required":"","type":"string(30)","label":"Return Message","example":"Success","must_return":true,"note":"Text, description of the current return status.","enum_values":"","default_value":"","nullable":false},{"name":"MerchantID","required":"","type":"string(8)","label":"Merchant Code","example":"54352706","must_return":false,"note":"Travel agency Tax ID","enum_values":"","default_value":"","nullable":false},{"name":"InvalidNo","required":"","type":"string(20)","label":"Void Document Serial Number","example":"193060","must_return":false,"note":"The serial number of this void or awaiting void issuance.","enum_values":"","default_value":"","nullable":false},{"name":"InvoiceNumber","required":"","type":"string(9)","label":"Receipt Number","example":"T13671008","must_return":false,"note":"The receipt number of this void or awaiting void.","enum_values":"","default_value":"","nullable":false},{"name":"CreateTime","required":"","type":"datetime","label":"Receipt Issuance Time","example":"2015-07-16 17:00:33","must_return":false,"note":"The time the receipt was voided, e.g., 2015-07-16 17:00:33.","enum_values":"","default_value":"","nullable":false},{"name":"CheckCode","required":"","type":"string(150)","label":"CheckCode","example":"0C69DBB83FD36B6A2B2E9E614DAEA3D91D474C2D8A829870CA91511C55AF2AA","must_return":false,"note":"Used to verify the legitimacy of this data return. During integration, this parameter can be compared to verify if it was returned by the platform. For verification methods, refer to 'SHA256 Encryption Description'. Returns empty if issuance fails.\n\nCheckCode = Hash value calculated according to SHA256 signature specs using InvoiceTransNo, MerchantID, MerchantOrderNo, RandomNum, TotalAmt.\n\nInvoiceTransNo, RandomNum, TotalAmt, and MerchantOrderNo are not included in this API response. Program must save these values returned during original receipt issuance for future CheckCode verification.","enum_values":"","default_value":"","nullable":false},{"name":"EndStr","required":"","type":"string(2)","label":"String End","example":"##","must_return":true,"note":"Fixed return of ##. Users receiving data via String must check EndStr=## to ensure complete data transmission.","enum_values":"##","default_value":"##","nullable":false}],"children":[]}]}],"errors":[{"code":"KEY10001","reason":"Not a travel agency API integration IP"},{"code":"KEY10002","reason":"Data decryption error"},{"code":"KEY10003","reason":"Version error"},{"code":"KEY10004","reason":"Incomplete data"},{"code":"KEY10006","reason":"Travel agency has not applied to enable electronic receipts"},{"code":"KEY10007","reason":"Page stayed for more than 30 minutes"},{"code":"KEY10009","reason":"Unable to retrieve data for the travel agency Tax ID"},{"code":"KEY10010","reason":"Travel agency Tax ID is blank"},{"code":"KEY10011","reason":"PostData_ field is blank"},{"code":"KEY10012","reason":"Data transmission error"},{"code":"KEY10013","reason":"Data is blank"},{"code":"KEY10014","reason":"TimeOut. Generally refers to I/O timeout"},{"code":"KEY10015","reason":"Receipt amount format error"},{"code":"KEY10019","reason":"Travel agency has been suspended"},{"code":"NOR10001","reason":"Network connection exception"},{"code":"INV10015","reason":"Invalid field data length"},{"code":"LIB10001","reason":"The receipt is not a successfully issued receipt"},{"code":"LIB10002","reason":"Handler name not filled"},{"code":"LIB10004","reason":"Invalid void confirmation method"},{"code":"LIB10005","reason":"Receipt has already been voided"},{"code":"LIB10006","reason":"Invalid trigger void status"},{"code":"LIB10007","reason":"This receipt has already undergone an allowance and cannot be voided"},{"code":"LIB10008","reason":"Void period expired"},{"code":"LIB10009","reason":"No such void data found"},{"code":"LIB10010","reason":"This void data has been cancelled"},{"code":"LIB10011","reason":"The void data status is 'Void Failed' and cannot be voided again"}],"versions":[]},
+//英文結束
+//日文開始
+"ja": {"languageName":"日本語","ui":{"head_title":"電子領収書無効化API","system_name":"","copyright":"","sidebar_brand":"電子領収書無効化API","nav_tool":"暗号化テストツール","nav_group_api":"API仕様詳細","nav_apis":"API仕様","nav_encryption":"暗号化ルール詳細","nav_errors":"エラーコード表","nav_example":"サンプルコード","tool_title":"暗号化テストツール","tool_intro":"このツールは、暗号化文字列の生成やレスポンス結果の復号を支援します。","tool_security_warning":"セキュリティ警告：本ツールは連携テスト専用です。情報セキュリティ確保のため、本番環境の Hash Key および Hash IV を入力しないでください。","tool_tab_encrypt":"AES 暗号化","tool_tab_decrypt":"AES 復号","tool_tab_sha":"SHA256 暗号化","tool_ph_key":"例: AAAAvw3YlqoEk6G4HqRKDAYpHKZWxBBB","tool_ph_iv":"例: AAAACC1FplieBBBB","tool_lbl_key":"Hash Key (32 bytes)","tool_lbl_iv":"Hash IV (16 bytes)","tool_lbl_qs":"リクエストパラメータ (Query String)","tool_ph_qs":"例: TimeStamp=1400137200&CardNo=4000...","tool_note_urlencode":"文字列が http_build_query または urlencode で処理されていることを確認してください","tool_note_sha_sort":"プログラムは自動的に下のフィールドをアルファベット順(A-Z)にソートして組み合わせ、前後に IV/Key を連結します","tool_btn_encrypt":"暗号化を実行して暗号化文字列を生成","tool_btn_sha":"SHA256 を実行","tool_lbl_hex":"暗号化結果 (Hex String)","tool_lbl_enc_hex":"暗号化文字列 (Hex String)","tool_lbl_sha_res":"SHA256 結果 (Uppercase)","tool_ph_enc_hex":"例: 0ef82edabaf8964d09992d7ec8e575f1...","tool_btn_decrypt":"復号を実行","tool_lbl_decrypt_res":"復号結果 (元データ)","tool_alert_missing_key":"Hash Key と Hash IV を入力してください","tool_alert_missing_data":"元の文字列を入力してください","tool_alert_encrypt_fail":"暗号化失敗: ","tool_alert_missing_hex":"暗号化後の Hex 文字列を入力してください","tool_alert_decrypt_fail":"復号に失敗しました。Key/IV または暗号化文字列の形式を確認してください","req_title":"リクエストパラメータ (Request)","req_api_info":"API 情報","req_url_prod":"URL (本番環境)","req_url_test":"URL (テスト環境)","th_param":"パラメータ名","th_name":"名称","th_required":"必須","th_must_return":"必須返却","th_type":"型","th_note":"備考","enc_title":"暗号化ルール詳細","enc_aes_title":"AES 暗号化・復号メカニズム","enc_aes_desc":"提供された Hash Key と Hash IV を使用し、AES アルゴリズムによってデータの暗号化または復号処理を行います。","enc_step1_title":"リクエスト文字列の生成","enc_step1_desc":"全てのパラメータを <code>http_build_query<\/code> 形式 (key=value&key2=value2...) で組み合わせます。","enc_step2_title":"AES 暗号化","enc_step2_desc":"暗号化アルゴリズム：<span class=\"font-bold text-red-600\">AES-256-CBC<\/span><br>パディングモード (Padding)：<span class=\"font-bold text-red-600\">PKCS7 B32<\/span><br>出力形式：<span class=\"font-bold text-red-600\">Hex 16進数<\/span><br>Key / IV：加盟店に所属する Hash Key と Hash IV を使用してください。","enc_step3_title":"16進数 (Hex) への変換","enc_step3_desc":"暗号化後のバイナリデータ (Raw Data) を Hex String (小文字) に変換したものが暗号化文字列となります。","enc_sha_title":"SHA256 チェックマック値メカニズム (CheckMacValue)","enc_sha_desc":"SHA256 ハッシュ値を通じてチェックマックを生成し、リクエストパラメータや返却値の完全性を検証するために使用します。","enc_sha_step1_title":"パラメータのソートと組み合わせ","enc_sha_step1_desc":"指定されたパラメータをアルファベット順 (A-Z) にソートし、Query String (key1=val1&key2=val2...) として組み合わせます。","enc_sha_step2_title":"IV と Key の連結","enc_sha_step2_desc":"ソート後の文字列の前後にそれぞれ HashIV と HashKey を連結します。<br>形式：<code>HashIV=...&[SortedParams]&HashKey=...<\/code>","enc_sha_step3_title":"SHA256 暗号化と大文字変換","enc_sha_step3_desc":"連結後の文字列を SHA256 で暗号化し、結果を<strong>大文字<\/strong>に変換します。","res_title":"レスポンスパラメータ (Response)","err_title":"エラーコード表","err_search_ph":"コードを検索...","th_err_code":"エラーコード","th_err_reason":"エラー理由 / 備考","example_title":"サンプルコード","lbl_method":"メソッド","lbl_encrypted_tag":"AES-256-CBC 暗号化済み","lbl_api_index":"API","msg_no_params":"パラメータ未定義","msg_code_unavailable":"// プログラム例はまだありません","nav_versions":"バージョン履歴","versions_title":"バージョン履歴","th_ver_version":"版号","th_ver_date":"修正日","th_ver_desc":"変更内容","toc_title":"目次","api_info_title":"API 基本情報","field_def_title":"API フィールド定義","doc_desc_title":"ドキュメント説明","doc_flowchart_title":"フローチャート","lbl_launch_type":"起動形態","lbl_field_combo_format":"フィールド組み合わせ形式","lbl_enum_values":"許容値","lbl_default_value":"デフォルト値","lbl_is_nullable":"Null 許可","lbl_yes":"はい","lbl_direction":"方向","lbl_group_type":"暗号化方式","lbl_location":"送信位置","lbl_belong_to":"所属","msg_req_info":"このリクエストは加盟店側から送信する必要があります。<span class=\\\"font-bold text-blue-700\\\">{method}<\/span> 形式でパラメータをパッケージ化し、<span class=\\\"font-bold text-blue-700\\\">{location}<\/span> に配置して送信してください。","msg_req_format_qs":"このブロックのフィールドは、<span class=\\\"font-mono font-bold text-cyan-700\\\">&amp;<\/span> 記号で繋いでクエリ文字列 (Query String) 形式にする必要があります。例: <span class=\\\"font-mono text-cyan-700\\\">key1=val1&amp;key2=val2<\/span>。","msg_req_format_json":"このブロックのフィールドは <span class=\\\"font-bold text-cyan-700\\\">JSON<\/span> オブジェクト内に配置して送信する必要があります。","msg_req_format_other":"このブロックのフィールドは <span class=\\\"font-bold text-cyan-700\\\">{format}<\/span> 形式で組み合わされます。","msg_req_security":"データセキュリティ：送信前に <span class=\\\"font-bold\\\">{group_type}<\/span> 処理を完了させる必要があります。","msg_res_info_webhook":"この結果はシステムにより非同期形式で、加盟店が指定した <span class=\\\"font-bold text-green-700\\\">Webhook<\/span> 受信 URL へ自動的にプッシュ送信されます。","msg_res_info_sync":"この結果はシステムにより <span class=\\\"font-bold text-green-700\\\">{method}<\/span> 形式で <span class=\\\"font-bold text-green-700\\\">{location}<\/span> に同期返却されます。","msg_res_format_qs":"返却されるフィールドは <span class=\\\"font-mono font-bold text-cyan-700\\\">&amp;<\/span> 記号で繋がれたクエリ文字列 (Query String) 形式です。例: <span class=\\\"font-mono text-cyan-700\\\">key1=val1&amp;key2=val2<\/span>。","msg_res_format_json":"返却されるフィールドは <span class=\\\"font-bold text-cyan-700\\\">JSON<\/span> オブジェクト内に配置されます。","msg_res_format_other":"返却されるフィールドは <span class=\\\"font-bold text-cyan-700\\\">{format}<\/span> 形式で組み合わされます。","msg_res_security":"検証と復号：受信後、特定のデータに対して <span class=\\\"font-bold\\\">{group_type}<\/span> 処理を行う必要があります。","lbl_sha_pre_hash":"ハッシュ前組み合わせ文字列 (String to Hash)","ph_sha_pre_hash":"ハッシュボタンを押すと、ここに実際に暗号化される完全な文字列が表示されます...","flowchart_0_url":"assets/flowcharts_void-e-receipt-api/fc_2.png"},"meta":{"title":"電子領収書無効化API","subtitle":"発行済み電子領収書の無効化","version":"","sections":[{"id":"section-0","title":"連携目的","desc":"<p><span style=\"color: rgb(0, 0, 0);\">1. 連携前にカスタマーセンターへ連絡し、IP設定を申請してください。設定可能なIP数は10個までです。<\/span><\/p><p>2. ステータスが「発行済み」の電子領収書を無効化できます。<\/p>"},{"id":"section-1","title":"データ交換方式","desc":"<p><span style=\"color: rgb(0, 0, 0);\">1. 旅行会社は「HTTP POST」方式で領収書データを電子領収書プラットフォームへ送信し、発行を行います。<\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">2. Content-Type は application/x-www-form-urlencoded です。<\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">3. 文字エンコーディングは UTF-8 です。<\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">4. 電子領収書プラットフォームはフォーマットされた文字列を返します。<\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">5. 各フィールドの計算単位は文字です。全角、半角、数字、記号はいずれも1文字としてカウントされます。<\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">6. 各フィールド間は「&amp;」を連結記号として使用します。フィールド内にこの文字（U+0026）を含めることはできません。<\/span><\/p>"},{"id":"section-2","title":"無効化の規定","desc":"<p>1. <span style=\"color: rgb(0, 0, 0);\">領収書に対して値引き（デビットノート）が発行され確認された後は、無効化を実行できません。<\/span><\/p><p>2. 予約領収書は無効化できません。キャンセルのみ実行可能です。<\/p><p>3. <span style=\"color: rgb(0, 0, 0);\">領収書を無効化した後、該当期のアップロードスケジュール日（奇数月の1日）に、プラットフォームは無効化データを「財政部電子発票統合サービスプラットフォーム」へアップロードします。<\/span><\/p><p>4. <span style=\"color: rgb(0, 0, 0);\">領収書の期をまたいだ後は、無効化を実行できません。（2ヶ月を1期とします：【1-2月】が1期、【3-4月】が1期となります）<\/span><\/p><p>\t<span style=\"color: rgb(0, 0, 0);\">例：<\/span><\/p><p>\t<span style=\"color: rgb(0, 0, 0);\">(1) 【1-2月】期に発行された領収書は、3/14（当日含む）までに無効化する必要があります。3/15以降は無効化できません。<\/span><\/p><p>\t<span style=\"color: rgb(0, 0, 0);\">(2) 【3-4月】期に発行された領収書は、5/14（当日含む）までに無効化する必要があります。5/15以降は無効化できません。<\/span><\/p>"},{"id":"section-3","title":"用語定義","desc":"<p>無効化伝票：領収書を無効化するたびに生成される独立した無効化記録を、無効化伝票または無効化データと呼びます。<\/p><p>無効化待ち：消費者の同意を待つ間、領収書は有効なままとなります。この時点の無効化伝票を無効化待ちと呼びます。<\/p>"},{"id":"section-4","title":"連携前の準備作業","desc":"<p>（これらを先に完了させないと、プログラムは必ず失敗します）<\/p><p><br><\/p><p> 1. HashKey / HashIV の取得<\/p><p>- テスト環境：テスト環境管理画面にログイン → 基本資料 → API連携設定 → HashKey と HashIV をコピー<\/p><p>- 本番環境：本番環境管理画面にログイン → 基本資料 → API連携設定 → HashKey と HashIV をコピー<\/p><p><br><\/p><p> 2. IP ホワイトリストの申請<\/p><p>- 申請窓口：公式サイトから申請フォームをダウンロードして記入後、カスタマーセンターへ送信（FAX / メール）<\/p><p>- 最大10個の IP を設定可能<\/p><p>- 提出物：サーバーの外部 IP（内部 IP ではなく、https://ifconfig.me などで確認したもの）<\/p><p>- 反映時間：通常1-2営業日<\/p><p><br><\/p><p> 3. 環境 URL<\/p><p>- テスト環境と本番環境は完全に別の設備であり、データは共通していません。本番稼働前に、連携先 URL が本番用になっているか必ず確認してください。<\/p><p><br><\/p><p> 4. よくある「準備不足」によるエラーメッセージ<\/p><p>- `KEY10001 旅行会社 API 連携 IP ではありません` → IP ホワイトリストが未設定または誤設定<\/p><p>- `KEY10002 データ復号エラー` → HashKey / HashIV が正しくないか、サンプルのままになっている<\/p><p>- `KEY10009 旅行会社の統一企業番号のデータが取得できません` → MerchantID が間違っているか、有効化されていない<\/p>"}],"flowcharts":[{"id":"flowchart-0","title":"領収書即時無効化フロー"}]},"apis":[{"name":"電子領収書無効化API","url_test":"https://capi.travelinvoice.com.tw/invoice_invalid","url_prod":"https://api.travelinvoice.com.tw/invoice_invalid","requests":[{"title":"Post パラメータ","direction":"send","group_type":"暗号化なし","param_location":"body","field_combination_format":"String","method":"POST","params":[{"name":"MerchantID_","required":"V","type":"string(8)","label":"旅行会社統一企業番号","example":"54352706","must_return":false,"note":"旅行会社の統一企業番号（8桁）。","enum_values":"","default_value":"","nullable":false},{"name":"PostData_","required":"V","type":"array","label":"暗号化データ","example":"","must_return":false,"note":"各フィールドを組み合わせた後、AES256で暗号化したもの。詳細は下表を参照。","enum_values":"","default_value":"","nullable":false}],"children":[{"title":"PostData_ 内包フィールド","group_type":"AES暗号化_文字列","param_location":"body","from_field":"PostData_","params":[{"name":"Version","required":"V","type":"string(5)","label":"連携プログラムバージョン","example":"1.0","must_return":false,"note":"「1.0」固定","enum_values":"1.0","default_value":"","nullable":false},{"name":"TimeStamp","required":"V","type":"string(30)","label":"タイムスタンプ","example":"1400137200","must_return":false,"note":"Unix タイムスタンプ（秒）。1970-01-01 00:00:00 UTC からの経過秒数。\n例：2014-05-15 15:00:00 のタイムスタンプは 1400137200 です。現在の時刻を入力することを推奨します。","enum_values":"","default_value":"","nullable":false},{"name":"InvoiceNumber","required":"V","type":"string(9)","label":"領収書番号","example":"T13671009","must_return":false,"note":"無効化を実行する領収書番号。","enum_values":"","default_value":"","nullable":false},{"name":"InvalidReason","required":"V","type":"string(10)","label":"無効化理由","example":"消費者が注文をキャンセルしたため","must_return":false,"note":"無効化の理由。","enum_values":"","default_value":"","nullable":false},{"name":"SellerName","required":"V","type":"string(50)","label":"担当者名","example":"営業窓口001","must_return":false,"note":"無効化処理を行う担当者の名前。記録用でありシステムチェックは行われませんが、未入力の場合は発行に失敗しエラーコードが返されます。","enum_values":"","default_value":"","nullable":false},{"name":"Status","required":"V","type":"int(1)","label":"無効化の確定方式","example":"1","must_return":false,"note":"0=無効化待ち（キャンセルや実行方法については「無効化待ち領収書管理API」の説明を参照）\n1=即時無効化","enum_values":"0,1","default_value":"","nullable":false},{"name":"BuyerEmail","required":"","type":"string(100)","label":"無効化通知メール送信先","example":"abc@gmail.com","must_return":false,"note":"1. 無効化通知メールは、デフォルトで買受人に送信されます。\n2. 複数の買受人アドレスを入力する場合は、カンマで区切ってください。\n3. このフィールドは追加の宛先用です。重複したアドレスが入力された場合、プラットフォーム側で重複排除されます。","enum_values":"","default_value":"","nullable":false}]}]}],"responses":[{"title":"システムレスポンスメッセージ","direction":"receive","group_type":"暗号化なし","param_location":"body","field_combination_format":"String","method":"","params":[{"name":"Status","required":"","type":"string(10)","label":"返却ステータス","example":"SUCCESS","must_return":true,"note":"1. 無効化伝票の発行に成功した場合は SUCCESS を返却\n2. 失敗した場合はエラーコードを返却","enum_values":"","default_value":"","nullable":false},{"name":"Message","required":"","type":"string(30)","label":"返却メッセージ","example":"成功","must_return":true,"note":"テキスト。今回の返却ステータスの説明。","enum_values":"","default_value":"","nullable":false},{"name":"MerchantID","required":"","type":"string(8)","label":"旅行会社コード","example":"54352706","must_return":false,"note":"旅行会社の統一企業番号","enum_values":"","default_value":"","nullable":false},{"name":"InvalidNo","required":"","type":"string(20)","label":"無効化伝票シリアル番号","example":"193060","must_return":false,"note":"今回の無効化または無効化待ちのシリアル番号","enum_values":"","default_value":"","nullable":false},{"name":"InvoiceNumber","required":"","type":"string(9)","label":"領収書番号","example":"T13671008","must_return":false,"note":"今回の無効化または無効化待ちの対象となった領収書番号。","enum_values":"","default_value":"","nullable":false},{"name":"CreateTime","required":"","type":"datetime","label":"無効化実行時間","example":"2015-07-16 17:00:33","must_return":false,"note":"今回の領収書無効化が実行された時間。例：2015-07-16 17:00:33。","enum_values":"","default_value":"","nullable":false},{"name":"CheckCode","required":"","type":"string(150)","label":"チェックコード","example":"0C69DBB83FD36B6A2B2E9E614DAEA3D91D474C2D8A829870CA91511C55AF2AA","must_return":false,"note":"返却データの正当性を確認するために使用します。連携時にこの値を検証することで、プラットフォームからのデータであることを確認できます。検証方法は「SHA256暗号化の説明」を参照してください。発行失敗時は空値が返されます。\n\nCheckCode = InvoiceTransNo, MerchantID, MerchantOrderNo, RandomNum, TotalAmt を SHA256 署名仕様に従って計算したハッシュ値\n\nInvoiceTransNo、RandomNum、TotalAmt、MerchantOrderNo はこの API のレスポンスフィールドには含まれません。領収書発行時に返却されたこれらの値をプログラム側で保存しておき、CheckCode の検証に使用してください。","enum_values":"","default_value":"","nullable":false},{"name":"EndStr","required":"","type":"string(2)","label":"文字列末尾","example":"##","must_return":true,"note":"「##」固定。String 方式でデータを受信するユーザーは、データの完全性を保証するために EndStr=## を判定する必要があります。","enum_values":"##","default_value":"##","nullable":false}],"children":[]}]}],"errors":[{"code":"KEY10001","reason":"旅行会社 API 連携 IP ではありません"},{"code":"KEY10002","reason":"データ復号エラー"},{"code":"KEY10003","reason":"バージョンエラー"},{"code":"KEY10004","reason":"データが不完全です"},{"code":"KEY10006","reason":"旅行会社が電子領収書の利用を申請していません"},{"code":"KEY10007","reason":"セッションタイムアウト（30分以上経過）"},{"code":"KEY10009","reason":"旅行会社の統一企業番号のデータが取得できません"},{"code":"KEY10010","reason":"旅行会社統一企業番号が空欄です"},{"code":"KEY10011","reason":"PostData_ フィールドが空欄です"},{"code":"KEY10012","reason":"データ転送エラー"},{"code":"KEY10013","reason":"データが空です"},{"code":"KEY10014","reason":"タイムアウト。通常 I/O タイムアウトを指します"},{"code":"KEY10015","reason":"領収書金額の形式エラー"},{"code":"KEY10019","reason":"旅行会社のアカウントが停止されています"},{"code":"NOR10001","reason":"ネットワーク接続異常"},{"code":"INV10015","reason":"フィールドデータの長さが正しくありません"},{"code":"LIB10001","reason":"この領収書は正常に発行された領収書ではありません"},{"code":"LIB10002","reason":"担当者名が入力されていません"},{"code":"LIB10004","reason":"無効化確定方式が正しくありません"},{"code":"LIB10005","reason":"この領収書は既に無効化されています"},{"code":"LIB10006","reason":"無効化トリガーステータスのエラー"},{"code":"LIB10007","reason":"この領収書は既に値引き（デビットノート）が発行されているため、無効化できません"},{"code":"LIB10008","reason":"無効化可能期限を過ぎています"},{"code":"LIB10009","reason":"該当する無効化データが見つかりません"},{"code":"LIB10010","reason":"この無効化データは既にキャンセルされています"},{"code":"LIB10011","reason":"無効化失敗ステータスのため、再度の無効化はできません"}],"versions":[]},
+//日文結束
+//韓文開始
+"ko": {"languageName":"한국어","ui":{"head_title":"전자 영수증 무효화 API","system_name":"","copyright":"","sidebar_brand":"전자 영수증 무효화 API","nav_tool":"암호화 테스트 도구","nav_group_api":"API 규격 상세","nav_apis":"API 규격","nav_encryption":"암호화 규칙 상세","nav_errors":"오류 코드 표","nav_example":"예제 코드","tool_title":"암호화 테스트 도구","tool_intro":"이 도구는 암호화된 문자열을 생성하거나 반환된 결과를 복호화하는 데 도움을 줍니다.","tool_security_warning":"보안 경고: 이 도구는 연동 테스트용으로만 제공됩니다. 정보 보안을 위해 실제 환경의 Hash Key와 Hash IV를 여기에 입력하지 마십시오.","tool_tab_encrypt":"AES 암호화","tool_tab_decrypt":"AES 복호화","tool_tab_sha":"SHA256 암호화","tool_ph_key":"예: AAAAvw3YlqoEk6G4HqRKDAYpHKZWxBBB","tool_ph_iv":"예: AAAACC1FplieBBBB","tool_lbl_key":"Hash Key (32 bytes)","tool_lbl_iv":"Hash IV (16 bytes)","tool_lbl_qs":"요청 파라미터 (Query String)","tool_ph_qs":"예: TimeStamp=1400137200&CardNo=4000...","tool_note_urlencode":"문자열이 http_build_query 또는 urlencode 처리되었는지 확인하십시오.","tool_note_sha_sort":"프로그램이 자동으로 아래 필드를 영문 이름순(A-Z)으로 정렬하여 조합하고, 앞뒤로 IV/Key를 연결합니다.","tool_btn_encrypt":"암호화 실행하여 암호화 문자열 생성","tool_btn_sha":"SHA256 실행","tool_lbl_hex":"암호화 결과 (Hex String)","tool_lbl_enc_hex":"암호화 문자열 (Hex String)","tool_lbl_sha_res":"SHA256 결과 (Uppercase)","tool_ph_enc_hex":"예: 0ef82edabaf8964d09992d7ec8e575f1...","tool_btn_decrypt":"복호화 실행","tool_lbl_decrypt_res":"복호화 결과 (원본 데이터)","tool_alert_missing_key":"Hash Key와 Hash IV를 입력하십시오.","tool_alert_missing_data":"원본 문자열을 입력하십시오.","tool_alert_encrypt_fail":"암호화 실패: ","tool_alert_missing_hex":"암호화된 Hex 문자열을 입력하십시오.","tool_alert_decrypt_fail":"복호화 실패, Key/IV 또는 암호화 문자열 형식을 확인하십시오.","req_title":"요청 파라미터 (Request)","req_api_info":"API 정보","req_url_prod":"URL (실제 운영 환경)","req_url_test":"URL (테스트 환경)","th_param":"파라미터 이름","th_name":"명칭","th_required":"필수","th_must_return":"필수 반환","th_type":"타입","th_note":"비고","enc_title":"암호화 규칙 상세","enc_aes_title":"AES 암호화/복호화 메커니즘","enc_aes_desc":"공급업체에서 제공한 Hash Key 및 Hash IV를 사용하여 AES 알고리즘으로 데이터를 암호화하거나 복호화합니다.","enc_step1_title":"요청 문자열 생성","enc_step1_desc":"모든 파라미터를 <code>http_build_query<\/code> 형식(key=value&key2=value2...)으로 조합합니다.","enc_step2_title":"AES 암호화","enc_step2_desc":"암호화 알고리즘: <span class=\"font-bold text-red-600\">AES-256-CBC<\/span><br>패딩 모드 (Padding): <span class=\"font-bold text-red-600\">PKCS7 B32<\/span><br>출력 형식: <span class=\"font-bold text-red-600\">Hex 16진수<\/span><br>Key / IV: 업체 소속 Hash Key와 Hash IV를 사용하십시오.","enc_step3_title":"16진수(Hex) 변환","enc_step3_desc":"암호화된 이진 데이터 (Raw Data)를 Hex String (소문자)으로 변환한 것이 암호화 문자열입니다.","enc_sha_title":"SHA256 체크섬 메커니즘 (CheckMacValue)","enc_sha_desc":"SHA256 해시를 통해 검증 코드를 생성하며, 요청 파라미터 또는 반환값의 무결성을 검증하는 데 사용됩니다.","enc_sha_step1_title":"파라미터 정렬 및 조합","enc_sha_step1_desc":"지정된 파라미터를 영문 이름(A-Z)순으로 정렬하고 Query String (key1=val1&key2=val2...)으로 조합합니다.","enc_sha_step2_title":"IV 및 Key 연결","enc_sha_step2_desc":"정렬된 문자열의 앞뒤에 각각 HashIV와 HashKey를 연결합니다.<br>형식: <code>HashIV=...&[SortedParams]&HashKey=...<\/code>","enc_sha_step3_title":"SHA256 암호화 및 대문자 변환","enc_sha_step3_desc":"연결된 문자열을 SHA256 암호화하고 결과를 <strong>대문자<\/strong>로 변환합니다.","res_title":"반환 파라미터 (Response)","err_title":"오류 코드 표","err_search_ph":"코드 검색...","th_err_code":"오류 코드","th_err_reason":"오류 원인 / 비고","example_title":"예제 코드","lbl_method":"메서드","lbl_encrypted_tag":"AES-256-CBC 암호화됨","lbl_api_index":"API","msg_no_params":"정의된 파라미터 없음","msg_code_unavailable":"// 아직 코드 예제가 없습니다.","nav_versions":"버전 기록","versions_title":"버전 기록","th_ver_version":"버전 번호","th_ver_date":"수정 날짜","th_ver_desc":"변경 내용","toc_title":"목차","api_info_title":"API 기본 정보","field_def_title":"API 필드 정의","doc_desc_title":"문서 설명","doc_flowchart_title":"순서도","lbl_launch_type":"발생 형태","lbl_field_combo_format":"필드 조합 형식","lbl_enum_values":"허용 값","lbl_default_value":"기본값","lbl_is_nullable":"Null 허용","lbl_yes":"예","lbl_direction":"방향","lbl_group_type":"암호화 방식","lbl_location":"전송 위치","lbl_belong_to":"소속","msg_req_info":"이 요청은 상점에서 발생시켜야 하며, <span class=\\\"font-bold text-blue-700\\\">{method}<\/span> 방식으로 파라미터를 패키징하여 <span class=\\\"font-bold text-blue-700\\\">{location}<\/span>에 배치하여 전송하십시오.","msg_req_format_qs":"이 블록의 필드는 <span class=\\\"font-mono font-bold text-cyan-700\\\">&amp;<\/span> 기호를 사용하여 쿼리 문자열 (Query String) 형식으로 조합해야 합니다(예: <span class=\\\"font-mono text-cyan-700\\\">key1=val1&amp;key2=val2<\/span>).","msg_req_format_json":"이 블록의 필드는 <span class=\\\"font-bold text-cyan-700\\\">JSON<\/span> 객체에 담아 전송해야 합니다.","msg_req_format_other":"이 블록의 필드는 <span class=\\\"font-bold text-cyan-700\\\">{format}<\/span> 형식으로 조합됩니다.","msg_req_security":"데이터 보안: 전송 전 <span class=\\\"font-bold\\\">{group_type}<\/span> 처리가 필요합니다.","msg_res_info_webhook":"이 결과는 시스템에 의해 비동기 방식으로 상점이 지정한 <span class=\\\"font-bold text-green-700\\\">Webhook<\/span> 수신 URL로 자동 푸시됩니다.","msg_res_info_sync":"이 결과는 시스템에 의해 <span class=\\\"font-bold text-green-700\\\">{method}<\/span> 방식으로 <span class=\\\"font-bold text-green-700\\\">{location}<\/span>에 동기적으로 반환됩니다.","msg_res_format_qs":"반환되는 필드는 <span class=\\\"font-mono font-bold text-cyan-700\\\">&amp;<\/span> 기호를 사용하여 쿼리 문자열 (Query String) 형식으로 조합됩니다(예: <span class=\\\"font-mono text-cyan-700\\\">key1=val1&amp;key2=val2<\/span>).","msg_res_format_json":"반환되는 필드는 <span class=\\\"font-bold text-cyan-700\\\">JSON<\/span> 객체에 담겨 전달됩니다.","msg_res_format_other":"반환되는 필드는 <span class=\\\"font-bold text-cyan-700\\\">{format}<\/span> 형식으로 조합됩니다.","msg_res_security":"인증 및 복호화: 수신 후 특정 데이터에 대해 <span class=\\\"font-bold\\\">{group_type}<\/span> 처리가 필요합니다.","lbl_sha_pre_hash":"암호화 전 조합 문자열 (String to Hash)","ph_sha_pre_hash":"해시 버튼을 누르면 실제로 암호화될 전체 문자열이 여기에 표시됩니다...","flowchart_0_url":"assets/flowcharts_void-e-receipt-api/fc_3.png"},"meta":{"title":"전자 영수증 무효화 API","subtitle":"발행된 전자 영수증 무효화","version":"","sections":[{"id":"section-0","title":"연동 목적","desc":"<p><span style=\"color: rgb(0, 0, 0);\">1. 연동 전에 고객 센터로 연락하여 IP 설정을 신청하십시오. 설정 가능한 IP 그룹 수는 10개입니다.<\/span><\/p><p>2. 발행 완료 상태의 전자 영수증을 무효화할 수 있습니다.<\/p>"},{"id":"section-1","title":"데이터 교환 방식","desc":"<p><span style=\"color: rgb(0, 0, 0);\">1. 여행사는 「HTTP POST」 방식으로 영수증 데이터를 전자 영수증 플랫폼에 전송하여 발행합니다. <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">2. Content-Type은 application/x-www-form-urlencoded입니다. <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">3. 인코딩 형식은 UTF-8입니다. <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">4. 전자 영수증 플랫폼은 형식화된 문자열을 응답합니다. <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">5. 각 필드의 계산 단위는 문자입니다. 한글, 영어, 숫자, 기호 모두 한 문자로 계산됩니다. <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">6. 각 필드 사이에는 「&amp;」를 연결 기호로 사용하며, 필드 내에 이 문자(U+0026)를 포함해서는 안 됩니다.<\/span><\/p>"},{"id":"section-2","title":"영수증 무효화 규정","desc":"<p>1. <span style=\"color: rgb(0, 0, 0);\">영수증에 대해 마이너스 영수증(반품/환불)이 발행되고 확인된 후에는 무효화를 수행할 수 없습니다.<\/span><\/p><p>2. 예약 영수증은 무효화할 수 없으며 취소만 가능합니다.<\/p><p>3. <span style=\"color: rgb(0, 0, 0);\">영수증 무효화 후, 해당 기수의 업로드 예약일(매 홀수달 1일)에 플랫폼은 무효화 데이터를 「국세청 전자세금계산서 통합 서비스 플랫폼」으로 업로드합니다.<\/span><\/p><p>4. <span style=\"color: rgb(0, 0, 0);\">영수증 기수가 지난 후에는 무효화를 수행할 수 없습니다. (2개월이 한 기수입니다. [1-2]월이 한 기수, [3-4]월이 한 기수입니다.)<\/span><\/p><p>\t<span style=\"color: rgb(0, 0, 0);\">예: <\/span><\/p><p>\t<span style=\"color: rgb(0, 0, 0);\">(1) [1-2]월 기수에 발행된 영수증은 3/14(포함) 이전에 무효화해야 하며, 3/15 이후에는 무효화할 수 없습니다.<\/span><\/p><p>\t<span style=\"color: rgb(0, 0, 0);\">(2) [3-4]월 기수에 발행된 영수증은 5/14(포함) 이전에 무효화해야 하며, 5/15 이후에는 무효화할 수 없습니다.<\/span><\/p>"},{"id":"section-3","title":"용어 정의","desc":"<p>무효화 전표: 영수증을 무효화할 때마다 독립적인 무효화 기록이 생성되며, 이를 무효화 전표 또는 무효화 데이터라고 합니다.<\/p><p>무효화 대기: 소비자가 무효화에 동의하기 전까지 영수증은 여전히 유효한 상태이며, 이때의 무효화 전표를 무효화 대기라고 합니다.<\/p>"},{"id":"section-4","title":"연동 사전 작업","desc":"<p>(반드시 완료해야 하며, 그렇지 않으면 프로그램이 실패합니다.)<\/p><p><br><\/p><p> 1. HashKey / HashIV 획득<\/p><p>- 테스트 환경: 테스트 환경 백엔드 로그인 → 기본 정보 → API 연동 설정 → HashKey 및 HashIV 복사<\/p><p>- 실제 환경: 실제 환경 백엔드 로그인 → 기본 정보 → API 연동 설정 → HashKey 및 HashIV 복사<\/p><p><br><\/p><p> 2. IP 화이트리스트 신청<\/p><p>- 신청 창구: 공식 웹사이트에서 신청서를 다운로드하여 작성 후 고객 센터로 전송 (팩스 / 이메일)<\/p><p>- 최대 10개의 IP 설정 가능<\/p>- 필요 정보: 서버 외부 IP (내부 IP가 아니며, https://ifconfig.me에서 확인 가능)\n- 반영 시간: 통상 영업일 기준 1-2일\n<br>\n3. 환경 URL\n- 테스트 환경과 실제 환경은 완전히 다른 장비이며 데이터가 공유되지 않습니다. 오픈 전에 반드시 연동 URL이 실제 환경 URL로 전환되었는지 확인하십시오.\n<br>\n4. 자주 발생하는 「사전 작업 누락」 오류 신호\n- `KEY10001 여행사 API 연동 IP가 아님` → IP 화이트리스트가 설정되지 않았거나 잘못 설정됨\n- `KEY10002 데이터 복호화 오류` → HashKey / HashIV가 올바르지 않거나 여전히 예제 값임\n- `KEY10009 여행사 사업자 등록 번호 데이터를 찾을 수 없음` → MerchantID가 틀렸거나 활성화되지 않음"}],"flowcharts":[{"id":"flowchart-0","title":"영수증 즉시 무효화 프로세스"}]},"apis":[{"name":"전자 영수증 무효화 API","url_test":"https://capi.travelinvoice.com.tw/invoice_invalid","url_prod":"https://api.travelinvoice.com.tw/invoice_invalid","requests":[{"title":"Post 파라미터","direction":"send","group_type":"암호화 없음","param_location":"body","field_combination_format":"String","method":"POST","params":[{"name":"MerchantID_","required":"V","type":"string(8)","label":"여행사 사업자 등록 번호","example":"54352706","must_return":false,"note":"여행사 사업자 등록 번호입니다.","enum_values":"","default_value":"","nullable":false},{"name":"PostData_","required":"V","type":"array","label":"암호화 데이터","example":"","must_return":false,"note":"문자열 필드 조합 후 AES256 암호화 처리를 하며, 필드 설명은 아래 표와 같습니다.","enum_values":"","default_value":"","nullable":false}],"children":[{"title":"PostData_ 포함 필드","group_type":"AES암호화_문자열","param_location":"body","from_field":"PostData_","params":[{"name":"Version","required":"V","type":"string(5)","label":"연동 프로그램 버전","example":"1.0","must_return":false,"note":"1.0 고정","enum_values":"1.0","default_value":"","nullable":false},{"name":"TimeStamp","required":"V","type":"string(30)","label":"타임스탬프","example":"1400137200","must_return":false,"note":"Unix 타임스탬프(초), 즉 1970-01-01 00:00:00 UTC 이후 경과된 초 수\n예: 2014-05-15 15:00:00의 타임스탬프는 1400137200이며, 현재 시간을 입력할 것을 권장합니다.","enum_values":"","default_value":"","nullable":false},{"name":"InvoiceNumber","required":"V","type":"string(9)","label":"영수증 번호","example":"T13671009","must_return":false,"note":"무효화를 실행할 영수증 번호입니다.","enum_values":"","default_value":"","nullable":false},{"name":"InvalidReason","required":"V","type":"string(10)","label":"무효화 사유","example":"소비자 주문 취소","must_return":false,"note":"무효화 사유","enum_values":"","default_value":"","nullable":false},{"name":"SellerName","required":"V","type":"string(50)","label":"담당자 성명","example":"업무담당001","must_return":false,"note":"무효화 영수증을 발행하는 담당자 이름입니다. 단순 기록용이며 시스템에서 검증하지 않습니다. 입력하지 않으면 발행에 실패하고 시스템 오류 코드를 반환합니다.","enum_values":"","default_value":"","nullable":false},{"name":"Status","required":"V","type":"int(1)","label":"무효화 확인 방식","example":"1","must_return":false,"note":"0=무효화 대기 (취소 또는 트리거 방식은 『무효화 대기 영수증 관리 API』 관련 설명을 참조하십시오)\n1=즉시 무효화","enum_values":"0,1","default_value":"","nullable":false},{"name":"BuyerEmail","required":"","type":"string(100)","label":"무효화 알림 수신 이메일","example":"abc@gmail.com","must_return":false,"note":"1. 무효화 알림 메일은 플랫폼에서 기본적으로 매수자에게 발송됩니다.\n2. 여러 매수자 이메일을 입력해야 하는 경우 쉼표로 구분하십시오.\n3. 이 필드는 추가 수신인을 추가하는 데 사용되며, 중복된 이메일을 입력하면 플랫폼에서 필터링하여 중복 발송을 방지합니다.","enum_values":"","default_value":"","nullable":false}]}]}],"responses":[{"title":"시스템 응답 메시지","direction":"receive","group_type":"암호화 없음","param_location":"body","field_combination_format":"String","method":"","params":[{"name":"Status","required":"","type":"string(10)","label":"반환 상태","example":"SUCCESS","must_return":true,"note":"1. 무효화 전표 발행 성공 시 SUCCESS 반환\n2. 무효화 전표 발행 실패 시 오류 코드 반환","enum_values":"","default_value":"","nullable":false},{"name":"Message","required":"","type":"string(30)","label":"반환 메시지","example":"성공","must_return":true,"note":"텍스트, 이번 반환 상태에 대한 설명","enum_values":"","default_value":"","nullable":false},{"name":"MerchantID","required":"","type":"string(8)","label":"여행사 코드","example":"54352706","must_return":false,"note":"여행사 사업자 등록 번호","enum_values":"","default_value":"","nullable":false},{"name":"InvalidNo","required":"","type":"string(20)","label":"무효화 전표 일련번호","example":"193060","must_return":false,"note":"이번에 발행된 무효화 또는 무효화 대기 일련번호","enum_values":"","default_value":"","nullable":false},{"name":"InvoiceNumber","required":"","type":"string(9)","label":"영수증 번호","example":"T13671008","must_return":false,"note":"이번에 무효화된 영수증 또는 무효화 대기 중인 영수증 번호.","enum_values":"","default_value":"","nullable":false},{"name":"CreateTime","required":"","type":"datetime","label":"영수증 발행 시간","example":"2015-07-16 17:00:33","must_return":false,"note":"이번에 영수증을 무효화한 시간, 예: 2015-07-16 17:00:33.","enum_values":"","default_value":"","nullable":false},{"name":"CheckCode","required":"","type":"string(150)","label":"체크 코드","example":"0C69DBB83FD36B6A2B2E9E614DAEA3D91D474C2D8A829870CA91511C55AF2AA","must_return":false,"note":"이번 데이터 반환의 유효성을 확인하는 데 사용됩니다. 연동 시 이 파라미터 데이터를 비교하여 플랫폼에서 반환한 것인지 검증할 수 있습니다. 검증 방법은 ”SHA256 암호화 설명”을 참조하십시오. 발행 실패 시 빈 값을 반환합니다.\n\nCheckCode = InvoiceTransNo, MerchantID, MerchantOrderNo, RandomNum, TotalAmt를 SHA256 서명 규격에 따라 계산하여 얻은 해시 값\n\nInvoiceTransNo, RandomNum, TotalAmt, MerchantOrderNo는 이 API 응답 필드에 포함되어 있지 않으므로, 영수증 발행 시 반환된 해당 값들을 프로그램에서 별도로 저장해 두었다가 향후 CheckCode 검증에 사용해야 합니다.","enum_values":"","default_value":"","nullable":false},{"name":"EndStr","required":"","type":"string(2)","label":"문자열 끝","example":"##","must_return":true,"note":"고정적으로 ## 반환. String 방식으로 데이터를 받는 사용자는 EndStr=##를 추가로 판단하여 데이터 전달의 무결성을 보장해야 합니다.","enum_values":"##","default_value":"##","nullable":false}],"children":[]}]}],"errors":[{"code":"KEY10001","reason":"여행사 API 연동 IP가 아님"},{"code":"KEY10002","reason":"데이터 복호화 오류"},{"code":"KEY10003","reason":"버전 오류"},{"code":"KEY10004","reason":"데이터 불충분"},{"code":"KEY10006","reason":"여행사가 전자 영수증 활성화를 신청하지 않음"},{"code":"KEY10007","reason":"페이지 머무름 시간 30분 초과"},{"code":"KEY10009","reason":"여행사 사업자 등록 번호 데이터를 찾을 수 없음"},{"code":"KEY10010","reason":"여행사 사업자 등록 번호가 비어 있음"},{"code":"KEY10011","reason":"PostData_ 필드가 비어 있음"},{"code":"KEY10012","reason":"데이터 전달 오류"},{"code":"KEY10013","reason":"데이터가 비어 있음"},{"code":"KEY10014","reason":"TimeOut. 일반적으로 I/O 타임아웃을 의미함"},{"code":"KEY10015","reason":"영수증 금액 형식 오류"},{"code":"KEY10019","reason":"여행사 권한이 정지됨"},{"code":"NOR10001","reason":"네트워크 연결 이상"},{"code":"INV10015","reason":"필드 데이터 길이 오류"},{"code":"LIB10001","reason":"해당 영수증은 발행 성공된 영수증이 아님"},{"code":"LIB10002","reason":"담당자 이름이 입력되지 않음"},{"code":"LIB10004","reason":"무효화 확인 방식 오류"},{"code":"LIB10005","reason":"영수증이 이미 무효화됨"},{"code":"LIB10006","reason":"트리거 무효화 상태 오류"},{"code":"LIB10007","reason":"해당 영수증은 이미 마이너스 영수증(반품) 처리가 되어 무효화할 수 없음"},{"code":"LIB10008","reason":"무효화 가능 기한 초과"},{"code":"LIB10009","reason":"해당 무효화 데이터가 없음"},{"code":"LIB10010","reason":"해당 무효화 데이터는 취소됨"},{"code":"LIB10011","reason":"해당 무효화 데이터의 상태가 무효화 실패이므로 다시 무효화할 수 없음"}],"versions":[]},
+//韓文結束
+//瑞典文開始
+"sv": {"languageName":"Svenska","ui":{"head_title":"API för ogiltigförklaring av elektroniska kvitton","system_name":"","copyright":"","sidebar_brand":"API för ogiltigförklaring","nav_tool":"Krypteringstestverktyg","nav_group_api":"Detaljerad API-specifikation","nav_apis":"API-specifikationer","nav_encryption":"Detaljerade krypteringsregler","nav_errors":"Felkodstabell","nav_example":"Exempelkod","tool_title":"Krypteringstestverktyg","tool_intro":"Detta verktyg hjälper dig att generera krypterade strängar eller dekryptera returresultat.","tool_security_warning":"Säkerhetsvarning: Detta verktyg är endast avsett för integrationstestning. För att garantera informationssäkerheten, ange inte din Hash Key och Hash IV för din produktionsmiljö här.","tool_tab_encrypt":"AES-kryptering","tool_tab_decrypt":"AES-dekryptering","tool_tab_sha":"SHA256-kryptering","tool_ph_key":"Exempel: AAAAvw3YlqoEk6G4HqRKDAYpHKZWxBBB","tool_ph_iv":"Exempel: AAAACC1FplieBBBB","tool_lbl_key":"Hash Key (32 byte)","tool_lbl_iv":"Hash IV (16 byte)","tool_lbl_qs":"Begäran-parametrar (Query String)","tool_ph_qs":"Exempel: TimeStamp=1400137200&CardNo=4000...","tool_note_urlencode":"Vänligen bekräfta att strängen har bearbetats med http_build_query eller urlencode","tool_note_sha_sort":"Programmet kommer automatiskt att sortera fälten nedan alfabetiskt (A-Z), kombinera dem och lägga till IV/Key före och efter","tool_btn_encrypt":"Kör kryptering för att generera krypterad sträng","tool_btn_sha":"Kör SHA256","tool_lbl_hex":"Krypteringsresultat (Hex-sträng)","tool_lbl_enc_hex":"Krypterad sträng (Hex-sträng)","tool_lbl_sha_res":"SHA256-resultat (Versaler)","tool_ph_enc_hex":"Exempel: 0ef82edabaf8964d09992d7ec8e575f1...","tool_btn_decrypt":"Kör dekryptering","tool_lbl_decrypt_res":"Dekrypteringsresultat (Originaldata)","tool_alert_missing_key":"Ange Hash Key och Hash IV","tool_alert_missing_data":"Ange originalsträngen","tool_alert_encrypt_fail":"Kryptering misslyckades: ","tool_alert_missing_hex":"Ange den krypterade hex-strängen","tool_alert_decrypt_fail":"Dekryptering misslyckades, kontrollera Key/IV eller formatet på den krypterade strängen","req_title":"Begäran-parametrar (Request)","req_api_info":"API-information","req_url_prod":"URL (Produktionsmiljö)","req_url_test":"URL (Testmiljö)","th_param":"Parameternamn","th_name":"Namn","th_required":"Obligatorisk","th_must_return":"Måste returneras","th_type":"Typ","th_note":"Anmärkning","enc_title":"Detaljerade krypteringsregler","enc_aes_title":"AES-kryptering och dekrypteringsmekanism","enc_aes_desc":"Använd Hash Key och Hash IV som tillhandahålls av leverantören för att kryptera eller dekryptera data via AES-algoritmen.","enc_step1_title":"Generera begäran-sträng","enc_step1_desc":"Kombinera alla parametrar enligt formatet <code>http_build_query<\/code> (key=value&key2=value2...).","enc_step2_title":"AES-kryptering","enc_step2_desc":"Krypteringsalgoritm: <span class=\"font-bold text-red-600\">AES-256-CBC<\/span><br>Utfyllnadsläge (Padding): <span class=\"font-bold text-red-600\">PKCS7 B32<\/span><br>Utdataformat: <span class=\"font-bold text-red-600\">Hex decimal<\/span><br>Key / IV: Använd leverantörens Hash Key och Hash IV.","enc_step3_title":"Konvertera till hexadecimal (Hex)","enc_step3_desc":"Konvertera krypterad binär data (Raw Data) till en Hex-sträng (gemener), vilket är den krypterade strängen.","enc_sha_title":"SHA256-kontrollkodsmekanism (CheckMacValue)","enc_sha_desc":"Generera en kontrollkod via SHA256-hash, som kan användas för att verifiera integriteten hos begäran-parametrar eller returvärden.","enc_sha_step1_title":"Sortering och kombination av parametrar","enc_sha_step1_desc":"Sortera angivna parametrar alfabetiskt (A-Z) och kombinera dem till en Query String (key1=val1&key2=val2...).","enc_sha_step2_title":"Sammankoppling av IV och Key","enc_sha_step2_desc":"Koppla samman HashIV och HashKey före respektive efter den sorterade strängen.<br>Format: <code>HashIV=...&[SortedParams]&HashKey=...<\/code>","enc_sha_step3_title":"SHA256-kryptering och omvandling till versaler","enc_sha_step3_desc":"Utför SHA256-kryptering på den sammankopplade strängen och konvertera resultatet till <strong>versaler<\/strong>.","res_title":"Svarsparametrar (Response)","err_title":"Felkodstabell","err_search_ph":"Sök kod...","th_err_code":"Felkod","th_err_reason":"Orsak till fel / Anmärkning","example_title":"Exempelkod","lbl_method":"Metod","lbl_encrypted_tag":"AES-256-CBC krypterad","lbl_api_index":"API","msg_no_params":"Inga parametrar definierade","msg_code_unavailable":"// Inget kodexempel tillgängligt","nav_versions":"Versionshistorik","versions_title":"Versionshistorik","th_ver_version":"Version","th_ver_date":"Ändringsdatum","th_ver_desc":"Ändringsinnehåll","toc_title":"Innehållsförteckning","api_info_title":"Grundläggande API-information","field_def_title":"Definition av API-fält","doc_desc_title":"Dokumentationsbeskrivning","doc_flowchart_title":"Flödesschema","lbl_launch_type":"Aktiveringstyp","lbl_field_combo_format":"Fältkombinationsformat","lbl_enum_values":"Tillåtna värden","lbl_default_value":"Standardvärde","lbl_is_nullable":"Kan vara Null","lbl_yes":"Ja","lbl_direction":"Riktning","lbl_group_type":"Krypteringsmetod","lbl_location":"Plats för överföring","lbl_belong_to":"Tillhör","msg_req_info":"Denna begäran måste initieras av butiken. Använd <span class=\\\"font-bold text-blue-700\\\">{method}<\/span>-metoden för att paketera parametrarna och placera dem i <span class=\\\"font-bold text-blue-700\\\">{location}<\/span> för överföring.","msg_req_format_qs":"Fälten i detta block måste kombineras med <span class=\\\"font-mono font-bold text-cyan-700\\\">&amp;<\/span>-symbolen till ett Query String-format, till exempel <span class=\\\"font-mono text-cyan-700\\\">key1=val1&amp;key2=val2<\/span>.","msg_req_format_json":"Fälten i detta block måste skickas i ett <span class=\\\"font-bold text-cyan-700\\\">JSON<\/span>-objekt.","msg_req_format_other":"Fälten i detta block kombineras med formatet <span class=\\\"font-bold text-cyan-700\\\">{format}<\/span>.","msg_req_security":"Datasäkerhet: <span class=\\\"font-bold\\\">{group_type}<\/span>-behandling krävs före överföring.","msg_res_info_webhook":"Detta resultat kommer aktivt att pushas av systemet asynkront till den <span class=\\\"font-bold text-green-700\\\">Webhook<\/span>-mottagningsadress som angetts av butiken.","msg_res_info_sync":"Detta resultat kommer att returneras synkront av systemet via <span class=\\\"font-bold text-green-700\\\">{method}<\/span> i <span class=\\\"font-bold text-green-700\\\">{location}<\/span>.","msg_res_format_qs":"De returnerade fälten kommer att kombineras med <span class=\\\"font-mono font-bold text-cyan-700\\\">&amp;<\/span>-symbolen till ett Query String-format, till exempel <span class=\\\"font-mono text-cyan-700\\\">key1=val1&amp;key2=val2<\/span>.","msg_res_format_json":"De returnerade fälten kommer att skickas i ett <span class=\\\"font-bold text-cyan-700\\\">JSON<\/span>-objekt.","msg_res_format_other":"De returnerade fälten kombineras med formatet <span class=\\\"font-bold text-cyan-700\\\">{format}<\/span>.","msg_res_security":"Verifiering och dekryptering: <span class=\\\"font-bold\\\">{group_type}<\/span>-behandling krävs för specifik data efter mottagande.","lbl_sha_pre_hash":"Sträng före kryptering (String to Hash)","ph_sha_pre_hash":"När du klickat på knappen visas den fullständiga strängen som faktiskt krypteras här...","flowchart_0_url":"assets/flowcharts_void-e-receipt-api/fc_4.png"},"meta":{"title":"API för ogiltigförklaring av elektroniska kvitton","subtitle":"Ogiltigförklara redan utfärdade elektroniska kvitton","version":"","sections":[{"id":"section-0","title":"Syfte med integration","desc":"<p><span style=\"color: rgb(0, 0, 0);\">1. Kontakta kundtjänst för att ansöka om IP-inställningar före integration. Antalet IP-adresser som kan ställas in är: 10 stycken.<\/span><\/p><p>2. Elektroniska kvitton med statusen utfärdad kan ogiltigförklaras.<\/p>"},{"id":"section-1","title":"Datautbytesmetod","desc":"<p><span style=\"color: rgb(0, 0, 0);\">1. Resebyrån skickar kvittoinformation till plattformen för elektroniska kvitton via \"HTTP POST\" för utfärdande. <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">2. Content-Type är application/x-www-form-urlencoded. <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">3. Kodningsformatet är UTF-8. <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">4. Plattformen för elektroniska kvitton svarar med en formaterad sträng. <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">5. Beräkningsenheten för varje fält är tecken. Kinesiska tecken, engelska bokstäver, siffror och symboler räknas alla som ett tecken. <\/span><\/p><p><span style=\"color: rgb(0, 0, 0);\">6. Fälten kopplas samman med \"&amp;\". Detta tecken (U+0026) får inte förekomma i fälten.<\/span><\/p>"},{"id":"section-2","title":"Regler för ogiltigförklaring av kvitton","desc":"<p>1.<span style=\"color: rgb(0, 0, 0);\">Kvitton kan \"inte\" ogiltigförklaras efter att en kreditnota har utfärdats och bekräftats.<\/span><\/p><p>2. Bokningskvitton kan inte ogiltigförklaras, de kan endast avbokas.<\/p><p>3.<span style=\"color: rgb(0, 0, 0);\">Efter att ett kvitto ogiltigförklarats kommer plattformen att ladda upp ogiltigförklaringen till skattemyndighetens e-fakturasystem på schemalagt datum (den 1:a i varje udda månad).<\/span><\/p><p>4.<span style=\"color: rgb(0, 0, 0);\">Kvitton kan \"inte\" ogiltigförklaras efter att perioden har passerats. (Varje period omfattar två månader: [jan-feb] är en period, [mar-apr] är en period)<\/span><\/p><p>\t<span style=\"color: rgb(0, 0, 0);\">Exempel: <\/span><\/p><p>\t<span style=\"color: rgb(0, 0, 0);\">(1) Kvitton utfärdade i perioden [jan-feb] måste ogiltigförklaras senast den 14/3. Från och med 15/3 kan de inte längre ogiltigförklaras.<\/span><\/p><p>\t<span style=\"color: rgb(0, 0, 0);\">(2) Kvitton utfärdade i perioden [mar-apr] måste ogiltigförklaras senast den 14/5. Från och med 15/5 kan de inte längre ogiltigförklaras.<\/span><\/p>"},{"id":"section-3","title":"Definitioner","desc":"<p>Ogiltigförklaringssedel: Varje gång ett kvitto ogiltigförklaras skapas en unik post, som kallas ogiltigförklaringssedel eller ogiltigförklaringsdata.<\/p><p>Väntar på ogiltigförklaring: Innan konsumenten godkänt ogiltigförklaringen är kvittot fortfarande giltigt. Under denna tid kallas posten för \"Väntar på ogiltigförklaring\".<\/p>"},{"id":"section-4","title":"Förberedelser inför integration","desc":"<p>(Vänligen slutför dessa, annars kommer programmet att misslyckas)<\/p><p><br><\/p><p> 1. Hämta HashKey / HashIV<\/p><p>- Testmiljö: Logga in i testmiljön → Grundläggande information → API-integrationsinställningar → Kopiera HashKey och HashIV<\/p><p>- Produktionsmiljö: Logga in i produktionsmiljön → Grundläggande information → API-integrationsinställningar → Kopiera HashKey och HashIV<\/p><p><br><\/p><p>2. Ansök om IP-vitlistning<\/p><p>- Ansökan: Ladda ner ansökningsformuläret från webbplatsen, fyll i det och skicka det till kundtjänst (Fax / E-post)<\/p><p>- Max 10 IP-adresser kan ställas in<\/p><p>- Krav: Serverns externa IP (inte internt IP, se https://ifconfig.me)<\/p><p>- Aktiveringstid: Vanligtvis 1-2 arbetsdagar<\/p><p><br><\/p><p>3. Miljö-URL<\/p><p>- Testmiljön och produktionsmiljön är helt separata system och data delas inte. Kontrollera noga att du har bytt till produktions-URL:en före driftsättning.<\/p><p><br><\/p><p>4. Vanliga felmeddelanden vid \"glömda förberedelser\"<\/p><p>- `KEY10001 Inte en IP för resebyråns API-integration` → IP-vitlistan är inte inställd eller är felaktig<\/p><p>- `KEY10002 Fel vid dekryptering av data` → HashKey / HashIV är inkorrekt eller fortfarande ett exempelvärde<\/p><p>- `KEY10009 Kan inte hitta data för resebyråns organisationsnummer` → MerchantID är felaktigt eller inte aktiverat<\/p>"}],"flowcharts":[{"id":"flowchart-0","title":"Flöde för omedelbar ogiltigförklaring av kvitto"}]},"apis":[{"name":"API för ogiltigförklaring av elektroniska kvitton","url_test":"https://capi.travelinvoice.com.tw/invoice_invalid","url_prod":"https://api.travelinvoice.com.tw/invoice_invalid","requests":[{"title":"Post-parametrar","direction":"send","group_type":"Ingen kryptering","param_location":"body","field_combination_format":"String","method":"POST","params":[{"name":"MerchantID_","required":"V","type":"string(8)","label":"Resebyråns organisationsnummer","example":"54352706","must_return":false,"note":"Resebyråns organisationsnummer.","enum_values":"","default_value":"","nullable":false},{"name":"PostData_","required":"V","type":"array","label":"Krypterad data","example":"","must_return":false,"note":"Strängfälten kombineras och krypteras med AES256. Fältbeskrivningar finns i tabellen nedan","enum_values":"","default_value":"","nullable":false}],"children":[{"title":"Fält i PostData_","group_type":"AES-kryptering_sträng","param_location":"body","from_field":"PostData_","params":[{"name":"Version","required":"V","type":"string(5)","label":"Integrationsversion","example":"1.0","must_return":false,"note":"Ska vara 1.0","enum_values":"1.0","default_value":"","nullable":false},{"name":"TimeStamp","required":"V","type":"string(30)","label":"Tidsstämpel","example":"1400137200","must_return":false,"note":"Unix-tidsstämpel (sekunder), det vill säga antal sekunder sedan 1970-01-01 00:00:00 UTC\nExempel: Tidsstämpeln för 2014-05-15 15:00:00 är 1400137200, det rekommenderas att använda aktuell tid","enum_values":"","default_value":"","nullable":false},{"name":"InvoiceNumber","required":"V","type":"string(9)","label":"Kvittonummer","example":"T13671009","must_return":false,"note":"Kvittonummer som ska ogiltigförklaras.","enum_values":"","default_value":"","nullable":false},{"name":"InvalidReason","required":"V","type":"string(10)","label":"Orsak till ogiltigförklaring","example":"Konsumenten avbokade ordern","must_return":false,"note":"Orsak till ogiltigförklaring","enum_values":"","default_value":"","nullable":false},{"name":"SellerName","required":"V","type":"string(50)","label":"Handläggarens namn","example":"Kontaktperson001","must_return":false,"note":"Namn på personen som utför ogiltigförklaringen. Endast för registrering, systemet validerar inte detta. Om det inte fylls i misslyckas utfärdandet och systemet returnerar en felkod.","enum_values":"","default_value":"","nullable":false},{"name":"Status","required":"V","type":"int(1)","label":"Metod för ogiltigförklaring","example":"1","must_return":false,"note":"0=Väntar på ogiltigförklaring (Se beskrivning för API för hantering av väntande ogiltigförklaring för avbokning eller triggning)\n1=Omedelbar ogiltigförklaring","enum_values":"0,1","default_value":"","nullable":false},{"name":"BuyerEmail","required":"","type":"string(100)","label":"E-post för meddelande om ogiltigförklaring","example":"abc@gmail.com","must_return":false,"note":"1. Meddelande om ogiltigförklaring skickas som standard till köparen av plattformen\n2. Om flera e-postadresser ska anges, separera med kommatecken.\n3. Detta fält används för att lägga till fler mottagare. Om dubbletter anges filtrerar plattformen dem för att undvika flera utskick.","enum_values":"","default_value":"","nullable":false}]}]}],"responses":[{"title":"Systemsvar","direction":"receive","group_type":"Ingen kryptering","param_location":"body","field_combination_format":"String","method":"","params":[{"name":"Status","required":"","type":"string(10)","label":"Returstatus","example":"SUCCESS","must_return":true,"note":"1. Om ogiltigförklaringen lyckas returneras SUCCESS\n2. Om ogiltigförklaringen misslyckas returneras en felkod","enum_values":"","default_value":"","nullable":false},{"name":"Message","required":"","type":"string(30)","label":"Returmeddelande","example":"Framgång","must_return":true,"note":"Textbeskrivning av returstatusen","enum_values":"","default_value":"","nullable":false},{"name":"MerchantID","required":"","type":"string(8)","label":"Resebyråkod","example":"54352706","must_return":false,"note":"Resebyråns organisationsnummer","enum_values":"","default_value":"","nullable":false},{"name":"InvalidNo","required":"","type":"string(20)","label":"Löpnummer för ogiltigförklaring","example":"193060","must_return":false,"note":"Löpnumret för den aktuella ogiltigförklaringen eller den väntande ogiltigförklaringen","enum_values":"","default_value":"","nullable":false},{"name":"InvoiceNumber","required":"","type":"string(9)","label":"Kvittonummer","example":"T13671008","must_return":false,"note":"Kvittonumret för den aktuella ogiltigförklaringen eller den väntande ogiltigförklaringen.","enum_values":"","default_value":"","nullable":false},{"name":"CreateTime","required":"","type":"datetime","label":"Tid för utfärdande","example":"2015-07-16 17:00:33","must_return":false,"note":"Tidpunkten då kvittot ogiltigförklarades, t.ex. 2015-07-16 17:00:33.","enum_values":"","default_value":"","nullable":false},{"name":"CheckCode","required":"","type":"string(150)","label":"Kontrollkod","example":"0C69DBB83FD36B6A2B2E9E614DAEA3D91D474C2D8A829870CA91511C55AF2AA","must_return":false,"note":"Används för att kontrollera giltigheten av de returnerade uppgifterna. Vid integration kan detta jämföras för att verifiera att det kommer från plattformen. Se beskrivningen för SHA256-kryptering för metod. Om utfärdandet misslyckas returneras ett tomt värde.\n\nCheckCode = Hashvärde beräknat enligt SHA256-specifikationen baserat på InvoiceTransNo, MerchantID, MerchantOrderNo, RandomNum, TotalAmt\n\nInvoiceTransNo, RandomNum, TotalAmt, MerchantOrderNo ingår inte i detta API-svar. Programmet måste själv spara dessa värden som returnerades vid utfärdandet av kvittot för framtida CheckCode-verifiering.","enum_values":"","default_value":"","nullable":false},{"name":"EndStr","required":"","type":"string(2)","label":"Strängslut","example":"##","must_return":true,"note":"Returnerar alltid ##. Användare som tar emot data som String måste kontrollera EndStr=## för att säkerställa fullständig dataöverföring.","enum_values":"##","default_value":"##","nullable":false}],"children":[]}]}],"errors":[{"code":"KEY10001","reason":"Inte en IP för resebyråns API-integration"},{"code":"KEY10002","reason":"Fel vid dekryptering av data"},{"code":"KEY10003","reason":"Versionsfel"},{"code":"KEY10004","reason":"Ofullständig data"},{"code":"KEY10006","reason":"Resebyrån har inte ansökt om att aktivera elektroniska kvitton"},{"code":"KEY10007","reason":"Sidan har varit inaktiv i mer än 30 minuter"},{"code":"KEY10009","reason":"Kan inte hitta data för resebyråns organisationsnummer"},{"code":"KEY10010","reason":"Resebyråns organisationsnummer är tomt"},{"code":"KEY10011","reason":"PostData_-fältet är tomt"},{"code":"KEY10012","reason":"Dataöverföringsfel"},{"code":"KEY10013","reason":"Tom data"},{"code":"KEY10014","reason":"TimeOut. Avser generellt time out på I/O"},{"code":"KEY10015","reason":"Fel format på kvittobelopp"},{"code":"KEY10019","reason":"Resebyrån har stängts av"},{"code":"NOR10001","reason":"Nätverksfel"},{"code":"INV10015","reason":"Felaktig datalängd i fältet"},{"code":"LIB10001","reason":"Kvittot är inte ett framgångsrikt utfärdat kvitto"},{"code":"LIB10002","reason":"Handläggarnamn är inte ifyllt"},{"code":"LIB10004","reason":"Felaktig metod för ogiltigförklaring"},{"code":"LIB10005","reason":"Kvittot har redan ogiltigförklarats"},{"code":"LIB10006","reason":"Fel vid triggning av ogiltigförklaringstatus"},{"code":"LIB10007","reason":"Kreditnota har redan utfärdats för detta kvitto, det kan inte ogiltigförklaras"},{"code":"LIB10008","reason":"Tidsgränsen för ogiltigförklaring har passerats"},{"code":"LIB10009","reason":"Ogiltigförklaringsdata saknas"},{"code":"LIB10010","reason":"Ogiltigförklaringen har avbrutits"},{"code":"LIB10011","reason":"Status för ogiltigförklaringsdata är 'misslyckad', kan inte ogiltigförklaras igen"}],"versions":[]},
+//瑞典文結束
+};
+        const globalToolsConfig = {"sha":{"enabled":true,"params":{"key_label":"HashKey","iv_label":"HashIV","columns":"InvoiceTransNo,MerchantID,MerchantOrderNo,RandomNum,TotalAmt","encrypt_order":"前IV後KEY"}},"aes_encrypt":{"enabled":true},"aes_decrypt":{"enabled":true}};
+        const globalCodeExamples = {"PHP":"<?php\n/**\n * IMPORTANT: Key and IV values differ between production and test environments — confirm you have obtained the correct credentials for the target environment before use\n * Replace all placeholder constants (e.g. YOUR_HASH_KEY_HERE) with real values before running this code — the code will block and display an error if placeholders are detected\n */\n\n// Define API target credentials\ndefine('MERCHANT_ID', 'YOUR_MERCHANT_ID_HERE');\n// 32 bytes — used for both AES-256 encryption and SHA256 signature (HashKey)\ndefine('AES_KEY', 'YOUR_AES_KEY_HERE');\n// 16 bytes — used for both AES-256 encryption and SHA256 signature (HashIV). IV length is 16 bytes because AES block size is fixed at 16 bytes.\ndefine('AES_IV', 'YOUR_AES_IV_HERE');\n\ndefine('API_URL', 'https://capi.travelinvoice.com.tw/invoice_invalid');\n\n// Guard against placeholder credentials to prevent execution failures\nif (MERCHANT_ID === 'YOUR_MERCHANT_ID_HERE' || AES_KEY === 'YOUR_AES_KEY_HERE' || AES_IV === 'YOUR_AES_IV_HERE') {\n    header('Content-Type: text/html; charset=utf-8');\n    echo '<div style=\"padding: 20px; border: 3px solid #f44336; background-color: #ffebee; color: #c62828; font-family: Arial, sans-serif; border-radius: 5px; margin: 20px; max-width: 800px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);\">';\n    echo '<h3 style=\"margin-top: 0; font-size: 1.25rem;\">Configuration Error<\/h3>';\n    echo '<p style=\"margin-bottom: 10px;\"><strong>Warning:<\/strong> The API credentials (MERCHANT_ID, AES_KEY, AES_IV) are still set to placeholder values.<\/p>';\n    echo '<p style=\"margin: 0; font-size: 0.95rem;\">Please replace these values with your actual integration credentials in the source file before testing the API execution.<\/p>';\n    echo '<\/div>';\n    exit;\n}\n\n// Simulated receipt database record for verification testing.\n// In production, these parameters must be retrieved from local storage matching the original invoice creation.\n$originalReceiptData = [\n    'InvoiceTransNo' => 'TX12345678',\n    'MerchantOrderNo' => 'ORD202310240001',\n    'RandomNum' => '9876',\n    'TotalAmt' => '1500'\n];\n\n/**\n * Encrypts payload string using AES-256-CBC with manual PKCS7 padding (Block size 32).\n *\n * @param string $plaintext Query string of values to encrypt\n * @param string $key AES Key (32 bytes)\n * @param string $iv AES IV (16 bytes)\n * @return string Hexadecimal representation of encrypted data\n * @throws Exception If encryption fails\n */\nfunction encrypt_postdata($plaintext, $key, $iv) {\n    /* NON-STANDARD AES PADDING: PKCS7 with Block Size 32\n     * Standard AES uses PKCS7 padding aligned to a 16-byte block size (AES native block size).\n     * This API uses a non-standard variant where PKCS7 padding is aligned to 32 bytes.\n     * paddingLen = 32 - (plaintext.length % 32), result is always in range 1–32.\n     * Each padding byte value equals paddingLen.\n     * Apply this padding manually; use the cipher's ZERO_PADDING / no-padding flag\n     * to prevent the library from applying its own PKCS7 padding. */\n    $blockSize = 32;\n    $plaintextLength = strlen($plaintext);\n    $paddingLen = $blockSize - ($plaintextLength % $blockSize);\n    $paddedPlaintext = $plaintext . str_repeat(chr($paddingLen), $paddingLen);\n\n    $encrypted = openssl_encrypt(\n        $paddedPlaintext,\n        'AES-256-CBC',\n        $key,\n        OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING,\n        $iv\n    );\n\n    if ($encrypted === false) {\n        throw new Exception('Encryption operation failed in OpenSSL library context.');\n    }\n\n    return bin2hex($encrypted);\n}\n\n/**\n * Verification (驗證回應簽章)\n *\n * Verifies the integrity of the response data by comparing the CheckCode provided\n * in the API response against a newly calculated signature.\n * Uses timing-safe string comparison to protect against timing attacks.\n *\n * @param string $invoiceTransNo Original transaction number stored during receipt creation\n * @param string $merchantId Travel agency VAT ID / Merchant ID\n * @param string $merchantOrderNo Original merchant order number from local store\n * @param string $randomNum Original random number generated during creation\n * @param string $totalAmt Original total amount of the receipt\n * @param string $key AES cryptographic key used as HashKey\n * @param string $iv AES initialization vector used as HashIV\n * @return string Generated signature to compare with response CheckCode\n */\nfunction verify_response_signature($invoiceTransNo, $merchantId, $merchantOrderNo, $randomNum, $totalAmt, $key, $iv) {\n    $raw = 'HashIV=' . $iv .\n           '&InvoiceTransNo=' . $invoiceTransNo .\n           '&MerchantID=' . $merchantId .\n           '&MerchantOrderNo=' . $merchantOrderNo .\n           '&RandomNum=' . $randomNum .\n           '&TotalAmt=' . $totalAmt .\n           '&HashKey=' . $key;\n\n    return strtoupper(hash('sha256', $raw));\n}\n\n// Handle Form Submission\n$executionLog = null;\n$errorDetails = null;\n\nif ($_SERVER['REQUEST_METHOD'] === 'POST') {\n    try {\n        $invoiceNumber = trim($_POST['invoice_number'] ?? '');\n        $invalidReason = trim($_POST['invalid_reason'] ?? '');\n        $sellerName = trim($_POST['seller_name'] ?? '');\n        $status = intval($_POST['status'] ?? 1);\n        $buyerEmail = trim($_POST['buyer_email'] ?? '');\n\n        if (empty($invoiceNumber) || empty($invalidReason) || empty($sellerName)) {\n            throw new Exception('Please fill in all mandatory fields.');\n        }\n\n        // Prepare the internal PostData object\n        $postDataParams = [\n            'Version' => '1.0',\n            'TimeStamp' => (string)time(),\n            'InvoiceNumber' => $invoiceNumber,\n            'InvalidReason' => $invalidReason,\n            'SellerName' => $sellerName,\n            'Status' => $status,\n        ];\n\n        if (!empty($buyerEmail)) {\n            $postDataParams['BuyerEmail'] = $buyerEmail;\n        }\n\n        // Build native querystring format for the inner post payload encryption\n        $plaintextPayload = http_build_query($postDataParams);\n\n        // Encrypt the inner structure using non-standard block size padding logic\n        $encryptedPayload = encrypt_postdata($plaintextPayload, AES_KEY, AES_IV);\n\n        // Prepare raw root payload properties\n        $curlPayload = [\n            'MerchantID_' => MERCHANT_ID,\n            'PostData_' => $encryptedPayload\n        ];\n\n        // Execute API Connection over cURL\n        $ch = curl_init();\n        curl_setopt($ch, CURLOPT_URL, API_URL);\n        curl_setopt($ch, CURLOPT_POST, true);\n        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($curlPayload));\n        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);\n        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);\n        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);\n        curl_setopt($ch, CURLOPT_TIMEOUT, 30);\n\n        $rawResponse = curl_exec($ch);\n\n        if ($rawResponse === false) {\n            $curlError = curl_error($ch);\n            throw new Exception('Network communication failure occurred: ' . $curlError);\n        }\n\n        $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);\n        // curl_close() has no effect in PHP 8.0+ and is intentionally omitted\n\n        if ($httpStatusCode !== 200) {\n            throw new Exception('Remote API server responded with HTTP status error code: ' . $httpStatusCode);\n        }\n\n        // Decode native query string response syntax\n        $parsedResponse = [];\n        parse_str($rawResponse, $parsedResponse);\n\n        // PHP 7.4 compatible checks for EndStr suffix parameter integrity validation\n        $endStrCheckPassed = false;\n        $responseEndString = $parsedResponse['EndStr'] ?? '';\n        if (substr($rawResponse, -2) === '##' && $responseEndString === '##') {\n            $endStrCheckPassed = true;\n        }\n\n        // Validate cryptographic signature check code from server response\n        $signatureCheckPassed = false;\n        $responseStatus = $parsedResponse['Status'] ?? '';\n        $responseCheckCode = $parsedResponse['CheckCode'] ?? '';\n\n        if ($responseStatus === 'SUCCESS' && !empty($responseCheckCode)) {\n            $computedSignature = verify_response_signature(\n                $originalReceiptData['InvoiceTransNo'],\n                MERCHANT_ID,\n                $originalReceiptData['MerchantOrderNo'],\n                $originalReceiptData['RandomNum'],\n                $originalReceiptData['TotalAmt'],\n                AES_KEY,\n                AES_IV\n            );\n            $signatureCheckPassed = hash_equals($computedSignature, $responseCheckCode);\n        }\n\n        $executionLog = [\n            'request_plaintext' => $plaintextPayload,\n            'request_encrypted' => $encryptedPayload,\n            'raw_response' => $rawResponse,\n            'parsed_response' => $parsedResponse,\n            'end_str_validation' => $endStrCheckPassed,\n            'signature_validation' => $signatureCheckPassed\n        ];\n\n    } catch (Exception $e) {\n        $errorDetails = $e->getMessage();\n    }\n}\n?>\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Void Electronic Receipt Client Portal<\/title>\n    <style>\n        body {\n            font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif;\n            line-height: 1.5;\n            color: #333;\n            background-color: #f8f9fa;\n            margin: 0;\n            padding: 20px;\n        }\n        .container {\n            max-width: 1000px;\n            margin: 0 auto;\n        }\n        header {\n            margin-bottom: 30px;\n            padding-bottom: 20px;\n            border-bottom: 1px solid #dee2e6;\n        }\n        h1 {\n            margin: 0 0 10px 0;\n            font-size: 1.75rem;\n            color: #1a0dab;\n        }\n        .grid {\n            display: grid;\n            grid-template-columns: 1fr;\n            gap: 30px;\n        }\n        @media (min-width: 768px) {\n            .grid {\n                grid-template-columns: 450px 1fr;\n            }\n        }\n        .card {\n            background-color: #fff;\n            border: 1px solid #dee2e6;\n            border-radius: 8px;\n            padding: 25px;\n            box-shadow: 0 2px 4px rgba(0,0,0,0.02);\n        }\n        .card-title {\n            margin-top: 0;\n            margin-bottom: 20px;\n            font-size: 1.25rem;\n            border-bottom: 2px solid #e9ecef;\n            padding-bottom: 10px;\n            color: #495057;\n        }\n        .form-group {\n            margin-bottom: 15px;\n        }\n        label {\n            display: block;\n            margin-bottom: 5px;\n            font-weight: 600;\n            font-size: 0.9rem;\n            color: #495057;\n        }\n        .required::after {\n            content: \" *\";\n            color: #dc3545;\n        }\n        input[type=\"text\"], select {\n            width: 100%;\n            padding: 8px 12px;\n            border: 1px solid #ced4da;\n            border-radius: 4px;\n            box-sizing: border-box;\n            font-size: 0.95rem;\n        }\n        input:focus, select:focus {\n            outline: none;\n            border-color: #80bdff;\n            box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);\n        }\n        .btn {\n            background-color: #1a0dab;\n            color: white;\n            border: none;\n            padding: 10px 20px;\n            border-radius: 4px;\n            font-size: 1rem;\n            font-weight: 600;\n            cursor: pointer;\n            width: 100%;\n            transition: background-color 0.2s;\n        }\n        .btn:hover {\n            background-color: #13077a;\n        }\n        .alert {\n            padding: 15px;\n            border-radius: 4px;\n            margin-bottom: 20px;\n            font-size: 0.95rem;\n        }\n        .alert-danger {\n            background-color: #f8d7da;\n            color: #721c24;\n            border: 1px solid #f5c6cb;\n        }\n        .badge {\n            display: inline-block;\n            padding: 4px 8px;\n            font-size: 0.8rem;\n            font-weight: 600;\n            border-radius: 4px;\n            color: #fff;\n        }\n        .badge-success {\n            background-color: #28a745;\n        }\n        .badge-danger {\n            background-color: #dc3545;\n        }\n        pre {\n            background-color: #f1f3f5;\n            padding: 15px;\n            border-radius: 4px;\n            overflow-x: auto;\n            font-size: 0.85rem;\n            margin: 0 0 15px 0;\n            border: 1px solid #e9ecef;\n        }\n        table {\n            width: 100%;\n            border-collapse: collapse;\n            margin-bottom: 20px;\n            font-size: 0.9rem;\n        }\n        th, td {\n            text-align: left;\n            padding: 8px 12px;\n            border-bottom: 1px solid #dee2e6;\n        }\n        th {\n            background-color: #f1f3f5;\n            font-weight: 600;\n        }\n    <\/style>\n<\/head>\n<body>\n    <div class=\"container\">\n        <header>\n            <h1>Void Electronic Receipt API Client<\/h1>\n            <p style=\"margin: 0; color: #6c757d; font-size: 0.95rem;\">API Sandbox: <?php echo htmlspecialchars(API_URL); ?><\/p>\n        <\/header>\n\n        <?php if ($errorDetails): ?>\n            <div class=\"alert alert-danger\">\n                <strong>API Request Execution Failed:<\/strong> <?php echo htmlspecialchars($errorDetails); ?>\n            <\/div>\n        <?php endif; ?>\n\n        <div class=\"grid\">\n            <div>\n                <form action=\"\" method=\"post\" class=\"card\">\n                    <h2 class=\"card-title\">Initiate Void Receipt Request<\/h2>\n                    \n                    <div class=\"form-group\">\n                        <label for=\"invoice_number\" class=\"required\">Invoice Number<\/label>\n                        <input type=\"text\" id=\"invoice_number\" name=\"invoice_number\" value=\"T13671009\" maxlength=\"9\" placeholder=\"e.g. T13671009\" required>\n                    <\/div>\n\n                    <div class=\"form-group\">\n                        <label for=\"invalid_reason\" class=\"required\">Void Reason<\/label>\n                        <input type=\"text\" id=\"invalid_reason\" name=\"invalid_reason\" value=\"Customer cancelled order\" maxlength=\"50\" placeholder=\"Reason for voiding receipt\" required>\n                    <\/div>\n\n                    <div class=\"form-group\">\n                        <label for=\"seller_name\" class=\"required\">Operator Name<\/label>\n                        <input type=\"text\" id=\"seller_name\" name=\"seller_name\" value=\"Operator001\" maxlength=\"50\" placeholder=\"Authorized individual\" required>\n                    <\/div>\n\n                    <div class=\"form-group\">\n                        <label for=\"status\" class=\"required\">Void Logic Execution Type<\/label>\n                        <select id=\"status\" name=\"status\" required>\n                            <option value=\"1\" selected>1 - Immediately Execute Void<\/option>\n                            <option value=\"0\">0 - Queue Pending Void<\/option>\n                        <\/select>\n                    <\/div>\n\n                    <div class=\"form-group\">\n                        <label for=\"buyer_email\">Notify Buyer Email Address<\/label>\n                        <input type=\"text\" id=\"buyer_email\" name=\"buyer_email\" value=\"recipient@example.com\" placeholder=\"Multiple emails separated by comma\">\n                    <\/div>\n\n                    <button type=\"submit\" class=\"btn\">Execute API Request<\/button>\n                <\/form>\n            <\/div>\n\n            <div>\n                <?php if ($executionLog): ?>\n                    <div class=\"card\">\n                        <h2 class=\"card-title\">API Execution Transaction Log<\/h2>\n\n                        <h4>Verification Status Checklist<\/h4>\n                        <table>\n                            <tr>\n                                <th>Verification Component<\/th>\n                                <th>Result Badge<\/th>\n                                <th>Validation Method<\/th>\n                            <\/tr>\n                            <tr>\n                                <td>End String Suffix Check (##)<\/td>\n                                <td>\n                                    <?php if ($executionLog['end_str_validation']): ?>\n                                        <span class=\"badge badge-success\">VALID<\/span>\n                                    <?php else: ?>\n                                        <span class=\"badge badge-danger\">INVALID / ABSENT<\/span>\n                                    <?php endif; ?>\n                                <\/td>\n                                <td>Ensures the response string ends precisely with double hashes.<\/td>\n                            <\/tr>\n                            <tr>\n                                <td>CheckCode Signature Verification<\/td>\n                                <td>\n                                    <?php if ($executionLog['signature_validation']): ?>\n                                        <span class=\"badge badge-success\">VERIFIED<\/span>\n                                    <?php else: ?>\n                                        <span class=\"badge badge-danger\">FAILED TO VERIFY<\/span>\n                                    <?php endif; ?>\n                                <\/td>\n                                <td>SHA256 timing-safe comparison matches original invoice hash parameters.<\/td>\n                            <\/tr>\n                        <\/table>\n\n                        <h4>Encrypted Request Parameters (PostData_)<\/h4>\n                        <div style=\"margin-bottom: 5px; font-weight: 600; font-size: 0.85rem; color: #495057;\">Plaintext Before Encryption:<\/div>\n                        <pre><?php echo htmlspecialchars($executionLog['request_plaintext'] ?? ''); ?><\/pre>\n\n                        <div style=\"margin-bottom: 5px; font-weight: 600; font-size: 0.85rem; color: #495057;\">Encrypted Hex Output:<\/div>\n                        <pre style=\"word-break: break-all;\"><?php echo htmlspecialchars($executionLog['request_encrypted'] ?? ''); ?><\/pre>\n\n                        <h4>Raw Response Payload<\/h4>\n                        <pre><?php echo htmlspecialchars($executionLog['raw_response'] ?? ''); ?><\/pre>\n\n                        <h4>Decoded Response Parameters Array<\/h4>\n                        <table>\n                            <thead>\n                                <tr>\n                                    <th>Response Key<\/th>\n                                    <th>Parameter Value<\/th>\n                                <\/tr>\n                            <\/thead>\n                            <tbody>\n                                <?php foreach ($executionLog['parsed_response'] as $key => $val): ?>\n                                    <tr>\n                                        <td><strong><?php echo htmlspecialchars($key); ?><\/strong><\/td>\n                                        <td><?php echo htmlspecialchars($val); ?><\/td>\n                                    <\/tr>\n                                <?php endforeach; ?>\n                            <\/tbody>\n                        <\/table>\n                    <\/div>\n                <?php else: ?>\n                    <div class=\"card\" style=\"display: flex; align-items: center; justify-content: center; height: 100%; min-height: 250px; text-align: center; color: #6c757d;\">\n                        <div>\n                            <p style=\"font-size: 1.2rem; margin-bottom: 5px;\">Awaiting Submission<\/p>\n                            <p style=\"margin: 0; font-size: 0.9rem;\">Fill out the parameters and click \"Execute API Request\" to view transaction logs.<\/p>\n                        <\/div>\n                    <\/div>\n                <?php endif; ?>\n            <\/div>\n        <\/div>\n    <\/div>\n<\/body>\n<\/html>"};
+
+        let currentLang = Object.keys(docConfig)[0];
+        
+        // 在這裡讀取網址參數，若有 lang 參數且存在於設定檔中，則覆蓋預設語系
+        const initialUrlParams = new URLSearchParams(window.location.search);
+        if (initialUrlParams.has('lang') && docConfig[initialUrlParams.get('lang')]) {
+            currentLang = initialUrlParams.get('lang');
+        }
+
+        let currentCodeTab = 'php';
+        
+        // 全域搜尋狀態變數
+        let searchMarks = [];
+        let currentMarkIndex = -1;
+
+        function getMsg(ui, key, defaultMsg, replacements) {
+            var msg = ui[key] || defaultMsg;
+            if (replacements) {
+                for (var k in replacements) {
+                    msg = msg.replace(new RegExp('\\{' + k + '\\}', 'g'), replacements[k]);
+                }
+            }
+            return msg;
+        }
+
+        function renderAll() {
+            renderMetaInfo();
+            renderCustomSections();
+            renderFlowcharts();
+            renderToolTabs();
+            renderEncryptionRules();
+            renderSidebarAPIs(docConfig[currentLang].apis);
+            renderAPIs(docConfig[currentLang].apis);
+            renderErrorTable(docConfig[currentLang].errors, 'error-table-body');
+            renderCodeTabs();
+            loadCode(currentCodeTab);
+            renderVersions();
+            initScrollSpy();
+        }
+
+        function initScrollSpy() {
+            var navLinks = document.querySelectorAll('.nav-link');
+            var sections = Array.from(document.querySelectorAll('section[id], div.api-section[id]'));
+            function onScroll() {
+                var currentId = '';
+                var scrollPos = window.scrollY || document.documentElement.scrollTop;
+                for (var i = 0; i < sections.length; i++) {
+                    if (scrollPos >= sections[i].offsetTop - 100) { currentId = sections[i].getAttribute('id'); }
+                }
+                navLinks.forEach(function(link) {
+                    link.classList.remove('sidebar-active');
+                    if (link.getAttribute('href') === '#' + currentId) { link.classList.add('sidebar-active'); }
+                });
+            }
+            window.removeEventListener('scroll', onScroll);
+            window.addEventListener('scroll', onScroll);
+            setTimeout(onScroll, 100);
+        }
+
+        function initSearch() {
+            var searchInput = document.getElementById('errorSearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', function(e) {
+                    var term = e.target.value.toLowerCase().trim();
+                    var allErrors = docConfig[currentLang].errors || [];
+                    var filtered = allErrors.filter(function(err) {
+                        return err.code.toLowerCase().includes(term) || err.reason.toLowerCase().includes(term);
+                    });
+                    renderErrorTable(filtered, 'error-table-body');
+                });
+            }
+        }
+
+        function renderCustomSections() {
+            var navContainer = document.getElementById('dynamic-sidebar-links');
+            var contentContainer = document.getElementById('dynamic-content-sections');
+            var sections = docConfig[currentLang].meta.sections || [];
+            var navHtml = '', contentHtml = '';
+            
+            // 清空容器，確保重新渲染時不會重複疊加
+            if (navContainer) navContainer.innerHTML = '';
+            if (contentContainer) contentContainer.innerHTML = '';
+
+            sections.forEach(function(sec, index) {
+                var sectionId = sec.id || ('custom-section-' + index);
+                var iconClass = sec.icon || 'fas fa-bookmark';
+                var markerColor = sec.markerColor || 'bg-blue-600';
+                navHtml += '<a href="#' + sectionId + '" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group"><i class="' + iconClass + ' w-6 group-hover:text-blue-500 transition-colors"></i> <span>' + sec.title + '</span></a>';
+                var sectionBody = '';
+                if (sec.desc && sec.desc.trim() !== '') {
+                    sectionBody += '<div class="text-slate-700 leading-relaxed text-base whitespace-pre-line mb-6 last:mb-0">' + sec.desc + '</div>';
+                }
+                if (sec.images && sec.images.length > 0) {
+                    sectionBody += '<div class="space-y-8">' + sec.images.map(function(url) {
+                        return '<div class="border rounded-lg overflow-hidden cursor-pointer" onclick="openLightbox(\'' + url + '\')"><img src="' + url + '" class="w-full h-auto hover:opacity-90 transition-opacity"></div>';
+                    }).join('') + '</div>';
+                }
+                contentHtml += '<section id="' + sectionId + '" class="mb-12 scroll-mt-24"><div class="flex items-center mb-6"><div class="w-2 h-8 ' + markerColor + ' mr-4 rounded-sm"></div><h2 class="text-2xl font-bold text-slate-900">' + sec.title + '</h2></div><div class="bg-white p-6 lg:p-8 rounded-xl shadow-sm border border-slate-200">' + sectionBody + '</div></section>';
+            });
+
+            if (navContainer) navContainer.innerHTML = navHtml;
+            if (contentContainer) {
+                contentContainer.innerHTML = contentHtml;
+                
+                var descImages = contentContainer.querySelectorAll('img');
+                descImages.forEach(function(img) {
+                    img.classList.add('cursor-pointer', 'hover:opacity-90', 'transition-opacity');
+                    img.onclick = function() {
+                        openLightbox(this.src);
+                    };
+                });
+            }
+        }
+
+        function renderFlowcharts() {
+            var meta = docConfig[currentLang].meta;
+            var ui = docConfig[currentLang].ui;
+            var flowcharts = meta.flowcharts || [];
+            
+            if (flowcharts.length === 0) return;
+
+            var navContainer = document.getElementById('dynamic-sidebar-links');
+            var contentContainer = document.getElementById('dynamic-content-sections');
+            
+            var navHtml = '';
+            var contentHtml = '';
+
+            flowcharts.forEach(function(fc) {
+                var sectionId = fc.id; 
+                if (!sectionId) return;
+                var title = fc.title || '流程圖';
+                
+                // 將 id 的中線轉換為底線，對應 ui 的 key (例如 flowchart-0 -> flowchart_0_url)
+                var urlKey = sectionId.replace(/-/g, '_') + '_url'; 
+                var imgUrl = ui[urlKey];
+
+                if (!imgUrl) return; // 如果 ui 中沒有此網址則跳過
+
+                navHtml += '<a href="#' + sectionId + '" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group"><i class="fas fa-project-diagram w-6 group-hover:text-blue-500 transition-colors"></i> <span>' + title + '</span></a>';
+
+                contentHtml += '<section id="' + sectionId + '" class="mb-12 scroll-mt-24"><div class="flex items-center mb-6"><div class="w-2 h-8 bg-indigo-500 mr-4 rounded-sm"></div><h2 class="text-2xl font-bold text-slate-900">' + title + '</h2></div><div class="bg-white p-6 lg:p-8 rounded-xl shadow-sm border border-slate-200 overflow-x-auto text-center"><img src="' + imgUrl + '" alt="' + title + '" class="inline-block max-w-full h-auto cursor-pointer hover:opacity-90 transition-opacity" onclick="openLightbox(\'' + imgUrl + '\')"></div></section>';
+            });
+
+            // 以附加方式將流程圖區域加入現有容器，保留 renderCustomSections 所建立的內容
+            if (navContainer && navHtml) navContainer.insertAdjacentHTML('beforeend', navHtml);
+            if (contentContainer && contentHtml) contentContainer.insertAdjacentHTML('beforeend', contentHtml);
+        }
+
+        function renderToolTabs() {
+            var container = document.getElementById('tool-tabs-container');
+            var ui = docConfig[currentLang].ui;
+            var config = globalToolsConfig;
+            var html = '';
+            if (config.aes_encrypt && config.aes_encrypt.enabled) {
+                html += '<button onclick="switchToolTab(\'tool-aes-encrypt\', event)" class="tool-tab-btn flex-1 py-4 text-sm font-bold text-center hover:bg-slate-50 transition border-b-2 border-transparent text-slate-500"><i class="fas fa-lock mr-2"></i> <span>' + ui.tool_tab_encrypt + '</span></button>';
+            }
+            if (config.aes_decrypt && config.aes_decrypt.enabled) {
+                html += '<button onclick="switchToolTab(\'tool-aes-decrypt\', event)" class="tool-tab-btn flex-1 py-4 text-sm font-bold text-center hover:bg-slate-50 transition border-b-2 border-transparent text-slate-500"><i class="fas fa-unlock mr-2"></i> <span>' + ui.tool_tab_decrypt + '</span></button>';
+            }
+            if (config.sha && config.sha.enabled) {
+                html += '<button onclick="switchToolTab(\'tool-sha\', event)" class="tool-tab-btn flex-1 py-4 text-sm font-bold text-center hover:bg-slate-50 transition border-b-2 border-transparent text-slate-500"><i class="fas fa-fingerprint mr-2"></i> <span>' + ui.tool_tab_sha + '</span></button>';
+            }
+            if (container) container.innerHTML = html;
+            if (config.sha && config.sha.enabled) { renderSHAInputs(); }
+            var firstBtn = container ? container.querySelector('.tool-tab-btn') : null;
+            if (firstBtn) firstBtn.click();
+            var toolSection = document.getElementById('tool');
+            if (toolSection) {
+                if (html !== '') toolSection.classList.remove('hidden');
+                else toolSection.classList.add('hidden');
+            }
+        }
+
+        function renderSHAInputs() {
+            var container = document.getElementById('sha-inputs-area');
+            if (!container) return;
+            var config = globalToolsConfig.sha.params;
+            var columns = config.columns ? config.columns.split(',').map(function(s) { return s.trim(); }) : [];
+            var html = '';
+            columns.forEach(function(col) {
+                html += '<div><label class="block text-xs font-bold text-slate-500 uppercase mb-1">' + col + '</label><input type="text" id="sha_param_' + col + '" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm text-slate-600 bg-white shadow-sm"></div>';
+            });
+            container.innerHTML = html;
+        }
+
+        function renderEncryptionRules() {
+            var config = globalToolsConfig;
+            var ui = docConfig[currentLang].ui;
+            var section = document.getElementById('encryption');
+            var aesBlock = document.getElementById('enc-rule-aes');
+            var shaBlock = document.getElementById('enc-rule-sha');
+            var navLink = document.getElementById('nav-encryption-link');
+            
+            if (!section || !aesBlock || !shaBlock) return;
+            
+            var hasContent = false;
+
+            if (config.aes_encrypt && config.aes_encrypt.enabled) { 
+                aesBlock.classList.remove('hidden'); 
+                hasContent = true; 
+                let stepHtml = '';
+                let i = 1;
+                while (ui['enc_step' + i + '_title']) {
+                    stepHtml += '<div class="flex"><div class="flex-shrink-0 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold">' + i + '</div><div class="ml-4"><h4 class="font-bold text-slate-800">' + ui['enc_step' + i + '_title'] + '</h4><p class="text-sm text-slate-600 mt-1">' + (ui['enc_step' + i + '_desc'] || '') + '</p></div></div>';
+                    i++;
+                }
+                let stepsContainer = document.getElementById('enc-rule-aes-steps');
+                if (stepsContainer) stepsContainer.innerHTML = stepHtml;
+            } else { 
+                aesBlock.classList.add('hidden'); 
+            }
+
+            if (config.sha && config.sha.enabled) { 
+                shaBlock.classList.remove('hidden'); 
+                hasContent = true; 
+                let stepHtml = '';
+                let i = 1;
+                while (ui['enc_sha_step' + i + '_title']) {
+                    let desc = ui['enc_sha_step' + i + '_desc'] || '';
+                    
+                    if (config.sha.params) {
+                        let shaConfig = config.sha.params;
+                        let columns = shaConfig.columns ? shaConfig.columns.split(',').map(function(s) { return s.trim(); }) : [];
+                        let keyLabel = shaConfig.key_label || 'HashKey';
+                        let ivLabel = shaConfig.iv_label || 'HashIV';
+
+                        if (columns.length > 0) {
+                            if (i === 1) {
+                                let actualCols = columns.join(', ');
+                                let colsHtml = '<span class="font-mono text-purple-700 font-bold bg-purple-100 px-1.5 py-0.5 rounded border border-purple-200 mx-1">' + actualCols + '</span>';
+                                
+                                if (desc.includes('指定參數') && !desc.includes(colsHtml)) {
+                                    desc = desc.replace('指定參數', '指定參數 ' + colsHtml);
+                                } else if (desc.includes('specified parameters') && !desc.includes(colsHtml)) {
+                                    desc = desc.replace('specified parameters', 'specified parameters ' + colsHtml);
+                                } else if (!desc.includes(colsHtml) && !desc.includes('PostData_')) {
+                                    desc += ' ' + colsHtml;
+                                }
+                            }
+
+                            let sortedCols = columns.slice().sort();
+                            let mockQueryString = sortedCols.map(function(col, idx) { return col + '=val' + (idx + 1); }).join('&');
+
+                            if (desc.includes('(key1=val1&key2=val2...)')) {
+                                let replaceStr = '<span class="font-mono text-blue-700 font-bold bg-blue-50 px-1 rounded">(' + mockQueryString + ')</span>';
+                                desc = desc.replace('(key1=val1&key2=val2...)', replaceStr);
+                            }
+
+                            if (desc.includes('HashKey=...&[SortedParams]&HashIV=...')) {
+                                let fullMockString = keyLabel + '=[keyval]&' + mockQueryString + '&' + ivLabel + '=[ivval]';
+                                let replaceStr = '<span class="font-mono text-blue-700 font-bold bg-blue-50 px-1 rounded break-all">' + fullMockString + '</span>';
+                                desc = desc.replace('HashKey=...&[SortedParams]&HashIV=...', replaceStr);
+                            }
+                        }
+                    }
+                    
+                    stepHtml += '<div class="flex"><div class="flex-shrink-0 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold">' + i + '</div><div class="ml-4"><h4 class="font-bold text-slate-800">' + ui['enc_sha_step' + i + '_title'] + '</h4><p class="text-sm text-slate-600 mt-1">' + desc + '</p></div></div>';
+                    i++;
+                }
+                let stepsContainer = document.getElementById('enc-rule-sha-steps');
+                if (stepsContainer) stepsContainer.innerHTML = stepHtml;
+            } else { 
+                shaBlock.classList.add('hidden'); 
+            }
+
+            if (hasContent) { 
+                section.classList.remove('hidden'); 
+                if (navLink) navLink.classList.remove('hidden'); 
+            } else { 
+                section.classList.add('hidden'); 
+                if (navLink) navLink.classList.add('hidden'); 
+            }
+        }
+
+        function switchToolTab(tabId, event) {
+            document.querySelectorAll('.tool-content').forEach(function(el) { el.classList.add('hidden'); });
+            document.querySelectorAll('.tool-tab-btn').forEach(function(el) {
+                el.classList.remove('active', 'border-purple-600', 'text-purple-600');
+                el.classList.add('border-transparent', 'text-slate-500');
+            });
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.remove('border-transparent', 'text-slate-500');
+                event.currentTarget.classList.add('active', 'border-purple-600', 'text-purple-600');
+            }
+            var targetContent = document.getElementById(tabId);
+            if (targetContent) targetContent.classList.remove('hidden');
+
+            var ui = docConfig[currentLang].ui;
+            var lblKey = document.getElementById('lbl-tool-key');
+            var lblIv = document.getElementById('lbl-tool-iv');
+            if (lblKey && lblIv) {
+                if (tabId === 'tool-sha') {
+                    var shaConfig = (globalToolsConfig.sha && globalToolsConfig.sha.params) ? globalToolsConfig.sha.params : {};
+                    var kLabel = shaConfig.key_label !== undefined ? shaConfig.key_label : 'HashKey';
+                    var iLabel = shaConfig.iv_label !== undefined ? shaConfig.iv_label : 'HashIV';
+                    lblKey.innerHTML = kLabel + ' <span class="text-[10px] text-slate-400 font-normal ml-1">(Key)</span>';
+                    lblIv.innerHTML = iLabel + ' <span class="text-[10px] text-slate-400 font-normal ml-1">(IV)</span>';
+                } else {
+                    lblKey.innerHTML = ui.tool_lbl_key || 'KEY';
+                    lblIv.innerHTML = ui.tool_lbl_iv || 'IV';
+                }
+            }
+        }
+
+        function getKeys() {
+            var ui = docConfig[currentLang].ui;
+            var key = document.getElementById('toolKey').value.trim();
+            var iv = document.getElementById('toolIv').value.trim();
+            if (!key || !iv) { alert(ui.tool_alert_missing_key); return null; }
+            return { key: key, iv: iv };
+        }
+
+        function runEncrypt() {
+            var ui = docConfig[currentLang].ui;
+            var keys = getKeys(); if (!keys) return;
+            var data = document.getElementById('encryptInput').value.trim();
+            if (!data) return alert(ui.tool_alert_missing_data);
+            try {
+                var keyHex = CryptoJS.enc.Utf8.parse(keys.key);
+                var ivHex = CryptoJS.enc.Utf8.parse(keys.iv);
+                var encrypted = CryptoJS.AES.encrypt(data, keyHex, { iv: ivHex, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+                document.getElementById('encryptOutput').value = encrypted.ciphertext.toString(CryptoJS.enc.Hex);
+            } catch (e) { alert(ui.tool_alert_encrypt_fail + e.message); }
+        }
+
+        function runDecrypt() {
+            var ui = docConfig[currentLang].ui;
+            var keys = getKeys(); if (!keys) return;
+            var hexStr = document.getElementById('decryptInput').value.trim();
+            if (!hexStr) return alert(ui.tool_alert_missing_hex);
+            try {
+                var keyHex = CryptoJS.enc.Utf8.parse(keys.key);
+                var ivHex = CryptoJS.enc.Utf8.parse(keys.iv);
+                var encryptedHex = CryptoJS.enc.Hex.parse(hexStr);
+                var encryptedBase64 = CryptoJS.enc.Base64.stringify(encryptedHex);
+                var decrypted = CryptoJS.AES.decrypt(encryptedBase64, keyHex, { iv: ivHex, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+                document.getElementById('decryptOutput').value = decrypted.toString(CryptoJS.enc.Utf8);
+            } catch (e) { alert(ui.tool_alert_decrypt_fail); }
+        }
+
+        function runSHA() {
+            var ui = docConfig[currentLang].ui;
+            var keys = getKeys(); if (!keys) return;
+            var config = (globalToolsConfig.sha && globalToolsConfig.sha.params) ? globalToolsConfig.sha.params : {};
+            var columns = config.columns ? config.columns.split(',').map(function(s) { return s.trim(); }) : [];
+            try {
+                var params = {};
+                columns.forEach(function(col) {
+                    var input = document.getElementById('sha_param_' + col);
+                    if (input) params[col] = input.value.trim();
+                });
+                var sortedKeys = Object.keys(params).sort();
+                var sortedString = sortedKeys.map(function(key) { return key + '=' + params[key]; }).join('&');
+                
+                var keyLabel = config.key_label !== undefined ? config.key_label : 'HashKey';
+                var ivLabel = config.iv_label !== undefined ? config.iv_label : 'HashIV';
+                
+                var finalStringParts = [];
+                if (keyLabel && keys.key) finalStringParts.push(keyLabel + '=' + keys.key);
+                if (sortedString) finalStringParts.push(sortedString);
+                if (ivLabel && keys.iv) finalStringParts.push(ivLabel + '=' + keys.iv);
+                
+                var finalString = finalStringParts.join('&');
+                
+                var preHashEl = document.getElementById('shaPreHashOutput');
+                if (preHashEl) preHashEl.value = finalString;
+
+                document.getElementById('shaOutput').value = CryptoJS.SHA256(finalString).toString(CryptoJS.enc.Hex).toUpperCase();
+            } catch (e) { alert('SHA calculation failed: ' + e.message); }
+        }
+
+        function renderMetaInfo() {
+            var meta = docConfig[currentLang].meta;
+            var ui = docConfig[currentLang].ui;
+            
+            document.getElementById('head-title').textContent = ui.head_title || meta.title || 'API Document';
+            document.getElementById('mobile-header-title').textContent = meta.title;
+            document.getElementById('sidebar-subtitle').textContent = meta.subtitle;
+            document.getElementById('sidebar-version').textContent = meta.version;
+            
+            var sysNameEl = document.getElementById('meta-system-name');
+            var copyEl = document.getElementById('meta-copyright');
+            if(sysNameEl) sysNameEl.textContent = ui.system_name || '';
+            if(copyEl) copyEl.textContent = ui.copyright || '';
+        }
+
+        function renderSidebarAPIs(apis) {
+            var container = document.getElementById('sidebar-api-list');
+            container.innerHTML = apis.map(function(api, index) {
+                return '<a href="#api-' + index + '" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg group pl-6"><i class="fas fa-angle-right w-4 text-slate-400 group-hover:text-blue-500 mr-2"></i> <span>' + api.name + '</span></a>';
+            }).join('');
+        }
+
+        function renderAPIs(apis) {
+            var container = document.getElementById('api-groups-container');
+            container.innerHTML = '';
+            var ui = docConfig[currentLang].ui;
+            var thExample = ui.th_example || (currentLang === 'zh-TW' ? '範例' : 'Example');
+            
+            var lblDirection = ui.lbl_direction || "方向 (Direction)";
+            var lblGroupType = ui.lbl_group_type || "加密方式 (Group Type)";
+            var lblLocation = ui.lbl_location || "傳遞位置 (Location)";
+            var lblBelongTo = ui.lbl_belong_to || "隸屬";
+            var lblFieldComboFormat = ui.lbl_field_combo_format || "欄位組合格式";
+
+            apis.forEach(function(api, index) {
+                var groupDiv = document.createElement('div');
+                groupDiv.id = 'api-' + index;
+                groupDiv.className = 'api-section mb-16 scroll-mt-24 border-b-2 border-slate-100 pb-12 last:border-0';
+                var headerHtml = '<div class="flex items-center mb-6"><div class="bg-blue-600 text-white font-bold px-3 py-1 rounded text-sm mr-3">' + ui.lbl_api_index + ' ' + (index + 1) + '</div><h3 class="text-2xl font-bold text-slate-800">' + api.name + '</h3></div>' +
+                    '<div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8"><div class="grid grid-cols-1 gap-4 text-sm">' +
+                    '<div class="bg-slate-50 p-3 rounded border border-slate-100"><div><div class="text-xs text-slate-500 uppercase mb-1">' + ui.req_url_prod + '</div><div class="font-mono text-blue-600 select-all font-medium break-all">' + api.url_prod + '</div></div>' +
+                    '<div class="border-t border-slate-200 pt-2 mt-2"><div class="text-xs text-slate-500 uppercase mb-1">' + ui.req_url_test + '</div><div class="font-mono text-slate-500 select-all break-all">' + api.url_test + '</div></div></div></div></div>';
+                
+                var requestHtml = '';
+                if (api.requests && api.requests.length > 0) {
+                    requestHtml += '<div class="mb-6"><h4 class="text-lg font-bold text-slate-700 mb-3 border-l-4 border-blue-500 pl-3">' + ui.req_title + '</h4>';
+                    api.requests.forEach(function(reqTable) {
+                        var badges = [];
+                        if (reqTable.method) badges.push('<span class="font-mono font-bold text-green-700 text-xs bg-green-100 border border-green-200 px-2 py-0.5 rounded ml-2" title="Method">' + reqTable.method + '</span>');
+                        if (reqTable.direction) badges.push('<span class="font-mono font-bold text-blue-700 text-xs bg-blue-100 border border-blue-200 px-2 py-0.5 rounded ml-2" title="' + lblDirection + '"><i class="fas fa-exchange-alt mr-1"></i>' + reqTable.direction + '</span>');
+                        if (reqTable.group_type) badges.push('<span class="font-mono font-bold text-purple-700 text-xs bg-purple-100 border border-purple-200 px-2 py-0.5 rounded ml-2" title="' + lblGroupType + '"><i class="fas fa-shield-alt mr-1"></i>' + reqTable.group_type + '</span>');
+                        if (reqTable.param_location) badges.push('<span class="font-mono font-bold text-orange-700 text-xs bg-orange-100 border border-orange-200 px-2 py-0.5 rounded ml-2" title="' + lblLocation + '"><i class="fas fa-map-marker-alt mr-1"></i>' + reqTable.param_location + '</span>');
+                        if (reqTable.field_combination_format) {
+                            var reqFcfIcon = reqTable.field_combination_format.toUpperCase() === 'JSON' ? 'fa-brackets-curly' : 'fa-link';
+                            badges.push('<span class="font-mono font-bold text-cyan-700 text-xs bg-cyan-100 border border-cyan-200 px-2 py-0.5 rounded ml-2" title="' + lblFieldComboFormat + '"><i class="fas ' + reqFcfIcon + ' mr-1"></i>' + reqTable.field_combination_format + '</span>');
+                        }
+                        
+                        var badgesHtml = badges.join('');
+                        
+                        var methodText = reqTable.method || 'POST';
+                        var locText = reqTable.param_location || 'body';
+                        var infoText = getMsg(ui, 'msg_req_info', '本請求需由商店端發動，請以 <span class="font-bold text-blue-700">{method}</span> 方式，將參數打包並放置於 <span class="font-bold text-blue-700">{location}</span> 進行傳輸。', {method: methodText, location: locText});
+
+                        if (reqTable.field_combination_format) {
+                            var reqFcf = reqTable.field_combination_format;
+                            var reqFcfText = '';
+                            if (reqFcf.toUpperCase() === 'STRING') {
+                                reqFcfText = getMsg(ui, 'msg_req_format_qs', '本表格中的欄位需以 <span class="font-mono font-bold text-cyan-700">&amp;</span> 符號組合為查詢字串 (Query String) 格式，例如 <span class="font-mono text-cyan-700">key1=val1&amp;key2=val2</span>。');
+                            } else if (reqFcf.toUpperCase() === 'JSON') {
+                                reqFcfText = getMsg(ui, 'msg_req_format_json', '本表格中的欄位需放置於 <span class="font-bold text-cyan-700">JSON</span> 物件中傳遞。');
+                            } else {
+                                reqFcfText = getMsg(ui, 'msg_req_format_other', '本表格中的欄位採用 <span class="font-bold text-cyan-700">{format}</span> 格式組合。', {format: reqFcf});
+                            }
+                            infoText += '<div class="mt-1.5 text-cyan-700"><i class="fas fa-puzzle-piece mr-1 opacity-80"></i> ' + lblFieldComboFormat + '：' + reqFcfText + '</div>';
+                        }
+                        if (reqTable.group_type && reqTable.group_type !== '無加密') {
+                            infoText += '<div class="mt-1.5 text-purple-700"><i class="fas fa-shield-alt mr-1 opacity-80"></i> ' + getMsg(ui, 'msg_req_security', '資料安全：傳輸前需完成 <span class="font-bold">{group_type}</span> 處理。', {group_type: reqTable.group_type}) + '</div>';
+                        }
+                        var infoCardHtml = '<div class="px-4 py-3 bg-blue-50/50 border-b border-blue-100 flex items-start gap-3"><i class="fas fa-info-circle text-blue-500 mt-0.5"></i><div class="text-sm text-slate-700 leading-relaxed">' + infoText + '</div></div>';
+
+                        var hasChildren = (reqTable.children && reqTable.children.length > 0);
+                        var reqMarginClass = hasChildren ? 'mb-2' : 'mb-6';
+
+                        requestHtml += '<div class="bg-white rounded-xl border border-slate-200 overflow-hidden relative z-10 ' + reqMarginClass + '"><div class="p-3 bg-slate-50 border-b flex items-center flex-wrap gap-2"><span class="text-sm font-bold text-slate-600">' + reqTable.title + '</span>' + badgesHtml + '</div>' +
+                            infoCardHtml +
+                            '<div class="overflow-x-auto"><table class="w-full min-w-[800px] text-sm params-table"><thead class="bg-slate-50 border-b"><tr>' +
+                            '<th class="px-6 py-4 text-left w-[20%]">' + ui.th_param + '</th><th class="px-6 py-4 text-left w-[15%]">' + ui.th_name + '</th>' +
+                            '<th class="px-6 py-4 text-center w-[8%]">' + ui.th_required + '</th><th class="px-6 py-4 text-left w-[12%]">' + ui.th_type + '</th>' +
+                            '<th class="px-6 py-4 text-left w-[15%]">' + thExample + '</th><th class="px-6 py-4 text-left w-[30%]">' + ui.th_note + '</th></tr></thead>' +
+                            '<tbody class="divide-y divide-slate-200">' + generateTableRows(reqTable.params, ui) + '</tbody></table></div></div>';
+
+                        if (hasChildren) {
+                            reqTable.children.forEach(function(childTable) {
+                                var childBadges = [];
+                                if (childTable.group_type) childBadges.push('<span class="font-mono font-bold text-purple-700 text-xs bg-purple-100 border border-purple-200 px-2 py-0.5 rounded ml-2" title="' + lblGroupType + '"><i class="fas fa-shield-alt mr-1"></i>' + childTable.group_type + '</span>');
+                                if (childTable.param_location) childBadges.push('<span class="font-mono font-bold text-orange-700 text-xs bg-orange-100 border border-orange-200 px-2 py-0.5 rounded ml-2" title="' + lblLocation + '"><i class="fas fa-map-marker-alt mr-1"></i>' + childTable.param_location + '</span>');
+                                if (childTable.from_field) childBadges.push('<span class="font-mono font-bold text-teal-700 text-xs bg-teal-100 border border-teal-200 px-2 py-0.5 rounded ml-2" title="' + lblBelongTo + '"><i class="fas fa-level-down-alt mr-1"></i>' + lblBelongTo + ': ' + childTable.from_field + '</span>');
+                                if (childTable.field_combination_format) {
+                                    var reqChildFcfIcon = childTable.field_combination_format.toUpperCase() === 'JSON' ? 'fa-brackets-curly' : 'fa-link';
+                                    childBadges.push('<span class="font-mono font-bold text-cyan-700 text-xs bg-cyan-100 border border-cyan-200 px-2 py-0.5 rounded ml-2" title="' + lblFieldComboFormat + '"><i class="fas ' + reqChildFcfIcon + ' mr-1"></i>' + childTable.field_combination_format + '</span>');
+                                }
+                                
+                                var childBadgesHtml = childBadges.join('');
+                                var childInfoText = '';
+                                var reqChildInfoParts = [];
+                                if (childTable.field_combination_format) {
+                                    var reqCFcf = childTable.field_combination_format;
+                                    var reqCFcfText = '';
+                                    if (reqCFcf.toUpperCase() === 'STRING') {
+                                        reqCFcfText = getMsg(ui, 'msg_req_format_qs', '本區塊欄位需以 <span class="font-mono font-bold text-cyan-700">&amp;</span> 符號組合為查詢字串 (Query String) 格式，例如 <span class="font-mono text-cyan-700">key1=val1&amp;key2=val2</span>。');
+                                    } else if (reqCFcf.toUpperCase() === 'JSON') {
+                                        reqCFcfText = getMsg(ui, 'msg_req_format_json', '本區塊欄位需放置於 <span class="font-bold text-cyan-700">JSON</span> 物件中傳遞。');
+                                    } else {
+                                        reqCFcfText = getMsg(ui, 'msg_req_format_other', '本區塊欄位採用 <span class="font-bold text-cyan-700">{format}</span> 格式組合。', {format: reqCFcf});
+                                    }
+                                    reqChildInfoParts.push('<div class="flex items-start gap-3"><i class="fas fa-puzzle-piece text-cyan-500 mt-0.5"></i><div class="text-xs text-slate-600 leading-relaxed">' + lblFieldComboFormat + '：' + reqCFcfText + '</div></div>');
+                                }
+                                if (childTable.group_type && childTable.group_type !== '無加密') {
+                                    reqChildInfoParts.push('<div class="flex items-start gap-3"><i class="fas fa-shield-alt text-purple-500 mt-0.5"></i><div class="text-xs text-slate-600 leading-relaxed">' + getMsg(ui, 'msg_req_security', '資料安全：本區塊欄位需完成 <span class="font-bold text-purple-700">{group_type}</span> 處理。', {group_type: childTable.group_type}) + '</div></div>');
+                                }
+                                if (reqChildInfoParts.length > 0) {
+                                    childInfoText = '<div class="px-4 py-2 bg-slate-50 border-b border-slate-200 space-y-1.5">' + reqChildInfoParts.join('') + '</div>';
+                                }
+
+                                requestHtml += '<div class="ml-6 md:ml-12 mb-6 relative">';
+                                requestHtml += '<div class="absolute -left-4 md:-left-8 top-[-8px] w-4 md:w-8 h-10 border-b-2 border-l-2 border-slate-300 rounded-bl-xl z-0"></div>';
+                                requestHtml += '<div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm relative z-10">';
+                                requestHtml += '<div class="p-3 bg-slate-100 border-b flex items-center flex-wrap gap-2"><span class="text-sm font-bold text-slate-700"><i class="fas fa-stream text-slate-400 mr-2"></i>' + childTable.title + '</span>' + childBadgesHtml + '</div>';
+                                requestHtml += childInfoText;
+                                requestHtml += '<div class="overflow-x-auto"><table class="w-full min-w-[800px] text-sm params-table"><thead class="bg-slate-50 border-b"><tr>' +
+                                            '<th class="px-6 py-4 text-left w-[20%]">' + ui.th_param + '</th><th class="px-6 py-4 text-left w-[15%]">' + ui.th_name + '</th>' +
+                                            '<th class="px-6 py-4 text-center w-[8%]">' + ui.th_required + '</th><th class="px-6 py-4 text-left w-[12%]">' + ui.th_type + '</th>' +
+                                            '<th class="px-6 py-4 text-left w-[15%]">' + thExample + '</th><th class="px-6 py-4 text-left w-[30%]">' + ui.th_note + '</th></tr></thead>' +
+                                            '<tbody class="divide-y divide-slate-200">' + generateTableRows(childTable.params, ui) + '</tbody></table></div></div></div>';
+                            });
+                        }
+                    });
+                    requestHtml += '</div>';
+                }
+
+                var responseHtml = '';
+                if (api.responses && api.responses.length > 0) {
+                    responseHtml += '<div class="mb-4"><h4 class="text-lg font-bold text-slate-700 mb-3 border-l-4 border-green-500 pl-3">' + ui.res_title + '</h4>';
+                    api.responses.forEach(function(resTable) {
+                        var badges = [];
+                        if (resTable.method) badges.push('<span class="font-mono font-bold text-green-700 text-xs bg-green-100 border border-green-200 px-2 py-0.5 rounded ml-2" title="Method">' + resTable.method + '</span>');
+                        if (resTable.direction) badges.push('<span class="font-mono font-bold text-blue-700 text-xs bg-blue-100 border border-blue-200 px-2 py-0.5 rounded ml-2" title="' + lblDirection + '"><i class="fas fa-exchange-alt mr-1"></i>' + resTable.direction + '</span>');
+                        if (resTable.group_type) badges.push('<span class="font-mono font-bold text-purple-700 text-xs bg-purple-100 border border-purple-200 px-2 py-0.5 rounded ml-2" title="' + lblGroupType + '"><i class="fas fa-shield-alt mr-1"></i>' + resTable.group_type + '</span>');
+                        if (resTable.param_location) badges.push('<span class="font-mono font-bold text-orange-700 text-xs bg-orange-100 border border-orange-200 px-2 py-0.5 rounded ml-2" title="' + lblLocation + '"><i class="fas fa-map-marker-alt mr-1"></i>' + resTable.param_location + '</span>');
+                        if (resTable.field_combination_format) {
+                            var resFcfIcon = resTable.field_combination_format.toUpperCase() === 'JSON' ? 'fa-brackets-curly' : 'fa-link';
+                            badges.push('<span class="font-mono font-bold text-cyan-700 text-xs bg-cyan-100 border border-cyan-200 px-2 py-0.5 rounded ml-2" title="' + lblFieldComboFormat + '"><i class="fas ' + resFcfIcon + ' mr-1"></i>' + resTable.field_combination_format + '</span>');
+                        }
+                        
+                        var badgesHtml = badges.join('');
+                        
+                        var methodRes = resTable.method || 'POST';
+                        var locRes = resTable.param_location || 'body';
+                        var infoTextRes = '';
+                        if (locRes.toLowerCase() === 'webhook') {
+                            infoTextRes = getMsg(ui, 'msg_res_info_webhook', '本結果將由系統以非同步形式，主動推播至商店指定的 <span class="font-bold text-green-700">Webhook</span> 接收網址。');
+                        } else {
+                            infoTextRes = getMsg(ui, 'msg_res_info_sync', '本結果將由系統以 <span class="font-bold text-green-700">{method}</span> 方式同步回傳於 <span class="font-bold text-green-700">{location}</span>。', {method: methodRes, location: locRes});
+                        }
+                        
+                        if (resTable.field_combination_format) {
+                            var resFcf = resTable.field_combination_format;
+                            var resFcfText = '';
+                            if (resFcf.toUpperCase() === 'STRING') {
+                                resFcfText = getMsg(ui, 'msg_res_format_qs', '回傳的欄位將以 <span class="font-mono font-bold text-cyan-700">&amp;</span> 符號組合為查詢字串 (Query String) 格式，例如 <span class="font-mono text-cyan-700">key1=val1&amp;key2=val2</span>。');
+                            } else if (resFcf.toUpperCase() === 'JSON') {
+                                resFcfText = getMsg(ui, 'msg_res_format_json', '回傳的欄位將放置於 <span class="font-bold text-cyan-700">JSON</span> 物件中傳遞。');
+                            } else {
+                                resFcfText = getMsg(ui, 'msg_res_format_other', '回傳的欄位採用 <span class="font-bold text-cyan-700">{format}</span> 格式組合。', {format: resFcf});
+                            }
+                            infoTextRes += '<div class="mt-1.5 text-cyan-700"><i class="fas fa-puzzle-piece mr-1 opacity-80"></i> ' + lblFieldComboFormat + '：' + resFcfText + '</div>';
+                        }
+                        if (resTable.group_type && resTable.group_type !== '無加密') {
+                            infoTextRes += '<div class="mt-1.5 text-purple-700"><i class="fas fa-shield-alt mr-1 opacity-80"></i> ' + getMsg(ui, 'msg_res_security', '驗證解密：接收後需針對特定資料進行 <span class="font-bold">{group_type}</span> 處理。', {group_type: resTable.group_type}) + '</div>';
+                        }
+                        var infoCardResHtml = '<div class="px-4 py-3 bg-green-50/50 border-b border-green-100 flex items-start gap-3"><i class="fas fa-info-circle text-green-600 mt-0.5"></i><div class="text-sm text-slate-700 leading-relaxed">' + infoTextRes + '</div></div>';
+
+                        var hasChildren = (resTable.children && resTable.children.length > 0);
+                        var resMarginClass = hasChildren ? 'mb-2' : 'mb-6';
+
+                        responseHtml += '<div class="bg-white rounded-xl border border-slate-200 overflow-hidden relative z-10 ' + resMarginClass + '"><div class="p-3 bg-slate-50 border-b flex items-center flex-wrap gap-2"><span class="text-sm font-bold text-slate-600">' + resTable.title + '</span>' + badgesHtml + '</div>' +
+                            infoCardResHtml +
+                            '<div class="overflow-x-auto"><table class="w-full min-w-[800px] text-sm params-table"><thead class="bg-slate-50 border-b"><tr>' +
+                            '<th class="px-6 py-4 text-left w-[20%]">' + ui.th_param + '</th><th class="px-6 py-4 text-left w-[15%]">' + ui.th_name + '</th>' +
+                            '<th class="px-6 py-4 text-center w-[8%]">' + (ui.th_must_return || '必回傳') + '</th><th class="px-6 py-4 text-left w-[12%]">' + ui.th_type + '</th>' +
+                            '<th class="px-6 py-4 text-left w-[15%]">' + thExample + '</th><th class="px-6 py-4 text-left w-[30%]">' + ui.th_note + '</th>' +
+                            '</tr></thead><tbody class="divide-y divide-slate-100">' + generateResponseRows(resTable.params, ui) + '</tbody></table></div></div>';
+
+                        if (hasChildren) {
+                            resTable.children.forEach(function(childTable) {
+                                var childBadges = [];
+                                if (childTable.group_type) childBadges.push('<span class="font-mono font-bold text-purple-700 text-xs bg-purple-100 border border-purple-200 px-2 py-0.5 rounded ml-2" title="' + lblGroupType + '"><i class="fas fa-shield-alt mr-1"></i>' + childTable.group_type + '</span>');
+                                if (childTable.param_location) childBadges.push('<span class="font-mono font-bold text-orange-700 text-xs bg-orange-100 border border-orange-200 px-2 py-0.5 rounded ml-2" title="' + lblLocation + '"><i class="fas fa-map-marker-alt mr-1"></i>' + childTable.param_location + '</span>');
+                                if (childTable.from_field) childBadges.push('<span class="font-mono font-bold text-teal-700 text-xs bg-teal-100 border border-teal-200 px-2 py-0.5 rounded ml-2" title="' + lblBelongTo + '"><i class="fas fa-level-down-alt mr-1"></i>' + lblBelongTo + ': ' + childTable.from_field + '</span>');
+                                if (childTable.field_combination_format) {
+                                    var resChildFcfIcon = childTable.field_combination_format.toUpperCase() === 'JSON' ? 'fa-brackets-curly' : 'fa-link';
+                                    childBadges.push('<span class="font-mono font-bold text-cyan-700 text-xs bg-cyan-100 border border-cyan-200 px-2 py-0.5 rounded ml-2" title="' + lblFieldComboFormat + '"><i class="fas ' + resChildFcfIcon + ' mr-1"></i>' + childTable.field_combination_format + '</span>');
+                                }
+                                
+                                var childBadgesHtml = childBadges.join('');
+                                var childInfoText = '';
+                                var resChildInfoParts = [];
+                                if (childTable.field_combination_format) {
+                                    var resCFcf = childTable.field_combination_format;
+                                    var resCFcfText = '';
+                                    if (resCFcf.toUpperCase() === 'STRING') {
+                                        resCFcfText = getMsg(ui, 'msg_res_format_qs', '本區塊欄位將以 <span class="font-mono font-bold text-cyan-700">&amp;</span> 符號組合為查詢字串 (Query String) 格式，例如 <span class="font-mono text-cyan-700">key1=val1&amp;key2=val2</span>。');
+                                    } else if (resCFcf.toUpperCase() === 'JSON') {
+                                        resCFcfText = getMsg(ui, 'msg_res_format_json', '本區塊欄位將放置於 <span class="font-bold text-cyan-700">JSON</span> 物件中傳遞。');
+                                    } else {
+                                        resCFcfText = getMsg(ui, 'msg_res_format_other', '本區塊欄位採用 <span class="font-bold text-cyan-700">{format}</span> 格式組合。', {format: resCFcf});
+                                    }
+                                    resChildInfoParts.push('<div class="flex items-start gap-3"><i class="fas fa-puzzle-piece text-cyan-500 mt-0.5"></i><div class="text-xs text-slate-600 leading-relaxed">' + lblFieldComboFormat + '：' + resCFcfText + '</div></div>');
+                                }
+                                if (childTable.group_type && childTable.group_type !== '無加密') {
+                                    resChildInfoParts.push('<div class="flex items-start gap-3"><i class="fas fa-shield-alt text-purple-500 mt-0.5"></i><div class="text-xs text-slate-600 leading-relaxed">' + getMsg(ui, 'msg_res_security', '驗證解密：本區塊接收後需進行 <span class="font-bold text-purple-700">{group_type}</span> 處理。', {group_type: childTable.group_type}) + '</div></div>');
+                                }
+                                if (resChildInfoParts.length > 0) {
+                                    childInfoText = '<div class="px-4 py-2 bg-slate-50 border-b border-slate-200 space-y-1.5">' + resChildInfoParts.join('') + '</div>';
+                                }
+
+                                responseHtml += '<div class="ml-6 md:ml-12 mb-6 relative">';
+                                responseHtml += '<div class="absolute -left-4 md:-left-8 top-[-8px] w-4 md:w-8 h-10 border-b-2 border-l-2 border-slate-300 rounded-bl-xl z-0"></div>';
+                                responseHtml += '<div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm relative z-10">';
+                                responseHtml += '<div class="p-3 bg-slate-100 border-b flex items-center flex-wrap gap-2"><span class="text-sm font-bold text-slate-700"><i class="fas fa-stream text-slate-400 mr-2"></i>' + childTable.title + '</span>' + childBadgesHtml + '</div>';
+                                responseHtml += childInfoText;
+                                responseHtml += '<div class="overflow-x-auto"><table class="w-full min-w-[800px] text-sm params-table"><thead class="bg-slate-50 border-b"><tr>' +
+                                            '<th class="px-6 py-4 text-left w-[20%]">' + ui.th_param + '</th><th class="px-6 py-4 text-left w-[15%]">' + ui.th_name + '</th>' +
+                                            '<th class="px-6 py-4 text-center w-[8%]">' + (ui.th_must_return || '必回傳') + '</th><th class="px-6 py-4 text-left w-[12%]">' + ui.th_type + '</th>' +
+                                            '<th class="px-6 py-4 text-left w-[15%]">' + thExample + '</th><th class="px-6 py-4 text-left w-[30%]">' + ui.th_note + '</th>' +
+                                            '</tr></thead><tbody class="divide-y divide-slate-100">' + generateResponseRows(childTable.params, ui) + '</tbody></table></div></div></div>';
+                            });
+                        }
+                    });
+                    responseHtml += '</div>';
+                }
+                groupDiv.innerHTML = headerHtml + requestHtml + responseHtml;
+                container.appendChild(groupDiv);
+            });
+        }
+
+        function generateTableRows(dataArray, ui) {
+            var lblEnum = ui.lbl_enum_values || '允許值';
+            var lblDef = ui.lbl_default_value || '預設值';
+            var lblNull = ui.lbl_is_nullable || '可為 Null';
+            var lblYes = ui.lbl_yes || '是';
+
+            return dataArray.map(function(item) {
+                var extraInfo = [];
+                if (item.enum_values) extraInfo.push(lblEnum + ': <span class="font-mono text-blue-600">' + item.enum_values + '</span>');
+                if (item.default_value) extraInfo.push(lblDef + ': <span class="font-mono text-slate-700">' + item.default_value + '</span>');
+                if (item.nullable === true || String(item.nullable).toLowerCase() === 'true' || item.nullable === '1' || item.nullable === '是') {
+                    extraInfo.push(lblNull + ': <span class="font-bold">' + lblYes + '</span>');
+                }
+                
+                var extraHtml = '';
+                if (extraInfo.length > 0) {
+                    extraHtml = '<div class="mt-2 text-xs text-slate-600 bg-slate-50 p-2 rounded border border-slate-200 block w-fit shadow-sm">' + extraInfo.join(' <span class="text-slate-300 mx-2">|</span> ') + '</div>';
+                }
+
+                var noteContent = (item.note || '').replace(/\n/g, '<br>');
+
+                return '<tr class="align-middle">' +
+                    '<td class="px-6 py-4 font-mono font-bold text-blue-600 text-left break-all">' + item.name + '</td>' +
+                    '<td class="px-6 py-4 text-left">' + item.label + '</td>' +
+                    '<td class="px-6 py-4 text-center">' + ((item.required === 'V' || item.required === true) ? '<span class="text-green-600 font-bold text-lg">✓</span>' : (item.required === '+' ? '<span class="text-blue-500 font-bold text-base">+</span>' : '<span class="text-slate-300">-</span>')) + '</td>' +
+                    '<td class="px-6 py-4 font-mono text-xs text-left">' + item.type + '</td>' +
+                    '<td class="px-6 py-4 font-mono text-xs text-slate-500 text-left break-all">' + (item.example || '') + '</td>' +
+                    '<td class="px-6 py-4 text-sm text-slate-600 text-left break-words leading-relaxed">' + noteContent + extraHtml + '</td></tr>';
+            }).join('');
+        }
+
+        function generateResponseRows(dataArray, ui) {
+            var lblEnum = ui.lbl_enum_values || '允許值';
+            var lblDef = ui.lbl_default_value || '預設值';
+            var lblNull = ui.lbl_is_nullable || '可為 Null';
+            var lblYes = ui.lbl_yes || '是';
+
+            return dataArray.map(function(item) {
+                var extraInfo = [];
+                if (item.enum_values) extraInfo.push(lblEnum + ': <span class="font-mono text-blue-600">' + item.enum_values + '</span>');
+                if (item.default_value) extraInfo.push(lblDef + ': <span class="font-mono text-slate-700">' + item.default_value + '</span>');
+                if (item.nullable === true || String(item.nullable).toLowerCase() === 'true' || item.nullable === '1' || item.nullable === '是') {
+                    extraInfo.push(lblNull + ': <span class="font-bold">' + lblYes + '</span>');
+                }
+                
+                var extraHtml = '';
+                if (extraInfo.length > 0) {
+                    extraHtml = '<div class="mt-2 text-xs text-slate-600 bg-slate-50 p-2 rounded border border-slate-200 block w-fit shadow-sm">' + extraInfo.join(' <span class="text-slate-300 mx-2">|</span> ') + '</div>';
+                }
+
+                var noteContent = (item.note || '').replace(/\n/g, '<br>');
+                
+                var mustReturnHtml = (item.must_return === 'V' || item.must_return === true || item.must_return === 'true' || item.must_return === '是' || item.must_return === '1') ? '<span class="text-green-600 font-bold text-lg">✓</span>' : '<span class="text-slate-300">-</span>';
+
+                return '<tr class="align-middle">' +
+                    '<td class="px-6 py-4 font-mono font-bold text-blue-600 text-left break-all">' + item.name + '</td>' +
+                    '<td class="px-6 py-4 text-slate-700 text-left">' + item.label + '</td>' +
+                    '<td class="px-6 py-4 text-center">' + mustReturnHtml + '</td>' +
+                    '<td class="px-6 py-4 font-mono text-xs text-slate-500 text-left">' + item.type + '</td>' +
+                    '<td class="px-6 py-4 font-mono text-xs text-slate-500 text-left break-all">' + (item.example || '') + '</td>' +
+                    '<td class="px-6 py-4 text-sm text-slate-600 text-left break-words leading-relaxed">' + noteContent + extraHtml + '</td></tr>';
+            }).join('');
+        }
+
+        function renderErrorTable(dataArray, targetId) {
+            document.getElementById(targetId).innerHTML = dataArray.map(function(item) {
+                return '<tr class="align-middle"><td class="px-6 py-2 font-bold text-red-600 font-mono text-left">' + item.code + '</td><td class="px-6 py-2 text-sm text-slate-700 text-left">' + item.reason + '</td></tr>';
+            }).join('');
+        }
+
+        function renderVersions() {
+            var versionsSection = document.getElementById('versions');
+            var navLink = document.getElementById('nav-versions-link');
+            var tbody = document.getElementById('versions-table-body');
+            var ui = docConfig[currentLang].ui;
+            var versions = docConfig[currentLang].versions || [];
+            if (!versionsSection || !tbody) return;
+
+            var thEls = versionsSection.querySelectorAll('[data-i18n]');
+            thEls.forEach(function(el) { el.innerHTML = ui[el.getAttribute('data-i18n')] || ''; });
+
+            if (versions.length === 0) {
+                versionsSection.classList.add('hidden');
+                if (navLink) navLink.classList.add('hidden');
+                return;
+            }
+            versionsSection.classList.remove('hidden');
+            if (navLink) navLink.classList.remove('hidden');
+
+            tbody.innerHTML = versions.map(function(v) {
+                return '<tr class="align-middle">' +
+                    '<td class="px-6 py-3 font-mono font-bold text-blue-600 text-left whitespace-nowrap">' + (v.version || '') + '</td>' +
+                    '<td class="px-6 py-3 text-sm text-slate-600 text-left whitespace-nowrap">' + (v.date || '') + '</td>' +
+                    '<td class="px-6 py-3 text-sm text-slate-700 text-left">' + (v.desc || '') + '</td>' +
+                    '</tr>';
+            }).join('');
+        }
+
+        function applyTranslations(lang) {
+            var data = docConfig[lang] ? docConfig[lang].ui : null;
+            if (!data) return;
+            document.querySelectorAll('[data-i18n]').forEach(function(el) { el.innerHTML = data[el.getAttribute('data-i18n')] || ''; });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) { el.setAttribute('placeholder', data[el.getAttribute('data-i18n-placeholder')] || ''); });
+        }
+
+        function initLangDropdown() {
+            var select = document.getElementById('lang-select');
+            select.innerHTML = '';
+            Object.keys(docConfig).forEach(function(langKey) {
+                var option = document.createElement('option');
+                option.value = langKey;
+                option.textContent = docConfig[langKey].languageName;
+                if (langKey === currentLang) option.selected = true;
+                select.appendChild(option);
+            });
+        }
+
+        function changeLang(targetLang) {
+            if (!docConfig[targetLang]) return;
+            currentLang = targetLang;
+            
+            // 切換語系時同步更新網址列參數
+            var url = new URL(window.location);
+            url.searchParams.set('lang', targetLang);
+            window.history.replaceState({}, document.title, url);
+
+            applyTranslations(targetLang);
+            var searchInput = document.getElementById('errorSearch');
+            if (searchInput) searchInput.value = '';
+            renderAll();
+        }
+
+        // 移除所有的高亮標籤，將內容還原為純文字
+        function clearAllHighlights() {
+            searchMarks.forEach(function(m) {
+                var textNode = document.createTextNode(m.textContent);
+                m.parentNode.replaceChild(textNode, m);
+            });
+            searchMarks = [];
+            currentMarkIndex = -1;
+        }
+
+        // 安全地高亮元素內的指定文字，並套上識別用的 class
+        function highlightKeywordInElement(element, keyword) {
+            if (!keyword || !element) return;
+            var escapeRegExp = function(string) { return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); };
+            var regex = new RegExp('(' + escapeRegExp(keyword) + ')', 'gi');
+
+            var walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+            var textNodes = [];
+            var node;
+            while ((node = walker.nextNode())) {
+                var parent = node.parentNode;
+                
+                // 確保節點具備 closest 方法 (Element)
+                if (parent && typeof parent.closest === 'function') {
+                    // 使用 closest() 往上層追溯，確保該文字沒有被包在程式碼或不該高亮的標籤內
+                    var isExcluded = parent.closest('script, style, mark, code, pre, textarea') !== null;
+                    
+                    // 判斷該元素的父層是否處於隱藏狀態
+                    var isHidden = (parent.getClientRects().length === 0);
+
+                    if (!isExcluded && !isHidden) {
+                        if (node.nodeValue.match(regex)) {
+                            textNodes.push(node);
+                        }
+                    }
+                }
+            }
+
+            textNodes.forEach(function(node) {
+                var fragment = document.createDocumentFragment();
+                var parts = node.nodeValue.split(regex);
+                var lowerKeyword = keyword.toLowerCase();
+                
+                parts.forEach(function(part) {
+                    if (part.toLowerCase() === lowerKeyword) {
+                        var mark = document.createElement('mark');
+                        // 加入 'search-highlight' 以供導覽列抓取節點
+                        mark.className = 'search-highlight bg-yellow-200 text-slate-900 rounded px-1 font-bold shadow-sm transition-colors';
+                        mark.textContent = part;
+                        fragment.appendChild(mark);
+                    } else if (part) {
+                        fragment.appendChild(document.createTextNode(part));
+                    }
+                });
+                node.parentNode.replaceChild(fragment, node);
+            });
+        }
+
+        // 注入預設的常駐搜尋導覽列 (包含摺疊按鈕與展開內容)
+        function injectSearchNavigator() {
+            var navHtml = `
+            <div id="search-navigator" class="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[110] bg-white text-slate-700 shadow-2xl border border-slate-200 rounded-full flex items-center transition-all duration-300 overflow-hidden">
+                <!-- 摺疊狀態下的單純放大鏡按鈕 -->
+                <button id="search-nav-collapsed-btn" onclick="expandSearch()" class="w-14 h-14 flex items-center justify-center text-blue-600 hover:bg-blue-50 transition-colors cursor-pointer" title="開啟頁面內搜尋">
+                    <i class="fas fa-search text-xl"></i>
+                </button>
+
+                <!-- 展開狀態的完整工具列 -->
+                <div id="search-nav-expanded" class="hidden items-center px-4 py-2 gap-3">
+                    <div class="flex items-center gap-2 bg-blue-50 text-blue-700 pl-3 pr-3 py-1.5 rounded-full">
+                        <i class="fas fa-search text-blue-500 text-sm"></i>
+                        <input type="text" id="search-nav-input" class="bg-transparent border-none outline-none w-20 sm:w-28 text-sm font-bold text-blue-700 placeholder-blue-300" placeholder="搜尋關鍵字..." onkeydown="if(event.key === 'Enter') executeInlineSearch(this.value)">
+                        <div class="h-4 w-[1px] bg-blue-200 mx-1"></div>
+                        <span id="search-nav-text" class="min-w-[40px] text-center tracking-wide text-sm font-bold">0 / 0</span>
+                    </div>
+                    <div class="flex items-center border-l border-r border-slate-200 px-2 gap-1 h-8">
+                        <button onclick="navigateSearch(-1)" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-500 hover:text-blue-600 transition" title="上一個"><i class="fas fa-arrow-up"></i></button>
+                        <button onclick="navigateSearch(1)" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 text-slate-500 hover:text-blue-600 transition" title="下一個"><i class="fas fa-arrow-down"></i></button>
+                    </div>
+                    <button onclick="collapseSearch()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-red-50 text-slate-400 hover:text-red-500 transition" title="結束並關閉搜尋"><i class="fas fa-times text-lg"></i></button>
+                </div>
+            </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', navHtml);
+        }
+
+        // 將搜尋工具列展開
+        function expandSearch() {
+            document.getElementById('search-nav-collapsed-btn').classList.add('hidden');
+            var expandedContent = document.getElementById('search-nav-expanded');
+            expandedContent.classList.remove('hidden');
+            expandedContent.classList.add('flex');
+            document.getElementById('search-nav-input').focus();
+        }
+
+        // 結束搜尋並將工具列收合回按鈕
+        function collapseSearch() {
+            var expandedContent = document.getElementById('search-nav-expanded');
+            expandedContent.classList.add('hidden');
+            expandedContent.classList.remove('flex');
+            document.getElementById('search-nav-collapsed-btn').classList.remove('hidden');
+            
+            clearAllHighlights();
+
+            // 清除網址上的關鍵字參數與輸入框
+            document.getElementById('search-nav-input').value = '';
+            document.getElementById('search-nav-text').innerText = '0 / 0';
+            var url = new URL(window.location);
+            url.searchParams.delete('q');
+            window.history.replaceState({}, document.title, url);
+        }
+
+        // 執行行內重新搜尋 (透過工具列輸入框觸發)
+        function executeInlineSearch(newKeyword) {
+            newKeyword = newKeyword.trim();
+            
+            // 先清除現有高亮
+            clearAllHighlights();
+
+            var url = new URL(window.location);
+            
+            if (!newKeyword) {
+                url.searchParams.delete('q');
+                window.history.replaceState({}, document.title, url);
+                document.getElementById('search-nav-text').innerText = '0 / 0';
+                return;
+            }
+
+            // 更新網址，不重新整理
+            url.searchParams.set('q', newKeyword);
+            window.history.replaceState({}, document.title, url);
+
+            // 執行新關鍵字的高亮掃描
+            var mainContent = document.querySelector('main');
+            if (mainContent) highlightKeywordInElement(mainContent, newKeyword);
+            
+            searchMarks = Array.from(document.querySelectorAll('mark.search-highlight'));
+            
+            if (searchMarks.length > 0) {
+                document.getElementById('search-nav-text').innerText = '1 / ' + searchMarks.length;
+                goToSearchMark(0);
+            } else {
+                // 若找不到結果，維持顯示 0/0
+                document.getElementById('search-nav-text').innerText = '0 / 0';
+            }
+        }
+
+        // 上下切換搜尋結果
+        function navigateSearch(direction) {
+            if (searchMarks.length === 0) return;
+            let nextIndex = currentMarkIndex + direction;
+            if (nextIndex >= searchMarks.length) nextIndex = 0;
+            if (nextIndex < 0) nextIndex = searchMarks.length - 1;
+            goToSearchMark(nextIndex);
+        }
+
+        // 移動並鎖定到特定的高亮字
+        function goToSearchMark(index) {
+            if (searchMarks.length === 0) return;
+            if (currentMarkIndex >= 0 && currentMarkIndex < searchMarks.length) {
+                // 還原前一個高亮字的樣式
+                let oldMark = searchMarks[currentMarkIndex];
+                oldMark.className = 'search-highlight bg-yellow-200 text-slate-900 rounded px-1 font-bold shadow-sm transition-colors';
+            }
+            currentMarkIndex = index;
+            let newMark = searchMarks[currentMarkIndex];
+            
+            // 將目前鎖定的字套上橘色顯眼樣式
+            newMark.className = 'search-highlight bg-orange-500 text-white rounded px-1 font-bold shadow-md ring-4 ring-orange-300 transition-colors';
+            
+            // 平滑滾動讓該字對齊畫面中央，不會因為外層區塊太長而失焦
+            newMark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            document.getElementById('search-nav-text').innerText = (currentMarkIndex + 1) + ' / ' + searchMarks.length;
+        }
+
+        window.onload = function() {
+            initLangDropdown();
+            applyTranslations(currentLang);
+            renderAll();
+            initSearch();
+
+            // 頁面載入時注入預設的常駐搜尋列
+            injectSearchNavigator();
+
+            var urlParams = new URLSearchParams(window.location.search);
+            var keyword = urlParams.get('q');
+            var hashId = window.location.hash ? window.location.hash.substring(1) : null;
+            var targetElement = hashId ? document.getElementById(hashId) : null;
+
+            // 如果有帶關鍵字，先進行文字節點的掃描與高亮，並自動展開搜尋列
+            if (keyword) {
+                var mainContent = document.querySelector('main');
+                if (mainContent) {
+                    highlightKeywordInElement(mainContent, keyword);
+                }
+                searchMarks = Array.from(document.querySelectorAll('mark.search-highlight'));
+                
+                document.getElementById('search-nav-input').value = keyword;
+                expandSearch();
+            }
+
+            // 確保所有動態 DOM 產生完畢後，決定跳轉行為
+            setTimeout(function() {
+                if (searchMarks.length > 0) {
+                    let startIndex = 0;
+                    if (targetElement) {
+                        // 如果有帶錨點，試圖尋找該錨點區塊內的「第一個高亮字」，直接從該字開始
+                        let firstMarkInTarget = targetElement.querySelector('mark.search-highlight');
+                        if (firstMarkInTarget) {
+                            startIndex = searchMarks.indexOf(firstMarkInTarget);
+                        }
+                    }
+                    goToSearchMark(startIndex);
+                } else if (targetElement) {
+                    // 若沒有搜尋關鍵字 (單純點擊左側選單錨點)，則使用原本的對齊頂部模式
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    targetElement.classList.add('ring-4', 'ring-blue-300', 'ring-opacity-50', 'transition-all', 'duration-1000', 'rounded-xl');
+                    setTimeout(function() {
+                        targetElement.classList.remove('ring-4', 'ring-blue-300', 'ring-opacity-50');
+                    }, 2000);
+                }
+            }, 300);
+        };
+
+        function openLightbox(url) { 
+            document.getElementById('lightbox-image').src = url; 
+            document.getElementById('lightbox-modal').classList.remove('hidden'); 
+            document.body.style.overflow = 'hidden'; 
+        }
+        function closeLightbox() { 
+            document.getElementById('lightbox-modal').classList.add('hidden'); 
+            document.body.style.overflow = ''; 
+        }
+
+        function renderCodeTabs() {
+            var container = document.getElementById('code-tabs-container');
+            var exampleSection = document.getElementById('example');
+            if (!container || !exampleSection) return;
+            var availableLangs = Object.keys(globalCodeExamples);
+            if (availableLangs.length === 0) { exampleSection.classList.add('hidden'); return; }
+            else { exampleSection.classList.remove('hidden'); }
+            if (availableLangs.indexOf(currentCodeTab) === -1) { currentCodeTab = availableLangs[0]; }
+            var html = '';
+            availableLangs.forEach(function(lang) {
+                var activeClass = (lang === currentCodeTab) ? 'active' : '';
+                html += '<button onclick="switchTab(\'' + lang + '\', event)" class="tab-btn ' + activeClass + ' px-6 py-3 text-sm font-medium text-slate-300 hover:text-white transition-colors whitespace-nowrap">' + lang + '</button>';
+            });
+            container.innerHTML = html;
+        }
+
+        function switchTab(lang, event) {
+            currentCodeTab = lang;
+            renderCodeTabs();
+            loadCode(lang);
+        }
+
+        function loadCode(lang) {
+            var container = document.getElementById('code-container');
+            if (!lang) lang = Object.keys(globalCodeExamples)[0] || 'plaintext';
+            var langMap = { 'PHP': 'php', 'Node.js': 'javascript', 'Python': 'python', 'C#(.NET)': 'csharp', 'Java': 'java', 'Go': 'go', 'ASP': 'vbscript', 'ASP.NET': 'csharp' };
+            var codeContent = globalCodeExamples[lang] || '// 尚無程式範例';
+            container.innerHTML = '<code id="code-display" class="h-full language-' + (langMap[lang] || 'plaintext') + '"></code>';
+            var display = document.getElementById('code-display');
+            display.textContent = codeContent;
+            if (typeof hljs !== 'undefined') {
+                hljs.highlightElement(display);
+                if (typeof hljs.lineNumbersBlock === 'function') { hljs.lineNumbersBlock(display); }
+            }
+        }
+    </script>
+
+    <!-- Mobile Header -->
+    <header class="lg:hidden bg-white shadow-sm p-4 sticky top-0 z-50 flex justify-between items-center border-b border-slate-200">
+        <h1 class="text-lg font-bold text-blue-700 flex items-center">
+            <i class="fas fa-book mr-2"></i> <span id="mobile-header-title"></span>
+        </h1>
+        <button id="menu-btn" class="text-slate-600 focus:outline-none hover:text-blue-600 transition" onclick="document.getElementById('sidebar').classList.toggle('-translate-x-full')">
+            <i class="fas fa-bars text-2xl"></i>
+        </button>
+    </header>
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 w-72 bg-white shadow-xl transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-40 border-r border-slate-200 flex flex-col">
+            <div class="p-6 border-b border-slate-100 bg-gradient-to-r from-blue-50 to-white shrink-0">
+                <h2 class="text-2xl font-bold text-blue-700" data-i18n="sidebar_brand" style="letter-spacing:-0.025em;"></h2>
+                <p class="text-sm text-slate-500 mt-1 font-medium"><span id="sidebar-subtitle"></span><br><span class="text-xs text-slate-400" id="sidebar-version"></span></p>
+            </div>
+            <div class="flex-1 overflow-y-auto scrollable-area">
+                <nav class="p-4 space-y-1">
+                    <div id="dynamic-sidebar-links"></div>
+                    <a href="#tool" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group mb-1 mt-2">
+                        <i class="fas fa-wrench w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_tool"></span>
+                    </a>
+                    <a href="#encryption" id="nav-encryption-link" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group mb-4">
+                        <i class="fas fa-lock w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_encryption"></span>
+                    </a>
+                    <div class="px-4 py-2 text-xs font-bold text-slate-400 uppercase mt-4" data-i18n="nav_group_api" style="letter-spacing:0.05em;"></div>
+                    <div id="sidebar-api-list"></div>
+                    <a href="#errors" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group mt-4">
+                        <i class="fas fa-exclamation-triangle w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_errors"></span>
+                    </a>
+                    <a href="#example" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group">
+                        <i class="fas fa-code w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_example"></span>
+                    </a>
+                    <a href="#versions" id="nav-versions-link" class="nav-link block px-4 py-3 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 rounded-lg transition-colors group hidden">
+                        <i class="fas fa-history w-6 group-hover:text-blue-500 transition-colors"></i> <span data-i18n="nav_versions"></span>
+                    </a>
+                </nav>
+            </div>
+            <div class="p-4 border-t border-slate-200 bg-slate-50 shrink-0 flex flex-col gap-3">
+                <div class="relative group w-full">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400"><i class="fas fa-globe"></i></div>
+                    <select id="lang-select" onchange="changeLang(this.value)" class="w-full appearance-none bg-white text-slate-600 font-medium py-2.5 pl-10 pr-8 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer border border-slate-300 shadow-sm"></select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500"><i class="fas fa-chevron-up text-xs"></i></div>
+                </div>
+                <div class="text-center text-xs text-slate-500 mt-2">
+                    <div id="meta-system-name" class="font-bold text-slate-600"></div>
+                    <div id="meta-copyright" class="mt-1"></div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 lg:ml-72 p-4 lg:p-8 min-w-0 w-full max-w-[1920px] mx-auto">
+            <div id="dynamic-content-sections"></div>
+
+            <!-- Tools Section -->
+            <section id="tool" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-purple-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="tool_title"></h2>
+                </div>
+                <div class="bg-white rounded-xl shadow-md border border-purple-100 overflow-hidden">
+                    <div class="bg-purple-50 p-4 border-b border-purple-100 flex flex-col gap-2">
+                        <p class="text-purple-800 text-sm" data-i18n="tool_intro"></p>
+                        <div class="bg-red-50 border border-red-200 rounded p-3 flex items-start shadow-sm">
+                            <i class="fas fa-shield-alt text-red-500 mt-0.5 mr-2 text-base"></i>
+                            <p class="text-red-700 text-sm font-semibold leading-relaxed" data-i18n="tool_security_warning"></p>
+                        </div>
+                    </div>
+                    <div class="flex border-b border-slate-200" id="tool-tabs-container"></div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 pb-6 border-b border-slate-100">
+                            <div>
+                                <label id="lbl-tool-key" class="block text-xs font-bold text-slate-500 uppercase mb-1"></label>
+                                <input type="text" id="toolKey" data-i18n-placeholder="tool_ph_key" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm bg-slate-50">
+                            </div>
+                            <div>
+                                <label id="lbl-tool-iv" class="block text-xs font-bold text-slate-500 uppercase mb-1"></label>
+                                <input type="text" id="toolIv" data-i18n-placeholder="tool_ph_iv" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm bg-slate-50">
+                            </div>
+                        </div>
+                        <!-- SHA Tool -->
+                        <div id="tool-sha" class="tool-content hidden">
+                            <div class="mb-4">
+                                <label class="block text-sm font-bold text-slate-700 mb-3" data-i18n="tool_lbl_qs"></label>
+                                <div id="sha-inputs-area" class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 p-4 rounded-lg border border-slate-200"></div>
+                                <p class="text-xs text-slate-400 mt-2 text-right" data-i18n="tool_note_sha_sort"></p>
+                            </div>
+                            <button onclick="runSHA()" class="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700 transition shadow-sm font-bold text-sm w-full md:w-auto">
+                                <i class="fas fa-fingerprint mr-1"></i> <span data-i18n="tool_btn_sha"></span>
+                            </button>
+                            <div class="mt-4">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="lbl_sha_pre_hash"></label>
+                                <textarea id="shaPreHashOutput" readonly rows="2" class="w-full p-3 bg-slate-100 text-slate-600 rounded font-mono text-sm border border-slate-200 shadow-inner focus:ring-0 mb-3" data-i18n-placeholder="ph_sha_pre_hash"></textarea>
+
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="tool_lbl_sha_res"></label>
+                                <textarea id="shaOutput" readonly rows="2" class="w-full p-3 bg-slate-800 text-green-400 rounded font-mono text-sm border-none focus:ring-0"></textarea>
+                            </div>
+                        </div>
+                        <!-- AES Encrypt -->
+                        <div id="tool-aes-encrypt" class="tool-content hidden">
+                            <div class="mb-4">
+                                <label class="block text-sm font-bold text-slate-700 mb-2" data-i18n="tool_lbl_qs"></label>
+                                <textarea id="encryptInput" rows="5" data-i18n-placeholder="tool_ph_qs" class="w-full p-3 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm text-slate-600"></textarea>
+                                <p class="text-xs text-slate-400 mt-1 text-right" data-i18n="tool_note_urlencode"></p>
+                            </div>
+                            <button onclick="runEncrypt()" class="bg-purple-600 text-white px-6 py-2 rounded hover:bg-purple-700 transition shadow-sm font-bold text-sm w-full md:w-auto">
+                                <i class="fas fa-lock mr-1"></i> <span data-i18n="tool_btn_encrypt"></span>
+                            </button>
+                            <div class="mt-4">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="tool_lbl_hex"></label>
+                                <textarea id="encryptOutput" readonly rows="3" class="w-full p-3 bg-slate-800 text-green-400 rounded font-mono text-sm border-none focus:ring-0"></textarea>
+                            </div>
+                        </div>
+                        <!-- AES Decrypt -->
+                        <div id="tool-aes-decrypt" class="tool-content hidden">
+                            <div class="mb-4">
+                                <label class="block text-sm font-bold text-slate-700 mb-2" data-i18n="tool_lbl_enc_hex"></label>
+                                <textarea id="decryptInput" rows="4" data-i18n-placeholder="tool_ph_enc_hex" class="w-full p-3 border border-slate-300 rounded focus:ring-2 focus:ring-purple-500 font-mono text-sm text-slate-600"></textarea>
+                            </div>
+                            <button onclick="runDecrypt()" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition shadow-sm font-bold text-sm w-full md:w-auto">
+                                <i class="fas fa-unlock mr-1"></i> <span data-i18n="tool_btn_decrypt"></span>
+                            </button>
+                            <div class="mt-4">
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1" data-i18n="tool_lbl_decrypt_res"></label>
+                                <textarea id="decryptOutput" readonly rows="3" class="w-full p-3 bg-slate-800 text-green-400 rounded font-mono text-sm border-none focus:ring-0"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Encryption Rules Section -->
+            <section id="encryption" class="mb-12 scroll-mt-24 hidden">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="enc_title"></h2>
+                </div>
+                <div id="enc-rule-aes" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8 hidden">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                        <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded flex items-center justify-center text-xs mr-2"><i class="fas fa-lock"></i></span>
+                        <span data-i18n="enc_aes_title"></span>
+                    </h3>
+                    <p class="text-slate-600 mb-4" data-i18n="enc_aes_desc"></p>
+                    <div id="enc-rule-aes-steps" class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-4">
+                        <!-- Javascript 將在這裡動態產生步驟 -->
+                    </div>
+                </div>
+                <div id="enc-rule-sha" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-8 hidden">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                        <span class="w-6 h-6 bg-purple-100 text-purple-600 rounded flex items-center justify-center text-xs mr-2"><i class="fas fa-fingerprint"></i></span>
+                        <span data-i18n="enc_sha_title"></span>
+                    </h3>
+                    <p class="text-slate-600 mb-4" data-i18n="enc_sha_desc"></p>
+                    <div id="enc-rule-sha-steps" class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-4">
+                        <!-- Javascript 將在這裡動態產生步驟 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- APIs -->
+            <section id="apis" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="nav_apis"></h2>
+                </div>
+                <div id="api-groups-container"></div>
+            </section>
+
+            <!-- Errors -->
+            <section id="errors" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="err_title"></h2>
+                </div>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 mb-4">
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-4 top-3.5 text-slate-400"></i>
+                        <input type="text" id="errorSearch" data-i18n-placeholder="err_search_ph" class="w-full pl-10 p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                </div>
+                <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-slate-200 max-h-[600px] overflow-y-auto">
+                    <table class="w-full text-sm params-table" id="errorTable">
+                        <thead class="bg-slate-50 text-slate-600 uppercase font-bold sticky top-0 border-b border-slate-200 shadow-sm z-10">
+                            <tr>
+                                <th class="px-6 py-4 w-1/4 text-left" data-i18n="th_err_code"></th>
+                                <th class="px-6 py-4 text-left" data-i18n="th_err_reason"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="error-table-body" class="divide-y divide-slate-200 font-mono text-slate-700"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Example -->
+            <section id="example" class="mb-12 scroll-mt-24">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-blue-600 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="example_title"></h2>
+                </div>
+                <div class="bg-slate-800 rounded-lg shadow-lg overflow-hidden relative">
+                    <div class="flex border-b border-slate-600 bg-slate-900 px-2 overflow-x-auto" id="code-tabs-container"></div>
+                    <div id="code-container-wrapper" class="h-[600px] overflow-auto scrollable-area">
+                        <pre id="code-container"><code id="code-display" class="h-full"></code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Versions -->
+            <section id="versions" class="mb-12 scroll-mt-24 hidden">
+                <div class="flex items-center mb-6">
+                    <div class="w-2 h-8 bg-slate-500 mr-4 rounded-sm"></div>
+                    <h2 class="text-2xl font-bold text-slate-900" data-i18n="versions_title"></h2>
+                </div>
+                <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-slate-200">
+                    <table class="w-full text-sm params-table">
+                        <thead class="bg-slate-50 text-slate-600 uppercase font-bold border-b border-slate-200">
+                            <tr>
+                                <th class="px-6 py-4 text-left w-[15%]" data-i18n="th_ver_version"></th>
+                                <th class="px-6 py-4 text-left w-[20%]" data-i18n="th_ver_date"></th>
+                                <th class="px-6 py-4 text-left" data-i18n="th_ver_desc"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="versions-table-body" class="divide-y divide-slate-100 text-slate-700"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox-modal" class="fixed inset-0 z-[100] hidden bg-black/80 overflow-auto" onclick="closeLightbox()">
+        <button class="fixed top-6 right-8 text-white text-4xl z-[101] drop-shadow-md hover:text-gray-300" onclick="closeLightbox()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="min-w-full min-h-full flex p-8" style="align-items: center; justify-content: center;">
+            <img id="lightbox-image" src="" alt="" class="block rounded shadow-2xl" style="max-width: none; margin: auto;" onclick="event.stopPropagation()">
+        </div>
+    </div>
+
+</body>
+</html>
