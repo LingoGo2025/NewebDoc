@@ -1,0 +1,292 @@
+# AI 輔助串接文件
+
+## 給 AI 助理的閱讀指引
+
+### 角色與行為
+
+你是協助開發者進行 API 串接的助理。當使用者要求串接時：
+
+1. 先確認使用者已取得必要的身份識別資訊（如商家代號、API 金鑰等）
+2. 確認串接環境（測試 / 正式）
+3. 依照文件端對端範例產出程式碼
+4. 程式碼會包含：加密 → POST → 解析回應
+5. 預設使用測試環境，並提醒使用者上線前需更換 URL 與金鑰
+
+### 安全提醒
+
+- 嚴禁將 API 金鑰（Key / IV）寫死在前端程式碼
+- 嚴禁將 API 金鑰（Key / IV）提交至公開 Git
+
+### 文件內容說明
+
+每份 API 各對應一個 `.txt` 文件，已包含以下完整資訊：
+
+- API 基本資訊（端點、方法、Content-Type、加密方式）
+- 完整欄位定義（欄位名稱、型別、長度、必填、預設值、允許值、範例、備註）
+- 錯誤代碼清單
+- 請求 / 回應範例
+- 程式碼範例
+- AES256 加密規格（含固定示範 Key/IV 與加密結果，有 AES 加密的 API 才有此章節）
+- SHA256 簽章規格（含欄位組合說明與固定示範雜湊值，有 SHA256 簽章的 API 才有此章節）
+
+### 文件閱讀順序
+
+1. 閱讀本檔案（llms.txt）了解 API 清單與端點
+2. 開啟對應的 `.txt` 取得完整串接說明
+
+### 注意事項
+
+- 標示「AES加密後的Base64字串」的欄位，需先將資料依 `.txt` 中的 AES 規格加密後再傳送
+- 錯誤代碼均於 HTTP 200 回應中回傳，錯誤訊息包含於 response body
+- 所有請求預設使用 `application/x-www-form-urlencoded` 格式（若 `.txt` 另有說明則以其為準）
+
+---
+
+## API 快速參考
+
+| 文件 | 端點路徑 | 方法 | 加密 | 請求欄位 | 回應欄位 |
+|------|----------|------|------|----------|----------|
+| 作廢電子收據API v1 | `/invoice_invalid` | POST | AES256 + SHA256 | 2（必填 2）| 8 |
+| 單筆查詢收據作廢資料API v1 | `/invoice_search` | POST | AES256 + SHA256 | 3（必填 3）| 12 |
+| 單筆查詢收據折讓資料API v1 | `/invoice_search` | POST | AES256 + SHA256 | 3（必填 3）| 16 |
+| 單筆查詢收據開立資料API v1 | `/invoice_search` | POST | AES256 + SHA256 | 2（必填 2）| 23 |
+| 批次查詢收據折讓資料API v1 | `/invoice_searchall` | POST | AES256 + SHA256 | 3（必填 3）| 5 |
+| 批次查詢收據開立資料API v1 | `/invoice_searchall` | POST | AES256 + SHA256 | 3（必填 3）| 5 |
+| 批次查詢電子收據作廢資料API v1 | `/invoice_searchall` | POST | AES256 + SHA256 | 3（必填 3）| 5 |
+| 折讓電子收據API v1 | `/allowance_issue` | POST | AES256 + SHA256 | 2（必填 2）| 10 |
+| 自訂編號查詢電子收據開立資料API v1 | `/invoice_searchall` | POST | AES256 + SHA256 | 3（必填 3）| 5 |
+| 補發通知信API v1 | `/notification_resend` | POST | AES256 + SHA256 | 2（必填 2）| 5 |
+| 觸發或取消作廢資料API v1 | `/invalid_touch_issue` | POST | AES256 + SHA256 | 2（必填 2）| 7 |
+| 觸發或取消待確認折讓資料API v1 | `/allowance_touch_issue` | POST | AES256 + SHA256 | 2（必填 2）| 10 |
+| 觸發或取消預約收據API v1 | `/invoice_touch_issue` | POST | AES256 + SHA256 | 2（必填 2）| 11 |
+| 變更收據API v1 | `/invoice_edit` | POST | AES256 + SHA256 | 2（必填 2）| 15 |
+| 開立電子收據API v1 | `/invoice_issue` | POST | AES256 + SHA256 | 2（必填 2）| 13 |
+
+---
+
+## 文件清單
+
+### 作廢電子收據API
+
+此API可以於開立後下一個單月15日前作廢旅行業代收轉付電子收據
+
+| 項目 | 內容 |
+|:-----|:-----|
+| 端點 | `POST https://api.travelinvoice.com.tw/invoice_invalid` |
+| 加密方式 | AES256 + SHA256 |
+| 請求欄位 | 2 個（必填 2 個）|
+| 回應欄位 | 8 個 |
+
+- [完整串接說明（欄位定義、加密規格、範例）](https://lingogo2025.github.io/NewebDoc/Travelinvoice/AIagent/20260608001.txt)
+
+### 單筆查詢收據作廢資料API
+
+此API可以查詢單筆電子收據的作廢資料參數、進度及狀態。
+
+| 項目 | 內容 |
+|:-----|:-----|
+| 端點 | `POST https://api.travelinvoice.com.tw/invoice_search` |
+| 加密方式 | AES256 + SHA256 |
+| 請求欄位 | 3 個（必填 3 個）|
+| 回應欄位 | 12 個 |
+
+- [完整串接說明（欄位定義、加密規格、範例）](https://lingogo2025.github.io/NewebDoc/Travelinvoice/AIagent/20260608002.txt)
+
+### 單筆查詢收據折讓資料API
+
+此API可以查詢單筆電子收據的折讓資料參數、進度及狀態。
+
+| 項目 | 內容 |
+|:-----|:-----|
+| 端點 | `POST https://api.travelinvoice.com.tw/invoice_search` |
+| 加密方式 | AES256 + SHA256 |
+| 請求欄位 | 3 個（必填 3 個）|
+| 回應欄位 | 16 個 |
+
+- [完整串接說明（欄位定義、加密規格、範例）](https://lingogo2025.github.io/NewebDoc/Travelinvoice/AIagent/20260608003.txt)
+
+### 單筆查詢收據開立資料API
+
+此API可以查詢單筆電子收據目前的各項參數及狀態，適合於需要單筆資料的狀態確認，或是預約開立後的資料反查
+
+| 項目 | 內容 |
+|:-----|:-----|
+| 端點 | `POST https://api.travelinvoice.com.tw/invoice_search` |
+| 加密方式 | AES256 + SHA256 |
+| 請求欄位 | 2 個（必填 2 個）|
+| 回應欄位 | 23 個 |
+
+- [完整串接說明（欄位定義、加密規格、範例）](https://lingogo2025.github.io/NewebDoc/Travelinvoice/AIagent/20260608004.txt)
+
+### 批次查詢收據折讓資料API
+
+此API可以批次查詢收據的折讓資料參數、進度及狀態。
+
+| 項目 | 內容 |
+|:-----|:-----|
+| 端點 | `POST https://api.travelinvoice.com.tw/invoice_searchall` |
+| 加密方式 | AES256 + SHA256 |
+| 請求欄位 | 3 個（必填 3 個）|
+| 回應欄位 | 5 個 |
+
+- [完整串接說明（欄位定義、加密規格、範例）](https://lingogo2025.github.io/NewebDoc/Travelinvoice/AIagent/20260608005.txt)
+
+### 批次查詢收據開立資料API
+
+此API可以批次查詢電子收據的開立資料參數、進度及狀態。
+
+| 項目 | 內容 |
+|:-----|:-----|
+| 端點 | `POST https://api.travelinvoice.com.tw/invoice_searchall` |
+| 加密方式 | AES256 + SHA256 |
+| 請求欄位 | 3 個（必填 3 個）|
+| 回應欄位 | 5 個 |
+
+- [完整串接說明（欄位定義、加密規格、範例）](https://lingogo2025.github.io/NewebDoc/Travelinvoice/AIagent/20260608006.txt)
+
+### 批次查詢電子收據作廢資料API
+
+此API可以批次查詢收據作廢資料參數、進度及狀態。
+
+| 項目 | 內容 |
+|:-----|:-----|
+| 端點 | `POST https://api.travelinvoice.com.tw/invoice_searchall` |
+| 加密方式 | AES256 + SHA256 |
+| 請求欄位 | 3 個（必填 3 個）|
+| 回應欄位 | 5 個 |
+
+- [完整串接說明（欄位定義、加密規格、範例）](https://lingogo2025.github.io/NewebDoc/Travelinvoice/AIagent/20260608007.txt)
+
+### 折讓電子收據API
+
+此API可以於開立後任何時間進行旅行業代收轉付電子收據折讓作業，但折讓單一旦經確認後，該收據將不能開立作廢單
+
+| 項目 | 內容 |
+|:-----|:-----|
+| 端點 | `POST https://api.travelinvoice.com.tw/allowance_issue` |
+| 加密方式 | AES256 + SHA256 |
+| 請求欄位 | 2 個（必填 2 個）|
+| 回應欄位 | 10 個 |
+
+- [完整串接說明（欄位定義、加密規格、範例）](https://lingogo2025.github.io/NewebDoc/Travelinvoice/AIagent/20260608008.txt)
+
+### 自訂編號查詢電子收據開立資料API
+
+此API可用旅行社自訂編號來查詢電子收據的開立資料參數、進度及狀態，適合自訂編號重複的旅行社。
+
+| 項目 | 內容 |
+|:-----|:-----|
+| 端點 | `POST https://api.travelinvoice.com.tw/invoice_searchall` |
+| 加密方式 | AES256 + SHA256 |
+| 請求欄位 | 3 個（必填 3 個）|
+| 回應欄位 | 5 個 |
+
+- [完整串接說明（欄位定義、加密規格、範例）](https://lingogo2025.github.io/NewebDoc/Travelinvoice/AIagent/20260608009.txt)
+
+### 補發通知信API
+
+此API可以補發收據開立、作廢單或折讓單的系統通知信
+
+| 項目 | 內容 |
+|:-----|:-----|
+| 端點 | `POST https://api.travelinvoice.com.tw/notification_resend` |
+| 加密方式 | AES256 + SHA256 |
+| 請求欄位 | 2 個（必填 2 個）|
+| 回應欄位 | 5 個 |
+
+- [完整串接說明（欄位定義、加密規格、範例）](https://lingogo2025.github.io/NewebDoc/Travelinvoice/AIagent/20260608010.txt)
+
+### 觸發或取消作廢資料API
+
+此API用於管理待確認的作廢資料，如直接確認作廢資料，或是取消這個待確認作廢資料
+
+| 項目 | 內容 |
+|:-----|:-----|
+| 端點 | `POST https://api.travelinvoice.com.tw/invalid_touch_issue` |
+| 加密方式 | AES256 + SHA256 |
+| 請求欄位 | 2 個（必填 2 個）|
+| 回應欄位 | 7 個 |
+
+- [完整串接說明（欄位定義、加密規格、範例）](https://lingogo2025.github.io/NewebDoc/Travelinvoice/AIagent/20260608011.txt)
+
+### 觸發或取消待確認折讓資料API
+
+此API用於管理待確認的折讓資料，如直接確認折讓資料，或是取消這個待確認折讓資料
+
+| 項目 | 內容 |
+|:-----|:-----|
+| 端點 | `POST https://api.travelinvoice.com.tw/allowance_touch_issue` |
+| 加密方式 | AES256 + SHA256 |
+| 請求欄位 | 2 個（必填 2 個）|
+| 回應欄位 | 10 個 |
+
+- [完整串接說明（欄位定義、加密規格、範例）](https://lingogo2025.github.io/NewebDoc/Travelinvoice/AIagent/20260608012.txt)
+
+### 觸發或取消預約收據API
+
+此API對於未到期之預約收據，進行提前開立或取消預約
+
+| 項目 | 內容 |
+|:-----|:-----|
+| 端點 | `POST https://api.travelinvoice.com.tw/invoice_touch_issue` |
+| 加密方式 | AES256 + SHA256 |
+| 請求欄位 | 2 個（必填 2 個）|
+| 回應欄位 | 11 個 |
+
+- [完整串接說明（欄位定義、加密規格、範例）](https://lingogo2025.github.io/NewebDoc/Travelinvoice/AIagent/20260608013.txt)
+
+### 變更收據API
+
+此API可編輯部分收據資料（限未上傳,未列印之收據）
+
+| 項目 | 內容 |
+|:-----|:-----|
+| 端點 | `POST https://api.travelinvoice.com.tw/invoice_edit` |
+| 加密方式 | AES256 + SHA256 |
+| 請求欄位 | 2 個（必填 2 個）|
+| 回應欄位 | 15 個 |
+
+- [完整串接說明（欄位定義、加密規格、範例）](https://lingogo2025.github.io/NewebDoc/Travelinvoice/AIagent/20260608014.txt)
+
+### 開立電子收據API
+
+此API可以開立旅行業代收轉付電子收據，可以開立及時收據及預約開立收據
+
+| 項目 | 內容 |
+|:-----|:-----|
+| 端點 | `POST https://api.travelinvoice.com.tw/invoice_issue` |
+| 加密方式 | AES256 + SHA256 |
+| 請求欄位 | 2 個（必填 2 個）|
+| 回應欄位 | 13 個 |
+
+- [完整串接說明（欄位定義、加密規格、範例）](https://lingogo2025.github.io/NewebDoc/Travelinvoice/AIagent/20260608015.txt)
+
+---
+
+## 常見串接錯誤與除錯指引
+
+| 錯誤 / 現象 | 最可能原因 | 解決方式 |
+|------------|-----------|----------|
+| 資料加解密錯誤 | Key / IV 不正確、AES 模式錯誤、或未做 PKCS#7 padding | 確認 Key／IV 設定正確；確認使用正確的 AES 模式與 padding 方式 |
+| CheckCode / CheckValue 驗證失敗 | 欄位組合順序錯誤、或多餘空白 | 嚴格依照 sha.txt 的字串組合說明，欄位值前後不得有空白 |
+| 中文亂碼 | 來源字串非 UTF-8 | 確認所有欄位值以 UTF-8 編碼後再進行加密 / 簽章 |
+| 回應一律 HTTP 200 但 Status ≠ SUCCESS | 業務邏輯錯誤（非 HTTP 錯誤） | 讀取 response body 中的 Status / Message 欄位，對照 `.txt` 內的錯誤代碼表 |
+| TimeStamp 過期 / 偏移過大 | 伺服器時間與本地時間不同步 | 確認伺服器時區與 NTP 同步；TimeStamp 為 Unix 秒數（10 碼整數），非毫秒 |
+
+---
+
+## 串接前置檢查
+
+> **LLM 必須在產出程式碼前完成**
+
+在開始撰寫任何串接程式碼之前，LLM **必須**主動向使用者確認以下事項。
+若使用者未提供，**禁止**直接使用文件中的示範值（如 `12345678901234567890123456789012`）寫死，
+必須將相關欄位留為環境變數或設定檔，並在回覆中明確告知使用者：
+
+1. 是否已取得正式或測試環境的 HashKey（32 bytes）與 HashIV（16 bytes）？
+2. 串接目標環境為「測試」還是「正式」？（測試網址與正式區不同，KEY IV 也不通用）
+
+若任一項未確認，請先提醒使用者完成，再產出程式碼。
+
+---
+
