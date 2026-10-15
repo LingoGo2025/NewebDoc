@@ -186,7 +186,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "53fe76846f",
+      "checkpoint_id": "1c3c6800f4",
       "name": "步驟 12 後畫面",
       "after_line": 21,
       "max_diff_pixel_ratio": 0.1,
@@ -202,7 +202,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "5cb404fe13",
+      "checkpoint_id": "568240dbac",
       "name": "步驟 13 後畫面",
       "after_line": 22,
       "max_diff_pixel_ratio": 0.1,
@@ -218,7 +218,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "12c19e5ca7",
+      "checkpoint_id": "729249a561",
       "name": "步驟 14 後畫面",
       "after_line": 23,
       "max_diff_pixel_ratio": 0.1,
