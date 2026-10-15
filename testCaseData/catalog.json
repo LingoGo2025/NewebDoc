@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "root_case_order": [],
-  "generated_at": "2026-10-15T03:26:59+00:00",
+  "generated_at": "2026-10-15T05:05:45+00:00",
   "app_version": "1.2",
   "folders": [
     {
@@ -148,19 +148,22 @@
     },
     {
       "order": 0,
-      "id": "ef2e2b22431d",
-      "name": "官網",
-      "parent_id": "f02b2af56c18",
-      "auto_expand": false,
-      "case_order": []
-    },
-    {
-      "order": 0,
       "id": "a8ae781164b0",
       "name": "官網",
       "parent_id": "e26536af3355",
       "auto_expand": false,
       "case_order": []
+    },
+    {
+      "order": 0,
+      "id": "ef2e2b22431d",
+      "name": "官網",
+      "parent_id": "f02b2af56c18",
+      "auto_expand": false,
+      "case_order": [
+        "rec-20261015-033559-cb888711",
+        "rec-20261015-043001-2ce9deaf"
+      ]
     },
     {
       "order": 3,
@@ -177,6 +180,16 @@
       "parent_id": "e26536af3355",
       "auto_expand": false,
       "case_order": []
+    },
+    {
+      "order": 1,
+      "id": "589e487ed98d",
+      "name": "會員中心",
+      "parent_id": "f02b2af56c18",
+      "auto_expand": false,
+      "case_order": [
+        "rec-20261015-042024-46cf5315"
+      ]
     },
     {
       "order": 4,
@@ -211,6 +224,24 @@
     }
   ],
   "scripts": [
+    {
+      "id": "rec-20261015-043001-2ce9deaf",
+      "folder_id": "ef2e2b22431d",
+      "name": "查詢專區",
+      "revision": "4ccb52110dbb5480"
+    },
+    {
+      "id": "rec-20261015-042024-46cf5315",
+      "folder_id": "589e487ed98d",
+      "name": "會員登入",
+      "revision": "0e7b4ea55ab1b02f"
+    },
+    {
+      "id": "rec-20261015-033559-cb888711",
+      "folder_id": "ef2e2b22431d",
+      "name": "官網主要頁面（含下載檔案）",
+      "revision": "71a13b4b97872d1a"
+    },
     {
       "id": "rec-20261014-120007-bed98cbc",
       "folder_id": "01060307d033",
