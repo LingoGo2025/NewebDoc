@@ -21,7 +21,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "75de657597",
@@ -35,7 +37,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "f5506344a5",
@@ -49,7 +53,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "2a86681393",
@@ -63,7 +69,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "83afcc74f4",
@@ -77,7 +85,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "5db0155b07",
@@ -91,7 +101,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "5e0e2c5f20",
@@ -105,7 +117,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "1d60a50828",
@@ -119,7 +133,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "e376dbe6db",
@@ -133,7 +149,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "7ebad2cf52",
@@ -147,7 +165,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "ffb926277a",
@@ -161,7 +181,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "8967d5f2e4",
@@ -175,7 +197,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "f7d8f9bdbb",
@@ -189,7 +213,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "dd66c1e8df",
@@ -203,7 +229,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "0fb1c237c8",
@@ -217,7 +245,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "a5b67a8fc8",
@@ -231,7 +261,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "935ec59410",
@@ -245,7 +277,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "2360048550",
@@ -259,7 +293,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "711e66ab14",
@@ -273,7 +309,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "c89f86ec76",
@@ -287,7 +325,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "541244121e",
@@ -301,7 +341,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "77a27d3f80",
@@ -315,7 +357,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "6bb5e976d4",
@@ -329,7 +373,9 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     },
     {
       "checkpoint_id": "eda933e262",
@@ -345,7 +391,9 @@
         "華南商業銀行"
       ],
       "screenshot_enabled": true,
-      "wait_seconds": 2.0
+      "wait_seconds": 2.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     }
   ],
   "parameters": [
