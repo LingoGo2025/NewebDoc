@@ -2,7 +2,7 @@
   "schema_version": 1,
   "replace_existing": true,
   "root_case_order": [],
-  "generated_at": "2026-10-15T09:06:19+00:00",
+  "generated_at": "2026-10-15T11:29:49+00:00",
   "app_version": "1.3",
   "folders": [
     {
@@ -176,6 +176,14 @@
     },
     {
       "order": 1,
+      "id": "ea8368ee35a4",
+      "name": "會員中心",
+      "parent_id": "e26536af3355",
+      "auto_expand": false,
+      "case_order": []
+    },
+    {
+      "order": 1,
       "id": "589e487ed98d",
       "name": "會員中心",
       "parent_id": "f02b2af56c18",
@@ -183,14 +191,6 @@
       "case_order": [
         "rec-20261015-042024-46cf5315"
       ]
-    },
-    {
-      "order": 1,
-      "id": "ea8368ee35a4",
-      "name": "會員中心",
-      "parent_id": "e26536af3355",
-      "auto_expand": false,
-      "case_order": []
     },
     {
       "order": 4,
