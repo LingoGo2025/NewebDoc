@@ -4,7 +4,7 @@
   "name": "付款查詢",
   "url": "https://www.newebpay.com/website/Page/content/transaction_inquiry",
   "browser": "chromium",
-  "headed": false,
+  "headed": true,
   "note": "",
   "region_id": "production",
   "script": "import { test, expect } from '@playwright/test';\n\ntest.use({\n  locale: 'zh-TW'\n});\n\ntest('test', async ({ page }) => {\n  await page.goto('https://www.newebpay.com/website/Page/content/transaction_inquiry');\n  await page.getByRole('textbox', { name: '付款人電子信箱：' }).click();\n  await page.getByRole('textbox', { name: '付款人電子信箱：' }).fill(testData('Email'));\n  await page.getByRole('textbox', { name: '藍新金流交易序號：' }).click();\n  await page.getByRole('textbox', { name: '藍新金流交易序號：' }).fill(testData('藍新金流交易序號：'));\n  await page.getByRole('textbox', { name: '圖形驗證碼：' }).click();\n  await page.getByText('更換一組').click();\n  await page.getByRole('textbox', { name: '圖形驗證碼：' }).click();\n  await page.getByRole('textbox', { name: '圖形驗證碼：' }).fill(await captcha(page.getByRole('textbox', { name: '圖形驗證碼：' }), { length: 5, characters: 'upper' }));\n  await page.getByRole('button', { name: '送出查詢' }).click();\n});",

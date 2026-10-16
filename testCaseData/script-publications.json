@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "publications": [
+    {
+      "publication_id": "31cdd9999d6a4244b5704192e23e6160",
+      "published_at": "2026-10-16T07:36:17+00:00",
+      "app_version": "1.4",
+      "case_count": 32,
+      "folder_count": 22,
+      "added": [
+        "登入個人會員",
+        "登入企業會員"
+      ],
+      "updated": [
+        "信用卡（台新卡）3D  一次付清",
+        "付款查詢"
+      ],
+      "removed": [
+        "登入企業會員",
+        "登入個人會員"
+      ]
+    }
+  ]
+}

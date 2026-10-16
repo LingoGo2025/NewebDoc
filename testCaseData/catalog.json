@@ -2,8 +2,8 @@
   "schema_version": 1,
   "replace_existing": true,
   "root_case_order": [],
-  "generated_at": "2026-10-15T11:29:49+00:00",
-  "app_version": "1.3",
+  "generated_at": "2026-10-16T07:36:05+00:00",
+  "app_version": "1.4",
   "folders": [
     {
       "order": 0,
@@ -47,8 +47,8 @@
       "parent_id": "e60abf3d8b95",
       "auto_expand": false,
       "case_order": [
-        "rec-20261014-104238-ab5558a2",
-        "rec-20261014-104455-9556eb43"
+        "rec-20261016-070437-cd0ca6f7",
+        "rec-20261016-072458-59801710"
       ]
     },
     {
@@ -149,14 +149,6 @@
     },
     {
       "order": 0,
-      "id": "a8ae781164b0",
-      "name": "官網",
-      "parent_id": "e26536af3355",
-      "auto_expand": false,
-      "case_order": []
-    },
-    {
-      "order": 0,
       "id": "ef2e2b22431d",
       "name": "官網",
       "parent_id": "f02b2af56c18",
@@ -167,17 +159,17 @@
       ]
     },
     {
-      "order": 3,
-      "id": "9e23aff1d035",
-      "name": "快速收款連結 EPG",
+      "order": 0,
+      "id": "a8ae781164b0",
+      "name": "官網",
       "parent_id": "e26536af3355",
       "auto_expand": false,
       "case_order": []
     },
     {
-      "order": 1,
-      "id": "ea8368ee35a4",
-      "name": "會員中心",
+      "order": 3,
+      "id": "9e23aff1d035",
+      "name": "快速收款連結 EPG",
       "parent_id": "e26536af3355",
       "auto_expand": false,
       "case_order": []
@@ -191,6 +183,14 @@
       "case_order": [
         "rec-20261015-042024-46cf5315"
       ]
+    },
+    {
+      "order": 1,
+      "id": "ea8368ee35a4",
+      "name": "會員中心",
+      "parent_id": "e26536af3355",
+      "auto_expand": false,
+      "case_order": []
     },
     {
       "order": 4,
@@ -226,6 +226,18 @@
   ],
   "scripts": [
     {
+      "id": "rec-20261016-072458-59801710",
+      "folder_id": "7ef3227043c3",
+      "name": "登入企業會員",
+      "revision": "11c22dd8436b0bfe"
+    },
+    {
+      "id": "rec-20261016-070437-cd0ca6f7",
+      "folder_id": "7ef3227043c3",
+      "name": "登入個人會員",
+      "revision": "81422a40196e7f3c"
+    },
+    {
       "id": "rec-20261015-043001-2ce9deaf",
       "folder_id": "ef2e2b22431d",
       "name": "查詢專區",
@@ -253,25 +265,13 @@
       "id": "rec-20261014-112149-362e34a7",
       "folder_id": "d618bd3dc7d8",
       "name": "付款查詢",
-      "revision": "637cbffe2ba2b0b4"
+      "revision": "22ae448206b68056"
     },
     {
       "id": "rec-20261014-111209-6f3e66b6",
       "folder_id": "d618bd3dc7d8",
       "name": "稍微逛一下網頁（含下載API文件）",
       "revision": "cb7cdf07e2ca65ff"
-    },
-    {
-      "id": "rec-20261014-104455-9556eb43",
-      "folder_id": "7ef3227043c3",
-      "name": "登入個人會員",
-      "revision": "434b0b9c881c6873"
-    },
-    {
-      "id": "rec-20261014-104238-ab5558a2",
-      "folder_id": "7ef3227043c3",
-      "name": "登入企業會員",
-      "revision": "3d6e0345d48003e3"
     },
     {
       "id": "rec-20261013-094604-64f1e217",
@@ -307,7 +307,7 @@
       "id": "rec-20261008-090838-92e1196c",
       "folder_id": "0ef6f48b1435",
       "name": "信用卡（台新卡）3D  一次付清",
-      "revision": "3d427cbf7c8c8d58"
+      "revision": "1e5cf6ca6238df39"
     },
     {
       "id": "rec-20261008-084543-8b12626a",

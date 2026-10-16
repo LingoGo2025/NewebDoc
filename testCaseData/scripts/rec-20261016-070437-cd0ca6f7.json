@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
-  "id": "rec-20261014-104455-9556eb43",
+  "id": "rec-20261016-070437-cd0ca6f7",
   "name": "登入個人會員",
   "url": "https://www.newebpay.com/main/login_center/single_login",
   "browser": "chromium",
   "headed": false,
   "note": "",
   "region_id": "production",
-  "script": "import { test, expect } from '@playwright/test';\n\ntest.use({\n  locale: 'zh-TW'\n});\n\ntest('test', async ({ page }) => {\n  await page.goto('https://www.newebpay.com/main/login_center/single_login');\n  await page.getByRole('textbox', { name: '帳號' }).click();\n  await page.getByRole('textbox', { name: '帳號' }).fill(testData('帳號'));\n  await page.getByRole('textbox', { name: '帳號' }).press('Tab');\n  await page.getByRole('textbox', { name: '密碼' }).fill(testData('密碼'));\n  await page.locator('#person_captcha').click();\n  await page.getByRole('textbox', { name: '請輸入右方驗證碼' }).click();\n  await page.getByRole('textbox', { name: '請輸入右方驗證碼' }).fill(await captcha(page.getByRole('textbox', { name: '請輸入右方驗證碼' }), { length: 5, characters: 'upper' }));\n  await page.getByRole('button', { name: '個人會員登入' }).click();\n  await page.goto('https://www.newebpay.com/sale/Sell_center/search_transaction');\n  await page.getByRole('link', { name: '登出' }).click();\n});",
+  "script": "import { test, expect } from '@playwright/test';\n\ntest.use({\n  locale: 'zh-TW'\n});\n\ntest('test', async ({ page }) => {\n  await page.goto('https://www.newebpay.com/main/login_center/single_login');\n  await page.getByRole('textbox', { name: '帳號' }).click();\n  await page.getByRole('textbox', { name: '帳號' }).fill(testData('帳號'));\n  await page.getByRole('textbox', { name: '帳號' }).press('Tab');\n  await page.getByRole('textbox', { name: '密碼' }).fill(testData('密碼'));\n  await page.locator('#person_captcha').click();\n  await page.getByRole('textbox', { name: '請輸入右方驗證碼' }).click();\n  await page.getByRole('textbox', { name: '請輸入右方驗證碼' }).fill(await captcha(page.getByRole('textbox', { name: '請輸入右方驗證碼' }), { length: 5, characters: 'upper' }));\n  page.once('dialog', dialog => {\n    console.log(`Dialog message: ${dialog.message()}`);\n    dialog.accept().catch(() => {});\n  });\n  await page.getByRole('button', { name: '個人會員登入' }).click(); // [可能不出現 5 秒]\n  await page.goto('https://www.newebpay.com/sale/Sell_center/search_transaction');\n});",
   "checkpoints": [
     {
-      "checkpoint_id": "e42bd9e582",
+      "checkpoint_id": "f4615ee12e",
       "name": "步驟 1 後畫面",
       "after_line": 8,
       "max_diff_pixel_ratio": 0.1,
@@ -26,7 +26,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "01fa48321c",
+      "checkpoint_id": "88305f0c30",
       "name": "步驟 2 後畫面",
       "after_line": 9,
       "max_diff_pixel_ratio": 0.1,
@@ -42,7 +42,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "a7d29b0207",
+      "checkpoint_id": "8824440439",
       "name": "步驟 3 後畫面",
       "after_line": 10,
       "max_diff_pixel_ratio": 0.1,
@@ -58,7 +58,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "5c05a632af",
+      "checkpoint_id": "6ade1f23a2",
       "name": "步驟 4 後畫面",
       "after_line": 11,
       "max_diff_pixel_ratio": 0.1,
@@ -74,7 +74,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "091a55ad22",
+      "checkpoint_id": "4621f47ffd",
       "name": "步驟 5 後畫面",
       "after_line": 12,
       "max_diff_pixel_ratio": 0.1,
@@ -90,7 +90,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "88b760f2a1",
+      "checkpoint_id": "fd99d3a8ea",
       "name": "步驟 6 後畫面",
       "after_line": 13,
       "max_diff_pixel_ratio": 0.1,
@@ -106,7 +106,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "7ff7409868",
+      "checkpoint_id": "8d4467c409",
       "name": "步驟 7 後畫面",
       "after_line": 14,
       "max_diff_pixel_ratio": 0.1,
@@ -122,7 +122,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "57cc2a02aa",
+      "checkpoint_id": "ff6fb23015",
       "name": "步驟 8 後畫面",
       "after_line": 15,
       "max_diff_pixel_ratio": 0.1,
@@ -138,9 +138,9 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "594674be93",
+      "checkpoint_id": "12d8b9152c",
       "name": "步驟 9 後畫面",
-      "after_line": 16,
+      "after_line": 20,
       "max_diff_pixel_ratio": 0.1,
       "full_page": false,
       "ignore_dynamic_regions": true,
@@ -154,32 +154,18 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "db01d60421",
+      "checkpoint_id": "6eecf787e9",
       "name": "步驟 10 後畫面",
-      "after_line": 17,
+      "after_line": 21,
       "max_diff_pixel_ratio": 0.1,
       "full_page": false,
       "ignore_dynamic_regions": true,
-      "comparison_mode": "layout",
+      "comparison_mode": "text",
       "layout_tolerance_px": 24.0,
       "layout_tolerance_ratio": 0.15,
-      "expected_texts": [],
-      "screenshot_enabled": true,
-      "wait_seconds": 2.0,
-      "check_download": false,
-      "download_timeout_seconds": 60.0
-    },
-    {
-      "checkpoint_id": "75ccb69f90",
-      "name": "步驟 11 後畫面",
-      "after_line": 18,
-      "max_diff_pixel_ratio": 0.1,
-      "full_page": false,
-      "ignore_dynamic_regions": true,
-      "comparison_mode": "layout",
-      "layout_tolerance_px": 24.0,
-      "layout_tolerance_ratio": 0.15,
-      "expected_texts": [],
+      "expected_texts": [
+        "交易查詢"
+      ],
       "screenshot_enabled": true,
       "wait_seconds": 0.0,
       "check_download": false,
@@ -189,8 +175,8 @@
   "parameters": [
     {
       "name": "帳號",
-      "private": true,
-      "value": null
+      "private": false,
+      "value": "wenpower"
     },
     {
       "name": "密碼",
