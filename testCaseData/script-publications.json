@@ -2,6 +2,23 @@
   "schema_version": 1,
   "publications": [
     {
+      "publication_id": "51542d17728545ac8a155ed0b64087e6",
+      "published_at": "2026-10-19T08:12:59+00:00",
+      "app_version": "1.4",
+      "case_count": 49,
+      "folder_count": 23,
+      "added": [
+        "超商代碼繳費",
+        "超商取貨付款 7-11",
+        "超商取貨付款 全家",
+        "超商取貨付款 萊爾富",
+        "WebATM 台灣銀行",
+        "WebATM 華南銀行"
+      ],
+      "updated": [],
+      "removed": []
+    },
+    {
       "publication_id": "155827af790a4898a65797eb120fadc2",
       "published_at": "2026-10-19T06:29:29+00:00",
       "app_version": "1.4",
