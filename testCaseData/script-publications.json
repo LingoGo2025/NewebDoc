@@ -2,6 +2,30 @@
   "schema_version": 1,
   "publications": [
     {
+      "publication_id": "155827af790a4898a65797eb120fadc2",
+      "published_at": "2026-10-19T06:29:29+00:00",
+      "app_version": "1.4",
+      "case_count": 43,
+      "folder_count": 23,
+      "added": [
+        "Apple Pay付款 + 全家選門市",
+        "台灣Pay+萊爾富選門市",
+        "TWQR + 7-11選門市",
+        "AFTEE 一般支付 + 7-11選門市",
+        "AFTEE 分3期 + 全家選門市",
+        "ATM繳費 台灣銀行",
+        "ATM繳費取號 華南銀行",
+        "大哥付 一次付清 付款成功 + 萊爾富選門市",
+        "大哥付 一次付清 付款失敗 + 全家選門市",
+        "大哥付 分3期 付款成功 + 萊爾富選門市",
+        "大哥付 分3期 付款失敗 + 萊爾富選門市"
+      ],
+      "updated": [
+        "付款查詢"
+      ],
+      "removed": []
+    },
+    {
       "publication_id": "31cdd9999d6a4244b5704192e23e6160",
       "published_at": "2026-10-16T07:36:17+00:00",
       "app_version": "1.4",
