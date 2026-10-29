@@ -2,6 +2,20 @@
   "schema_version": 1,
   "publications": [
     {
+      "publication_id": "464ac327b147425ebbea11f04f8bed1a",
+      "published_at": "2026-10-29T08:56:04+00:00",
+      "app_version": "1.4",
+      "case_count": 50,
+      "folder_count": 23,
+      "added": [
+        "svc.neweb.com.tw"
+      ],
+      "updated": [
+        "信用卡（台新卡）3D  一次付清"
+      ],
+      "removed": []
+    },
+    {
       "publication_id": "51542d17728545ac8a155ed0b64087e6",
       "published_at": "2026-10-19T08:12:59+00:00",
       "app_version": "1.4",

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "replace_existing": true,
   "root_case_order": [],
-  "generated_at": "2026-10-19T08:12:46+00:00",
+  "generated_at": "2026-10-29T08:55:54+00:00",
   "app_version": "1.4",
   "folders": [
     {
@@ -115,7 +115,9 @@
       "name": "MPG",
       "parent_id": "e26536af3355",
       "auto_expand": false,
-      "case_order": []
+      "case_order": [
+        "rec-20261029-082822-97a8063c"
+      ]
     },
     {
       "order": 2,
@@ -176,6 +178,14 @@
     },
     {
       "order": 1,
+      "id": "ea8368ee35a4",
+      "name": "會員中心",
+      "parent_id": "e26536af3355",
+      "auto_expand": false,
+      "case_order": []
+    },
+    {
+      "order": 1,
       "id": "589e487ed98d",
       "name": "會員中心",
       "parent_id": "f02b2af56c18",
@@ -183,14 +193,6 @@
       "case_order": [
         "rec-20261015-042024-46cf5315"
       ]
-    },
-    {
-      "order": 1,
-      "id": "ea8368ee35a4",
-      "name": "會員中心",
-      "parent_id": "e26536af3355",
-      "auto_expand": false,
-      "case_order": []
     },
     {
       "order": 2,
@@ -251,6 +253,12 @@
     }
   ],
   "scripts": [
+    {
+      "id": "rec-20261029-082822-97a8063c",
+      "folder_id": "5a6854b2821a",
+      "name": "svc.neweb.com.tw",
+      "revision": "06aeddba03298ea3"
+    },
     {
       "id": "rec-20261019-072630-e9897dc6",
       "folder_id": "f0d0c686e907",
@@ -435,7 +443,7 @@
       "id": "rec-20261008-090838-92e1196c",
       "folder_id": "0ef6f48b1435",
       "name": "信用卡（台新卡）3D  一次付清",
-      "revision": "1e5cf6ca6238df39"
+      "revision": "3d427cbf7c8c8d58"
     },
     {
       "id": "rec-20261008-084543-8b12626a",
