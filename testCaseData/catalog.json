@@ -2,7 +2,7 @@
   "schema_version": 1,
   "replace_existing": true,
   "root_case_order": [],
-  "generated_at": "2026-10-29T08:55:54+00:00",
+  "generated_at": "2026-10-30T06:09:34+00:00",
   "app_version": "1.4",
   "folders": [
     {
@@ -116,7 +116,30 @@
       "parent_id": "e26536af3355",
       "auto_expand": false,
       "case_order": [
-        "rec-20261029-082822-97a8063c"
+        "rec-20261029-111636-f1cfbab4",
+        "rec-20261029-112006-a09d980a",
+        "rec-20261029-112348-22e74f29",
+        "rec-20261029-112637-544daae9",
+        "rec-20261029-112831-f725dd86",
+        "rec-20261029-113055-038bf184",
+        "rec-20261029-113302-91e7eb0c",
+        "rec-20261029-113736-d7febc37",
+        "rec-20261029-113948-453f67fc",
+        "rec-20261029-114141-55e2c349",
+        "rec-20261029-114257-4c40ecac",
+        "rec-20261029-114428-4cca7b80",
+        "rec-20261029-114636-8481657c",
+        "rec-20261029-114801-8bbb7c38",
+        "rec-20261029-115109-ea7563bb",
+        "rec-20261029-115309-e7b5be5f",
+        "rec-20261029-115519-78179242",
+        "rec-20261029-115640-dc1e1fe9",
+        "rec-20261029-115812-f59352a1",
+        "rec-20261029-115955-f37d4ad0",
+        "rec-20261030-024422-99a5988d",
+        "rec-20261030-024724-634aa7ab",
+        "rec-20261030-024942-5f43659b",
+        "rec-20261030-025136-649b482f"
       ]
     },
     {
@@ -166,7 +189,11 @@
       "name": "官網",
       "parent_id": "e26536af3355",
       "auto_expand": false,
-      "case_order": []
+      "case_order": [
+        "rec-20261030-030256-f15a60e5",
+        "rec-20261030-031657-d70f583b",
+        "rec-20261030-031927-d70c3112"
+      ]
     },
     {
       "order": 3,
@@ -174,15 +201,9 @@
       "name": "快速收款連結 EPG",
       "parent_id": "e26536af3355",
       "auto_expand": false,
-      "case_order": []
-    },
-    {
-      "order": 1,
-      "id": "ea8368ee35a4",
-      "name": "會員中心",
-      "parent_id": "e26536af3355",
-      "auto_expand": false,
-      "case_order": []
+      "case_order": [
+        "rec-20261030-060111-6fbae9fd"
+      ]
     },
     {
       "order": 1,
@@ -192,6 +213,17 @@
       "auto_expand": false,
       "case_order": [
         "rec-20261015-042024-46cf5315"
+      ]
+    },
+    {
+      "order": 1,
+      "id": "ea8368ee35a4",
+      "name": "會員中心",
+      "parent_id": "e26536af3355",
+      "auto_expand": false,
+      "case_order": [
+        "rec-20261030-032853-5eb72c6c",
+        "rec-20261030-045649-f6d4e5e7"
       ]
     },
     {
@@ -254,10 +286,184 @@
   ],
   "scripts": [
     {
-      "id": "rec-20261029-082822-97a8063c",
+      "id": "rec-20261030-060111-6fbae9fd",
+      "folder_id": "9e23aff1d035",
+      "name": "ccore.newebpay.com",
+      "revision": "9f17b76acefbeb0b"
+    },
+    {
+      "id": "rec-20261030-045649-f6d4e5e7",
+      "folder_id": "ea8368ee35a4",
+      "name": "企業會員登入",
+      "revision": "16deed0079d818d8"
+    },
+    {
+      "id": "rec-20261030-032853-5eb72c6c",
+      "folder_id": "ea8368ee35a4",
+      "name": "個人會員登入",
+      "revision": "d8cf163ca8e7ddda"
+    },
+    {
+      "id": "rec-20261030-031927-d70c3112",
+      "folder_id": "a8ae781164b0",
+      "name": "付款查詢專區",
+      "revision": "b0a176e65abf898c"
+    },
+    {
+      "id": "rec-20261030-031657-d70f583b",
+      "folder_id": "a8ae781164b0",
+      "name": "物流貨態查詢",
+      "revision": "fb3ef79520c34bb0"
+    },
+    {
+      "id": "rec-20261030-030256-f15a60e5",
+      "folder_id": "a8ae781164b0",
+      "name": "官網主要頁面+文件下載測試",
+      "revision": "acb682aac770a31b"
+    },
+    {
+      "id": "rec-20261030-025136-649b482f",
       "folder_id": "5a6854b2821a",
-      "name": "svc.neweb.com.tw",
-      "revision": "06aeddba03298ea3"
+      "name": "MPG_超商取貨付款 OK",
+      "revision": "dc4b557f40b22383"
+    },
+    {
+      "id": "rec-20261030-024942-5f43659b",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_超商取貨付款 萊爾富",
+      "revision": "bc02cbc2f26ee2ed"
+    },
+    {
+      "id": "rec-20261030-024724-634aa7ab",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_超商取貨付款 全家",
+      "revision": "88fd6825280c4381"
+    },
+    {
+      "id": "rec-20261030-024422-99a5988d",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_超商取貨付款 7-11",
+      "revision": "a0f359d6ee1a4925"
+    },
+    {
+      "id": "rec-20261029-115955-f37d4ad0",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_大哥付 分3期 付款失敗",
+      "revision": "cb6733f86fe25463"
+    },
+    {
+      "id": "rec-20261029-115812-f59352a1",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_大哥付 分3期 付款成功",
+      "revision": "64a0534e3d67fe1f"
+    },
+    {
+      "id": "rec-20261029-115640-dc1e1fe9",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_大哥付 一般 付款失敗",
+      "revision": "51cdabd040670812"
+    },
+    {
+      "id": "rec-20261029-115519-78179242",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_大哥付 一般 付款成功",
+      "revision": "67fa2aed145c8f75"
+    },
+    {
+      "id": "rec-20261029-115309-e7b5be5f",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_AFTEE 分3期",
+      "revision": "0f52f4ff0512045d"
+    },
+    {
+      "id": "rec-20261029-115109-ea7563bb",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_AFTEE_付款成功",
+      "revision": "f10b01bb337508f1"
+    },
+    {
+      "id": "rec-20261029-114801-8bbb7c38",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_Apple Pay_QRcode",
+      "revision": "5cc5fb3ccf67d259"
+    },
+    {
+      "id": "rec-20261029-114636-8481657c",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_TWQR_模擬失敗",
+      "revision": "faa9879e09420336"
+    },
+    {
+      "id": "rec-20261029-114428-4cca7b80",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_TWQR_模擬成功",
+      "revision": "adfae233ce902f6e"
+    },
+    {
+      "id": "rec-20261029-114257-4c40ecac",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_玉山Wallet_付款失敗",
+      "revision": "b82b941bad18bc18"
+    },
+    {
+      "id": "rec-20261029-114141-55e2c349",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_玉山Wallet_付款成功",
+      "revision": "15b5e371a528266f"
+    },
+    {
+      "id": "rec-20261029-113948-453f67fc",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_台灣Pay_付款失敗",
+      "revision": "542a00b3d99345f4"
+    },
+    {
+      "id": "rec-20261029-113736-d7febc37",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_台灣Pay_付款成功",
+      "revision": "57f478fb1644b796"
+    },
+    {
+      "id": "rec-20261029-113302-91e7eb0c",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_代碼繳費",
+      "revision": "88513b0bb26eaa39"
+    },
+    {
+      "id": "rec-20261029-113055-038bf184",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_條碼繳費",
+      "revision": "b9f275d75336650a"
+    },
+    {
+      "id": "rec-20261029-112831-f725dd86",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_ATM 2.0 凱基",
+      "revision": "ef29c727ef71afac"
+    },
+    {
+      "id": "rec-20261029-112637-544daae9",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_WebATM 華南",
+      "revision": "69c02b3328c1e80f"
+    },
+    {
+      "id": "rec-20261029-112348-22e74f29",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_紅利折抵",
+      "revision": "25c1a68d67b2c625"
+    },
+    {
+      "id": "rec-20261029-112006-a09d980a",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_信用卡 分3期",
+      "revision": "21ae5c14ccd2e5fa"
+    },
+    {
+      "id": "rec-20261029-111636-f1cfbab4",
+      "folder_id": "5a6854b2821a",
+      "name": "MPG_信用卡一次付清",
+      "revision": "1cb4a0abd57abd22"
     },
     {
       "id": "rec-20261019-072630-e9897dc6",
@@ -347,7 +553,7 @@
       "id": "rec-20261019-030911-c5e7f401",
       "folder_id": "6d4d9df8323b",
       "name": "TWQR + 7-11選門市",
-      "revision": "91672b57d267f8a8"
+      "revision": "eaf5c20983187c6a"
     },
     {
       "id": "rec-20261016-093845-8dfdb0e2",
@@ -425,7 +631,7 @@
       "id": "rec-20261013-093429-b6cb7a7a",
       "folder_id": "06a02c79549a",
       "name": "信用卡 非3D 紅利折抵 + 7-11選門市",
-      "revision": "1c16666b7935f347"
+      "revision": "67cd182079cb2c39"
     },
     {
       "id": "rec-20261013-091930-03853aa8",

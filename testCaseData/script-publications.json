@@ -2,6 +2,52 @@
   "schema_version": 1,
   "publications": [
     {
+      "publication_id": "e479261084494430819cc5dd90141209",
+      "published_at": "2026-10-30T06:09:47+00:00",
+      "app_version": "1.4",
+      "case_count": 79,
+      "folder_count": 23,
+      "added": [
+        "MPG_信用卡一次付清",
+        "MPG_信用卡 分3期",
+        "MPG_紅利折抵",
+        "MPG_WebATM 華南",
+        "MPG_ATM 2.0 凱基",
+        "MPG_條碼繳費",
+        "MPG_代碼繳費",
+        "MPG_台灣Pay_付款成功",
+        "MPG_台灣Pay_付款失敗",
+        "MPG_玉山Wallet_付款成功",
+        "MPG_玉山Wallet_付款失敗",
+        "MPG_TWQR_模擬成功",
+        "MPG_TWQR_模擬失敗",
+        "MPG_Apple Pay_QRcode",
+        "MPG_AFTEE_付款成功",
+        "MPG_AFTEE 分3期",
+        "MPG_大哥付 一般 付款成功",
+        "MPG_大哥付 一般 付款失敗",
+        "MPG_大哥付 分3期 付款成功",
+        "MPG_大哥付 分3期 付款失敗",
+        "MPG_超商取貨付款 7-11",
+        "MPG_超商取貨付款 全家",
+        "MPG_超商取貨付款 萊爾富",
+        "MPG_超商取貨付款 OK",
+        "官網主要頁面+文件下載測試",
+        "物流貨態查詢",
+        "付款查詢專區",
+        "個人會員登入",
+        "企業會員登入",
+        "ccore.newebpay.com"
+      ],
+      "updated": [
+        "信用卡 非3D 紅利折抵 + 7-11選門市",
+        "TWQR + 7-11選門市"
+      ],
+      "removed": [
+        "svc.neweb.com.tw"
+      ]
+    },
+    {
       "publication_id": "464ac327b147425ebbea11f04f8bed1a",
       "published_at": "2026-10-29T08:56:04+00:00",
       "app_version": "1.4",
