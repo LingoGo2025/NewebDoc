@@ -1,12 +1,24 @@
 {
   "schema_version": 2,
-  "latest_version": "1.5",
+  "latest_version": "1.6",
   "releases": [
+    {
+      "version": "1.6",
+      "notes": "1.增加批次執行後可單執行序重新對失敗的再次發動\n2.允許腳本不用載入完成\n3.批次報表時間改為整體發動總時間,而非所有腳本的加總",
+      "mac_url": "https://drive.google.com/file/d/1fP99YgacCjxxkemoL4rXAw3Ql_OWSvKZ/view?usp=drive_link",
+      "windows_url": "https://drive.google.com/file/d/12jlyFxiBTbbvfrkiBKL0JYsG28gNjB-a/view?usp=drive_link",
+      "mac_url2": "https://neweb-my.sharepoint.com/:u:/g/personal/hubert_tsai_neweb_com_tw/IQDe0fMp8XfVR43rwEMomkC1AVOROO_VTwJ4sdkhmvq1S5w?e=vyleH8",
+      "windows_url2": "https://neweb-my.sharepoint.com/:u:/g/personal/hubert_tsai_neweb_com_tw/IQByGn5pNeoOTZEY4sk2xXxrAZ1egTrYqzzMrW7eV1JmfAw?e=xDmPH9",
+      "published_at": "2026-11-06T07:05:18+00:00",
+      "updated_at": "2026-11-06T07:05:18+00:00"
+    },
     {
       "version": "1.5",
       "notes": "加快開啟速度\n解決要求網路權限問題",
       "mac_url": "https://drive.google.com/file/d/1sC_tGKB0nBqciCkZSSx3ZLiEqOaYe7It/view?usp=drive_link",
       "windows_url": "https://drive.google.com/file/d/1mwmWPPdeXi_D4_J4MkiChTdmz84QAB30/view?usp=drive_link",
+      "mac_url2": "",
+      "windows_url2": "",
       "published_at": "2026-11-02T04:26:07+00:00",
       "updated_at": "2026-11-03T08:54:43+00:00"
     },
@@ -15,6 +27,8 @@
       "notes": "測試",
       "mac_url": "",
       "windows_url": "",
+      "mac_url2": "",
+      "windows_url2": "",
       "published_at": "",
       "updated_at": "2026-10-16T04:59:44+00:00"
     }
