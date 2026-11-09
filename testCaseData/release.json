@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "version": "1.6",
-  "notes": "1.增加批次執行後可單執行序重新對失敗的再次發動\n2.允許腳本不用載入完成\n3.批次報表時間改為整體發動總時間,而非所有腳本的加總",
-  "mac_url": "https://drive.google.com/file/d/1fP99YgacCjxxkemoL4rXAw3Ql_OWSvKZ/view?usp=drive_link",
-  "windows_url": "https://drive.google.com/file/d/12jlyFxiBTbbvfrkiBKL0JYsG28gNjB-a/view?usp=drive_link",
-  "mac_url2": "https://neweb-my.sharepoint.com/:u:/g/personal/hubert_tsai_neweb_com_tw/IQDe0fMp8XfVR43rwEMomkC1AVOROO_VTwJ4sdkhmvq1S5w?e=vyleH8",
-  "windows_url2": "https://neweb-my.sharepoint.com/:u:/g/personal/hubert_tsai_neweb_com_tw/IQByGn5pNeoOTZEY4sk2xXxrAZ1egTrYqzzMrW7eV1JmfAw?e=xDmPH9"
+  "version": "1.7",
+  "notes": "新增不同設備間的同步機制",
+  "mac_url": "https://drive.google.com/file/d/1Kz2X02Gc-bnHlbv9FtZ94CV_8ET25kFp/view?usp=sharing",
+  "windows_url": "https://drive.google.com/file/d/1rlWJ-ILyK4jx8rH1HOYUycpsR7KYRv0K/view?usp=sharing",
+  "mac_url2": "https://neweb-my.sharepoint.com/:u:/g/personal/hubert_tsai_neweb_com_tw/IQBg24OI-U5KRLyzzrgy-EiEAWP8tCJPVl3D-IB7kTDG6QA?e=BL4RJd",
+  "windows_url2": "https://neweb-my.sharepoint.com/:u:/g/personal/hubert_tsai_neweb_com_tw/IQAhTu5iAoEQRo5xGibDklYXAbdvW59CsUZFvAzNtPf9-oY?e=rnyCtC"
 }
