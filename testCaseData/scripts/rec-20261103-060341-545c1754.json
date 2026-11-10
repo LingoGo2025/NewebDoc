@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "rec-20261103-060341-545c1754",
-  "name": "信用卡（富邦卡）非3D一次付清 + 7-11選門市",
+  "name": "信用卡 非3D一次付清 + 7-11選門市",
   "url": "https://core.newebpay.com/EPG/MS192113/hAMjiX",
   "browser": "chromium",
   "headed": false,
@@ -530,8 +530,8 @@
     },
     {
       "name": "Email",
-      "private": true,
-      "value": null
+      "private": false,
+      "value": "hubert.tsai@neweb.com.tw"
     },
     {
       "name": "UnitPrice_Web",
@@ -550,8 +550,8 @@
     },
     {
       "name": "姓名",
-      "private": true,
-      "value": null
+      "private": false,
+      "value": "Hubert"
     },
     {
       "name": "City",

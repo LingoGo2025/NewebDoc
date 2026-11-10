@@ -175,13 +175,14 @@
   "parameters": [
     {
       "name": "Email",
-      "private": true,
-      "value": null
+      "private": false,
+      "value": "hubert.tsai@neweb.com.tw"
     },
     {
       "name": "藍新金流交易序號：",
-      "private": true,
-      "value": null
+      "private": false,
+      "value": "26110316104070944"
     }
-  ]
+  ],
+  "load_wait_seconds": 1.0
 }

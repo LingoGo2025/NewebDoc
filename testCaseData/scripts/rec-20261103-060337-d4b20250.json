@@ -255,5 +255,6 @@
       "private": false,
       "value": "hubert.tsai@neweb.com"
     }
-  ]
+  ],
+  "load_wait_seconds": 2.0
 }

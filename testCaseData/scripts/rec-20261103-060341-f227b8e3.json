@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "rec-20261103-060341-f227b8e3",
-  "name": "信用卡（台新卡）非3D分3期 + 全家選門市",
+  "name": "信用卡 非3D分3期 + 全家選門市",
   "url": "https://core.newebpay.com/EPG/MS192113/hAMjiX",
   "browser": "chromium",
   "headed": false,
@@ -549,8 +549,8 @@
     },
     {
       "name": "姓名",
-      "private": true,
-      "value": null
+      "private": false,
+      "value": "Hubert"
     },
     {
       "name": "電話",
@@ -569,8 +569,8 @@
     },
     {
       "name": "Email",
-      "private": true,
-      "value": null
+      "private": false,
+      "value": "hubert.tsai@neweb.com.tw"
     }
   ]
 }

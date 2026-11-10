@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "rec-20261103-060341-25f20b9f",
-  "name": "信用卡（台新卡）3D  一次付清",
+  "name": "信用卡 3D  一次付清",
   "url": "https://core.newebpay.com/EPG/cc01/ITAt3J",
   "browser": "chromium",
   "headed": false,
@@ -21,7 +21,7 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0,
+      "wait_seconds": 3.0,
       "check_download": false,
       "download_timeout_seconds": 60.0
     },
@@ -309,7 +309,7 @@
       "layout_tolerance_ratio": 0.15,
       "expected_texts": [],
       "screenshot_enabled": true,
-      "wait_seconds": 0.0,
+      "wait_seconds": 3.0,
       "check_download": false,
       "download_timeout_seconds": 60.0
     },
@@ -365,8 +365,8 @@
     },
     {
       "name": "姓名",
-      "private": true,
-      "value": null
+      "private": false,
+      "value": "Hubert"
     },
     {
       "name": "電話",
@@ -375,8 +375,8 @@
     },
     {
       "name": "Email",
-      "private": true,
-      "value": null
+      "private": false,
+      "value": "hubert.tsai@neweb.com.tw"
     }
   ]
 }

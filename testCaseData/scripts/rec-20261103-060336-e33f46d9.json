@@ -194,5 +194,6 @@
       "private": false,
       "value": "26102713435095836"
     }
-  ]
+  ],
+  "load_wait_seconds": 1.0
 }

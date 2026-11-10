@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
-  "id": "rec-20261103-060339-1807e92d",
-  "name": "稍微逛一下網頁（含下載API文件）",
+  "id": "rec-20261105-092021-f8bd8f2e",
+  "name": "瀏覽官網頁面+下載文件",
   "url": "https://www.newebpay.com/",
   "browser": "chromium",
   "headed": false,
   "note": "",
   "region_id": "production",
-  "script": "import { test, expect } from '@playwright/test';\n\ntest.use({\n  locale: 'zh-TW'\n});\n\ntest('test', async ({ page }) => {\n  await page.goto('https://www.newebpay.com/');\n  await page.getByRole('link', { name: '微型商店' }).click();\n  await page.getByRole('link', { name: '快速收款連結' }).click();\n  await page.getByRole('link', { name: '線上刷卡服務' }).click();\n  await page.getByRole('link', { name: '超商代收' }).click();\n  await page.getByRole('link', { name: 'ATM / WebATM' }).click();\n  await page.getByRole('link', { name: '智慧ATM2.0' }).click();\n  await page.getByRole('link', { name: 'ezPay簡單付' }).click();\n  await page.getByRole('link', { name: 'ezPay簡單付', exact: true }).click();\n  await page.getByRole('link', { name: 'Apple Pay' }).click();\n  await page.getByRole('link', { name: 'Google Pay' }).click();\n  await page.getByRole('link', { name: 'Samsung Pay' }).click();\n  await page.getByRole('link', { name: '台灣 Pay' }).click();\n  await page.getByRole('link', { name: '玉山Wallet' }).click();\n  await page.getByRole('link', { name: 'LINE Pay' }).click();\n  await page.getByRole('link', { name: 'AFTEE 先享後付' }).click();\n  await page.getByRole('link', { name: '大哥付你分期' }).click();\n  await page.getByRole('link', { name: 'BitoPay' }).click();\n  await page.getByRole('link', { name: '費率一覽表' }).click();\n  await page.locator('#indx_top_clooapse').getByRole('link', { name: '平台產品使用規範' }).click();\n  const page1Promise = page.waitForEvent('popup');\n  await page.getByRole('link', { name: '超商店到店' }).click();\n  const page1 = await page1Promise;\n  const page2Promise = page1.waitForEvent('popup');\n  await page1.getByRole('link', { name: '超商大宗寄倉' }).click();\n  const page2 = await page2Promise;\n  await page2.getByRole('link', { name: '金流API' }).click();\n  const page3Promise = page2.waitForEvent('popup');\n  const downloadPromise = page2.waitForEvent('download');\n  await page2.getByRole('link', { name: '線上交易─幕前支付技術串接手冊_NDNF-' }).click();\n  const page3 = await page3Promise;\n  const download = await downloadPromise;\n  await page2.getByRole('navigation').getByRole('link').filter({ hasText: /^$/ }).click();\n  await page2.getByRole('link', { name: '免費購物車模組' }).click();\n  await page2.locator('#myTab > li:nth-child(4) > a').click();\n  await page2.locator('.col-lg-3.col-xs-3.iconLi > a').click();\n});",
+  "script": "import { test, expect } from '@playwright/test';\n\ntest.use({\n  locale: 'zh-TW'\n});\n\ntest('test', async ({ page }) => {\n  await page.goto('https://www.newebpay.com/');\n  await page.getByRole('link', { name: '服務列表' }).click();\n  await page.getByRole('link', { name: '快速收款連結' }).click();\n  await page.getByRole('link', { name: '線上刷卡服務' }).click();\n  await page.getByRole('link', { name: '超商代收' }).click();\n  await page.getByRole('link', { name: 'ATM / WebATM' }).click();\n  await page.getByRole('link', { name: '智慧ATM2.0' }).click();\n  await page.getByRole('link', { name: 'ezPay簡單付' }).click();\n  await page.getByRole('link', { name: 'Apple Pay' }).click();\n  await page.getByRole('link', { name: 'Google Pay' }).click();\n  await page.getByRole('link', { name: 'Samsung Pay' }).click();\n  await page.getByRole('link', { name: '台灣 Pay' }).click();\n  await page.getByRole('link', { name: '玉山Wallet' }).click();\n  await page.getByRole('link', { name: 'LINE Pay' }).click();\n  await page.getByRole('link', { name: 'AFTEE 先享後付' }).click();\n  await page.getByRole('link', { name: '大哥付你分期' }).click();\n  await page.getByRole('link', { name: 'BitoPro' }).click();\n  await page.getByRole('link', { name: '費率一覽表' }).click();\n  await page.locator('#indx_top_clooapse').getByRole('link', { name: '平台產品使用規範' }).click();\n  const page1Promise = page.waitForEvent('popup');\n  await page.getByRole('link', { name: '超商店到店' }).click();\n  const page1 = await page1Promise;\n  const page2Promise = page1.waitForEvent('popup');\n  await page1.getByRole('link', { name: '超商大宗寄倉' }).click();\n  const page2 = await page2Promise;\n  await page2.getByRole('link', { name: '金流API' }).click();\n  const page3Promise = page2.waitForEvent('popup');\n  const downloadPromise = page2.waitForEvent('download');\n  await page2.getByRole('link', { name: '信用卡定期定額串接技術手冊_NDNP-' }).click();\n  const page3 = await page3Promise;\n  const download = await downloadPromise;\n  await page2.getByRole('navigation').getByRole('link').filter({ hasText: /^$/ }).click();\n  await page2.getByRole('link', { name: '最新消息' }).click();\n  await page2.getByRole('link', { name: '服務公告' }).click();\n  await page2.getByRole('link').first().click();\n  await page2.getByRole('link', { name: '會員服務條款' }).click();\n  await page2.getByRole('link', { name: '付款方服務條款' }).click();\n  await page2.getByRole('link', { name: '商店管理規範' }).click();\n  await page2.getByRole('link', { name: '平台產品使用規範' }).click();\n  await page2.getByRole('link', { name: '代收款信託保障' }).click();\n  await page2.getByRole('link', { name: '平台產品使用規範' }).click();\n  await page2.getByRole('link', { name: '代收款信託保障' }).click();\n  await page2.getByRole('link', { name: '隱私權保護政策' }).click();\n  await page2.getByRole('link', { name: 'API文件下載' }).click();\n});",
   "checkpoints": [
     {
-      "checkpoint_id": "42dae66b07",
+      "checkpoint_id": "9def9a7d21",
       "name": "步驟 1 後畫面",
       "after_line": 8,
       "max_diff_pixel_ratio": 0.1,
@@ -26,7 +26,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "a3f74b85f5",
+      "checkpoint_id": "06f8698820",
       "name": "步驟 2 後畫面",
       "after_line": 9,
       "max_diff_pixel_ratio": 0.1,
@@ -42,7 +42,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "0040a0350d",
+      "checkpoint_id": "b1744d43f1",
       "name": "步驟 3 後畫面",
       "after_line": 10,
       "max_diff_pixel_ratio": 0.1,
@@ -58,7 +58,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "99a023db60",
+      "checkpoint_id": "b0c991f4eb",
       "name": "步驟 4 後畫面",
       "after_line": 11,
       "max_diff_pixel_ratio": 0.1,
@@ -74,7 +74,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "42036a6858",
+      "checkpoint_id": "894435d444",
       "name": "步驟 5 後畫面",
       "after_line": 12,
       "max_diff_pixel_ratio": 0.1,
@@ -90,7 +90,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "f48029ea24",
+      "checkpoint_id": "3802a064e4",
       "name": "步驟 6 後畫面",
       "after_line": 13,
       "max_diff_pixel_ratio": 0.1,
@@ -106,7 +106,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "a8d4921ea6",
+      "checkpoint_id": "265e2a7260",
       "name": "步驟 7 後畫面",
       "after_line": 14,
       "max_diff_pixel_ratio": 0.1,
@@ -122,7 +122,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "b6eaf4d107",
+      "checkpoint_id": "b120b562b3",
       "name": "步驟 8 後畫面",
       "after_line": 15,
       "max_diff_pixel_ratio": 0.1,
@@ -138,7 +138,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "7670fc10f5",
+      "checkpoint_id": "1bc84f4f61",
       "name": "步驟 9 後畫面",
       "after_line": 16,
       "max_diff_pixel_ratio": 0.1,
@@ -154,7 +154,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "13bd7fbfad",
+      "checkpoint_id": "5723393ce8",
       "name": "步驟 10 後畫面",
       "after_line": 17,
       "max_diff_pixel_ratio": 0.1,
@@ -170,7 +170,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "d9be5b221b",
+      "checkpoint_id": "ad989c5c37",
       "name": "步驟 11 後畫面",
       "after_line": 18,
       "max_diff_pixel_ratio": 0.1,
@@ -186,7 +186,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "9b80073a29",
+      "checkpoint_id": "19e56700cb",
       "name": "步驟 12 後畫面",
       "after_line": 19,
       "max_diff_pixel_ratio": 0.1,
@@ -202,7 +202,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "3ffb2cdbc7",
+      "checkpoint_id": "b04e41b73c",
       "name": "步驟 13 後畫面",
       "after_line": 20,
       "max_diff_pixel_ratio": 0.1,
@@ -218,7 +218,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "5cd41b134c",
+      "checkpoint_id": "3417a10e1f",
       "name": "步驟 14 後畫面",
       "after_line": 21,
       "max_diff_pixel_ratio": 0.1,
@@ -234,7 +234,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "30187fc620",
+      "checkpoint_id": "d7b68dfd35",
       "name": "步驟 15 後畫面",
       "after_line": 22,
       "max_diff_pixel_ratio": 0.1,
@@ -250,7 +250,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "4fb0de4b8c",
+      "checkpoint_id": "34172c938f",
       "name": "步驟 16 後畫面",
       "after_line": 23,
       "max_diff_pixel_ratio": 0.1,
@@ -266,7 +266,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "be78c2ce20",
+      "checkpoint_id": "5f51ca83d8",
       "name": "步驟 17 後畫面",
       "after_line": 24,
       "max_diff_pixel_ratio": 0.1,
@@ -282,7 +282,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "9cfe1fdcd8",
+      "checkpoint_id": "0f0d6defce",
       "name": "步驟 18 後畫面",
       "after_line": 25,
       "max_diff_pixel_ratio": 0.1,
@@ -298,7 +298,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "8e2e4dcadb",
+      "checkpoint_id": "8c06b2dea5",
       "name": "步驟 19 後畫面",
       "after_line": 26,
       "max_diff_pixel_ratio": 0.1,
@@ -314,9 +314,9 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "e9d4cdaf9a",
+      "checkpoint_id": "07a62bb72b",
       "name": "步驟 20 後畫面",
-      "after_line": 27,
+      "after_line": 28,
       "max_diff_pixel_ratio": 0.1,
       "full_page": false,
       "ignore_dynamic_regions": true,
@@ -330,9 +330,9 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "928ea35f1b",
+      "checkpoint_id": "872ef815cf",
       "name": "步驟 21 後畫面",
-      "after_line": 29,
+      "after_line": 31,
       "max_diff_pixel_ratio": 0.1,
       "full_page": false,
       "ignore_dynamic_regions": true,
@@ -346,9 +346,9 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "d4d67df159",
+      "checkpoint_id": "268cd286b0",
       "name": "步驟 22 後畫面",
-      "after_line": 32,
+      "after_line": 33,
       "max_diff_pixel_ratio": 0.1,
       "full_page": false,
       "ignore_dynamic_regions": true,
@@ -362,25 +362,9 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "836e2535f7",
+      "checkpoint_id": "6f89222056",
       "name": "步驟 23 後畫面",
-      "after_line": 34,
-      "max_diff_pixel_ratio": 0.1,
-      "full_page": false,
-      "ignore_dynamic_regions": true,
-      "comparison_mode": "layout",
-      "layout_tolerance_px": 24.0,
-      "layout_tolerance_ratio": 0.15,
-      "expected_texts": [],
-      "screenshot_enabled": true,
-      "wait_seconds": 0.0,
-      "check_download": false,
-      "download_timeout_seconds": 60.0
-    },
-    {
-      "checkpoint_id": "37c8d789c0",
-      "name": "步驟 24 後畫面",
-      "after_line": 37,
+      "after_line": 36,
       "max_diff_pixel_ratio": 0.1,
       "full_page": false,
       "ignore_dynamic_regions": true,
@@ -394,7 +378,23 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "0725cf52d9",
+      "checkpoint_id": "77dacd8cd1",
+      "name": "步驟 24 後畫面",
+      "after_line": 39,
+      "max_diff_pixel_ratio": 0.1,
+      "full_page": false,
+      "ignore_dynamic_regions": true,
+      "comparison_mode": "layout",
+      "layout_tolerance_px": 24.0,
+      "layout_tolerance_ratio": 0.15,
+      "expected_texts": [],
+      "screenshot_enabled": true,
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
+    },
+    {
+      "checkpoint_id": "d7f4e99a72",
       "name": "步驟 25 後畫面",
       "after_line": 40,
       "max_diff_pixel_ratio": 0.1,
@@ -410,7 +410,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "b697c56a35",
+      "checkpoint_id": "08289dde5c",
       "name": "步驟 26 後畫面",
       "after_line": 41,
       "max_diff_pixel_ratio": 0.1,
@@ -426,7 +426,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "631ef337fa",
+      "checkpoint_id": "f35afa05f6",
       "name": "步驟 27 後畫面",
       "after_line": 42,
       "max_diff_pixel_ratio": 0.1,
@@ -442,7 +442,7 @@
       "download_timeout_seconds": 60.0
     },
     {
-      "checkpoint_id": "050457e607",
+      "checkpoint_id": "87fab9eec1",
       "name": "步驟 28 後畫面",
       "after_line": 43,
       "max_diff_pixel_ratio": 0.1,
@@ -456,7 +456,136 @@
       "wait_seconds": 0.0,
       "check_download": false,
       "download_timeout_seconds": 60.0
+    },
+    {
+      "checkpoint_id": "0ccb960289",
+      "name": "步驟 29 後畫面",
+      "after_line": 44,
+      "max_diff_pixel_ratio": 0.1,
+      "full_page": false,
+      "ignore_dynamic_regions": true,
+      "comparison_mode": "layout",
+      "layout_tolerance_px": 24.0,
+      "layout_tolerance_ratio": 0.15,
+      "expected_texts": [],
+      "screenshot_enabled": true,
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
+    },
+    {
+      "checkpoint_id": "fb448ce0d2",
+      "name": "步驟 30 後畫面",
+      "after_line": 45,
+      "max_diff_pixel_ratio": 0.1,
+      "full_page": false,
+      "ignore_dynamic_regions": true,
+      "comparison_mode": "layout",
+      "layout_tolerance_px": 24.0,
+      "layout_tolerance_ratio": 0.15,
+      "expected_texts": [],
+      "screenshot_enabled": true,
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
+    },
+    {
+      "checkpoint_id": "ee49786962",
+      "name": "步驟 31 後畫面",
+      "after_line": 46,
+      "max_diff_pixel_ratio": 0.1,
+      "full_page": false,
+      "ignore_dynamic_regions": true,
+      "comparison_mode": "layout",
+      "layout_tolerance_px": 24.0,
+      "layout_tolerance_ratio": 0.15,
+      "expected_texts": [],
+      "screenshot_enabled": true,
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
+    },
+    {
+      "checkpoint_id": "f4ef4927d1",
+      "name": "步驟 32 後畫面",
+      "after_line": 47,
+      "max_diff_pixel_ratio": 0.1,
+      "full_page": false,
+      "ignore_dynamic_regions": true,
+      "comparison_mode": "layout",
+      "layout_tolerance_px": 24.0,
+      "layout_tolerance_ratio": 0.15,
+      "expected_texts": [],
+      "screenshot_enabled": true,
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
+    },
+    {
+      "checkpoint_id": "2c1650d48c",
+      "name": "步驟 33 後畫面",
+      "after_line": 48,
+      "max_diff_pixel_ratio": 0.1,
+      "full_page": false,
+      "ignore_dynamic_regions": true,
+      "comparison_mode": "layout",
+      "layout_tolerance_px": 24.0,
+      "layout_tolerance_ratio": 0.15,
+      "expected_texts": [],
+      "screenshot_enabled": true,
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
+    },
+    {
+      "checkpoint_id": "983cf8ad01",
+      "name": "步驟 34 後畫面",
+      "after_line": 49,
+      "max_diff_pixel_ratio": 0.1,
+      "full_page": false,
+      "ignore_dynamic_regions": true,
+      "comparison_mode": "layout",
+      "layout_tolerance_px": 24.0,
+      "layout_tolerance_ratio": 0.15,
+      "expected_texts": [],
+      "screenshot_enabled": true,
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
+    },
+    {
+      "checkpoint_id": "d67eac3bfc",
+      "name": "步驟 35 後畫面",
+      "after_line": 50,
+      "max_diff_pixel_ratio": 0.1,
+      "full_page": false,
+      "ignore_dynamic_regions": true,
+      "comparison_mode": "layout",
+      "layout_tolerance_px": 24.0,
+      "layout_tolerance_ratio": 0.15,
+      "expected_texts": [],
+      "screenshot_enabled": true,
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
+    },
+    {
+      "checkpoint_id": "ed89a1a153",
+      "name": "步驟 36 後畫面",
+      "after_line": 51,
+      "max_diff_pixel_ratio": 0.1,
+      "full_page": false,
+      "ignore_dynamic_regions": true,
+      "comparison_mode": "layout",
+      "layout_tolerance_px": 24.0,
+      "layout_tolerance_ratio": 0.15,
+      "expected_texts": [],
+      "screenshot_enabled": true,
+      "wait_seconds": 0.0,
+      "check_download": false,
+      "download_timeout_seconds": 60.0
     }
   ],
-  "parameters": []
+  "parameters": [],
+  "load_wait_seconds": 1.0
 }

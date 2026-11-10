@@ -358,5 +358,6 @@
       "private": false,
       "value": "3"
     }
-  ]
+  ],
+  "load_wait_seconds": 2.0
 }

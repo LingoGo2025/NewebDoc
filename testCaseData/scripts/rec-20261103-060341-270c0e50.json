@@ -308,8 +308,8 @@
     },
     {
       "name": "姓名",
-      "private": true,
-      "value": null
+      "private": false,
+      "value": "Hubert"
     },
     {
       "name": "電話",
@@ -324,7 +324,7 @@
     {
       "name": "Email",
       "private": false,
-      "value": "tsai.hubert@gmail.com"
+      "value": "hubert.tsai@neweb.com.tw"
     }
   ]
 }

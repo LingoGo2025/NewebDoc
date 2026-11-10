@@ -231,5 +231,6 @@
       "private": false,
       "value": "26103010533604044"
     }
-  ]
+  ],
+  "load_wait_seconds": 1.0
 }

@@ -249,8 +249,8 @@
     },
     {
       "name": "姓名",
-      "private": true,
-      "value": null
+      "private": false,
+      "value": "Hubert"
     },
     {
       "name": "電話",
@@ -259,8 +259,8 @@
     },
     {
       "name": "Email",
-      "private": true,
-      "value": null
+      "private": false,
+      "value": "hubert.tsai@neweb.com.tw"
     }
   ]
 }

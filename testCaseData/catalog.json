@@ -2,8 +2,8 @@
   "schema_version": 1,
   "replace_existing": true,
   "root_case_order": [],
-  "generated_at": "2026-11-03T07:35:46+00:00",
-  "app_version": "1.5",
+  "generated_at": "2026-11-10T05:39:24+00:00",
+  "app_version": "1.8",
   "folders": [
     {
       "order": 0,
@@ -22,76 +22,50 @@
       "case_order": []
     },
     {
-      "order": 2,
+      "order": 0,
       "id": "2ea6b176607a",
       "name": "官網",
       "parent_id": "9c2fff4e05a6",
       "auto_expand": false,
       "case_order": [
-        "rec-20261103-060339-1807e92d",
+        "rec-20261105-092021-f8bd8f2e",
         "rec-20261103-060339-94728491"
       ]
     },
     {
-      "order": 3,
-      "id": "fd1364c966f6",
-      "name": "快速收款連結 EPG",
-      "parent_id": "9c2fff4e05a6",
+      "order": 1,
+      "id": "440a09aa2514",
+      "name": "捐款平台",
+      "parent_id": null,
       "auto_expand": false,
       "case_order": []
     },
     {
-      "order": 4,
-      "id": "c53c95ea3d6e",
+      "order": 1,
+      "id": "a78080e37f38",
       "name": "會員中心",
       "parent_id": "9c2fff4e05a6",
       "auto_expand": false,
       "case_order": [
-        "rec-20261103-060342-7d1a9b3f",
-        "rec-20261103-060342-d8195960"
+        "rec-20261110-050848-0f5b2106",
+        "rec-20261110-050848-011944fa"
       ]
     },
     {
       "order": 2,
-      "id": "65228909cf68",
-      "name": "行動支付",
-      "parent_id": "fd1364c966f6",
-      "auto_expand": false,
-      "case_order": [
-        "rec-20261103-060341-270c0e50",
-        "rec-20261103-060341-d9e398bf",
-        "rec-20261103-060341-3e73f25c",
-        "rec-20261103-060341-f412106c",
-        "rec-20261103-060341-a0c1b02a",
-        "rec-20261103-060341-1dc4f7d8",
-        "rec-20261103-060341-803ece1c",
-        "rec-20261103-060341-8388d4b8"
-      ]
-    },
-    {
-      "order": 0,
-      "id": "24be824cebdc",
-      "name": "API（需要公司內網）",
-      "parent_id": "9c2fff4e05a6",
+      "id": "39c61aaa0a3f",
+      "name": "電子收據",
+      "parent_id": null,
       "auto_expand": false,
       "case_order": []
     },
     {
       "order": 0,
-      "id": "058d58a533a8",
-      "name": "ATM + 條碼繳費 + 超商取貨付款",
-      "parent_id": "fd1364c966f6",
+      "id": "660a5152557b",
+      "name": "C區",
+      "parent_id": "39c61aaa0a3f",
       "auto_expand": false,
-      "case_order": [
-        "rec-20261103-060340-d48fd77b",
-        "rec-20261103-060340-2a372093",
-        "rec-20261103-060340-bd8e1095",
-        "rec-20261103-060340-1f2ff47a",
-        "rec-20261103-060340-e657a8e3",
-        "rec-20261103-060340-e21e8664",
-        "rec-20261103-060340-3b6bb776",
-        "rec-20261103-060340-7bd25d09"
-      ]
+      "case_order": []
     },
     {
       "order": 1,
@@ -102,7 +76,31 @@
       "case_order": []
     },
     {
+      "order": 0,
+      "id": "7b1bdf6295e9",
+      "name": "C區",
+      "parent_id": "440a09aa2514",
+      "auto_expand": false,
+      "case_order": []
+    },
+    {
       "order": 3,
+      "id": "fd1364c966f6",
+      "name": "EPG",
+      "parent_id": "9c2fff4e05a6",
+      "auto_expand": false,
+      "case_order": []
+    },
+    {
+      "order": 2,
+      "id": "11a4274e4e4c",
+      "name": "MPG",
+      "parent_id": "9c2fff4e05a6",
+      "auto_expand": false,
+      "case_order": []
+    },
+    {
+      "order": 2,
       "id": "cf5435c8208c",
       "name": "MPG",
       "parent_id": "aabe75a0e08b",
@@ -129,34 +127,51 @@
         "rec-20261103-060336-27719d4f",
         "rec-20261103-060336-95a20b2d",
         "rec-20261103-060336-83bc3065",
-        "rec-20261103-060336-8dbfed11",
-        "rec-20261103-060336-e59a125d"
+        "rec-20261103-060336-e59a125d",
+        "rec-20261109-054104-703508c5"
       ]
     },
     {
       "order": 1,
-      "id": "11a4274e4e4c",
-      "name": "MPG（需要公司內網）",
-      "parent_id": "9c2fff4e05a6",
+      "id": "e96aa97d7a57",
+      "name": "P區",
+      "parent_id": "440a09aa2514",
+      "auto_expand": false,
+      "case_order": []
+    },
+    {
+      "order": 1,
+      "id": "db7f0a96e070",
+      "name": "P區",
+      "parent_id": "39c61aaa0a3f",
+      "auto_expand": false,
+      "case_order": []
+    },
+    {
+      "order": 0,
+      "id": "92924bcc48f2",
+      "name": "信用卡",
+      "parent_id": "11a4274e4e4c",
       "auto_expand": false,
       "case_order": [
-        "rec-20261103-060339-358dac43"
+        "rec-20261106-092827-ee8b4464",
+        "rec-20261106-094915-8a9df690"
       ]
     },
     {
-      "order": 1,
+      "order": 0,
       "id": "a31299a83292",
       "name": "信用卡",
       "parent_id": "fd1364c966f6",
       "auto_expand": false,
       "case_order": [
-        "rec-20261103-060341-f227b8e3",
         "rec-20261103-060341-545c1754",
-        "rec-20261103-060341-25f20b9f"
+        "rec-20261103-060341-25f20b9f",
+        "rec-20261103-060341-f227b8e3"
       ]
     },
     {
-      "order": 1,
+      "order": 0,
       "id": "c729a48016d2",
       "name": "官網",
       "parent_id": "aabe75a0e08b",
@@ -168,7 +183,18 @@
       ]
     },
     {
-      "order": 4,
+      "order": 1,
+      "id": "2838bc036307",
+      "name": "官網",
+      "parent_id": "db7f0a96e070",
+      "auto_expand": false,
+      "case_order": [
+        "rec-20261103-073912-478132a5",
+        "rec-20261103-073912-5b0bf63b"
+      ]
+    },
+    {
+      "order": 3,
       "id": "87f93642463f",
       "name": "快速收款連結 EPG",
       "parent_id": "aabe75a0e08b",
@@ -177,11 +203,24 @@
     },
     {
       "order": 2,
+      "id": "42e10e0ef0b1",
+      "name": "會員中心",
+      "parent_id": "db7f0a96e070",
+      "auto_expand": false,
+      "case_order": [
+        "rec-20261103-073912-275c9ad0"
+      ]
+    },
+    {
+      "order": 1,
       "id": "dad4af4e18aa",
       "name": "會員中心",
       "parent_id": "aabe75a0e08b",
       "auto_expand": false,
-      "case_order": []
+      "case_order": [
+        "rec-20261110-052127-350d1232",
+        "rec-20261110-053328-ce717b85"
+      ]
     },
     {
       "order": 2,
@@ -202,12 +241,80 @@
       ]
     },
     {
+      "order": 2,
+      "id": "65228909cf68",
+      "name": "行動支付",
+      "parent_id": "fd1364c966f6",
+      "auto_expand": false,
+      "case_order": [
+        "rec-20261103-060341-270c0e50",
+        "rec-20261103-060341-d9e398bf",
+        "rec-20261103-060341-3e73f25c",
+        "rec-20261103-060341-f412106c",
+        "rec-20261103-060341-a0c1b02a",
+        "rec-20261103-060341-1dc4f7d8",
+        "rec-20261103-060341-803ece1c",
+        "rec-20261103-060341-8388d4b8"
+      ]
+    },
+    {
+      "order": 2,
+      "id": "7e516c39541b",
+      "name": "行動支付",
+      "parent_id": "11a4274e4e4c",
+      "auto_expand": false,
+      "case_order": [
+        "rec-20261106-084019-c1669ed0",
+        "rec-20261106-084501-16b59075",
+        "rec-20261106-084938-22828481",
+        "rec-20261106-091337-0a7d7c92",
+        "rec-20261106-091643-a06d5fd0",
+        "rec-20261106-100133-2f3b8c25",
+        "rec-20261106-100407-f055e9ca",
+        "rec-20261106-100707-7230d834"
+      ]
+    },
+    {
+      "order": 1,
+      "id": "a4419767ab93",
+      "name": "非信用卡",
+      "parent_id": "11a4274e4e4c",
+      "auto_expand": false,
+      "case_order": [
+        "rec-20261109-014728-5c2d3399",
+        "rec-20261109-014343-2727c6d6",
+        "rec-20261106-082027-6a630fd5",
+        "rec-20261106-082640-e3e8c9f5",
+        "rec-20261106-082941-4b538e8e",
+        "rec-20261106-083329-76fd69db",
+        "rec-20261106-083728-6bd0dafa",
+        "rec-20261106-102529-0c1bf664"
+      ]
+    },
+    {
       "order": 0,
-      "id": "c993f5e51064",
+      "id": "124f7d18f7c0",
       "name": "API",
-      "parent_id": "aabe75a0e08b",
+      "parent_id": "db7f0a96e070",
       "auto_expand": false,
       "case_order": []
+    },
+    {
+      "order": 1,
+      "id": "058d58a533a8",
+      "name": "ATM + 條碼繳費 + 超商取貨付款",
+      "parent_id": "fd1364c966f6",
+      "auto_expand": false,
+      "case_order": [
+        "rec-20261103-060340-d48fd77b",
+        "rec-20261103-060340-2a372093",
+        "rec-20261103-060340-bd8e1095",
+        "rec-20261103-060340-1f2ff47a",
+        "rec-20261103-060340-e657a8e3",
+        "rec-20261103-060340-e21e8664",
+        "rec-20261103-060340-3b6bb776",
+        "rec-20261103-060340-7bd25d09"
+      ]
     },
     {
       "order": 0,
@@ -216,7 +323,7 @@
       "parent_id": "87f93642463f",
       "auto_expand": false,
       "case_order": [
-        "rec-20261103-060337-879658ac",
+        "rec-20261109-054606-9e7328b3",
         "rec-20261103-060337-d4b20250",
         "rec-20261103-060337-de9fa694",
         "rec-20261103-060337-87656b03",
@@ -243,310 +350,442 @@
   ],
   "scripts": [
     {
-      "id": "rec-20261103-060342-d8195960",
-      "folder_id": "c53c95ea3d6e",
-      "name": "登入企業會員",
-      "revision": "98598c1000938fab"
+      "id": "rec-20261110-053328-ce717b85",
+      "folder_id": "dad4af4e18aa",
+      "name": "企業會員登入",
+      "revision": "3f5592c8cab64f79"
     },
     {
-      "id": "rec-20261103-060342-7d1a9b3f",
-      "folder_id": "c53c95ea3d6e",
+      "id": "rec-20261110-052127-350d1232",
+      "folder_id": "dad4af4e18aa",
+      "name": "個人會員登入",
+      "revision": "e8a9e578baf64f12"
+    },
+    {
+      "id": "rec-20261110-050848-011944fa",
+      "folder_id": "a78080e37f38",
+      "name": "登入企業會員",
+      "revision": "f45e36a8a8dda2e6"
+    },
+    {
+      "id": "rec-20261110-050848-0f5b2106",
+      "folder_id": "a78080e37f38",
       "name": "登入個人會員",
-      "revision": "6fb37b8ab367db9d"
+      "revision": "949109e7be12ec94"
+    },
+    {
+      "id": "rec-20261109-054606-9e7328b3",
+      "folder_id": "9724c047ae2a",
+      "name": "智慧ATM 2.0 取號 + 全家選門市",
+      "revision": "4bc60cca54903407"
+    },
+    {
+      "id": "rec-20261109-054104-703508c5",
+      "folder_id": "cf5435c8208c",
+      "name": "MPG_超商取貨付款 全家",
+      "revision": "e0ca9eca50ae71a1"
+    },
+    {
+      "id": "rec-20261109-014728-5c2d3399",
+      "folder_id": "a4419767ab93",
+      "name": "MPG_ATM_華南銀行",
+      "revision": "1ee4a87f01fc766a"
+    },
+    {
+      "id": "rec-20261109-014343-2727c6d6",
+      "folder_id": "a4419767ab93",
+      "name": "MPG_ATM_台灣銀行",
+      "revision": "aadd6873e8b65ccd"
+    },
+    {
+      "id": "rec-20261106-102529-0c1bf664",
+      "folder_id": "a4419767ab93",
+      "name": "MPG_超商取貨付款_7-11選門市",
+      "revision": "d64c4fb09a8e9464"
+    },
+    {
+      "id": "rec-20261106-100707-7230d834",
+      "folder_id": "7e516c39541b",
+      "name": "MPG_TWQR",
+      "revision": "ab6a50aed25cd742"
+    },
+    {
+      "id": "rec-20261106-100407-f055e9ca",
+      "folder_id": "7e516c39541b",
+      "name": "MPG_台灣 Pay",
+      "revision": "e3f1bfd623e0bad7"
+    },
+    {
+      "id": "rec-20261106-100133-2f3b8c25",
+      "folder_id": "7e516c39541b",
+      "name": "MPG_玉山 Wallet",
+      "revision": "ba4e393e76538816"
+    },
+    {
+      "id": "rec-20261106-094915-8a9df690",
+      "folder_id": "92924bcc48f2",
+      "name": "MPG_信用卡分3期_付款成功_萊爾富選門市",
+      "revision": "179ef78cbf82e8e1"
+    },
+    {
+      "id": "rec-20261106-092827-ee8b4464",
+      "folder_id": "92924bcc48f2",
+      "name": "MPG_信用卡一次付清_非3D_選全家門市_付款成功",
+      "revision": "1371e237b0117be0"
+    },
+    {
+      "id": "rec-20261106-091643-a06d5fd0",
+      "folder_id": "7e516c39541b",
+      "name": "MPG_大哥付",
+      "revision": "dd587dd75a060e87"
+    },
+    {
+      "id": "rec-20261106-091337-0a7d7c92",
+      "folder_id": "7e516c39541b",
+      "name": "MPG_AFTEE_分3期",
+      "revision": "02809548f4f3e5ae"
+    },
+    {
+      "id": "rec-20261106-084938-22828481",
+      "folder_id": "7e516c39541b",
+      "name": "MPG_AFTEE_一般支付",
+      "revision": "4dc5c08a45258e3d"
+    },
+    {
+      "id": "rec-20261106-084501-16b59075",
+      "folder_id": "7e516c39541b",
+      "name": "MPG_Apple Pay",
+      "revision": "1ed50a690bd1cde2"
+    },
+    {
+      "id": "rec-20261106-084019-c1669ed0",
+      "folder_id": "7e516c39541b",
+      "name": "MPG_SAMSUNG Pay",
+      "revision": "91c811ed2f2e1deb"
+    },
+    {
+      "id": "rec-20261106-083728-6bd0dafa",
+      "folder_id": "a4419767ab93",
+      "name": "MPG_超商代碼繳費",
+      "revision": "4044fa28b3abac08"
+    },
+    {
+      "id": "rec-20261106-083329-76fd69db",
+      "folder_id": "a4419767ab93",
+      "name": "MPG_條碼繳費",
+      "revision": "d74574accc75dee8"
+    },
+    {
+      "id": "rec-20261106-082941-4b538e8e",
+      "folder_id": "a4419767ab93",
+      "name": "MPG_ATM2.0",
+      "revision": "3ddfa7ce8f59514f"
+    },
+    {
+      "id": "rec-20261106-082640-e3e8c9f5",
+      "folder_id": "a4419767ab93",
+      "name": "MPG_WebATM_華南銀行",
+      "revision": "a89370321df273e4"
+    },
+    {
+      "id": "rec-20261106-082027-6a630fd5",
+      "folder_id": "a4419767ab93",
+      "name": "MPG_WebATM_台灣銀行",
+      "revision": "d269d1c4ce46af47"
+    },
+    {
+      "id": "rec-20261105-092021-f8bd8f2e",
+      "folder_id": "2ea6b176607a",
+      "name": "瀏覽官網頁面+下載文件",
+      "revision": "3285b53e80b7f9d7"
+    },
+    {
+      "id": "rec-20261103-073912-275c9ad0",
+      "folder_id": "42e10e0ef0b1",
+      "name": "會員登入",
+      "revision": "8e3235ea10bdc2d3"
+    },
+    {
+      "id": "rec-20261103-073912-5b0bf63b",
+      "folder_id": "2838bc036307",
+      "name": "查詢專區",
+      "revision": "af60b742e6cbe513"
+    },
+    {
+      "id": "rec-20261103-073912-478132a5",
+      "folder_id": "2838bc036307",
+      "name": "官網主要頁面（含下載檔案）",
+      "revision": "8bf047621cedea37"
     },
     {
       "id": "rec-20261103-060341-8388d4b8",
       "folder_id": "65228909cf68",
       "name": "AFTEE 先享後付（分期付款） + 全家選門市",
-      "revision": "757bcbc6def1fb8e"
+      "revision": "0187b8a2aecbe935"
     },
     {
       "id": "rec-20261103-060341-803ece1c",
       "folder_id": "65228909cf68",
       "name": "大哥付 + 全家選門市",
-      "revision": "87228d266119869e"
+      "revision": "2f57b1c2e1a46bd7"
     },
     {
       "id": "rec-20261103-060341-1dc4f7d8",
       "folder_id": "65228909cf68",
       "name": "AFTEE 先享後付（一般支付） + 7-11選門市",
-      "revision": "26ad69d581e3387c"
+      "revision": "48cf8700bdf82fa2"
     },
     {
       "id": "rec-20261103-060341-a0c1b02a",
       "folder_id": "65228909cf68",
       "name": "TWQR  + 7-11選門市",
-      "revision": "582f5198b7e68a54"
+      "revision": "e3957993dc61f576"
     },
     {
       "id": "rec-20261103-060341-f412106c",
       "folder_id": "65228909cf68",
       "name": "Apple Pay + 7-11選門市",
-      "revision": "539bc3b221d9ce77"
+      "revision": "833b557b82e42b8f"
     },
     {
       "id": "rec-20261103-060341-3e73f25c",
       "folder_id": "65228909cf68",
       "name": "Samsung Pay + 7-11選門市",
-      "revision": "fd754d0bf09255b6"
+      "revision": "081e3b065f828668"
     },
     {
       "id": "rec-20261103-060341-d9e398bf",
       "folder_id": "65228909cf68",
       "name": "玉山Wallet + 萊爾富選門市",
-      "revision": "7417a71a97591fc8"
+      "revision": "3bd65f377ff0d5eb"
     },
     {
       "id": "rec-20261103-060341-270c0e50",
       "folder_id": "65228909cf68",
       "name": "台灣Pay + 萊爾富選門市",
-      "revision": "22b056461a9cfd9c"
+      "revision": "c8b6de18608934c6"
     },
     {
       "id": "rec-20261103-060341-25f20b9f",
       "folder_id": "a31299a83292",
-      "name": "信用卡（台新卡）3D  一次付清",
-      "revision": "08f1c3197c0b16a3"
+      "name": "信用卡 3D  一次付清",
+      "revision": "b5ae782edcd1784c"
     },
     {
       "id": "rec-20261103-060341-545c1754",
       "folder_id": "a31299a83292",
-      "name": "信用卡（富邦卡）非3D一次付清 + 7-11選門市",
-      "revision": "e1f4a8da9b869cec"
+      "name": "信用卡 非3D一次付清 + 7-11選門市",
+      "revision": "3a1c51c1bcc3e5c9"
     },
     {
       "id": "rec-20261103-060341-f227b8e3",
       "folder_id": "a31299a83292",
-      "name": "信用卡（台新卡）非3D分3期 + 全家選門市",
-      "revision": "deb50d6e78d531d9"
+      "name": "信用卡 非3D分3期 + 全家選門市",
+      "revision": "b7fd4904aad63ce4"
     },
     {
       "id": "rec-20261103-060340-7bd25d09",
       "folder_id": "058d58a533a8",
       "name": "ATM轉帳 (台灣銀行)  + 萊爾富選門市",
-      "revision": "a64f46fc6886340b"
+      "revision": "b745f98f8ef477f4"
     },
     {
       "id": "rec-20261103-060340-3b6bb776",
       "folder_id": "058d58a533a8",
       "name": "WebATM (華南銀行)  + 7-11選門市",
-      "revision": "e04b44608895cf69"
+      "revision": "670e3fe2f2ccbddd"
     },
     {
       "id": "rec-20261103-060340-e21e8664",
       "folder_id": "058d58a533a8",
       "name": "WebATM (台灣銀行)  + 全家選門市",
-      "revision": "62a9f2d22e1a4542"
+      "revision": "e24c8c1da2b43074"
     },
     {
       "id": "rec-20261103-060340-e657a8e3",
       "folder_id": "058d58a533a8",
       "name": "ATM轉帳 (華南銀行)  + 全家選門市",
-      "revision": "b4b182c523e53a6d"
+      "revision": "03a1ebe0b8cacf36"
     },
     {
       "id": "rec-20261103-060340-1f2ff47a",
       "folder_id": "058d58a533a8",
       "name": "超商代碼繳費 + 萊爾富選門市",
-      "revision": "f68959f07fad748a"
+      "revision": "27beb0edea038f23"
     },
     {
       "id": "rec-20261103-060340-bd8e1095",
       "folder_id": "058d58a533a8",
       "name": "超商取貨付款 + 全家選門市",
-      "revision": "7e40d9e40139bb2b"
+      "revision": "0ce2e6bff3d53074"
     },
     {
       "id": "rec-20261103-060340-2a372093",
       "folder_id": "058d58a533a8",
       "name": "條碼繳費 + 全家選門市",
-      "revision": "4b9ca02eb146f7fc"
+      "revision": "db04784423d8a7e2"
     },
     {
       "id": "rec-20261103-060340-d48fd77b",
       "folder_id": "058d58a533a8",
       "name": "智慧ATM 2.0 取號 + 7-11選門市",
-      "revision": "c065df9956fc0a76"
+      "revision": "a21ab7cd5745c6c1"
     },
     {
       "id": "rec-20261103-060339-94728491",
       "folder_id": "2ea6b176607a",
       "name": "付款查詢",
-      "revision": "d4851039ab6bda15"
-    },
-    {
-      "id": "rec-20261103-060339-1807e92d",
-      "folder_id": "2ea6b176607a",
-      "name": "稍微逛一下網頁（含下載API文件）",
-      "revision": "e2fbbdecda67d219"
-    },
-    {
-      "id": "rec-20261103-060339-358dac43",
-      "folder_id": "11a4274e4e4c",
-      "name": "超商取貨付款 + 7-11選門市",
-      "revision": "48b26b1c1ca5f196"
+      "revision": "0d7bffd068a47a8c"
     },
     {
       "id": "rec-20261103-060338-9e4a0c53",
       "folder_id": "c919e9d61527",
       "name": "大哥付 分3期 付款失敗 + 萊爾富選門市",
-      "revision": "a346470ae664717b"
+      "revision": "3bb52b60184fa41a"
     },
     {
       "id": "rec-20261103-060338-f8bff818",
       "folder_id": "c919e9d61527",
       "name": "大哥付 分3期 付款成功 + 萊爾富選門市",
-      "revision": "76c59ba0b5a5a910"
+      "revision": "b19c9aea9a2b0da3"
     },
     {
       "id": "rec-20261103-060338-9b375f9f",
       "folder_id": "c919e9d61527",
       "name": "大哥付 一次付清 付款失敗 + 全家選門市",
-      "revision": "9d1f97673ec340d8"
+      "revision": "2f1a4363a8855d7d"
     },
     {
       "id": "rec-20261103-060338-af027f70",
       "folder_id": "c919e9d61527",
       "name": "大哥付 一次付清 付款成功 + 萊爾富選門市",
-      "revision": "a2a3fd2424060f24"
+      "revision": "5e129e10f39c1517"
     },
     {
       "id": "rec-20261103-060338-da51cdef",
       "folder_id": "c919e9d61527",
       "name": "AFTEE 分3期 + 全家選門市",
-      "revision": "c7c4cf772a96c1a9"
+      "revision": "2618501622e71ae6"
     },
     {
       "id": "rec-20261103-060338-6fb6e47c",
       "folder_id": "c919e9d61527",
       "name": "AFTEE 一般支付 + 7-11選門市",
-      "revision": "194ac690cc8fd54b"
+      "revision": "f9ef5bf327747986"
     },
     {
       "id": "rec-20261103-060338-d60df738",
       "folder_id": "c919e9d61527",
       "name": "TWQR + 7-11選門市",
-      "revision": "3386e9104e73f6a9"
+      "revision": "105965c0512e5b63"
     },
     {
       "id": "rec-20261103-060338-e1deace7",
       "folder_id": "c919e9d61527",
       "name": "台灣Pay+萊爾富選門市",
-      "revision": "e63bb5dfbbd853d3"
+      "revision": "4c30cee75e3e6634"
     },
     {
       "id": "rec-20261103-060338-9f9325d9",
       "folder_id": "c919e9d61527",
       "name": "Apple Pay付款 + 全家選門市",
-      "revision": "aba530f865e9c428"
+      "revision": "c589290ad093632c"
     },
     {
       "id": "rec-20261103-060338-ca6eeb46",
       "folder_id": "4269fa4100a1",
       "name": "信用卡 非3D 分6期",
-      "revision": "9ffd2578af8b988d"
+      "revision": "d09d73948a5b0600"
     },
     {
       "id": "rec-20261103-060338-81718208",
       "folder_id": "4269fa4100a1",
       "name": "信用卡 非3D 紅利折抵 + 7-11選門市",
-      "revision": "c70b60c2f57723ea"
+      "revision": "563ee76340a24a46"
     },
     {
       "id": "rec-20261103-060338-e774717b",
       "folder_id": "4269fa4100a1",
       "name": "信用卡 非3D 一次付清",
-      "revision": "d81662e2c1c72941"
+      "revision": "42afc10e4d04700b"
     },
     {
       "id": "rec-20261103-060337-598c72f5",
       "folder_id": "9724c047ae2a",
       "name": "WebATM 華南銀行",
-      "revision": "6d86e0990cd4f5e6"
+      "revision": "a3682337f0a9c6e6"
     },
     {
       "id": "rec-20261103-060337-88d70ce9",
       "folder_id": "9724c047ae2a",
       "name": "WebATM 台灣銀行",
-      "revision": "b1632e56804eec18"
+      "revision": "0e99d1e0cf486c4d"
     },
     {
       "id": "rec-20261103-060337-a7c36ed0",
       "folder_id": "9724c047ae2a",
       "name": "超商取貨付款 萊爾富",
-      "revision": "180e5a7dc6faa129"
+      "revision": "8c782afe97cda349"
     },
     {
       "id": "rec-20261103-060337-92ca732a",
       "folder_id": "9724c047ae2a",
       "name": "超商取貨付款 全家",
-      "revision": "c6d964d486b175d9"
+      "revision": "6bda0821e13a494a"
     },
     {
       "id": "rec-20261103-060337-0f563d01",
       "folder_id": "9724c047ae2a",
       "name": "超商取貨付款 7-11",
-      "revision": "243b4c319c88523b"
+      "revision": "09cc01f6863e1b27"
     },
     {
       "id": "rec-20261103-060337-f65a5f33",
       "folder_id": "9724c047ae2a",
       "name": "超商代碼繳費",
-      "revision": "281d0fed1955ed1a"
+      "revision": "d7834c71c683558b"
     },
     {
       "id": "rec-20261103-060337-87656b03",
       "folder_id": "9724c047ae2a",
       "name": "ATM繳費取號 華南銀行",
-      "revision": "e382d81ceb43ccce"
+      "revision": "48f493b60f000b24"
     },
     {
       "id": "rec-20261103-060337-de9fa694",
       "folder_id": "9724c047ae2a",
       "name": "ATM繳費 台灣銀行",
-      "revision": "47b819ec40123bb9"
+      "revision": "ec00d470753928a8"
     },
     {
       "id": "rec-20261103-060337-d4b20250",
       "folder_id": "9724c047ae2a",
       "name": "條碼繳費",
-      "revision": "305cb48f34a6c3ca"
-    },
-    {
-      "id": "rec-20261103-060337-879658ac",
-      "folder_id": "9724c047ae2a",
-      "name": "智慧ATM 2.0 取號 + 全家選門市",
-      "revision": "0c6c19348035932c"
+      "revision": "843552da85fa5cf8"
     },
     {
       "id": "rec-20261103-060337-e0ebaab5",
       "folder_id": "c729a48016d2",
       "name": "付款查詢專區",
-      "revision": "04d0791dde1fa8f9"
+      "revision": "3bb4ba144368e700"
     },
     {
       "id": "rec-20261103-060336-e33f46d9",
       "folder_id": "c729a48016d2",
       "name": "物流貨態查詢",
-      "revision": "671cd483f7c618f0"
+      "revision": "13a05bbd931e8728"
     },
     {
       "id": "rec-20261103-060336-eacffdef",
       "folder_id": "c729a48016d2",
       "name": "官網主要頁面+文件下載測試",
-      "revision": "f70aebdb28577642"
+      "revision": "4277648a8b97a31a"
     },
     {
       "id": "rec-20261103-060336-e59a125d",
       "folder_id": "cf5435c8208c",
       "name": "MPG_超商取貨付款 萊爾富",
       "revision": "708ff9f97b6be79f"
-    },
-    {
-      "id": "rec-20261103-060336-8dbfed11",
-      "folder_id": "cf5435c8208c",
-      "name": "MPG_超商取貨付款 全家",
-      "revision": "7256eaf338f331f4"
     },
     {
       "id": "rec-20261103-060336-83bc3065",
