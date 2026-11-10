@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "version": "1.7",
-  "notes": "新增不同設備間的同步機制",
-  "mac_url": "https://drive.google.com/file/d/1Kz2X02Gc-bnHlbv9FtZ94CV_8ET25kFp/view?usp=sharing",
-  "windows_url": "https://drive.google.com/file/d/1rlWJ-ILyK4jx8rH1HOYUycpsR7KYRv0K/view?usp=sharing",
-  "mac_url2": "https://neweb-my.sharepoint.com/:u:/g/personal/hubert_tsai_neweb_com_tw/IQBg24OI-U5KRLyzzrgy-EiEAWP8tCJPVl3D-IB7kTDG6QA?e=BL4RJd",
-  "windows_url2": "https://neweb-my.sharepoint.com/:u:/g/personal/hubert_tsai_neweb_com_tw/IQAhTu5iAoEQRo5xGibDklYXAbdvW59CsUZFvAzNtPf9-oY?e=rnyCtC"
+  "version": "1.8",
+  "notes": "批次執行報表首頁版面調整",
+  "mac_url": "https://drive.google.com/file/d/1MNQj2_GsJZDXOmunMlR3ML2G3MUicc7T/view?usp=sharing",
+  "windows_url": "https://drive.google.com/file/d/1cq78Vt_YR3MmVYudCLeGJWX6WbkU6fbQ/view?usp=sharing",
+  "mac_url2": "https://neweb-my.sharepoint.com/:u:/g/personal/hubert_tsai_neweb_com_tw/IQB9jo1qTLryRL5nAzUKbnKNAcEcerXNhZbp6GZrrXyzGk8?e=AVheng",
+  "windows_url2": "https://neweb-my.sharepoint.com/:u:/g/personal/hubert_tsai_neweb_com_tw/IQBD9Fs_QNU6RqjDkxItynXJARyXYNG2CH2HRh9Xc0JV40g?e=kPxbml"
 }
