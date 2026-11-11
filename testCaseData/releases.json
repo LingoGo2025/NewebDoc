@@ -1,7 +1,17 @@
 {
   "schema_version": 2,
-  "latest_version": "1.8",
+  "latest_version": "1.9",
   "releases": [
+    {
+      "version": "1.9",
+      "notes": "",
+      "mac_url": "https://drive.google.com/file/d/1LLC3V8WgtG2SzpdPKbe2_tdo1lFW6__u/view?usp=sharing",
+      "windows_url": "https://drive.google.com/file/d/1lhhy7-HTIp_t9OSUJ1WT5VsbNGvBBC-L/view?usp=sharing",
+      "mac_url2": "https://neweb-my.sharepoint.com/:u:/g/personal/hubert_tsai_neweb_com_tw/IQCfa0YaX2uMSIWLDX_P8bezAU_F_RwdxoPFM4Nk0vKWYTM?e=LQhK50",
+      "windows_url2": "https://neweb-my.sharepoint.com/:u:/g/personal/hubert_tsai_neweb_com_tw/IQAari-K2BhTR7RrCtNfX0ZaAT6LL0H_kCFCYHGtS8_zu6o?e=50s36R",
+      "published_at": "2026-11-11T08:02:38+00:00",
+      "updated_at": "2026-11-11T08:02:38+00:00"
+    },
     {
       "version": "1.8",
       "notes": "批次執行報表首頁版面調整",
