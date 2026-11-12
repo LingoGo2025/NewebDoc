@@ -1,7 +1,17 @@
 {
   "schema_version": 2,
-  "latest_version": "1.9",
+  "latest_version": "2.0",
   "releases": [
+    {
+      "version": "2.0",
+      "notes": "新增支援輸入欄位為Authenticator驗證碼輸入",
+      "mac_url": "https://drive.google.com/file/d/1F1WvTlHknyvl3r4lbwsZvjQdiuSx-rK_/view?usp=sharing",
+      "windows_url": "https://drive.google.com/file/d/1n7puqZ3uG1CTcdjtFJ6jRwhppEjXVL3-/view?usp=sharing",
+      "mac_url2": "https://neweb-my.sharepoint.com/:u:/g/personal/hubert_tsai_neweb_com_tw/IQCOpH_VInFdR4lnoKwlElIKAfM9n3h9ray4dKsXggpTkSI?e=SkNVXy",
+      "windows_url2": "https://neweb-my.sharepoint.com/:u:/g/personal/hubert_tsai_neweb_com_tw/IQAst0Fsg44dRYyBo5CKGwbKAZy1MVYQXY4JsRHwvfqGQOA?e=owk2F8",
+      "published_at": "2026-11-12T09:55:26+00:00",
+      "updated_at": "2026-11-12T09:55:26+00:00"
+    },
     {
       "version": "1.9",
       "notes": "配合NWP 5.0網頁",
