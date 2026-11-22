@@ -1,0 +1,25 @@
+' @title 系統情境圖
+' @summary {{name}}與使用者、外部系統的邊界與交換資料〔待訪談第 2、8 階段後改寫〕。
+@startuml
+title 系統情境圖｜{{name}}
+left to right direction
+skinparam defaultFontName "PingFang TC"
+skinparam defaultFontColor #203F3C
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam TitleFontSize 20
+skinparam TitleFontColor #087E78
+skinparam rectangle {
+  RoundCorner 12
+  BorderThickness 2
+  FontSize 13
+}
+skinparam packageStyle rectangle
+
+package "{{name}}（平台邊界）" as P #F2FBF7;line:087E78 {
+  rectangle "前台" as E1 #C8EEDF;line:0B8A6B
+  rectangle "會員中心" as E2 #D6E0FF;line:3D5BD9
+  rectangle "後台" as E3 #FFD9B8;line:D9701E
+  rectangle "API" as E4 #E8D5FA;line:8B3FD1
+}
+@enduml
