@@ -1,0 +1,24 @@
+' @title 功能架構圖
+' @summary 入口層（網站地圖各區）→ 業務模組（標示涵蓋頁面）→ 共用服務〔待訪談第 5、6 階段後改寫〕。
+@startuml
+title 功能架構圖｜{{name}}
+skinparam defaultFontName "PingFang TC"
+skinparam defaultFontColor #203F3C
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam TitleFontSize 20
+skinparam TitleFontColor #087E78
+skinparam rectangle {
+  RoundCorner 12
+  BorderThickness 2
+  FontSize 13
+}
+skinparam packageStyle rectangle
+
+package "入口層（網站地圖各區）" as L1 #F0FAF6;line:0B8A6B {
+  rectangle "前台\n（尚無頁面）" as E1 #C8EEDF;line:0B8A6B
+  rectangle "會員中心\n（尚無頁面）" as E2 #D6E0FF;line:3D5BD9
+  rectangle "後台\n（尚無頁面）" as E3 #FFD9B8;line:D9701E
+  rectangle "API\n（尚無頁面）" as E4 #E8D5FA;line:8B3FD1
+}
+@enduml
