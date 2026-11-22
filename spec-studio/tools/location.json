@@ -1,0 +1,8 @@
+{
+  "_說明": "工具組在 GitHub 上的位置；用 tools/set_location.py 修改，不要手改",
+  "owner": "lingogo2025",
+  "repo": "NewebDoc",
+  "branch": "main",
+  "folder": "spec-studio",
+  "install_root": "NewebDoc"
+}
