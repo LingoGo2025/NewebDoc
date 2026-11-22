@@ -1,0 +1,57 @@
+{
+  "_說明": "專案設定：scripts/ 讀取本檔取得專案專屬的檔名、頁面 ID 規則、網站地圖區域與檢查規則。文件格式慣例（章節標題、SVG 選單版型、流程圖樣式）屬於工具本身，不在此設定。區域與 ID 由訪談第 4 階段決定，改動時同步改網站地圖.md 與 AGENTS.md。",
+  "name": "{{name}}",
+  "engine_version": "{{engine_version}}",
+  "kit": {"path": "{{kit_path}}", "_說明": "screen-spec-kit plugin 的位置；plugin 有新版時 check.py 提醒可升級。"},
+  "files": {
+    "spec": "畫面與流程文字規格.md",
+    "sitemap": "網站地圖.md",
+    "index": "index.html"
+  },
+  "ids": {
+    "page_prefixes": ["A", "B", "C"],
+    "api_prefix": "API",
+    "digits": 2
+  },
+  "regions": [
+    {"name": "前台", "column": "public", "prefix": "A"},
+    {"name": "會員中心", "column": "org", "prefix": "B", "backend": true},
+    {"name": "後台", "column": "admin", "prefix": "C", "backend": true},
+    {"name": "API", "column": "api", "prefix": "API", "backend": true}
+  ],
+  "index": {
+    "_說明": "index.html 網站地圖的欄位排列：每組是一欄，同組多個區域上下堆疊（值為 regions › column）。regions › backend 為 true 的區域在燈箱「流程位置」標註區域名稱；ids › page_prefixes 的順序是前台到後台，決定燈箱「管理頁面／結果頁面」方向。",
+    "layout": [["public"], ["org"], ["admin", "api"]]
+  },
+  "theme": {
+    "_說明": "〔待訪談第 1 階段：依品牌主色修改後刪除此標記〕品牌配色：SVG 元件（scripts/mockup.py）、頂部導覽（nav.py）與 index.html 主色共用；regions 依 regions › column 覆寫該區的主色與側欄色。沒寫的鍵用引擎預設。",
+    "primary": "#087e78",
+    "primary_dark": "#24675c",
+    "primary_soft": "#e6f2eb",
+    "sidebar": "#153f3b",
+    "regions": {
+      "admin": {"primary": "#b87542", "primary_soft": "#fff0df", "sidebar": "#253b43"}
+    }
+  },
+  "mockup": {
+    "_說明": "新頁面 SVG 的各區版型預設（scripts/mockup.py）：layout 為 backend（1600×1080 側欄）或 public（1440×1000 頂部導覽）；nav 是共用選單 key（網站地圖.md › 共用選單）；其餘為側欄、頁首、頁尾的固定文字。訪談第 4 階段確定區域後調整。",
+    "public": {"layout": "public", "brand": "logo", "nav_items": [], "buttons": ["登入"], "footer": ["© {{name}}", "隱私權政策　聯絡方式"]},
+    "org": {"layout": "backend", "nav": "member", "label": "會員中心", "sublabel": "", "badge": "會員中心", "account": "", "identity": ["目前身分", "", ""], "footer": ["© {{name}}", "支援中心"]},
+    "admin": {"layout": "backend", "nav": "admin", "label": "SYSTEM ADMIN", "sublabel": "管理者專用入口", "badge": "後台", "account": "", "identity": ["目前身分", "", ""], "footer": ["© {{name}}", "支援中心"]},
+    "api": {"layout": "public", "brand": "logo", "footer": ["© {{name}}", "隱私權政策　聯絡方式"]}
+  },
+  "brand": {
+    "_說明": "示意圖共用的正式標誌（放 assets/ 的 SVG，訪談第 1 階段提供）；沒有標誌時以文字顯示 name。",
+    "logo": "",
+    "name": "{{name}}"
+  },
+  "architecture": {
+    "figures": {
+      "system_context": "系統情境圖",
+      "functional_architecture": "功能架構圖"
+    },
+    "functional_figure": "functional_architecture"
+  },
+  "term_rules": [],
+  "inventory_desc": {}
+}
