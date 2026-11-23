@@ -1,0 +1,1371 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><!-- [slot:title] --><title>{{name}}｜網站地圖與頁面示意圖</title><!-- [/slot:title] --><style>
+:root{--ink:#203f3c;--muted:#6e827a;--line:#dce7df;--bg:#f3f6f2;--teal:#087e78;--teal-dark:#24675c;--mint:#e8f2eb;--orange:#b87542}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;font-size:17px}a{color:inherit}.shell{width:100%;max-width:none;margin:0;padding:24px 28px 60px}.hero{background:#173f3b;color:white;padding:34px 38px;border-radius:24px;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:330px;height:330px;border-radius:50%;background:#2b7469;opacity:.38;right:12%;top:-180px}.eyebrow{text-transform:uppercase;letter-spacing:.16em;color:#bfdbc9;font-size:14px;font-weight:800}.hero h1{font-size:38px;margin:10px 0}.hero p{color:#d5e4db;max-width:850px;line-height:1.7;margin:0}.tags{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}.tag{background:#ffffff18;border:1px solid #ffffff35;border-radius:999px;padding:8px 13px;font-size:14px}.summary{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:20px 0 34px}.overview,.flow{background:white;border:1px solid var(--line);border-radius:18px;padding:20px}.overview h2,.flow h2{font-size:19px;margin:0 0 10px}.overview img{width:100%;max-height:320px;object-fit:contain;background:#eef3ef;border-radius:12px}.overview a{display:inline-block;margin-top:10px;color:var(--teal);font-weight:700;font-size:13px}.flowline{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0}.node{background:#eef5ef;border:1px solid #d9e8de;border-radius:10px;padding:10px 13px;font-size:15px;font-weight:700}.arrow{color:#91a69b;font-size:18px}.note{font-size:15px;line-height:1.7;color:var(--muted);margin:10px 0 0}.group{margin:36px 0}.grouphead{display:flex;align-items:end;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:15px}.grouphead h2{font-size:27px;margin:0}.grouphead p{color:var(--muted);font-size:15px;margin:6px 0 0}.public .grouphead{border-color:#b7ddd2}.public .grouphead h2{color:var(--teal)}.org .grouphead{border-color:#c8dfd1}.org .grouphead h2{color:#397c67}.admin .grouphead{border-color:#ead3be}.admin .grouphead h2{color:#a56738}.footer{border-top:1px solid var(--line);padding-top:20px;color:var(--muted);font-size:14px;line-height:1.7}@media(max-width:1000px){.summary{grid-template-columns:1fr}}@media(max-width:640px){.shell{padding:14px}.hero{padding:25px}.hero h1{font-size:27px}.grouphead{display:block}}
+
+.sitemap{margin:30px 0 48px}.sitemap-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:16px}.sitemap-head h2{font-size:28px;margin:0}.sitemap-head p{font-size:15px;color:var(--muted);margin:6px 0 0}.mapcolumns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}.mapcolumn{background:#fff;border:1px solid var(--line);border-radius:17px;padding:18px}.mapcolumn h3{font-size:20px;margin:0 0 12px;padding-bottom:12px;border-bottom:1px solid var(--line)}.mapnode{padding:12px 0;border-bottom:1px solid #edf1ed}.mapnode:last-child{border-bottom:0}.mapnode strong{font-size:16px}.mapnode p{font-size:14px;color:var(--muted);line-height:1.55;margin:5px 0 9px}.refs{display:flex;flex-wrap:wrap;gap:6px}.screen-ref{display:inline-flex;align-items:center;border:1px solid #d8e7dd;background:#f2f7f3;color:#28685d;border-radius:999px;padding:6px 10px;font-size:13px;font-weight:750;text-decoration:none;cursor:pointer}.screen-ref:hover{background:#e2f0e7;border-color:#a7cbbc}.public-map h3{color:var(--teal)}.org-map h3{color:#397c67}.admin-map h3{color:#a56738}.mapcolumn.public-map{background:#f1f8f4;border-color:#cfe3d7}.mapcolumn.recipient-map{background:#fbf7ef;border-color:#eadcc5}.recipient-map h3{color:#9b7142}.recipient-map .mapcolumn-head{background:#f2e8d8}.mapcolumn.org-map{background:#f4f8ef;border-color:#d9e4cd}.mapcolumn.admin-map{background:#fbf5ed;border-color:#ead8c1}.mapcolumn-head{margin:-16px -16px 14px;padding:13px 16px 12px;border-radius:13px 13px 0 0}.mapcolumn-head h3{margin:0 0 3px!important}.mapcolumn-subtitle{margin:0!important;padding:0!important;border:0!important}.public-map .mapcolumn-head{background:#e1f0e7}.org-map .mapcolumn-head{background:#e8efde}.admin-map .mapcolumn-head{background:#f2e6d7}.section-jump{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}.section-jump a{background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 14px;text-decoration:none;font-size:14px;font-weight:750;color:#45665d}.section-jump a:hover{border-color:#9ec3b1;color:var(--teal)}.lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(13,31,29,.82);padding:26px;align-items:center;justify-content:center}.lightbox.active{display:flex}.lightbox-dialog{position:relative;max-width:96vw;max-height:96vh;background:#f7f8f5;border-radius:15px;padding:52px 16px 16px;box-shadow:0 20px 70px #0005}.lightbox img{display:block;max-width:93vw;max-height:85vh;object-fit:contain;border-radius:6px;background:#fff}.lightbox-caption{position:absolute;left:20px;top:17px;font-size:16px;font-weight:750;color:var(--ink);max-width:calc(100% - 85px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lightbox-close{position:absolute;right:13px;top:9px;width:34px;height:34px;border:0;border-radius:50%;background:#e8efea;color:#294d45;font-size:23px;line-height:1;cursor:pointer}.lightbox-close:hover{background:#d6e7dc}.lightbox-hint{position:absolute;right:58px;top:19px;font-size:13px;color:#71847d}@media(max-width:1000px){.mapcolumns{grid-template-columns:1fr}.mapcolumn{padding:15px}.mapnode{padding:10px 0}.lightbox{padding:10px}.lightbox-dialog{padding:48px 8px 8px}.lightbox img{max-width:96vw;max-height:88vh}}
+
+.related-groups[hidden],.lightbox-actions[hidden],.lightbox-link[hidden]{display:none!important}.mapfold{background:#fff;border:1px solid var(--line);border-radius:15px;margin:0 0 22px;overflow:hidden}.mapfold>summary{padding:15px 19px;cursor:pointer;font-weight:750;color:#3c6258;list-style:none}.mapfold>summary::-webkit-details-marker{display:none}.mapfold>summary:after{content:"＋";float:right;color:var(--teal)}.mapfold[open]>summary:after{content:"−"}.mapfold .mapcolumns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:0 19px 15px}.mapfold .mapcolumn{padding:16px;border:1px solid var(--line);border-radius:14px}.map-stack{display:flex;flex-direction:column;gap:16px;min-width:0}.mapfold .mapcolumn h3{display:block;font-size:21px;margin:0 0 3px;padding:0;border:0}.mapfold .mapcolumn h3 .area-count{margin-left:7px;font-size:12px;font-weight:500;letter-spacing:0;color:#70837c;white-space:nowrap;vertical-align:middle}.mapcolumn-subtitle{font-size:13px;color:var(--muted);margin:0 0 12px;padding:0 0 10px;border-bottom:1px solid var(--line)}.lightbox-dialog{width:98vw;max-width:98vw;max-height:98vh;background:#f7f8f5;border-radius:15px;padding:52px 18px 18px;box-shadow:0 20px 70px #0005;overflow:auto}.lightbox-content{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:18px;align-items:start}.lightbox img{display:block;width:100%;max-width:calc(98vw - 390px);max-height:calc(94vh - 100px);object-fit:contain;border-radius:6px;background:#fff}.lightbox-details{align-self:stretch;background:#edf3ee;border:1px solid #dce7df;border-radius:12px;padding:18px;max-height:calc(94vh - 100px);overflow:auto}.lightbox-details h3{font-size:17px;margin:0 0 10px}.lightbox-details p{font-size:15px;line-height:1.65;color:#536e65;margin:0 0 18px;white-space:pre-line}.related-groups{margin:6px 0 18px}.related-section{padding:12px 0;border-top:1px solid #d6e3da}.related-section h4{font-size:14px;margin:0 0 8px;color:#345d53}.related-list{display:flex;flex-direction:column;gap:6px}.related-link{border:1px solid #d4e2d9;background:#fff;color:var(--teal-dark);border-radius:8px;padding:8px 10px;text-align:left;font:inherit;font-size:13px;font-weight:650;cursor:pointer}.flow-position-section{padding:12px 0;border-top:1px solid #d6e3da}.flow-position-section h4{font-size:14px;margin:0 0 8px;color:#345d53}.flow-pos-flow{margin:0 0 12px}.flow-pos-flow strong{display:block;font-size:13px;color:#284944;margin-bottom:5px}.flow-pos-step{margin-left:6px;font-size:12px;font-weight:600;color:#70837c}.flow-pos-chain{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px}.flow-pos-chip{border:1px solid #d4e2d9;background:#fff;color:var(--teal-dark);border-radius:6px;padding:4px 8px;text-align:left;font:inherit;font-size:12px;font-weight:650;cursor:pointer}.flow-pos-chip:hover{border-color:#9fc6b4}.flow-pos-self{font-size:12px;font-weight:800;color:var(--teal);padding:4px 2px}.flow-pos-arrow,.flow-pos-sep{font-size:12px;color:#87a097}
+  .related-link:hover{background:#e2f0e7;border-color:#9fc6b4}.related-empty{font-size:12px;color:#809087}.lightbox-actions{display:flex;flex-direction:column;gap:9px}.lightbox-link{display:block;text-decoration:none;background:#fff;border:1px solid #cddfd3;color:var(--teal-dark);border-radius:9px;padding:10px 12px;font-size:14px;font-weight:750}.lightbox-link:hover{background:#e4f0e7}.lightbox[aria-hidden="true"]{visibility:hidden}.lightbox.active{visibility:visible}@media(max-width:1000px){.mapcolumns{grid-template-columns:1fr}.mapfold .mapcolumns{grid-template-columns:1fr}.mapcolumn{padding:15px}.mapnode{padding:10px 0}}@media(max-width:700px){.lightbox{padding:8px}.lightbox-dialog{padding:48px 8px 8px;max-height:98vh}.lightbox-content{grid-template-columns:1fr}.lightbox img{max-width:92vw;max-height:60vh}.lightbox-details{padding:12px;max-height:35vh;overflow:auto}.lightbox-hint{display:none}}
+
+.lightbox-image-viewport{position:relative;display:flex;align-items:center;justify-content:center;min-width:0;width:100%;height:calc(94vh - 120px);min-height:300px;overflow:hidden;border:1px solid #53616a;border-radius:8px;background:#2d3941;touch-action:none;cursor:grab}.lightbox-image-viewport.dragging{cursor:grabbing}.lightbox-image-viewport img{display:block;width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;transform:translate3d(var(--pan-x,0px),var(--pan-y,0px),0) scale(var(--zoom,1));transform-origin:center;transition:transform .12s ease-out;pointer-events:none;user-select:none}.lightbox-image-viewport.dragging img{transition:none}.zoom-controls{position:absolute;right:14px;bottom:14px;display:flex;align-items:center;gap:4px;padding:6px;border:1px solid #dce7df;border-radius:12px;background:rgba(255,255,255,.94);box-shadow:0 4px 14px #1e453d18}.zoom-controls button{width:38px;height:36px;border:0;border-radius:8px;background:#edf3ee;color:#28564b;font:inherit;font-size:21px;font-weight:750;cursor:pointer}.zoom-controls button:hover:not(:disabled){background:#dcebe1}.zoom-controls button:disabled{opacity:.45;cursor:default}.zoom-level{min-width:54px;text-align:center;font-size:13px;font-weight:750;color:#405f55}.zoom-reset{width:auto!important;padding:0 10px;font-size:12px!important}
+@media(max-width:700px){.lightbox-image-viewport{height:52vh;min-height:220px}.zoom-controls{right:8px;bottom:8px}.zoom-controls button{width:34px;height:34px}}
+
+.lightbox-topbar{position:absolute;left:18px;right:13px;top:9px;display:flex;align-items:center;gap:10px;min-height:34px;z-index:2}.lightbox-caption{position:static;flex:1;min-width:0;max-width:none;font-size:16px}.lightbox-back{flex:0 1 auto;max-width:35%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border:1px solid #cddfd3;border-radius:9px;padding:7px 11px;background:#fff;color:var(--teal-dark);font:inherit;font-size:13px;font-weight:750;cursor:pointer}.lightbox-back:hover{background:#e4f0e7}.lightbox-back[hidden]{display:none!important}.lightbox-close{position:static;flex:0 0 34px}.lightbox-hint{position:static;white-space:nowrap;font-size:12px}@media(max-width:700px){.lightbox-topbar{left:8px;right:8px;gap:6px}.lightbox-hint{display:none}.lightbox-back{max-width:42%;padding:7px 8px;font-size:12px}.lightbox-caption{font-size:14px}}
+
+.hero{background:#e8f1eb;color:#203f3c;padding:24px 32px;border-radius:18px;box-shadow:none}.hero:after{display:none}.hero h1.hero-logo-wrap{margin:0 0 8px;font-size:0;line-height:0}.hero-logo-wrap{display:block;width:min(100%,520px);max-width:100%}.hero-logo{display:block;width:100%;height:auto}.hero .hero-subtitle{color:#61766f;font-size:16px;line-height:1.55;margin:0}
+.logo-card{display:grid;grid-template-columns:minmax(320px,.9fr) minmax(420px,1.1fr);gap:28px;align-items:center;margin:0 0 30px;padding:25px;background:#fff;border:1px solid #dce7df;border-radius:20px;box-shadow:0 8px 24px #21463b0a}.logo-card-preview{display:block;min-height:230px;background:transparent;border:0}.logo-variants{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:12px;width:100%;align-items:stretch}.logo-variant.logo-variant-horizontal{grid-column:1 / -1;min-height:125px}.logo-variant-horizontal img{width:min(100%,610px);height:auto}.logo-variant{margin:0;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:230px;padding:12px;border:1px solid #e2e8e3;border-radius:13px;background:#fbfcfa}.logo-variant img{display:block;object-fit:contain}.logo-variant-vertical img{width:min(100%,300px);height:auto}.logo-variant-compact img{width:min(100%,140px);height:auto}.logo-variant figcaption{margin-top:9px;color:#71847c;font-size:13px;font-weight:700}.logo-eyebrow{font-size:12px;letter-spacing:.16em;font-weight:850;color:#9f654f}.logo-card-copy h2{font-size:25px;margin:7px 0 9px;color:#243f3c}.logo-card-copy>p{font-size:16px;line-height:1.7;color:#61766f;margin:0 0 12px}.logo-points{padding-left:21px;margin:0 0 18px;color:#526b63;font-size:15px;line-height:1.7}.logo-points li+li{margin-top:6px}.logo-points strong{color:#294b43}.logo-downloads{display:flex;flex-wrap:wrap;gap:9px}.logo-downloads a{display:inline-flex;align-items:center;justify-content:center;padding:10px 13px;border:1px solid #cddfd3;border-radius:9px;background:#f2f7f3;color:var(--teal-dark);text-decoration:none;font-size:14px;font-weight:750}.logo-downloads a:hover{background:#e2f0e7;border-color:#9fc6b4}.logo-downloads a.logo-preview-download{background:#fff7f1;border-color:#ead3c3;color:#985e43}
+
+@media(max-width:1000px){.logo-card{grid-template-columns:1fr;gap:18px}.logo-card-preview{min-height:180px}.logo-card-copy h2{font-size:22px}}
+@media(max-width:640px){.hero{padding:20px}.hero-logo-wrap{width:100%}.hero .hero-subtitle{font-size:15px}.logo-variants{grid-template-columns:minmax(0,1fr) 108px;gap:8px}.logo-variant{min-height:170px;padding:7px}.logo-variant.logo-variant-horizontal{min-height:100px}.logo-variant-vertical img{width:100%}.logo-variant-compact img{width:min(100%,96px);height:auto}.logo-card{padding:15px}.logo-card-preview{min-height:140px}.logo-downloads a{flex:1 1 44%}}
+
+.lightbox{padding:1vh 1vw}
+.lightbox-dialog{width:98vw;max-width:98vw;max-height:98vh}
+@media(max-width:700px){.lightbox{padding:1vh 1vw}.lightbox-dialog{width:98vw;max-width:98vw}}
+
+.mapfold .mapcolumns{grid-template-columns:repeat(3,minmax(0,1fr))}
+.api-map{background:#f1f6fb!important;border-color:#d0dfed!important}.api-map h3{color:#356b9a!important}.api-map .mapcolumn-head{background:#e2edf7}.api-map .screen-ref{background:#f1f7fc;border-color:#c9dceb;color:#315f87}.api-map .screen-ref:hover{background:#e0edf8;border-color:#9dbed8}
+@media(max-width:1400px){.mapfold .mapcolumns{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.mapfold .mapcolumns{grid-template-columns:1fr}}
+/* [slot:project-css] *//* [/slot:project-css] */</style><style>
+.lightbox-visual-column{min-width:0;display:flex;flex-direction:column;gap:10px}
+.lightbox-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.lightbox-tab-button{appearance:none;border:1px solid #cddfd3;border-radius:9px;padding:9px 15px;background:#fff;color:#3d6258;font:inherit;font-size:14px;font-weight:750;cursor:pointer}
+.lightbox-tab-button:hover{border-color:#9fc6b4;background:#f5faf6}
+.lightbox-tab-button[aria-selected="true"]{border-color:var(--teal);background:var(--teal);color:#fff}
+.lightbox-tab-panel{min-width:0}
+.lightbox-tab-panel[hidden]{display:none!important}
+
+.lightbox-flow-list{display:flex;flex-direction:column;gap:13px}
+.flow-card{border:1px solid #dce7df;border-radius:11px;padding:13px;background:#fff}
+
+
+.flow-diagram-viewport{height:calc(94vh - 220px);min-height:240px}
+.flow-diagram-viewport .zoom-controls{right:14px;bottom:14px}
+.flow-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+.flow-action{display:inline-flex;align-items:center;justify-content:center;min-height:36px;border:1px solid #cddfd3;border-radius:8px;padding:7px 11px;background:#f7fbf8;color:var(--teal-dark);text-decoration:none;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.flow-action:hover:not(:disabled){background:#e4f0e7}
+.flow-action:disabled{opacity:.65;cursor:default}
+
+
+
+@media(max-width:700px){.lightbox-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.lightbox-tab-button{padding:8px 5px;font-size:12px}.flow-diagram-viewport{height:44vh;min-height:200px}.flow-diagram-viewport .zoom-controls{right:8px;bottom:8px}.flow-diagram-viewport .zoom-controls button{width:34px;height:34px}}
+</style>
+<style>
+.lightbox{padding:2.5vh 2.5vw!important}
+.lightbox-dialog{box-sizing:border-box;width:95vw;height:95vh;min-width:0;min-height:0;max-width:95vw;max-height:95vh;padding:52px 18px 18px;overflow:hidden;display:flex;flex-direction:column}
+.lightbox-content{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:18px;align-items:stretch;flex:1;min-width:0;min-height:0;overflow:hidden}
+.lightbox-visual-column{display:flex;flex-direction:column;gap:10px;min-width:0;min-height:0;height:100%}
+.lightbox-tabs{flex:0 0 auto}
+.lightbox-tab-panel{flex:1;min-width:0;min-height:0;height:auto}
+#lightbox-panel-illustration{display:flex}
+.lightbox-mobile-panel{height:calc(94vh - 120px);min-height:300px;overflow:auto;border:1px solid #53616a;border-radius:8px;background:#2d3941;padding:22px 16px}.lightbox-mobile-stage{display:flex;justify-content:center;align-items:flex-start;min-height:100%}.lightbox-mobile-stage svg,.lightbox-mobile-stage img{display:block;border-radius:22px;box-shadow:0 0 0 10px #1c2529,0 18px 40px #0006;background:#fff}.mobile-none{align-self:center;max-width:460px;margin:auto;background:#f7f8f5;border-radius:14px;padding:22px 24px;color:#3c5a52;line-height:1.7}.mobile-none h4{margin:0 0 6px;font-size:18px;color:#284944}.mobile-none p{margin:0;font-size:15px}@media(max-width:700px){.lightbox-mobile-panel{height:52vh;padding:12px 8px}}
+#lightbox-panel-illustration[hidden],.lightbox-tab-panel[hidden]{display:none!important}
+#lightbox-image-viewport{flex:1;height:auto;min-height:0}
+.lightbox-svg-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;width:100%;height:100%;overflow:visible;transform:translate3d(var(--pan-x,0px),var(--pan-y,0px),0) scale(var(--zoom,1));transform-origin:center;transition:transform .12s ease-out;user-select:text}
+.lightbox-svg-stage svg{display:block;width:100%;height:100%;max-width:100%;max-height:100%;pointer-events:auto;user-select:text}
+.lightbox-svg-stage text,.lightbox-svg-stage tspan{user-select:text;cursor:text}
+.lightbox-image-viewport.dragging .lightbox-svg-stage{transition:none}
+.lightbox-details{box-sizing:border-box;height:100%;max-height:none;min-height:0;overflow:auto;align-self:stretch}
+.lightbox-flow-panel{height:100%;max-height:none;overflow:auto;padding:0 4px 2px 1px}
+.lightbox-flow-list{display:flex;flex-direction:column;gap:12px}
+.flow-card{flex:0 0 auto;border:0;border-radius:0;padding:0;background:transparent}
+.flow-diagram-viewport{height:calc(94vh - 220px);min-height:220px}
+.flow-diagram-viewport .zoom-controls{right:14px;bottom:14px}
+.flow-diagram-viewport .zoom-controls button{width:38px;height:36px}
+.flow-actions{margin:10px 0 0}
+@media(max-width:700px){
+  .lightbox-dialog{padding:48px 10px 10px}
+  .lightbox-content{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1.35fr) minmax(0,1fr);gap:10px}
+  .lightbox-visual-column{height:auto}
+  .lightbox-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+  .lightbox-tab-button{padding:8px 5px;font-size:12px;text-align:center}
+  .lightbox-details{height:auto;padding:12px}
+  .lightbox-flow-panel{padding:0 2px 2px 0}
+  .flow-diagram-viewport{height:40vh;min-height:180px}
+  .flow-diagram-viewport .zoom-controls{right:8px;bottom:8px}
+  .flow-diagram-viewport .zoom-controls button{width:34px;height:34px}
+}
+</style>
+<style>
+.interaction-mode-buttons{display:flex;align-items:center;gap:3px;padding:2px;border:1px solid #dce7df;border-radius:9px;background:#edf3ee}
+.zoom-controls .mode-button{width:auto;min-width:44px;height:32px;border:0;border-radius:7px;padding:0 8px;background:transparent;color:#405f55;font-size:12px;line-height:1;font-weight:750;cursor:pointer}
+.zoom-controls .mode-button:hover{background:#dcebe1}
+.zoom-controls .mode-button[aria-pressed="true"]{background:var(--teal);color:#fff}
+.lightbox-image-viewport.editing-mode{cursor:text}
+.lightbox-svg-stage:not(.text-editing),.lightbox-svg-stage:not(.text-editing) *{user-select:none!important;-webkit-user-select:none!important}
+.lightbox-svg-stage.text-editing,.lightbox-svg-stage.text-editing *{user-select:text!important;-webkit-user-select:text!important}
+@media(max-width:700px){.zoom-controls .mode-button{min-width:38px;padding:0 5px;font-size:11px}.zoom-controls{gap:3px}}
+</style>
+<style>
+.lightbox-tabbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex:0 0 auto;min-width:0}
+.lightbox-toolbar{margin-left:auto;display:flex;align-items:center;justify-content:flex-end;min-width:0}
+.lightbox-toolbar .toolbar-group{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-wrap:wrap;min-width:0}
+.lightbox-toolbar .toolbar-group[hidden],.lightbox-toolbar .zoom-controls[hidden],.flow-card[hidden],.toolbar-action[hidden]{display:none!important}
+.lightbox-toolbar .zoom-controls{position:static;right:auto;bottom:auto;flex-wrap:wrap;padding:3px;box-shadow:none;background:#fff;border-color:#cddfd3;border-radius:10px}
+.lightbox-toolbar .zoom-controls>button{width:34px;height:32px;font-size:19px}
+.lightbox-toolbar .zoom-controls>button.zoom-reset{width:auto;padding:0 9px}
+.toolbar-action{display:inline-flex;align-items:center;justify-content:center;height:32px;margin-left:2px;padding:0 10px;border:1px solid #cddfd3;border-radius:8px;background:#f7fbf8;color:var(--teal-dark);text-decoration:none;font:inherit;font-size:12px!important;font-weight:750;white-space:nowrap;cursor:pointer}
+.lightbox-toolbar .zoom-controls>button.toolbar-action{width:auto;background:#f7fbf8}
+.toolbar-action:hover{background:#e4f0e7}
+.toolbar-action:disabled{opacity:.65;cursor:default}
+.flow-select{height:34px;max-width:260px;min-width:0;border:1px solid #cddfd3;border-radius:8px;padding:0 8px;background:#fff;color:var(--teal-dark);font:inherit;font-size:13px;font-weight:650;text-overflow:ellipsis}
+#lightbox-panel-flow{display:flex;flex-direction:column;overflow:hidden;padding:0}
+.lightbox-flow-list{flex:1;min-height:0}
+.flow-card{flex:1 1 auto;display:flex;flex-direction:column;min-height:0}
+.flow-diagram-viewport{flex:1;height:auto;min-height:0}
+@media(max-width:700px){.lightbox-tabbar .lightbox-tabs{flex:1 1 100%}.lightbox-toolbar{margin-left:0;flex:1 1 100%;justify-content:flex-start}.lightbox-toolbar .toolbar-group{justify-content:flex-start}.flow-select{max-width:100%;flex:1 1 100%}}
+/* 工具列整理：單一分組工具列（模式｜縮放｜下載／複製），按鈕一律扁平、以細線分組 */
+.lightbox-toolbar .toolbar-group{gap:8px;flex-wrap:nowrap}
+.lightbox-toolbar .zoom-controls{flex-wrap:nowrap;gap:2px;padding:3px;border:1px solid #cddfd3;border-radius:10px;background:#fff}
+.lightbox-toolbar .interaction-mode-buttons{border:0;padding:2px;background:#edf3ee}
+.lightbox-toolbar .zoom-controls .mode-button{height:26px;min-width:40px}
+.lightbox-toolbar .zoom-controls>button:not(.mode-button),.lightbox-toolbar .zoom-controls>a.toolbar-action{position:relative;display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;margin:0;padding:0;border:0;border-radius:7px;background:transparent;color:#28564b;font-size:18px;font-weight:700;text-decoration:none}
+.lightbox-toolbar .zoom-controls>button:not(.mode-button):hover,.lightbox-toolbar .zoom-controls>a.toolbar-action:hover{background:#e4f0e7}
+.lightbox-toolbar .zoom-controls>button.zoom-reset,.lightbox-toolbar .zoom-controls>a.toolbar-action,.lightbox-toolbar .zoom-controls>button.toolbar-action{width:auto;padding:0 9px;font-size:12px!important;font-weight:750;color:var(--teal-dark);background:transparent}
+.lightbox-toolbar .zoom-controls>button.toolbar-action:hover{background:#e4f0e7}
+.lightbox-toolbar .zoom-level{min-width:44px;font-size:12px}
+.lightbox-toolbar #zoom-out,.lightbox-toolbar .flow-zoom-out,.lightbox-toolbar .zoom-controls>a.toolbar-action{margin-left:7px}
+.lightbox-toolbar #zoom-out::before,.lightbox-toolbar .flow-zoom-out::before,.lightbox-toolbar .zoom-controls>a.toolbar-action::before{content:"";position:absolute;left:-5px;top:6px;bottom:6px;width:1px;background:#d3e2d8}
+.lightbox-toolbar .flow-select{height:38px}
+@media(max-width:700px){.lightbox-toolbar .toolbar-group,.lightbox-toolbar .zoom-controls{flex-wrap:wrap}}
+/* 開發說明頁籤：上下兩區固定各占一半，設計者補充沒有內容時仍保留空間 */
+.lightbox-devnotes-panel{display:flex;flex-direction:column;gap:12px;height:calc(94vh - 120px);min-height:300px}
+.lightbox-devnotes-panel[hidden]{display:none!important}
+.devnotes-block{flex:1 1 0;min-height:0;overflow:auto;padding:14px 18px;border:1px solid #cddfd3;border-radius:10px;background:#fff}
+.devnotes-designer{background:#fbfdfb;border-style:dashed}
+.devnotes-block h4{margin:0 0 6px;font-size:15px;color:var(--teal-dark)}
+.devnotes-hint{margin:0 0 8px;font-size:12px;color:#71847d}
+.devnotes-block ul{margin:0;padding-left:20px;font-size:14px;line-height:1.7;color:#2b3b35}
+.devnotes-block li+li{margin-top:4px}
+.devnotes-empty{list-style:none;margin-left:-20px;color:#9aaba3;font-size:13px}
+@media(max-width:700px){.lightbox-devnotes-panel{height:auto;min-height:0}.devnotes-block{flex:0 0 auto;min-height:140px}}
+/* SA 規格頁籤：只有規格中有「SA 規格」區塊的頁面才顯示 */
+.lightbox-sa-panel{height:calc(94vh - 120px);min-height:300px;overflow:auto;padding:14px 18px;border:1px solid #cddfd3;border-radius:10px;background:#fff;color:#2b3b35}
+.sa-note{margin:0 0 12px;padding:8px 12px;border-left:3px solid #9fc6b4;background:#f5faf6;font-size:12.5px;line-height:1.6;color:#55695f}
+.sa-section+.sa-section{margin-top:18px}
+.sa-section h4{margin:0 0 8px;font-size:15px;color:var(--teal-dark)}
+.sa-table-wrap{overflow-x:auto}
+.sa-table{width:100%;border-collapse:collapse;font-size:13px;line-height:1.55}
+.sa-table th,.sa-table td{padding:6px 8px;border:1px solid #dbe7df;text-align:left;vertical-align:top}
+.sa-table th{background:#edf3ee;color:#28564b;font-weight:750;white-space:nowrap}
+.sa-table tbody tr:nth-child(even){background:#fafcfa}
+.sa-table td:first-child{white-space:nowrap;font-weight:650;color:#28564b}
+.sa-list{margin:8px 0 0;padding-left:20px;font-size:13.5px;line-height:1.7}
+.sa-pending{color:#b25b00;font-weight:650}
+.sa-toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 6px;font-size:12px;color:#71847d}
+.sa-toolbar button{flex:0 0 auto;border:1px solid #cddfd3;border-radius:7px;padding:4px 10px;background:#f7fbf8;color:var(--teal-dark);font:inherit;font-weight:750;cursor:pointer}
+.sa-toolbar button:hover{background:#e4f0e7}
+.sa-group{margin:18px 0 8px;padding-bottom:4px;border-bottom:1px solid #e2e9e3;font-size:12.5px;font-weight:800;letter-spacing:.04em;color:#71847d}
+.sa-detail{margin-top:8px;border:1px solid #dbe7df;border-radius:8px;background:#fcfdfc}
+.sa-detail>summary{padding:8px 12px;font-size:14px;font-weight:750;color:var(--teal-dark);cursor:pointer}
+.sa-detail[open]>summary{border-bottom:1px solid #e2e9e3}
+.sa-detail-body{padding:10px 12px}
+.sa-detail-body .sa-section+.sa-section{margin-top:14px}
+.sa-empty{margin:0;font-size:13px;color:#9aaba3}
+.sa-empty-tag{margin-left:8px;padding:1px 7px;border-radius:999px;background:#edf3ee;color:#8a9b93;font-size:11.5px;font-weight:700}
+@media(max-width:700px){.lightbox-sa-panel{height:auto;min-height:0;padding:10px}}
+/* 首頁折疊區塊的導引數字（依畫面由上而下 1、2、3…） */
+.fold-num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;margin-right:10px;border-radius:50%;background:var(--teal);color:#fff;font-size:14px;font-weight:800;line-height:1;vertical-align:-2px;flex:0 0 auto}
+/* 系統架構區塊：系統情境圖與功能架構圖（architecture/），點圖開燈箱 */
+.archfold .arch-body{padding:0 19px 19px}
+.extfold .ext-body{padding:0 19px 19px}
+.ext-groups{display:grid;gap:18px}
+.ext-group h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 4px;font-size:17px;color:#2f554c}
+.ext-group>p{margin:0 0 10px;font-size:14px;line-height:1.6;color:var(--muted)}
+.ext-badge{display:inline-block;padding:2px 9px;border-radius:999px;background:#fff0b3;border:1px dashed #d4a20a;color:#8a6500;font-size:12.5px;font-weight:750}
+.ext-group .sa-table{font-size:14px;min-width:640px}
+@media(max-width:640px){.extfold .ext-body{padding:0 14px 16px}}
+.arch-intro{margin:0 0 14px;font-size:14px;line-height:1.65;color:var(--muted)}
+.arch-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.arch-card{border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden}
+.arch-preview{display:block;aspect-ratio:16/10;background:#f7faf8;border-bottom:1px solid var(--line)}
+.arch-preview img{display:block;width:100%;height:100%;object-fit:contain;padding:10px}
+.arch-meta{padding:12px 14px}
+.arch-meta h3{margin:0 0 4px;font-size:16px}
+.arch-meta p{margin:0;font-size:13px;line-height:1.6;color:var(--muted)}
+@media(max-width:700px){.arch-cards{grid-template-columns:minmax(0,1fr)}}
+/* 架構圖燈箱：右側讀圖說明下方的圖例（常駐）與對照表（預設收合），模組頁面 ID 可點 */
+.arch-info{margin-top:14px}
+.arch-info[hidden]{display:none!important}
+.arch-legend{margin-bottom:12px}
+.arch-legend h4{margin:0 0 6px;font-size:14px;color:var(--teal-dark)}
+.arch-legend ul{list-style:none;margin:0;padding:0;display:grid;gap:5px}
+.arch-legend li{display:flex;align-items:flex-start;gap:8px;font-size:13px;line-height:1.5}
+.arch-swatch{flex:none;width:22px;height:14px;margin-top:3px;border:2px solid;border-radius:4px}
+.arch-ref{border:1px solid #dbe7df;border-radius:8px;background:#fcfdfc}
+.arch-ref>summary{padding:8px 12px;font-size:13.5px;font-weight:750;color:var(--teal-dark);cursor:pointer}
+.arch-ref[open]>summary{border-bottom:1px solid #e2e9e3}
+.arch-ref h4{margin:12px 12px 6px;font-size:14px;color:var(--teal-dark)}
+.arch-ref .sa-table-wrap{padding:0 12px}
+.arch-ref .sa-table{font-size:12.5px}
+.arch-ids{display:flex;flex-wrap:wrap;gap:4px}
+.arch-id{border:1px solid #cddfd3;border-radius:6px;padding:1px 6px;background:#f7fbf8;color:var(--teal-dark);font:inherit;font-size:12px;font-weight:700;cursor:pointer}
+.arch-id:hover{background:#e4f0e7}
+.arch-id:disabled{opacity:.5;cursor:default}
+.api-info{margin-top:14px;display:flex;flex-direction:column;gap:12px}
+.api-info[hidden]{display:none!important}
+.api-info h4{margin:0 0 6px;font-size:14px;color:#345d53}
+.api-info .sa-table{font-size:12.5px}
+.api-info .sa-note{margin:0}
+.lightbox-api-panel .sa-section+.sa-section{margin-top:18px}
+.arch-note{margin:8px 12px 12px;font-size:12px;color:#71847d}
+/* 文件內容與完整度：頁首按鈕與燈箱（資料由 scripts/inventory.py 產生 assets/inventory.js） */
+.hero{position:relative}
+.inventory-open{position:absolute;right:24px;top:24px;display:inline-flex;align-items:center;gap:6px;border:1px solid #b9d3c3;border-radius:999px;padding:8px 14px;background:#fff;color:var(--teal-dark);font:inherit;font-size:14px;font-weight:750;cursor:pointer}
+.inventory-open:hover{background:#f3f9f5}
+.inventory-dialog{width:min(960px,calc(100vw - 32px));max-height:calc(100vh - 48px);border:0;border-radius:14px;padding:0;color:var(--ink);background:#fff;box-shadow:0 18px 50px rgba(13,31,29,.35)}
+html.inventory-lock,html.inventory-lock body{overflow:hidden}
+.inventory-dialog{overflow:auto;overscroll-behavior:contain}
+.inventory-dialog::backdrop{background:rgba(13,31,29,.72)}
+.inventory-head{position:sticky;top:0;display:flex;align-items:flex-start;gap:12px;padding:16px 20px 12px;background:#fff;border-bottom:1px solid var(--line)}
+.inventory-head h2{margin:0;font-size:19px}
+.inventory-head p{margin:4px 0 0;font-size:13px;color:var(--muted)}
+.inventory-head .lightbox-close{position:static;flex:0 0 34px;margin-left:auto}
+.inventory-body{padding:6px 20px 20px}
+.inventory-group{margin:14px 0 6px;font-size:14px;color:var(--teal)}
+.inventory-table{width:100%;border-collapse:collapse;font-size:13.5px}
+.inventory-table th,.inventory-table td{padding:8px 10px;border-bottom:1px solid #e6ede8;text-align:left;vertical-align:top}
+.inventory-table th{font-size:12.5px;color:var(--muted);font-weight:700;background:#f7faf8}
+.inventory-table .inv-name{width:24%;font-weight:750}
+.inventory-table .inv-name small{display:block;margin-top:3px;font-weight:400;font-size:12px;color:var(--muted);line-height:1.45}
+.inventory-table .inv-score{width:22%}
+.inv-bar{height:7px;margin-top:5px;border-radius:99px;background:#e6ede8;overflow:hidden}
+.inv-bar span{display:block;height:100%;border-radius:99px;background:var(--teal)}
+.inv-status{display:inline-block;margin-left:6px;border-radius:99px;padding:1px 8px;font-size:12px;font-weight:700;vertical-align:1px}
+.inv-complete{background:#e2f2e8;color:#1f6b4d}
+.inv-partial{background:#fbefe3;color:#9a5a26}
+.inv-todo{background:#f6e6e3;color:#a2453a}
+.inv-optional,.inv-tracking{background:#eef1f0;color:#5d6f69}
+.inv-bar.inv-bar-partial span{background:var(--orange)}
+.inventory-foot{margin:14px 0 0;font-size:12px;color:var(--muted);line-height:1.6}
+@media(max-width:640px){.inventory-open{position:static;margin-top:12px}.inventory-table .inv-name,.inventory-table .inv-score{width:auto}.inventory-table thead{display:none}.inventory-table tr{display:block;border-bottom:1px solid #e6ede8;padding:6px 0}.inventory-table td{display:block;border:0;padding:4px 2px}}
+</style>
+<style id="project-theme">:root{}</style>
+</head><body><main class="shell">
+<header class="hero"><!-- [slot:hero] --><h1>{{name}}</h1><p class="hero-subtitle">{{subtitle}}</p><!-- [/slot:hero] --><button class="inventory-open" id="inventory-open" type="button" aria-haspopup="dialog">文件內容與完整度</button></header>
+<details class="mapfold archfold" id="architecture"><summary><span class="fold-num" aria-hidden="true">1</span>系統架構｜系統情境圖與功能架構圖</summary><div class="arch-body"><!-- [slot:architecture] --><p class="arch-intro">說明平台邊界、外部系統與功能模組；文字版（外部系統、模組涵蓋頁面、共用服務、統一名稱）見規格「系統架構」章。</p><div class="arch-cards"><article class="arch-card"><a class="arch-preview" data-arch="system_context" href="architecture/system_context.svg" data-lightbox="1" data-image="architecture/system_context.svg" data-svg="architecture/system_context.svg" data-title="系統情境圖" data-description="平台與使用者、外部系統的邊界與交換資料；標「待確認」者依正式規格補上。" aria-label="放大 系統情境圖"><img loading="lazy" src="architecture/system_context.svg" alt="系統情境圖"></a><div class="arch-meta"><h3>系統情境圖</h3><p>平台與使用者、外部系統的邊界與交換資料；標「待確認」者依正式規格補上。</p></div></article><article class="arch-card"><a class="arch-preview" data-arch="functional_architecture" href="architecture/functional_architecture.svg" data-lightbox="1" data-image="architecture/functional_architecture.svg" data-svg="architecture/functional_architecture.svg" data-title="功能架構圖" data-description="入口層（網站地圖各區）→ 業務模組（標示涵蓋頁面）→ 共用服務；技術與部署架構由 SD 決定。" aria-label="放大 功能架構圖"><img loading="lazy" src="architecture/functional_architecture.svg" alt="功能架構圖"></a><div class="arch-meta"><h3>功能架構圖</h3><p>入口層（網站地圖各區）→ 業務模組（標示涵蓋頁面）→ 共用服務；技術與部署架構由 SD 決定。</p></div></article></div><!-- [/slot:architecture] --></div></details>
+<details class="mapfold" id="sitemap" open><summary><span class="fold-num" aria-hidden="true">2</span>網站地圖與相關示意圖對照｜展開功能與頁面圖片關聯</summary><div class="mapcolumns">
+<!-- [sitemap:begin] 由 scripts/index_build.py 依網站地圖.md 產生，不手動編輯 -->
+<!-- [sitemap:end] -->
+</div></details>
+<!-- [slot:cards] -->
+<!-- [/slot:cards] --><details class="mapfold extfold" id="external-systems"><summary><span class="fold-num" aria-hidden="true">4</span>外部系統串接｜系統需求與營運需求</summary><div class="ext-body"><!-- [slot:external-intro] --><p class="arch-intro">平台與外部系統的串接依需求類別分組；內容取自規格「系統架構 › 外部系統」表，標「待確認」者依正式規格補上。</p><!-- [/slot:external-intro] --><div class="ext-groups" id="ext-groups"><p class="arch-intro">外部系統資料載入中…（需 assets/dev_notes.js）</p></div></div></details>
+<details class="mapfold extfold" id="migration-plan"><summary><span class="fold-num" aria-hidden="true">5</span>舊系統移轉計畫｜選填</summary><div class="ext-body"><!-- [slot:migration] --><p class="arch-intro"><span class="ext-badge">選填・待補</span> 此區預留給舊系統移轉到本平台的計畫，目前只標出位置，內容待設計者補充；文字版見規格「舊系統移轉計畫（選填）」章。</p><!-- [/slot:migration] --></div></details>
+<details class="mapfold extfold" id="regulations"><summary><span class="fold-num" aria-hidden="true">6</span>相關法規｜選填</summary><div class="ext-body"><!-- [slot:regulations] --><p class="arch-intro"><span class="ext-badge">選填・待補</span> 此區預留給平台適用的相關法規，目前只標出位置，內容之後補上；文字版見規格「相關法規（選填）」章。</p><!-- [/slot:regulations] --></div></details>
+<dialog class="inventory-dialog" id="inventory-dialog" aria-labelledby="inventory-title"><div class="inventory-head"><div><h2 id="inventory-title">文件內容與完整度</h2><p id="inventory-meta"></p></div><button class="lightbox-close" id="inventory-close" type="button" aria-label="關閉">×</button></div><div class="inventory-body" id="inventory-body"></div></dialog>
+<div class="lightbox" id="lightbox" aria-hidden="true"><div class="lightbox-dialog" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption"><div class="lightbox-topbar"><button class="lightbox-back" id="lightbox-back" type="button" hidden>← 返回上一頁</button><div class="lightbox-caption" id="lightbox-caption"></div><span class="lightbox-hint">按 Esc／背景關閉・拖曳模式平移・編輯模式選字</span><button class="lightbox-close" type="button" aria-label="關閉圖片">×</button></div><div class="lightbox-content"><div class="lightbox-visual-column"><div class="lightbox-tabbar"><div class="lightbox-tabs" role="tablist" aria-label="示意圖內容"><button class="lightbox-tab-button" id="lightbox-tab-illustration" type="button" role="tab" aria-selected="true" aria-controls="lightbox-panel-illustration">示意圖</button><button class="lightbox-tab-button" id="lightbox-tab-mobile" type="button" role="tab" aria-selected="false" aria-controls="lightbox-panel-mobile" tabindex="-1" hidden>手機版</button><button class="lightbox-tab-button" id="lightbox-tab-flow" type="button" role="tab" aria-selected="false" aria-controls="lightbox-panel-flow" tabindex="-1">流程說明</button><button class="lightbox-tab-button" id="lightbox-tab-api-request" type="button" role="tab" aria-selected="false" aria-controls="lightbox-panel-api-request" tabindex="-1" hidden>傳送欄位</button><button class="lightbox-tab-button" id="lightbox-tab-api-response" type="button" role="tab" aria-selected="false" aria-controls="lightbox-panel-api-response" tabindex="-1" hidden>回傳欄位</button><button class="lightbox-tab-button" id="lightbox-tab-api-crypto" type="button" role="tab" aria-selected="false" aria-controls="lightbox-panel-api-crypto" tabindex="-1" hidden>加解密方式</button><button class="lightbox-tab-button" id="lightbox-tab-devnotes" type="button" role="tab" aria-selected="false" aria-controls="lightbox-panel-devnotes" tabindex="-1">開發說明</button><button class="lightbox-tab-button" id="lightbox-tab-sa" type="button" role="tab" aria-selected="false" aria-controls="lightbox-panel-sa" tabindex="-1" hidden>SA 規格</button></div><div class="lightbox-toolbar" aria-label="圖片工具列"><div class="toolbar-group" id="lightbox-toolbar-illustration"><div class="zoom-controls" aria-label="圖片與文字操作控制"><div class="interaction-mode-buttons" role="group" aria-label="操作模式"><button type="button" class="mode-button" id="lightbox-mode-drag" aria-pressed="true">拖曳</button><button type="button" class="mode-button" id="lightbox-mode-edit" aria-pressed="false">編輯</button></div><button type="button" id="zoom-out" aria-label="縮小圖片">−</button><span class="zoom-level" id="zoom-level">100%</span><button type="button" id="zoom-in" aria-label="放大圖片">＋</button><button type="button" class="zoom-reset" id="zoom-reset">重設</button><a class="toolbar-action" id="lightbox-svg-download" href="#" download>下載 SVG</a><button type="button" class="toolbar-action" id="lightbox-copy-source" hidden>複製語法</button></div></div><div class="toolbar-group" id="lightbox-toolbar-flow" hidden></div></div></div><section class="lightbox-tab-panel" id="lightbox-panel-illustration" role="tabpanel" aria-labelledby="lightbox-tab-illustration"><div class="lightbox-image-viewport" id="lightbox-image-viewport" aria-label="可選取 SVG 文字；可用按鈕縮放並用滾輪平移"><div class="lightbox-svg-stage" id="lightbox-svg-stage" role="img" aria-label="示意圖"></div></div></section><section class="lightbox-tab-panel lightbox-mobile-panel" id="lightbox-panel-mobile" role="tabpanel" aria-labelledby="lightbox-tab-mobile" hidden><div class="lightbox-mobile-stage" id="lightbox-mobile-stage"></div></section><section class="lightbox-tab-panel lightbox-flow-panel" id="lightbox-panel-flow" role="tabpanel" aria-labelledby="lightbox-tab-flow" hidden><div class="lightbox-flow-list" id="lightbox-flow-list"></div></section><section class="lightbox-tab-panel lightbox-sa-panel lightbox-api-panel" id="lightbox-panel-api-request" role="tabpanel" aria-labelledby="lightbox-tab-api-request" hidden><div id="lightbox-api-request"></div></section><section class="lightbox-tab-panel lightbox-sa-panel lightbox-api-panel" id="lightbox-panel-api-response" role="tabpanel" aria-labelledby="lightbox-tab-api-response" hidden><div id="lightbox-api-response"></div></section><section class="lightbox-tab-panel lightbox-sa-panel lightbox-api-panel" id="lightbox-panel-api-crypto" role="tabpanel" aria-labelledby="lightbox-tab-api-crypto" hidden><div id="lightbox-api-crypto"></div></section><section class="lightbox-tab-panel lightbox-devnotes-panel" id="lightbox-panel-devnotes" role="tabpanel" aria-labelledby="lightbox-tab-devnotes" hidden><div class="devnotes-block devnotes-ai"><h4>系統補充（AI 依現有規格整理）</h4><p class="devnotes-hint">未標示「待確認」的項目亦屬開發建議，非既定規格。</p><ul id="lightbox-devnotes-ai"></ul></div><div class="devnotes-block devnotes-designer"><h4>設計者補充</h4><ul id="lightbox-devnotes-designer"></ul></div></section><section class="lightbox-tab-panel lightbox-sa-panel" id="lightbox-panel-sa" role="tabpanel" aria-labelledby="lightbox-tab-sa" hidden><div id="lightbox-sa"></div></section></div><aside class="lightbox-details"><h3 id="lightbox-details-heading">畫面說明</h3><p id="lightbox-description"></p><section class="arch-info" id="lightbox-arch-info" hidden></section><section class="api-info" id="lightbox-api-info" hidden></section><section class="flow-position-section" id="lightbox-flow-position-section" hidden><h4>流程位置</h4><div id="lightbox-flow-position"></div></section><div class="related-groups" id="lightbox-related-groups" hidden><section class="related-section" id="lightbox-similar-section"><h4>相關頁面</h4><div class="related-list" id="lightbox-similar"></div></section><section class="related-section" id="lightbox-management-section"><h4>管理頁面</h4><div class="related-list" id="lightbox-management"></div></section><section class="related-section" id="lightbox-results-section"><h4>結果頁面</h4><div class="related-list" id="lightbox-results"></div></section></div></aside></div></div></div>
+<script src="assets/svg_sources.js"></script>
+<script src="assets/dev_notes.js"></script>
+<script src="assets/inventory.js"></script>
+<script type="application/json" id="project-config">{}</script>
+<script type="application/json" id="sequence-flow-data">[]</script>
+<script>
+(() => {
+  const box = document.getElementById('lightbox');
+  const image = document.getElementById('lightbox-svg-stage');
+  const viewport = document.getElementById('lightbox-image-viewport');
+  const zoomLevel = document.getElementById('zoom-level');
+  const zoomInButton = document.getElementById('zoom-in');
+  const zoomOutButton = document.getElementById('zoom-out');
+  const zoomResetButton = document.getElementById('zoom-reset');
+  const mainDragModeButton = document.getElementById('lightbox-mode-drag');
+  const mainEditModeButton = document.getElementById('lightbox-mode-edit');
+  const caption = document.getElementById('lightbox-caption');
+  const description = document.getElementById('lightbox-description');
+  const relatedGroups = document.getElementById('lightbox-related-groups');
+  const similarList = document.getElementById('lightbox-similar');
+  const managementList = document.getElementById('lightbox-management');
+  const resultsList = document.getElementById('lightbox-results');
+  const flowPosition = document.getElementById('lightbox-flow-position');
+  const flowPositionSection = document.getElementById('lightbox-flow-position-section');
+  const svgDownload = document.getElementById('lightbox-svg-download');
+  const closeButton = box.querySelector('.lightbox-close');
+  const backButton = document.getElementById('lightbox-back');
+  const lightboxTabButtons = [...box.querySelectorAll('.lightbox-tab-button')];
+  const lightboxTabPanels = [...box.querySelectorAll('.lightbox-tab-panel')];
+  const flowList = document.getElementById('lightbox-flow-list');
+  const illustrationToolbar = document.getElementById('lightbox-toolbar-illustration');
+  const flowToolbar = document.getElementById('lightbox-toolbar-flow');
+  const flowData = JSON.parse(document.getElementById('sequence-flow-data').textContent || '[]');
+  const svgSourceCache = new Map();
+  let activeLightboxTab = 'lightbox-panel-illustration';
+  let svgRenderRequest = 0;
+  let svgInstanceSequence = 0;
+  const devNotesAi = document.getElementById('lightbox-devnotes-ai');
+  const devNotesDesigner = document.getElementById('lightbox-devnotes-designer');
+  function renderDevNotes(id) {
+    const notes = (window.DEV_NOTES || {})[id] || {};
+    [[devNotesAi, notes.ai, '尚無系統補充'], [devNotesDesigner, notes.designer, '尚無設計者補充（設計者要求補充時才會填寫）']].forEach(([list, items, empty]) => {
+      list.replaceChildren();
+      if (!items || !items.length) {
+        const li = document.createElement('li');
+        li.className = 'devnotes-empty';
+        li.textContent = empty;
+        list.appendChild(li);
+        return;
+      }
+      items.forEach(text => {
+        const li = document.createElement('li');
+        li.textContent = text;
+        list.appendChild(li);
+      });
+    });
+    renderSaSpec(notes.sa);
+  }
+  const saTabButton = document.getElementById('lightbox-tab-sa');
+  const saContainer = document.getElementById('lightbox-sa');
+  function saText(el, text) {
+    // 「待確認」標橘色，其餘純文字（textContent，不解析 HTML）
+    String(text).replace(/\*\*/g, '').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').split(/(待確認)/).forEach(part => {
+      if (!part) return;
+      if (part === '待確認') {
+        const mark = document.createElement('span');
+        mark.className = 'sa-pending';
+        mark.textContent = part;
+        el.appendChild(mark);
+      } else {
+        el.appendChild(document.createTextNode(part));
+      }
+    });
+    return el;
+  }
+  function renderSaSpec(sa) {
+    saContainer.replaceChildren();
+    const has = !!(sa && sa.sections && sa.sections.length);
+    saTabButton.hidden = !has;
+    if (!has) return;
+    if (sa.note) saContainer.appendChild(saText(Object.assign(document.createElement('p'), {className: 'sa-note'}), sa.note));
+    // 「摘要｜」小節展開（給人審閱）；「明細｜」小節與全站共用規則收合（給開發使用）
+    const toolbar = document.createElement('div');
+    toolbar.className = 'sa-toolbar';
+    const toggle = Object.assign(document.createElement('button'), {type: 'button', textContent: '全部展開'});
+    toolbar.append(Object.assign(document.createElement('span'), {textContent: '摘要供審閱；明細與全站共用規則供開發，預設收合'}), toggle);
+    saContainer.appendChild(toolbar);
+    let group = null;
+    sa.sections.forEach(section => {
+      const m = /^(摘要|明細)｜(.*)$/.exec(section.title || '');
+      if (m && m[1] !== group) {
+        group = m[1];
+        saContainer.appendChild(Object.assign(document.createElement('h3'), {className: 'sa-group', textContent: group === '摘要' ? '摘要（審閱用）' : '明細（開發用）'}));
+      }
+      if (m && m[1] === '明細') {
+        saContainer.appendChild(saDetails(m[2], [section]));
+      } else {
+        saContainer.appendChild(saSection(m ? m[2] : section.title, section.blocks));
+      }
+    });
+    const common = ((window.DEV_NOTES || {})._common || {}).sa;
+    if (common && common.sections && common.sections.length) {
+      saContainer.appendChild(Object.assign(document.createElement('h3'), {className: 'sa-group', textContent: '全站共用規則'}));
+      saContainer.appendChild(saDetails('全站共用規則（各頁共用；本頁以 CF／CB／CE／CAC 編號引用）', common.sections, true));
+    }
+    const details = [...saContainer.querySelectorAll('details.sa-detail')];
+    const sync = () => { toggle.textContent = details.every(d => d.open) ? '全部收合' : '全部展開'; };
+    details.forEach(d => d.addEventListener('toggle', sync));
+    toggle.addEventListener('click', () => {
+      const open = !details.every(d => d.open);
+      details.forEach(d => { d.open = open; });
+      sync();
+    });
+  }
+  function saDetails(title, sections, titled) {
+    const details = document.createElement('details');
+    details.className = 'sa-detail';
+    const summary = saText(document.createElement('summary'), title);
+    if (sections.every(section => !section.blocks.length)) summary.appendChild(Object.assign(document.createElement('span'), {className: 'sa-empty-tag', textContent: '待補'}));
+    details.appendChild(summary);
+    const body = document.createElement('div');
+    body.className = 'sa-detail-body';
+    sections.forEach(section => body.appendChild(saSection(titled ? section.title : '', section.blocks)));
+    details.appendChild(body);
+    return details;
+  }
+  function saSection(title, blocks) {
+      const wrap = document.createElement('section');
+      wrap.className = 'sa-section';
+      if (title) wrap.appendChild(saText(document.createElement('h4'), title));
+      if (!blocks.length) wrap.appendChild(Object.assign(document.createElement('p'), {className: 'sa-empty', textContent: '待補（功能確認後補上）'}));
+      blocks.forEach(block => {
+        if (block.type === 'table') {
+          const scroller = document.createElement('div');
+          scroller.className = 'sa-table-wrap';
+          const table = document.createElement('table');
+          table.className = 'sa-table';
+          const headRow = table.createTHead().insertRow();
+          block.head.forEach(cell => headRow.appendChild(saText(document.createElement('th'), cell)));
+          const body = table.createTBody();
+          block.rows.forEach(row => {
+            const tr = body.insertRow();
+            row.forEach(cell => tr.appendChild(saText(document.createElement('td'), cell)));
+          });
+          scroller.appendChild(table);
+          wrap.appendChild(scroller);
+        } else {
+          const ul = document.createElement('ul');
+          ul.className = 'sa-list';
+          block.items.forEach(item => ul.appendChild(saText(document.createElement('li'), item)));
+          wrap.appendChild(ul);
+        }
+      });
+      return wrap;
+  }
+  function selectLightboxTab(panelId) {
+    const targetTab = lightboxTabButtons.find(button => button.getAttribute('aria-controls') === panelId);
+    if (!targetTab || targetTab.hidden) panelId = 'lightbox-panel-illustration';
+    activeLightboxTab = panelId;
+    lightboxTabButtons.forEach(button => {
+      const active = button.getAttribute('aria-controls') === panelId;
+      button.setAttribute('aria-selected', String(active));
+      button.tabIndex = active ? 0 : -1;
+    });
+    lightboxTabPanels.forEach(panel => { panel.hidden = panel.id !== panelId; });
+    illustrationToolbar.hidden = panelId !== 'lightbox-panel-illustration';
+    flowToolbar.hidden = panelId !== 'lightbox-panel-flow';
+  }
+  lightboxTabButtons.forEach(button => {
+    button.addEventListener('click', () => selectLightboxTab(button.getAttribute('aria-controls')));
+    button.addEventListener('keydown', event => {
+      if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      const visible = lightboxTabButtons.filter(b => !b.hidden);
+      const index = visible.indexOf(button);
+      const next = event.key === 'Home' ? 0 : event.key === 'End' ? visible.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : visible.length - 1)) % visible.length;
+      visible[next].focus();
+      selectLightboxTab(visible[next].getAttribute('aria-controls'));
+    });
+  });
+  async function copyToClipboard(value) {
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(value);
+        return;
+      } catch (error) { /* Fall back to the selection-based clipboard API. */ }
+    }
+    const field = document.createElement('textarea');
+    field.value = value;
+    field.setAttribute('readonly', '');
+    field.style.position = 'fixed';
+    field.style.opacity = '0';
+    document.body.appendChild(field);
+    field.select();
+    const copied = document.execCommand('copy');
+    field.remove();
+    if (!copied) throw new Error('Clipboard copy failed');
+  }
+  function namespaceSvgReferences(root, prefix) {
+    const nodes = [root, ...root.querySelectorAll('*')];
+    const idMap = new Map();
+    nodes.forEach(node => {
+      const id = node.getAttribute('id');
+      if (id) idMap.set(id, prefix + '-' + id);
+    });
+    nodes.forEach(node => {
+      for (const attribute of [...node.attributes]) {
+        const name = attribute.name.toLowerCase();
+        if (name === 'id') {
+          node.setAttribute(attribute.name, idMap.get(attribute.value) || attribute.value);
+          continue;
+        }
+        let value = attribute.value.replace(/url\(\s*(['"]?)#([^)'"\s]+)\1\s*\)/g, (match, quote, id) => `url(${quote}#${idMap.get(id) || id}${quote})`);
+        if ((name === 'href' || name.endsWith(':href')) && value.startsWith('#')) value = '#' + (idMap.get(value.slice(1)) || value.slice(1));
+        if (['aria-labelledby', 'aria-describedby', 'for', 'headers'].includes(name)) {
+          value = value.split(/\s+/).map(id => idMap.get(id) || id).join(' ');
+        }
+        if (name === 'style') value = value.replace(/#([A-Za-z_][\w:.-]*)/g, (match, id) => '#' + (idMap.get(id) || id));
+        node.setAttribute(attribute.name, value);
+      }
+      if (node.localName === 'style') {
+        node.textContent = node.textContent
+          .replace(/url\(\s*(['"]?)#([^)'"\s]+)\1\s*\)/g, (match, quote, id) => `url(${quote}#${idMap.get(id) || id}${quote})`)
+          .replace(/#([A-Za-z_][\w:.-]*)/g, (match, id) => '#' + (idMap.get(id) || id));
+      }
+    });
+  }
+  async function createInlineSvg(sourceUrl, label) {
+    let source = svgSourceCache.get(sourceUrl);
+    if (!source) {
+      // 優先讀 assets/svg_sources.js（scripts/svg_bundle.py 產生），雙擊開檔（file://）也能選取文字
+      const bundled = window.SVG_SOURCES || {};
+      let key = sourceUrl;
+      try { key = decodeURIComponent(sourceUrl); } catch (e) {}
+      source = bundled[key] || bundled[sourceUrl];
+    }
+    if (!source) {
+      const response = await fetch(sourceUrl);
+      if (!response.ok) throw new Error('Unable to load SVG');
+      source = await response.text();
+      svgSourceCache.set(sourceUrl, source);
+    }
+    const svgDocument = new DOMParser().parseFromString(source, 'image/svg+xml');
+    if (svgDocument.querySelector('parsererror') || svgDocument.documentElement.localName !== 'svg') throw new Error('Invalid SVG');
+    const svg = document.importNode(svgDocument.documentElement, true);
+    namespaceSvgReferences(svg, 'lightbox-svg-' + (++svgInstanceSequence));
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', label);
+    svg.setAttribute('focusable', 'false');
+    // PlantUML 輸出的 SVG 帶 preserveAspectRatio="none"，會被拉成容器比例而讓文字變形，一律改為等比例縮放
+    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    svg.classList.add('lightbox-svg-document');
+    svg.style.width = '100%';
+    svg.style.height = '100%';
+    svg.style.maxWidth = '100%';
+    svg.style.maxHeight = '100%';
+    svg.style.display = 'block';
+    svg.style.userSelect = 'text';
+    return svg;
+  }
+  // 打包資料缺漏且 fetch 被擋（file://）時，改用 <img> 顯示（無法選取文字，但可縮放）
+  function createImageFallback(sourceUrl, label) {
+    const img = document.createElement('img');
+    img.src = sourceUrl;
+    img.alt = label;
+    img.draggable = false;
+    img.style.cssText = 'width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;display:block;';
+    return img;
+  }
+  // 示意圖外加淺灰細框線（畫在 SVG 內，跟著圖縮放；不影響 SVG 原檔）
+  function addIllustrationFrame(svg) {
+    const vb = svg.viewBox && svg.viewBox.baseVal;
+    if (!vb || !vb.width || !vb.height) return;
+    const frame = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+    frame.setAttribute('x', vb.x);
+    frame.setAttribute('y', vb.y);
+    frame.setAttribute('width', vb.width);
+    frame.setAttribute('height', vb.height);
+    frame.setAttribute('fill', 'none');
+    frame.setAttribute('stroke', '#d3d8d6');
+    frame.setAttribute('stroke-width', '2');
+    frame.setAttribute('vector-effect', 'non-scaling-stroke');
+    frame.setAttribute('pointer-events', 'none');
+    frame.setAttribute('class', 'illustration-frame');
+    svg.appendChild(frame);
+  }
+  // 手機版頁籤：規格各頁「手機版示意圖」→ dev_notes.js 的 mobile（{svg} 或 {none}）；桌機版仍是主要示意圖
+  const mobileTabButton = document.getElementById('lightbox-tab-mobile');
+  const mobileStage = document.getElementById('lightbox-mobile-stage');
+  let mobileRequest = 0;
+  async function renderMobile(id, hide) {
+    const request = ++mobileRequest;
+    mobileStage.replaceChildren();
+    mobileTabButton.hidden = hide;
+    if (hide) return;
+    const mobile = ((window.DEV_NOTES || {})[id] || {}).mobile;
+    if (!mobile || !mobile.svg) {
+      const box = document.createElement('div');
+      box.className = 'mobile-none';
+      box.append(Object.assign(document.createElement('h4'), {textContent: mobile ? '無相關設計' : '尚未標示手機版'}),
+        Object.assign(document.createElement('p'), {textContent: mobile ? (mobile.none || '無相關設計').replace(/^無相關設計[（(]?/, '').replace(/[）)]$/, '') || '這一頁只提供桌機版。'
+          : '規格這一頁還沒有寫「手機版示意圖」（寫 SVG 路徑，或「無相關設計（原因）」）。'}));
+      mobileStage.appendChild(box);
+      return;
+    }
+    const label = (currentState && currentState.title ? currentState.title : id) + '（手機版）';
+    let node;
+    try {
+      node = await createInlineSvg(mobile.svg, label);
+      const vb = node.viewBox && node.viewBox.baseVal;
+      const w = 390;
+      node.style.width = w + 'px';
+      node.style.maxWidth = '100%';
+      node.style.height = 'auto';   // 依 viewBox 比例算高度，面板較窄時跟著縮小
+      if (vb && vb.width) node.style.aspectRatio = vb.width + ' / ' + vb.height;
+      node.style.maxHeight = 'none';
+    } catch (error) {
+      node = createImageFallback(mobile.svg, label);
+      node.style.cssText = 'width:390px;max-width:100%;height:auto;display:block;';
+    }
+    if (request === mobileRequest) mobileStage.appendChild(node);
+  }
+  async function loadMainSvg(state) {
+    const request = ++svgRenderRequest;
+    image.replaceChildren();
+    image.setAttribute('aria-label', state.title);
+    try {
+      const svg = await createInlineSvg(state.svg || state.image, state.title);
+      if (request !== svgRenderRequest) return;
+      addIllustrationFrame(svg);
+      image.replaceChildren(svg);
+      updateZoomView();
+    } catch (error) {
+      if (request !== svgRenderRequest) return;
+      image.replaceChildren(createImageFallback(state.svg || state.image, state.title));
+      updateZoomView();
+    }
+  }
+  async function fillSvgStage(sourceUrl, stage, label) {
+    try {
+      const svg = await createInlineSvg(sourceUrl, label);
+      if (!stage.isConnected) return;
+      stage.replaceChildren(svg);
+    } catch (error) {
+      if (stage.isConnected) stage.replaceChildren(createImageFallback(sourceUrl, label));
+    }
+  }
+  let opener = null;
+  let historyStack = [];
+  let currentState = null;
+  let zoom = 1;
+  let panX = 0;
+  let panY = 0;
+  let drag = null;
+  let interactionMode = 'drag';
+
+  function setMainInteractionMode(mode) {
+    interactionMode = mode;
+    image.classList.toggle('text-editing', mode === 'edit');
+    viewport.classList.toggle('editing-mode', mode === 'edit');
+    mainDragModeButton.setAttribute('aria-pressed', String(mode === 'drag'));
+    mainEditModeButton.setAttribute('aria-pressed', String(mode === 'edit'));
+    if (drag) {
+      drag = null;
+      viewport.classList.remove('dragging');
+    }
+  }
+  mainDragModeButton.addEventListener('click', () => setMainInteractionMode('drag'));
+  mainEditModeButton.addEventListener('click', () => setMainInteractionMode('edit'));
+
+  function updateZoomView() {
+    zoom = Math.max(1, Math.min(4, zoom));
+    const maxX = Math.max(0, (image.offsetWidth * zoom - viewport.clientWidth) / 2);
+    const maxY = Math.max(0, (image.offsetHeight * zoom - viewport.clientHeight) / 2);
+    panX = Math.max(-maxX, Math.min(maxX, panX));
+    panY = Math.max(-maxY, Math.min(maxY, panY));
+    image.style.setProperty('--zoom', zoom);
+    image.style.setProperty('--pan-x', panX + 'px');
+    image.style.setProperty('--pan-y', panY + 'px');
+    zoomLevel.textContent = Math.round(zoom * 100) + '%';
+    zoomOutButton.disabled = zoom <= 1;
+    zoomInButton.disabled = zoom >= 4;
+  }
+  function setZoom(value) {
+    zoom = value;
+    if (zoom <= 1) { panX = 0; panY = 0; }
+    updateZoomView();
+  }
+  function resetZoom() {
+    zoom = 1; panX = 0; panY = 0; drag = null;
+    viewport.classList.remove('dragging');
+    updateZoomView();
+  }
+  zoomInButton.addEventListener('click', () => setZoom(zoom + 0.25));
+  zoomOutButton.addEventListener('click', () => setZoom(zoom - 0.25));
+  zoomResetButton.addEventListener('click', resetZoom);
+  viewport.addEventListener('wheel', event => {
+    if (interactionMode !== 'drag' || zoom <= 1) return;
+    const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? viewport.clientHeight : 1;
+    let deltaX = event.deltaX * unit;
+    let deltaY = event.deltaY * unit;
+    if (event.shiftKey && deltaX === 0) { deltaX = deltaY; deltaY = 0; }
+    event.preventDefault();
+    panX -= deltaX;
+    panY -= deltaY;
+    updateZoomView();
+  }, {passive:false});
+  viewport.addEventListener('pointerdown', event => {
+    if (event.target.closest('.zoom-controls') || event.button !== 0) return;
+    if (interactionMode === 'edit') return;
+    if (event.target.closest('text,tspan')) event.preventDefault();
+    if (zoom <= 1) return;
+    drag = {x:event.clientX,y:event.clientY,panX,panY};
+    viewport.setPointerCapture(event.pointerId);
+    viewport.classList.add('dragging');
+    event.preventDefault();
+  });
+  viewport.addEventListener('pointermove', event => {
+    if (!drag) return;
+    panX = drag.panX + event.clientX - drag.x;
+    panY = drag.panY + event.clientY - drag.y;
+    updateZoomView();
+  });
+  function endPan(event) {
+    if (!drag) return;
+    drag = null;
+    viewport.classList.remove('dragging');
+    if (event && viewport.hasPointerCapture(event.pointerId)) viewport.releasePointerCapture(event.pointerId);
+  }
+  viewport.addEventListener('pointerup', endPan);
+  viewport.addEventListener('pointercancel', endPan);
+  window.addEventListener('resize', updateZoomView);
+
+  function stateFromElement(element) {
+    return {
+      image: element.dataset.image || element.href,
+      svg: element.dataset.svg || '',
+      title: element.dataset.title || element.getAttribute('aria-label') || '頁面示意圖',
+      description: element.dataset.description || '',
+      screenId: element.dataset.screenId || '',
+      arch: element.dataset.arch || '',
+      pageGroup: element.dataset.pageGroup || '',
+      similar: element.dataset.similar || '',
+      management: element.dataset.manage || '',
+      zoom: 1,
+      panX: 0,
+      panY: 0
+    };
+  }
+  function findPageElement(id) {
+    return [...document.querySelectorAll('[data-screen-id][data-image]')]
+      .find(element => element.dataset.screenId === id);
+  }
+  function fillRelatedList(container, ids) {
+    container.replaceChildren();
+    const pageIds = [...new Set((ids || '').split(',').filter(Boolean))];
+    pageIds.forEach(id => {
+      const source = findPageElement(id);
+      if (!source) return;
+      const link = document.createElement('button');
+      link.type = 'button';
+      link.className = 'related-link';
+      link.textContent = (id + ' ' + (source.dataset.title || '').replace(/^\S+\s*/, ''));
+      link.addEventListener('click', () => navigateToRelated(source));
+      container.appendChild(link);
+    });
+    const section = container.closest('.related-section');
+    if (section) section.hidden = container.childElementCount === 0;
+  }
+  // 區域設定由 scripts/index_build.py 依 project.json 產生（#project-config）：頁面 ID 字首依前台 → 後台排序
+  const PROJECT = (() => { try { return JSON.parse(document.getElementById('project-config').textContent); } catch (e) { return {}; } })();
+  const PAGE_PREFIXES = PROJECT.pagePrefixes || [];
+  const regionOf = id => PAGE_PREFIXES.find(p => id.startsWith(p) && /^\d/.test(id.slice(p.length))) ?? id.charAt(0);
+  const rankOf = id => Math.max(0, PAGE_PREFIXES.indexOf(regionOf(id)));
+  function flowNeighbors(screenId) {
+    const similar = [], higher = [], lower = [], prev = [], next = [];
+    flowData.forEach(flow => {
+      const order = (flow.order || []).map(step => step.split('|'));
+      const at = order.findIndex(step => step.includes(screenId));
+      if (at < 0) return;
+      similar.push(...order[at].filter(id => id !== screenId));
+      const place = (ids, sameList) => ids.forEach(id => {
+        if (regionOf(id) === regionOf(screenId)) sameList.push({id, flow: flow.key});
+        else (rankOf(id) > rankOf(screenId) ? higher : lower).push(id);
+      });
+      if (at > 0) place(order[at - 1], prev);
+      if (at < order.length - 1) place(order[at + 1], next);
+    });
+    return {similar, higher, lower, prev, next};
+  }
+  const GROUP_LABEL = Object.fromEntries((PROJECT.regions || []).map(r => [r.column, r.name]));
+  const BACKEND_GROUPS = (PROJECT.regions || []).filter(r => r.backend).map(r => r.column);
+  function pageLabel(id) {
+    const source = findPageElement(id);
+    if (!source) return id;
+    return id + ' ' + (source.dataset.title || '').replace(/^\S+\s*/, '');
+  }
+  function renderFlowPosition(screenId) {
+    flowPosition.replaceChildren();
+    let count = 0;
+    flowData.forEach(flow => {
+      const order = (flow.order || []).map(step => step.split('|'));
+      const at = order.findIndex(step => step.includes(screenId));
+      if (at < 0) return;
+      count++;
+      const box = document.createElement('div');
+      box.className = 'flow-pos-flow';
+      const title = document.createElement('strong');
+      title.textContent = flow.title;
+      const step = document.createElement('span');
+      step.className = 'flow-pos-step';
+      step.textContent = (at + 1) + '/' + order.length;
+      title.appendChild(step);
+      box.appendChild(title);
+      const chain = document.createElement('div');
+      chain.className = 'flow-pos-chain';
+      const addArrow = () => {
+        const arrow = document.createElement('span');
+        arrow.className = 'flow-pos-arrow';
+        arrow.textContent = '→';
+        chain.appendChild(arrow);
+      };
+      const addPages = ids => {
+        ids.forEach((id, i) => {
+          if (i) {
+            const sep = document.createElement('span');
+            sep.className = 'flow-pos-sep';
+            sep.textContent = '｜';
+            chain.appendChild(sep);
+          }
+          if (id === screenId) {
+            const self = document.createElement('span');
+            self.className = 'flow-pos-self';
+            self.textContent = '● 本頁';
+            chain.appendChild(self);
+            return;
+          }
+          const source = findPageElement(id);
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'flow-pos-chip';
+          const group = source && BACKEND_GROUPS.includes(source.dataset.pageGroup) ? GROUP_LABEL[source.dataset.pageGroup] : '';
+          button.textContent = pageLabel(id) + (group ? '〔' + group + '〕' : '');
+          if (source) button.addEventListener('click', () => navigateToRelated(source));
+          chain.appendChild(button);
+        });
+      };
+      if (at > 0) { addPages(order[at - 1]); addArrow(); }
+      addPages(order[at]);
+      if (at < order.length - 1) { addArrow(); addPages(order[at + 1]); }
+      box.appendChild(chain);
+      flowPosition.appendChild(box);
+    });
+    flowPositionSection.hidden = count === 0;
+  }
+  function setupFlowDiagramZoom(viewport, image, controls) {
+    controls = controls || viewport.querySelector('.zoom-controls');
+    const zoomOutButton = controls.querySelector('.flow-zoom-out');
+    const zoomInButton = controls.querySelector('.flow-zoom-in');
+    const zoomResetButton = controls.querySelector('.flow-zoom-reset');
+    const zoomLevel = controls.querySelector('.zoom-level');
+    const dragModeButton = controls.querySelector('.flow-mode-drag');
+    const editModeButton = controls.querySelector('.flow-mode-edit');
+    let zoom = 1;
+    let panX = 0;
+    let panY = 0;
+    let drag = null;
+    let mode = 'drag';
+    function setMode(nextMode) {
+      mode = nextMode;
+      image.classList.toggle('text-editing', mode === 'edit');
+      viewport.classList.toggle('editing-mode', mode === 'edit');
+      dragModeButton.setAttribute('aria-pressed', String(mode === 'drag'));
+      editModeButton.setAttribute('aria-pressed', String(mode === 'edit'));
+      if (drag) {
+        drag = null;
+        viewport.classList.remove('dragging');
+      }
+    }
+    dragModeButton.addEventListener('click', () => setMode('drag'));
+    editModeButton.addEventListener('click', () => setMode('edit'));
+    function update() {
+      zoom = Math.max(1, Math.min(4, zoom));
+      const maxX = Math.max(0, (image.offsetWidth * zoom - viewport.clientWidth) / 2);
+      const maxY = Math.max(0, (image.offsetHeight * zoom - viewport.clientHeight) / 2);
+      panX = Math.max(-maxX, Math.min(maxX, panX));
+      panY = Math.max(-maxY, Math.min(maxY, panY));
+      image.style.setProperty('--zoom', zoom);
+      image.style.setProperty('--pan-x', panX + 'px');
+      image.style.setProperty('--pan-y', panY + 'px');
+      zoomLevel.textContent = Math.round(zoom * 100) + '%';
+      zoomOutButton.disabled = zoom <= 1;
+      zoomInButton.disabled = zoom >= 4;
+    }
+    function setZoom(value) {
+      zoom = value;
+      if (zoom <= 1) { panX = 0; panY = 0; }
+      update();
+    }
+    function reset() {
+      zoom = 1; panX = 0; panY = 0; drag = null;
+      viewport.classList.remove('dragging');
+      update();
+    }
+    zoomInButton.addEventListener('click', () => setZoom(zoom + 0.25));
+    zoomOutButton.addEventListener('click', () => setZoom(zoom - 0.25));
+    zoomResetButton.addEventListener('click', reset);
+    viewport.addEventListener('wheel', event => {
+      if (mode !== 'drag' || zoom <= 1) return;
+      const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? viewport.clientHeight : 1;
+      let deltaX = event.deltaX * unit;
+      let deltaY = event.deltaY * unit;
+      if (event.shiftKey && deltaX === 0) { deltaX = deltaY; deltaY = 0; }
+      event.preventDefault();
+      panX -= deltaX;
+      panY -= deltaY;
+      update();
+    }, {passive:false});
+    viewport.addEventListener('pointerdown', event => {
+      if (event.target.closest('.zoom-controls') || event.button !== 0) return;
+      if (mode === 'edit') return;
+      if (event.target.closest('text,tspan')) event.preventDefault();
+      if (zoom <= 1) return;
+      drag = {x:event.clientX,y:event.clientY,panX,panY};
+      viewport.setPointerCapture(event.pointerId);
+      viewport.classList.add('dragging');
+      event.preventDefault();
+    });
+    viewport.addEventListener('pointermove', event => {
+      if (!drag) return;
+      panX = drag.panX + event.clientX - drag.x;
+      panY = drag.panY + event.clientY - drag.y;
+      update();
+    });
+    function endPan(event) {
+      if (!drag) return;
+      drag = null;
+      viewport.classList.remove('dragging');
+      if (event && viewport.hasPointerCapture(event.pointerId)) viewport.releasePointerCapture(event.pointerId);
+    }
+    viewport.addEventListener('pointerup', endPan);
+    viewport.addEventListener('pointercancel', endPan);
+    update();
+  }
+  function renderFlowDiagrams(screenId) {
+    flowList.replaceChildren();
+    flowToolbar.replaceChildren();
+    const matchingFlows = flowData.filter(flow => flow.pages.includes(screenId));
+    if (!matchingFlows.length) {
+      const empty = document.createElement('p');
+      empty.className = 'lightbox-flow-empty';
+      empty.textContent = '此頁目前沒有相關流程圖。';
+      flowList.appendChild(empty);
+      return;
+    }
+    let flowSelect = null;
+    if (matchingFlows.length > 1) {
+      flowSelect = document.createElement('select');
+      flowSelect.className = 'flow-select';
+      flowSelect.setAttribute('aria-label', '切換流程圖');
+      matchingFlows.forEach((flow, index) => flowSelect.add(new Option(flow.title, String(index))));
+      flowToolbar.appendChild(flowSelect);
+    }
+    const flowEntries = matchingFlows.map(flow => {
+      const card = document.createElement('article');
+      card.className = 'flow-card';
+      const diagramWrap = document.createElement('div');
+      diagramWrap.className = 'lightbox-image-viewport flow-diagram-viewport';
+      diagramWrap.setAttribute('aria-label', flow.title + '流程圖檢視區，可選取文字並使用按鈕縮放');
+      const diagramStage = document.createElement('div');
+      diagramStage.className = 'lightbox-svg-stage';
+      diagramStage.setAttribute('role', 'img');
+      diagramStage.setAttribute('aria-label', flow.title);
+      const diagramZoomControls = document.createElement('div');
+      diagramZoomControls.className = 'zoom-controls';
+      diagramZoomControls.setAttribute('aria-label', '流程圖操作控制');
+      const diagramModeButtons = document.createElement('div');
+      diagramModeButtons.className = 'interaction-mode-buttons';
+      diagramModeButtons.setAttribute('role', 'group');
+      diagramModeButtons.setAttribute('aria-label', '流程圖操作模式');
+      const diagramDragMode = document.createElement('button');
+      diagramDragMode.type = 'button';
+      diagramDragMode.className = 'mode-button flow-mode-drag';
+      diagramDragMode.setAttribute('aria-pressed', 'true');
+      diagramDragMode.textContent = '拖曳';
+      const diagramEditMode = document.createElement('button');
+      diagramEditMode.type = 'button';
+      diagramEditMode.className = 'mode-button flow-mode-edit';
+      diagramEditMode.setAttribute('aria-pressed', 'false');
+      diagramEditMode.textContent = '編輯';
+      diagramModeButtons.append(diagramDragMode, diagramEditMode);
+      const diagramZoomOut = document.createElement('button');
+      diagramZoomOut.type = 'button';
+      diagramZoomOut.className = 'flow-zoom-out';
+      diagramZoomOut.setAttribute('aria-label', '縮小流程圖');
+      diagramZoomOut.textContent = '−';
+      const diagramZoomLevel = document.createElement('span');
+      diagramZoomLevel.className = 'zoom-level';
+      diagramZoomLevel.textContent = '100%';
+      const diagramZoomIn = document.createElement('button');
+      diagramZoomIn.type = 'button';
+      diagramZoomIn.className = 'flow-zoom-in';
+      diagramZoomIn.setAttribute('aria-label', '放大流程圖');
+      diagramZoomIn.textContent = '＋';
+      const diagramZoomReset = document.createElement('button');
+      diagramZoomReset.type = 'button';
+      diagramZoomReset.className = 'zoom-reset flow-zoom-reset';
+      diagramZoomReset.textContent = '重設';
+      const downloadSvg = document.createElement('a');
+      downloadSvg.className = 'toolbar-action';
+      downloadSvg.href = flow.svg;
+      downloadSvg.download = flow.svg.split('/').pop();
+      downloadSvg.textContent = '下載 SVG';
+      const copyButton = document.createElement('button');
+      copyButton.type = 'button';
+      copyButton.className = 'toolbar-action flow-copy';
+      copyButton.textContent = '複製語法';
+      copyButton.addEventListener('click', async () => {
+        copyButton.disabled = true;
+        try {
+          await copyToClipboard(flow.source);
+          copyButton.textContent = '已複製語法';
+        } catch (error) {
+          copyButton.textContent = '複製失敗';
+        }
+        window.setTimeout(() => {
+          copyButton.textContent = '複製語法';
+          copyButton.disabled = false;
+        }, 1500);
+      });
+      diagramZoomControls.append(diagramModeButtons, diagramZoomOut, diagramZoomLevel, diagramZoomIn, diagramZoomReset, downloadSvg, copyButton);
+      diagramWrap.append(diagramStage);
+      setupFlowDiagramZoom(diagramWrap, diagramStage, diagramZoomControls);
+      card.append(diagramWrap);
+      flowList.appendChild(card);
+      flowToolbar.appendChild(diagramZoomControls);
+      fillSvgStage(flow.svg, diagramStage, flow.title);
+      return {card, controls: diagramZoomControls};
+    });
+    function showFlow(index) {
+      flowEntries.forEach((entry, entryIndex) => {
+        entry.card.hidden = entryIndex !== index;
+        entry.controls.hidden = entryIndex !== index;
+      });
+    }
+    if (flowSelect) flowSelect.addEventListener('change', () => showFlow(Number(flowSelect.value)));
+    showFlow(0);
+  }
+  function renderState(state) {
+    currentState = {...state};
+    zoom = currentState.zoom || 1;
+    panX = currentState.panX || 0;
+    panY = currentState.panY || 0;
+    drag = null;
+    viewport.classList.remove('dragging');
+    setMainInteractionMode(currentState.interactionMode || 'drag');
+    image.replaceChildren();
+    image.style.setProperty('--zoom', zoom);
+    image.style.setProperty('--pan-x', panX + 'px');
+    image.style.setProperty('--pan-y', panY + 'px');
+    caption.textContent = currentState.title;
+    const archKey = currentState.arch;
+    const archData = (window.DEV_NOTES || {})._architecture || {};
+    description.textContent = archKey
+      ? ((archData.guides || {})[archKey] || currentState.description || '')
+      : (currentState.description || '此畫面為 UI 方向示意。');
+    renderDevNotes(currentState.screenId);
+    renderFlowDiagrams(currentState.screenId);
+    renderMobile(currentState.screenId, Boolean(currentState.arch || /^API\d{2}$/.test(currentState.screenId || '') || !currentState.screenId));
+    // API：一支 API 一個網址；頁籤為流程圖／傳送欄位／回傳欄位／加解密方式／開發說明，右側為 API 說明
+    const apiKey = /^API\d{2}$/.test(currentState.screenId) ? currentState.screenId : '';
+    box.classList.toggle('is-api', Boolean(apiKey));
+    renderApi(apiKey);
+    // 架構圖：只留一個「架構圖」頁籤，右側為讀圖說明＋對照表，工具列多「複製語法」
+    box.classList.toggle('is-arch', Boolean(archKey));
+    flowTabButton.hidden = Boolean(archKey || apiKey);
+    devNotesTabButton.hidden = Boolean(archKey);
+    illustrationTabButton.textContent = archKey ? '架構圖' : (apiKey ? '流程圖' : '示意圖');
+    detailsHeading.textContent = archKey ? '圖說明' : (apiKey ? 'API 說明' : '畫面說明');
+    copySourceButton.hidden = !((archKey && (archData.sources || {})[archKey]) || (apiKey && apiFlowSource()));
+    renderArchInfo(archKey, archData);
+    selectLightboxTab(currentState.lightboxTab || 'lightbox-panel-illustration');
+    loadMainSvg(currentState);
+    renderFlowPosition(currentState.screenId);
+    if (!currentState.screenId) {
+      [similarList, managementList, resultsList].forEach(list => list.replaceChildren());
+    }
+    const near = currentState.screenId ? flowNeighbors(currentState.screenId) : {similar: [], higher: [], lower: []};
+    const inverseManage = !currentState.screenId ? [] : [...document.querySelectorAll('[data-screen-id][data-manage]')]
+      .filter(el => (el.dataset.manage || '').split(',').includes(currentState.screenId))
+      .map(el => el.dataset.screenId);
+    fillRelatedList(similarList, [currentState.similar, ...near.similar].filter(Boolean).join(','));
+    fillRelatedList(managementList, [currentState.management, ...near.higher].filter(Boolean).join(','));
+    fillRelatedList(resultsList, [...near.lower, ...inverseManage].join(','));
+    relatedGroups.hidden = ![similarList, managementList, resultsList].some(list => list.childElementCount);
+    const hasSvg = Boolean(currentState.svg);
+    svgDownload.hidden = !hasSvg;
+    if (hasSvg) {
+      svgDownload.href = currentState.svg;
+      svgDownload.download = currentState.svg.split('/').pop();
+    }
+    backButton.hidden = historyStack.length === 0;
+    if (historyStack.length) {
+      const previousTitle = historyStack[historyStack.length - 1].title;
+      backButton.textContent = '← 返回：' + previousTitle;
+      backButton.title = '返回：' + previousTitle;
+    }
+    box.classList.add('active');
+    box.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  const flowTabButton = document.getElementById('lightbox-tab-flow');
+  const devNotesTabButton = document.getElementById('lightbox-tab-devnotes');
+  const illustrationTabButton = document.getElementById('lightbox-tab-illustration');
+  const detailsHeading = document.getElementById('lightbox-details-heading');
+  const archInfo = document.getElementById('lightbox-arch-info');
+  const copySourceButton = document.getElementById('lightbox-copy-source');
+  const ARCH_TABLES = {system_context: ['使用者', '外部系統'], functional_architecture: ['業務模組', '共用服務']};
+  function expandPageIds(text) {
+    const ids = [];
+    String(text).replace(/([A-Z]+)(\d+)(?:\s*[–\-~]\s*[A-Z]*(\d+))?/g, (match, prefix, start, end) => {
+      const last = end ? Number(end) : Number(start);
+      for (let n = Number(start); n <= last; n++) ids.push(prefix + String(n).padStart(start.length, '0'));
+      return match;
+    });
+    return ids;
+  }
+  function renderArchInfo(key, data) {
+    archInfo.replaceChildren();
+    archInfo.hidden = !key;
+    if (!key) return;
+    // 圖例：顏色不畫在圖內，取自規格「系統架構 › 圖例」表，常駐顯示
+    const legend = (data.legends || {})[key] || [];
+    if (legend.length) {
+      const box = document.createElement('div');
+      box.className = 'arch-legend';
+      box.appendChild(Object.assign(document.createElement('h4'), {textContent: '圖例'}));
+      const list = document.createElement('ul');
+      legend.forEach(item => {
+        const li = document.createElement('li');
+        const swatch = Object.assign(document.createElement('span'), {className: 'arch-swatch'});
+        swatch.style.background = item.fill;
+        swatch.style.borderColor = item.line || item.fill;
+        if (item.dashed) swatch.style.borderStyle = 'dashed';
+        li.append(swatch, Object.assign(document.createElement('span'), {textContent: item.meaning}));
+        list.appendChild(li);
+      });
+      box.appendChild(list);
+      archInfo.appendChild(box);
+    }
+    const details = document.createElement('details');
+    details.className = 'arch-ref';
+    details.appendChild(Object.assign(document.createElement('summary'), {textContent: '對照表（取自規格「系統架構」章）'}));
+    (ARCH_TABLES[key] || []).forEach(name => {
+      const table = (data.tables || {})[name];
+      if (!table) return;
+      details.appendChild(Object.assign(document.createElement('h4'), {textContent: name}));
+      const wrap = document.createElement('div');
+      wrap.className = 'sa-table-wrap';
+      const el = document.createElement('table');
+      el.className = 'sa-table';
+      const head = el.createTHead().insertRow();
+      table.head.forEach(cell => head.appendChild(saText(document.createElement('th'), cell)));
+      const body = el.createTBody();
+      table.rows.forEach(row => {
+        const tr = body.insertRow();
+        row.forEach((cell, index) => {
+          const td = tr.insertCell();
+          if (name === '業務模組' && index === 1) {
+            // 頁面 ID 可點，開該頁燈箱（左上角可返回架構圖）
+            const ids = document.createElement('div');
+            ids.className = 'arch-ids';
+            expandPageIds(cell).forEach(id => {
+              const source = findPageElement(id);
+              const button = Object.assign(document.createElement('button'), {type: 'button', className: 'arch-id', textContent: id});
+              if (source) {
+                button.title = source.dataset.title || id;
+                button.addEventListener('click', () => navigateToRelated(source));
+              } else {
+                button.disabled = true;
+              }
+              ids.appendChild(button);
+            });
+            td.appendChild(ids);
+          } else {
+            saText(td, cell);
+          }
+        });
+      });
+      wrap.appendChild(el);
+      details.appendChild(wrap);
+      if (name === '業務模組' && (data.excluded || []).length) {
+        details.appendChild(Object.assign(document.createElement('p'), {className: 'arch-note', textContent: '暫不歸入模組：' + data.excluded.join('、')}));
+      }
+    });
+    archInfo.appendChild(details);
+  }
+  const apiTabs = {
+    request: [document.getElementById('lightbox-tab-api-request'), document.getElementById('lightbox-api-request')],
+    response: [document.getElementById('lightbox-tab-api-response'), document.getElementById('lightbox-api-response')],
+    crypto: [document.getElementById('lightbox-tab-api-crypto'), document.getElementById('lightbox-api-crypto')]
+  };
+  const apiInfo = document.getElementById('lightbox-api-info');
+  function apiFlowSource() {
+    // API 流程圖若有 PlantUML 原稿（flows/<key>.puml），複製語法取自流程資料
+    if (!currentState || !currentState.svg) return '';
+    const key = currentState.svg.split('/').pop().replace(/\.svg$/, '');
+    const flow = flowData.find(item => item.key === key);
+    return flow ? flow.source || '' : '';
+  }
+  function renderApi(id) {
+    const notes = id ? ((window.DEV_NOTES || {})[id] || {}) : {};
+    const sections = (notes.api && notes.api.sections) || [];
+    const pick = test => sections.filter(section => test(section.title || ''));
+    const groups = {
+      request: pick(title => title === '傳送欄位'),
+      response: pick(title => title.startsWith('回傳欄位')),
+      crypto: pick(title => title.startsWith('加解密'))
+    };
+    Object.entries(apiTabs).forEach(([name, [button, container]]) => {
+      button.hidden = !id;
+      container.replaceChildren();
+      if (!id) return;
+      if (notes.api && notes.api.note) container.appendChild(saText(Object.assign(document.createElement('p'), {className: 'sa-note'}), notes.api.note));
+      const list = groups[name];
+      if (!list.length) container.appendChild(saSection('', []));
+      list.forEach(section => {
+        const title = name === 'response' ? ((section.title.split('｜')[1]) || section.title) : '';
+        container.appendChild(saSection(title, section.blocks));
+      });
+    });
+    apiInfo.replaceChildren();
+    apiInfo.hidden = !id;
+    if (!id) return;
+    pick(title => title === '介接資訊').forEach(section => apiInfo.appendChild(saSection('介接資訊', section.blocks)));
+    const pages = notes.pages || [];
+    if (pages.length) {
+      const wrap = document.createElement('section');
+      wrap.appendChild(Object.assign(document.createElement('h4'), {textContent: '對應頁面'}));
+      const ids = document.createElement('div');
+      ids.className = 'arch-ids';
+      pages.forEach(pid => {
+        const source = findPageElement(pid);
+        const button = Object.assign(document.createElement('button'), {type: 'button', className: 'arch-id', textContent: source ? (source.dataset.title || pid) : pid});
+        if (source) button.addEventListener('click', () => navigateToRelated(source));
+        else button.disabled = true;
+        ids.appendChild(button);
+      });
+      wrap.appendChild(ids);
+      apiInfo.appendChild(wrap);
+    }
+  }
+  copySourceButton.addEventListener('click', async () => {
+    const sources = (((window.DEV_NOTES || {})._architecture || {}).sources) || {};
+    const source = currentState ? (currentState.arch ? sources[currentState.arch] : apiFlowSource()) : '';
+    if (!source) return;
+    copySourceButton.disabled = true;
+    try {
+      await copyToClipboard(source);
+      copySourceButton.textContent = '已複製語法';
+    } catch (error) {
+      copySourceButton.textContent = '複製失敗';
+    }
+    window.setTimeout(() => {
+      copySourceButton.textContent = '複製語法';
+      copySourceButton.disabled = false;
+    }, 1500);
+  });
+  function saveCurrentState() {
+    return {
+      ...currentState,
+      zoom,
+      panX,
+      panY,
+      lightboxTab: activeLightboxTab,
+      interactionMode
+    };
+  }
+  function navigateToRelated(element) {
+    if (!currentState) return;
+    historyStack.push(saveCurrentState());
+    renderState(stateFromElement(element));
+    backButton.focus();
+  }
+  function openLightbox(element) {
+    opener = element;
+    historyStack = [];
+    renderState(stateFromElement(element));
+    closeButton.focus();
+  }
+  function goBack() {
+    if (!historyStack.length) return;
+    renderState(historyStack.pop());
+    (historyStack.length ? backButton : closeButton).focus();
+  }
+  function closeLightbox() {
+    box.classList.remove('active');
+    box.setAttribute('aria-hidden', 'true');
+    image.replaceChildren();
+    svgRenderRequest++;
+    document.body.style.overflow = '';
+    historyStack = [];
+    currentState = null;
+    if (opener) opener.focus();
+  }
+  backButton.addEventListener('click', goBack);
+  document.addEventListener('click', event => {
+    const link = event.target.closest('[data-lightbox="1"]');
+    if (!link) return;
+    event.preventDefault();
+    openLightbox(link);
+  });
+  closeButton.addEventListener('click', closeLightbox);
+  box.addEventListener('click', event => { if (event.target === box) closeLightbox(); });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && box.classList.contains('active')) closeLightbox();
+    if (event.key === 'Backspace' && box.classList.contains('active') && historyStack.length && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) {
+      event.preventDefault();
+      goBack();
+    }
+  });
+  // 首頁「外部系統串接」：讀規格「系統架構 › 外部系統」表，依需求類別分組；各類別的標記與說明讀「外部系統需求類別」表
+  (function renderExternalSystems() {
+    const box = document.getElementById('ext-groups');
+    const table = ((((window.DEV_NOTES || {})._architecture || {}).tables) || {})['外部系統'];
+    if (!box || !table) return;
+    const head = table.head || [];
+    const catIndex = head.indexOf('需求類別');
+    const cols = head.map((_, i) => i).filter(i => i !== catIndex);
+    const catTable = ((((window.DEV_NOTES || {})._architecture || {}).tables) || {})['外部系統需求類別'];
+    const intro = Object.fromEntries(((catTable || {}).rows || []).map(row => [row[0], [row[1] || '', row[2] || '']]));
+    const groups = new Map();
+    table.rows.forEach(row => {
+      const cat = catIndex >= 0 ? (row[catIndex] || '未分類') : '未分類';
+      if (!groups.has(cat)) groups.set(cat, []);
+      groups.get(cat).push(row);
+    });
+    box.replaceChildren();
+    groups.forEach((rows, cat) => {
+      const section = document.createElement('section');
+      section.className = 'ext-group';
+      const h3 = document.createElement('h3');
+      h3.textContent = cat + '（' + rows.length + '）';
+      const [badge, text] = intro[cat] || ['', ''];
+      if (badge) h3.appendChild(Object.assign(document.createElement('span'), {className: 'ext-badge', textContent: badge}));
+      section.appendChild(h3);
+      if (text) section.appendChild(Object.assign(document.createElement('p'), {textContent: text}));
+      const wrap = document.createElement('div');
+      wrap.className = 'sa-table-wrap';
+      const el = document.createElement('table');
+      el.className = 'sa-table';
+      const tr = el.createTHead().insertRow();
+      cols.forEach(i => tr.appendChild(saText(document.createElement('th'), head[i])));
+      const body = el.createTBody();
+      rows.forEach(row => {
+        const r = body.insertRow();
+        cols.forEach(i => saText(r.insertCell(), row[i] || ''));
+      });
+      wrap.appendChild(el);
+      section.appendChild(wrap);
+      box.appendChild(section);
+    });
+  })();
+})();
+</script>
+<script>
+// 文件內容與完整度燈箱：資料來自 assets/inventory.js（scripts/inventory.py 產生，不手改）
+(() => {
+  const dialog = document.getElementById('inventory-dialog');
+  const body = document.getElementById('inventory-body');
+  const meta = document.getElementById('inventory-meta');
+  const STATUS = {complete: '完整', partial: '部分', todo: '待補', optional: '選填', tracking: '追蹤中'};
+  const el = (tag, cls, text) => Object.assign(document.createElement(tag), cls ? {className: cls} : {}, text != null ? {textContent: text} : {});
+  function render() {
+    const data = window.DOC_INVENTORY;
+    body.replaceChildren();
+    if (!data) {
+      meta.textContent = '';
+      body.appendChild(el('p', 'inventory-foot', '找不到 assets/inventory.js，請執行 python3 scripts/inventory.py。'));
+      return;
+    }
+    meta.textContent = `共 ${data.pages} 頁｜依目前檔案自動統計｜規格最後更新 ${data.updated}`;
+    data.groups.forEach(group => {
+      body.appendChild(el('h3', 'inventory-group', group.name));
+      const table = el('table', 'inventory-table');
+      const head = table.createTHead().insertRow();
+      ['資料', '完整度', '說明'].forEach(text => head.appendChild(el('th', '', text)));
+      const tbody = table.createTBody();
+      group.rows.forEach(row => {
+        const tr = tbody.insertRow();
+        const name = el('td', 'inv-name', row.name);
+        name.appendChild(el('small', '', row.desc));
+        const score = el('td', 'inv-score');
+        if (row.total) {
+          score.appendChild(document.createTextNode(`${row.done} / ${row.total} ${row.unit}`));
+        }
+        score.appendChild(el('span', 'inv-status inv-' + row.status, STATUS[row.status] || row.status));
+        if (row.total && row.status !== 'optional') {
+          const bar = el('div', 'inv-bar' + (row.status === 'complete' ? '' : ' inv-bar-partial'));
+          bar.appendChild(el('span')).style.width = Math.round(row.done / row.total * 100) + '%';
+          score.appendChild(bar);
+        }
+        tr.append(name, score, el('td', '', row.note));
+      });
+      body.appendChild(table);
+    });
+    body.appendChild(el('p', 'inventory-foot', '完整度只計算資料是否存在與是否標示待確認，不代表內容已審核。數字由 scripts/inventory.py 從規格、網站地圖、screens/、flows/、architecture/ 自動計算；check.py 會在資料過期時報錯。'));
+  }
+  document.getElementById('inventory-open').addEventListener('click', () => { render(); document.documentElement.classList.add('inventory-lock'); dialog.showModal(); });
+  // 開啟時鎖住外層捲動；關閉（含 Esc）時解除
+  dialog.addEventListener('close', () => document.documentElement.classList.remove('inventory-lock'));
+  document.getElementById('inventory-close').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+})();
+</script>
+<footer class="footer"><!-- [slot:footer] -->版本：頁面示意稿 0.1｜{{footer}}<!-- [/slot:footer] --></footer></main></body></html>
